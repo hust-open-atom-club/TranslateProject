@@ -6,7 +6,6 @@ collected_time: 20240223
 translator: sun-yu-777
 proofreader: mudongliang
 translated_time: 20240223
-lastupdate_time: 20240223
 ---
 
 # Linux Kernel 成为 CVE 编号机构
