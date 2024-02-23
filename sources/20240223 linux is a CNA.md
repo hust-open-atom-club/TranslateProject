@@ -1,7 +1,9 @@
 ---
 status: translated
+collector: mudongliang
 collected_time: 20240223
 translator: sun-yu-777
+proofreader: mudongliang
 translated_time: 20240223
 ---
 
