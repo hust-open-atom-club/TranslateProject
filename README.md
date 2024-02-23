@@ -6,7 +6,9 @@ HCTT 是“华科开放原子开源俱乐部”的翻译团队，参考“Linux 
 
 ## 加入我们
 
-请首先加入我们的[飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=f38nd38b-d0d1-4db6-a2ce-c6ce6e9002ec)，加群时请说明是“志愿者”。
+请首先加入我们的[飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=4e3g0475-2966-40c7-a713-3fcf43893a67)，加群时请说明是“志愿者”。
+
+慕冬亮 邀请你加入飞书群，快点击加入吧！
 
 加入的成员，请：
 
