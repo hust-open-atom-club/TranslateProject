@@ -1,6 +1,6 @@
 # Linux Kernel成为CVE编号机构
 
-Linux内核项目[正式宣布](https://www.cve.org/Media/News/item/news/2024/02/13/kernel-org-Added-as-CNA)已被接受为CVE编号机构（CNA）。作为CNA，Linux具有在其软件产品中发现的漏洞分配CVE编号的权限，并向CVE数据库做出贡献。
+CVE组织[正式宣布](https://www.cve.org/Media/News/item/news/2024/02/13/kernel-org-Added-as-CNA)，Linux内核已然正式成为CVE编号机构（CNA）。作为CNA，Linux具有在其软件产品中发现的漏洞分配CVE编号的权限，并向CVE数据库做出贡献。
 
 这是一个趋势，越来越多的开源项目开始成为CNA，以便自己管理对其项目的CVE分配，而不允许其他组织在未经他们参与的情况下分配CVE。[curl项目](https://daniel.haxx.se/blog/2024/01/16/curl-is-a-cna/)出于相同的原因也成为了CNA。我想要指出[Python项目](https://www.cve.org/Media/News/item/news/2023/08/29/Python-Software-Foundation-Added-as-CNA)在支持这一努力方面所做的出色工作，[OpenSSF项目](https://openssf.org/)也鼓励并为开源项目提供文档和帮助。我还想感谢[cve.org](https://www.cve.org/)组织和董事会，因为他们在申请过程中给予了我们很大的帮助，并使这一切成为可能。
 
