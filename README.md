@@ -1,37 +1,19 @@
 # TranslateProject
 
-#### 介绍
-参考Linux 中国翻译项目，设计我们俱乐部的翻译项目
+## 简介
 
-#### 软件架构
-软件架构说明
+HCTT 是“华科开放原子开源俱乐部”的翻译团队，参考“Linux 中国”翻译项目的运营模式，负责从国外优秀媒体翻译 Linux（特别是 Linux 内核）相关的技术、资讯、杂文等内容。
 
+## 加入我们
 
-#### 安装教程
+请首先加入我们的[飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=f38nd38b-d0d1-4db6-a2ce-c6ce6e9002ec)，加群时请说明是“志愿者”。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+加入的成员，请：
 
-#### 使用说明
+修改你的飞书群昵称为“译者-您的_GitHub_ID”。
+阅读 WIKI 了解如何开始。
+遇到不解之处，请在群内发问。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 如何开始
 
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+请阅读 WIKI。如需要协助，请在群内发问。
