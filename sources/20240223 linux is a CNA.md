@@ -1,11 +1,13 @@
 ---
 status: translated
+title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_time: 20240223
 translated_time: 20240223
 translator: sun-yu-777
 proofreader: 
+link: http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/
 ---
 
 # Linux Kernel 成为 CVE 编号机构
@@ -22,4 +24,3 @@ CVE 组织[最近宣布](https://www.cve.org/Media/News/item/news/2024/02/13/ker
 
 一旦流程正常运转并且能够顺利分配 CVE，我会在未来写更多内容。这一公告只是第一步，它使我们成为了 Linux CVE 分配流程的管理者。
 
-via: <http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/>

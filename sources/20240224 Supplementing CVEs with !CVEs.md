@@ -1,11 +1,13 @@
 ---
 status: collected
 author: Jake Edge
+title: "Supplementing CVEs with !CVEs"
 colletor: Felix Jing
 collected_time: 20240224
 translated_time: 
 translator: 
 proofreader: 
+link: https://lwn.net/Articles/953738/
 ---
 
 # Supplementing CVEs with !CVEs [LWN.net]
@@ -145,4 +147,3 @@ club. But the problems it is trying to address, remain. So we will probably
 see more sporadic, generally quixotic, tilts at the CVE windmill over the
 coming years—decades and more, even.
 
-via: https://lwn.net/Articles/953738/

@@ -1,11 +1,13 @@
 ---
 status: collected
+title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_time: 20240220
 translated_time: 
 translator: 
 proofreader: 
+link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst
 ---
 
 # Linux Kernel CVE Assignment
@@ -122,5 +124,3 @@ the sum of many fixes on top of each other. Ideally CVEs will be
 assigned to all fixes for all issues, but sometimes we will fail to
 notice fixes, therefore assume that some changes without a CVE assigned
 might be relevant to take.
-
-via: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst>
