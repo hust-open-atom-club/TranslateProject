@@ -14,22 +14,22 @@ proofreader:
 
 Common Vulnerabilities and Exposure (CVE®) numbers were developed as an
 unambiguous way to identify, define, and catalog publicly disclosed
-security vulnerabilities.  Over time, their usefulness has declined with
+security vulnerabilities. Over time, their usefulness has declined with
 regards to the kernel project, and CVE numbers were very often assigned
-in inappropriate ways and for inappropriate reasons.  Because of this,
-the kernel development community has tended to avoid them.  However, the
+in inappropriate ways and for inappropriate reasons. Because of this,
+the kernel development community has tended to avoid them. However, the
 combination of continuing pressure to assign CVEs and other forms of
 security identifiers, and ongoing abuses by individuals and companies
 outside of the kernel community has made it clear that the kernel
 community should have control over those assignments.
 
 The Linux kernel developer team does have the ability to assign CVEs for
-potential Linux kernel security issues.  This assignment is independent
-of the [normal Linux kernel security bug reporting process](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst)..
+potential Linux kernel security issues. This assignment is independent
+of the [normal Linux kernel security bug reporting process](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst).
 
 A list of all assigned CVEs for the Linux kernel can be found in the
 archives of the linux-cve mailing list, as seen on
-https://lore.kernel.org/linux-cve-announce/.  To get notice of the
+https://lore.kernel.org/linux-cve-announce/. To get notice of the
 assigned CVEs, please `subscribe
 <https://subspace.kernel.org/subscribing.html>` to that mailing list.
 
@@ -38,29 +38,29 @@ assigned CVEs, please `subscribe
 As part of the normal stable release process, kernel changes that are
 potentially security issues are identified by the developers responsible
 for CVE number assignments and have CVE numbers automatically assigned
-to them.  These assignments are published on the linux-cve-announce
+to them. These assignments are published on the linux-cve-announce
 mailing list as announcements on a frequent basis.
 
 Note, due to the layer at which the Linux kernel is in a system, almost
 any bug might be exploitable to compromise the security of the kernel,
 but the possibility of exploitation is often not evident when the bug is
-fixed.  Because of this, the CVE assignment team is overly cautious and
-assign CVE numbers to any bugfix that they identify.  This
+fixed. Because of this, the CVE assignment team is overly cautious and
+assign CVE numbers to any bugfix that they identify. This
 explains the seemingly large number of CVEs that are issued by the Linux
 kernel team.
 
 If the CVE assignment team misses a specific fix that any user feels
 should have a CVE assigned to it, please email them at <cve@kernel.org>
-and the team there will work with you on it.  Note that no potential
+and the team there will work with you on it. Note that no potential
 security issues should be sent to this alias, it is ONLY for assignment
-of CVEs for fixes that are already in released kernel trees.  If you
+of CVEs for fixes that are already in released kernel trees. If you
 feel you have found an unfixed security issue, please follow the
 [normal Linux kernel security bug reporting process](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst).
 
 No CVEs will be automatically assigned for unfixed security issues in
 the Linux kernel; assignment will only automatically happen after a fix
 is available and applied to a stable kernel tree, and it will be tracked
-that way by the git commit id of the original fix.  If anyone wishes to
+that way by the git commit id of the original fix. If anyone wishes to
 have a CVE assigned before an issue is resolved with a commit, please
 contact the kernel CVE assignment team at <cve@kernel.org> to get an
 identifier assigned from their batch of reserved identifiers.
@@ -74,8 +74,8 @@ https://kernel.org/releases.html.
 
 The authority to dispute or modify an assigned CVE for a specific kernel
 change lies solely with the maintainers of the relevant subsystem
-affected.  This principle ensures a high degree of accuracy and
-accountability in vulnerability reporting.  Only those individuals with
+affected. This principle ensures a high degree of accuracy and
+accountability in vulnerability reporting. Only those individuals with
 deep expertise and intimate knowledge of the subsystem can effectively
 assess the validity and scope of a reported vulnerability and determine
 its appropriate CVE designation. Any attempt to modify or dispute a CVE
@@ -93,7 +93,7 @@ from that Linux distribution itself.
 
 Any CVE that is assigned against the Linux kernel for an actively
 supported kernel version, by any group other than the kernel assignment
-CVE team should not be treated as a valid CVE.  Please notify the
+CVE team should not be treated as a valid CVE. Please notify the
 kernel CVE assignment team at <cve@kernel.org> so that they can work to
 invalidate such entries through the CNA remediation process.
 
@@ -102,7 +102,7 @@ invalidate such entries through the CNA remediation process.
 As the Linux kernel can be used in many different ways, with many
 different ways of accessing it by external users, or no access at all,
 the applicability of any specific CVE is up to the user of Linux to
-determine, it is not up to the CVE assignment team.  Please do not
+determine, it is not up to the CVE assignment team. Please do not
 contact us to attempt to determine the applicability of any specific
 CVE.
 
@@ -116,9 +116,9 @@ specific CVE is relevant for your system.
 
 As always, it is best to take all released kernel changes, as they are
 tested together in a unified whole by many community members, and not as
-individual cherry-picked changes.  Also note that for many bugs, the
+individual cherry-picked changes. Also note that for many bugs, the
 solution to the overall problem is not found in a single change, but by
-the sum of many fixes on top of each other.  Ideally CVEs will be
+the sum of many fixes on top of each other. Ideally CVEs will be
 assigned to all fixes for all issues, but sometimes we will fail to
 notice fixes, therefore assume that some changes without a CVE assigned
 might be relevant to take.
