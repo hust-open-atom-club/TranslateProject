@@ -3,10 +3,7 @@ status: collected
 author: Jake Edge
 title: "Supplementing CVEs with !CVEs"
 colletor: Felix Jing
-collected_time: 20240224
-translated_time: 
-translator: 
-proofreader: 
+collected_date: 20240224
 link: https://lwn.net/Articles/953738/
 ---
 

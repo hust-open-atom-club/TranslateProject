@@ -3,10 +3,7 @@ status: collected
 title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
-collected_time: 20240220
-translated_time: 
-translator: 
-proofreader: 
+collected_date: 20240220
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst
 ---
 

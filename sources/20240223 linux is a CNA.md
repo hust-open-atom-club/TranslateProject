@@ -3,10 +3,9 @@ status: translated
 title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
-collected_time: 20240223
-translated_time: 20240223
+collected_date: 20240223
 translator: sun-yu-777
-proofreader: 
+translated_date: 20240223
 link: http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/
 ---
 
