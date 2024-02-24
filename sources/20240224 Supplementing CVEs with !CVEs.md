@@ -1,7 +1,7 @@
 ---
 status: draft
 author: Jake Edge
-colletor: 
+colletor: Felix Jing
 collected_time: 20240224
 translated_time: 
 translator: 
@@ -145,5 +145,4 @@ club. But the problems it is trying to address, remain. So we will probably
 see more sporadic, generally quixotic, tilts at the CVE windmill over the
 coming years—decades and more, even.
 
-  
-
+via: https://lwn.net/Articles/953738/
