@@ -1,5 +1,6 @@
 ---
-status: collected
+status: translating
+translator: yanruo
 title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
