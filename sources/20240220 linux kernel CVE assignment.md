@@ -1,5 +1,6 @@
 ---
-status: collected
+status: translating
+translator: yanruo
 title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
@@ -11,113 +12,40 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 ## CVEs
 
-Common Vulnerabilities and Exposure (CVE®) numbers were developed as an
-unambiguous way to identify, define, and catalog publicly disclosed
-security vulnerabilities. Over time, their usefulness has declined with
-regards to the kernel project, and CVE numbers were very often assigned
-in inappropriate ways and for inappropriate reasons. Because of this,
-the kernel development community has tended to avoid them. However, the
-combination of continuing pressure to assign CVEs and other forms of
-security identifiers, and ongoing abuses by individuals and companies
-outside of the kernel community has made it clear that the kernel
-community should have control over those assignments.
+Common Vulnerabilities and Exposure(CVE®)编号是作为一种明确的方式来识别、定义和登记公开披露的安全漏洞。随着时间的推移，它们在内核项目中的实用性已经下降，CVE编号经常以不适当的方式和不适当的原因分配。因此，内核开发社区倾向于避免使用它们。然而，分配CVE和其他形式的安全标识符的持续压力，以及内核社区之外的个人和公司的持续滥用，已经清楚地表明内核社区应该控制这些CVE分配。
 
-The Linux kernel developer team does have the ability to assign CVEs for
-potential Linux kernel security issues. This assignment is independent
-of the [normal Linux kernel security bug reporting process](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst).
+Linux内核开发团队确实有能力为潜在的Linux内核安全问题分配CVE。当然,[CVED的分配](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst)独立于内核安全漏洞报送过程。
 
-A list of all assigned CVEs for the Linux kernel can be found in the
-archives of the linux-cve mailing list, as seen on
-https://lore.kernel.org/linux-cve-announce/. To get notice of the
-assigned CVEs, please `subscribe
-<https://subspace.kernel.org/subscribing.html>` to that mailing list.
+所有分配给Linux内核的CVE列表可以在Linux-cve邮件列表的存档中找到，如https://lore.kernel.org/linux-cve-announce/所示。要获得分配的CVE通知，请“订阅”该邮件列表。要获得分配的CVE通知，请订阅该邮件列表：`<https://subspace.kernel.org/subscribing.html>` 。
 
-## Process
+## 过程
 
-As part of the normal stable release process, kernel changes that are
-potentially security issues are identified by the developers responsible
-for CVE number assignments and have CVE numbers automatically assigned
-to them. These assignments are published on the linux-cve-announce
-mailing list as announcements on a frequent basis.
+作为正常稳定发布过程的一部分，可能存在安全问题的内核更改由负责CVE编号分配的开发人员识别，并自动为其分配CVE编号。这些分配作为通告经常发布在linux-cve-announce邮件列表上。
 
-Note, due to the layer at which the Linux kernel is in a system, almost
-any bug might be exploitable to compromise the security of the kernel,
-but the possibility of exploitation is often not evident when the bug is
-fixed. Because of this, the CVE assignment team is overly cautious and
-assign CVE numbers to any bugfix that they identify. This
-explains the seemingly large number of CVEs that are issued by the Linux
-kernel team.
+注意，由于Linux内核在系统中的特殊地位，几乎任何漏洞都可能被利用来危害内核的安全性，但是当漏洞被修复后，利用的可能性通常不明显。因此，CVE分配团队过于谨慎，并将CVE编号分配给他们识别的任何漏洞修复。这就解释了为什么Linux内核团队会发布大量的CVE。
 
-If the CVE assignment team misses a specific fix that any user feels
-should have a CVE assigned to it, please email them at <cve@kernel.org>
-and the team there will work with you on it. Note that no potential
-security issues should be sent to this alias, it is ONLY for assignment
-of CVEs for fixes that are already in released kernel trees. If you
-feel you have found an unfixed security issue, please follow the
-[normal Linux kernel security bug reporting process](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst).
+如果CVE分配团队错过了任何用户认为应该分配CVE的特定修复，请发送电子邮件到<cve@kernel.org>，那里的团队将与您一起工作。请注意，不应将潜在的安全问题发送到此邮箱，它仅用于为已发布的内核树中的漏洞修复分配CVE。如果你觉得你发现了一个未修复的安全问题，请按照[安全漏洞的报送流程](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst)发送给Linux内核社区。
 
-No CVEs will be automatically assigned for unfixed security issues in
-the Linux kernel; assignment will only automatically happen after a fix
-is available and applied to a stable kernel tree, and it will be tracked
-that way by the git commit id of the original fix. If anyone wishes to
-have a CVE assigned before an issue is resolved with a commit, please
-contact the kernel CVE assignment team at <cve@kernel.org> to get an
-identifier assigned from their batch of reserved identifiers.
+Linux内核中未修复的安全问题不会自动分配CVE；只有在安全修复可用并应用于稳定内核树后，CVE分配才会自动发生，并且它将通过安全修复的Git提交编号进行跟踪。如果有人希望在提交安全修复之前分配CVE，请联系内核CVE分配团队，从他们的一批保留编号中获得相应的CVE编号。
 
-No CVEs will be assigned for any issue found in a version of the kernel
-that is not currently being actively supported by the Stable/LTS kernel
-team. A list of the currently supported kernel branches can be found at
-https://kernel.org/releases.html.
+对于目前没有得到稳定/LTS内核团队积极支持的内核版本中发现的任何问题，都不会分配CVEs。当前支持的内核分支列表可以在 https://kernel.org/releases.html 上找到。
 
-## Disputes of assigned CVEs
+## 被分配CVE的争论
 
-The authority to dispute or modify an assigned CVE for a specific kernel
-change lies solely with the maintainers of the relevant subsystem
-affected. This principle ensures a high degree of accuracy and
-accountability in vulnerability reporting. Only those individuals with
-deep expertise and intimate knowledge of the subsystem can effectively
-assess the validity and scope of a reported vulnerability and determine
-its appropriate CVE designation. Any attempt to modify or dispute a CVE
-outside of this designated authority could lead to confusion, inaccurate
-reporting, and ultimately, compromised systems.
+对于为特定内核更改分配的CVE，其争论或修改的权限仅属于受影响的相关子系统的维护者。这一原则确保了漏洞报告的高度准确性和可问责性。只有那些具有深厚专业知识和对子系统深入了解的个人，才能有效评估报告漏洞的有效性和范围，并确定其适当的CVE指定策略。在此指定权限之外，争论或修改CVE的任何企图都可能导致混乱、不准确的报告，并最终危及系统。
 
-## Invalid CVEs
+## 无效的CVE
 
-If a security issue is found in a Linux kernel that is only supported by
-a Linux distribution due to the changes that have been made by that
-distribution, or due to the distribution supporting a kernel version
-that is no longer one of the kernel.org supported releases, then a CVE
-can not be assigned by the Linux kernel CVE team, and must be asked for
-from that Linux distribution itself.
+如果发现的安全问题存在于仅由Linux发行版支持的Linux内核中，即安全问题是由于Linux发行版所做的更改导致，或者Linux发行版内核版本不再是Linux内核社区支持的内核版本，那么Linux内核CVE团队将不能分配CVE，必须从Linux发行版本身请求。
 
-Any CVE that is assigned against the Linux kernel for an actively
-supported kernel version, by any group other than the kernel assignment
-CVE team should not be treated as a valid CVE. Please notify the
-kernel CVE assignment team at <cve@kernel.org> so that they can work to
-invalidate such entries through the CNA remediation process.
+任何由内核分配CVE团队以外的任何组针对Linux内核为积极支持的内核版本分配的CVE都不应被视为有效的CVE。请在通知内核CVE分配团队，以便他们可以通过CNA修复过程使这些条目失效。
 
-## Applicability of specific CVEs
+## 特定CVE的适用性
 
-As the Linux kernel can be used in many different ways, with many
-different ways of accessing it by external users, or no access at all,
-the applicability of any specific CVE is up to the user of Linux to
-determine, it is not up to the CVE assignment team. Please do not
-contact us to attempt to determine the applicability of any specific
-CVE.
+由于Linux内核可以以许多不同的方式使用，外部用户可以通过许多不同的方式访问它，或者根本没有访问，因此任何特定CVE的适用性取决于Linux用户，而不是CVE分配团队。请不要与我们联系来确定任何特定CVE的适用性。
 
-Also, as the source tree is so large, and any one system only uses a
-small subset of the source tree, any users of Linux should be aware that
-large numbers of assigned CVEs are not relevant for their systems.
+此外，由于源代码树非常大，而任何一个系统都只使用源代码树的一小部分，因此任何Linux用户都应该意识到，大量分配的CVEs与他们的系统无关。
 
-In short, we do not know your use case, and we do not know what portions
-of the kernel that you use, so there is no way for us to determine if a
-specific CVE is relevant for your system.
+简而言之，我们不知道您的用例，也不知道您使用的是内核的哪个部分，因此我们无法确定特定的CVE是否与您的系统相关。
 
-As always, it is best to take all released kernel changes, as they are
-tested together in a unified whole by many community members, and not as
-individual cherry-picked changes. Also note that for many bugs, the
-solution to the overall problem is not found in a single change, but by
-the sum of many fixes on top of each other. Ideally CVEs will be
-assigned to all fixes for all issues, but sometimes we will fail to
-notice fixes, therefore assume that some changes without a CVE assigned
-might be relevant to take.
+与往常一样，最好采取所有发布的内核更改，因为它们是由许多社区成员在一个统一的整体中一起进行测试的，而不是作为个别的精选更改。还要注意，对于许多bug来说，整体问题的解决方案并不是在单个更改中找到的，而是在彼此之上的许多修复的总和。理想情况下，CVEs将被分配给所有问题的所有修复，但有时我们将无法注意到一些修复，因此某些修复可能在没有CVE的情况下被采取。
