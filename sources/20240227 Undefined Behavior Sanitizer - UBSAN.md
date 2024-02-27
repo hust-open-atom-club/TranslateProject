@@ -4,25 +4,23 @@ title: "Undefined Behavior Sanitizer - UBSAN"
 author: Linux Kernel Community
 collector: dzm91_hust
 collected_date: 20240227
+translated: dzm91_hust
+translated_date: 20240227
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ubsan.rst
 ---
 
-# Undefined Behavior Sanitizer - UBSAN
+# 未定义行为消毒剂 - UBSAN
 
-UBSAN is a runtime undefined behaviour checker.
+UBSAN是一种动态未定义行为检查工具。
 
-UBSAN uses compile-time instrumentation to catch undefined behavior
-(UB). Compiler inserts code that perform certain kinds of checks before
-operations that may cause UB. If check fails (i.e. UB detected)
-\_\_[ubsan_handle]()\* function called to print error message.
+UBSAN 使用编译时插桩捕捉未定义行为。编译器在可能导致未定义行为
+的操作前插入特定检查代码。如果检查失败，即，检测到未定义行为，
+则 \_\_[ubsan_handle]()\* 函数将被调用打印错误信息。
 
-GCC has that feature since 4.9.x
-\[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\]
-(see `-fsanitize=undefined` option and its suboptions). GCC 5.x has more
-checkers implemented
-\[[2](https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html)\].
+GCC自4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\] (详见 ``-fsanitize=undefined`` 选项及其子选项)之后引入
+这一特性。GCC 5.x 版本实现了更多检查器 [2_]。
 
-## Report example
+## 报告样例
 
     ================================================================================
     UBSAN: Undefined behaviour in ../include/linux/bitops.h:110:33
@@ -52,40 +50,37 @@ checkers implemented
      [<ffffffff830ad4f3>] x86_64_start_kernel+0x16b/0x17a
     ================================================================================
 
-## Usage
+## 用法
 
-To enable UBSAN configure kernel with:
+使用如下内核配置启用UBSAN:
 
     CONFIG_UBSAN=y
 
-and to check the entire kernel:
+使用如下内核配置检查整个内核:
 
     CONFIG_UBSAN_SANITIZE_ALL=y
 
-To enable instrumentation for specific files or directories, add a line
-similar to the following to the respective kernel Makefile:
+为了在特定文件或目录中启动代码插桩，需要在相应的内核Makefile中添加
+一行类似内容:
 
--   For a single file (e.g. main.o):
+-   单文件（如main.o）:
 
         UBSAN_SANITIZE_main.o := y
 
--   For all files in one directory:
+-   一个目录中的所有文件:
 
         UBSAN_SANITIZE := y
 
-To exclude files from being instrumented even if
-`CONFIG_UBSAN_SANITIZE_ALL=y`, use:
+即使``CONFIG_UBSAN_SANITIZE_ALL=y``，为了避免文件被插桩，可使用:
 
     UBSAN_SANITIZE_main.o := n
 
-and:
+与:
 
     UBSAN_SANITIZE := n
 
-Detection of unaligned accesses controlled through the separate option
--CONFIG_UBSAN_ALIGNMENT. It\'s off by default on architectures that
-support unaligned accesses (CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y).
-One could still enable it in config, just note that it will produce a
-lot of UBSAN reports.
+未对齐的内存访问检测可通过开启独立选项-CONFIG_UBSAN_ALIGNMENT检测。
+该选项在支持未对齐访问的架构(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y)
+默认为关闭。该选项仍可通过内核配置启用，但它将产生大量的UBSAN报告。
 
-## References
+## 参考文献
