@@ -18,7 +18,7 @@ UBSAN 使用编译时插桩捕捉未定义行为。编译器在可能导致未�
 则 \_\_[ubsan_handle]()\* 函数将被调用打印错误信息。
 
 GCC自4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\] (详见 ``-fsanitize=undefined`` 选项及其子选项)之后引入
-这一特性。GCC 5.x 版本实现了更多检查器 [2_]。
+这一特性。GCC 5.x 版本实现了更多检查器 \[[2](https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html)\]。
 
 ## 报告样例
 
