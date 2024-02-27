@@ -17,6 +17,6 @@
 
 ## 如何开始
 
-请在开始贡献 PR 前，[签署 CLA](https://gitee.com/organizations/hust-open-atom-club/cla/hust_open_atom_club_cla)。
+**注意**，请在开始贡献前[签署 CLA](https://gitee.com/organizations/hust-open-atom-club/cla/hust_open_atom_club_cla)，否则 PR 无法被合并。
 
 请阅读 [WIKI](https://gitee.com/hust-open-atom-club/translate-project/wikis)。如需要协助，请在群内发问。
