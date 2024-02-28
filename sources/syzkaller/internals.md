@@ -1,5 +1,6 @@
 ---
-status: collected
+status: translating
+translator: lidaxian121
 title: "How syzkaller works"
 author: Syzkaller Community
 collector: dzm91_hust
