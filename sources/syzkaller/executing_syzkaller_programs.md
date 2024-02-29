@@ -1,5 +1,6 @@
 ---
-status: translating
+status: translated
+translated_date: 20240229
 translator: tttturtle-russ
 title: "Executing syzkaller programs"
 author: Syzkaller Community
@@ -8,76 +9,76 @@ collected_date: 20240229
 link: https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md
 ---
 
-# Executing syzkaller programs
 
-This page describes how to execute existing syzkaller programs for the purpose
-of bug reproduction. This way you can replay a single program or a whole
-execution log with several programs.
 
-1. Setup Go toolchain (if you don't yet have it, you need version 1.16 or higher):
-Download latest Go distribution from (https://golang.org/dl/). Unpack it to `$HOME/goroot`.
+# 运行 syzkaller 程序
+
+这篇文章描述了如何执行现有的 syzkaller 程序以复现 bug。通过这种方式，你可以重放一个单独的程序或是一个包含多个程序的完整执行日志。
+
+1. 安装 Go 工具链（要求 Go 的版本不低于1.16）：
+从（https://golang.org/dl/）下载最新的 Go 发行版，并将其解压到 `$HOME/goroot`。
 ``` bash
 export GOROOT=$HOME/goroot
 export GOPATH=$HOME/gopath
 ```
 
-2. Download syzkaller sources:
+2. 下载 syzkaller 源码:
 ``` bash
 git clone https://github.com/google/syzkaller
 ```
 
-Note that your syzkaller revision must be the same as the one that generated the
-program you're trying to execute.
+注意你的 syzkaller 版本必须和生成待执行程序的 syzkaller 版本一致。
 
-3. Build necessary syzkaller binaries:
+3. 构建需要的 syzkaller 二进制文件:
 ``` bash
 cd syzkaller
 make
 ```
 
-4. Copy binaries and the program to test machine (substitute target `linux_amd64`
-as necessary):
+4. 将构建好的二进制文件和程序复制到待测试机器上（根据待测试机器，替换命令中的 `linux_amd64`）
 ``` bash
 scp -P 10022 -i bullseye.img.key bin/linux_amd64/syz-execprog bin/linux_amd64/syz-executor program root@localhost:
 ```
 
-5. Run the program on the test machine:
+5. 在待测试机上运行程序
 ``` bash
 ./syz-execprog -repeat=0 -procs=8 program
 ```
 
-Several useful `syz-execprog` flags:
+下面是几条实用的 `syz-execprog` 参数： 
 ```
   -procs int
     	number of parallel processes to execute programs (default 1)
+      执行程序的进程数（默认值为 1）
   -repeat int
     	repeat execution that many times (0 for infinite loop) (default 1)
+      重复执行的次数（0 代表无限执行）（默认值为 1）
   -sandbox string
     	sandbox for fuzzing (none/setuid/namespace) (default "setuid")
+      fuzzing测试的沙盒模式（none/setuid/namespace）（默认为 "setuid" 模式）
   -threaded
     	use threaded mode in executor (default true)
+      是否使用线程模式（默认为 是）
 ```
 
-If you pass `-threaded=0`, programs will be executed as a simple single-threaded
-sequence of syscalls. `-threaded=1` forces execution of each syscall in a
-separate thread, so that execution can proceed over blocking syscalls.
+`-threaded=0` 参数将会使程序作为一个简单的单线程系统调用序列来执行。
+`-threaded=1` 强制每个系统调用使用单独的线程，这样就可以在阻塞的系统调用上继续执行。
 
-Older syzkaller versions also had the following flag:
+
+版本较老的 syzkaller 还有如下参数：
 ```
   -collide
     	collide syscalls to provoke data races (default true)
+      是否使用冲突系统调用以引发数据竞争（默认为 是）
 ```
-`-collide=1` forced second round of execution of syscalls when pairs of syscalls
-are executed concurrently. You might need to use this flag if you're running an
-old reproducer.
+`-collide=1` 参数的作用是当很多系统调用并发执行时，强制执行第二轮系统调用。
+当使用版本较老的复现程序时，可能需要用到这个参数。
 
 
-If you are replaying a reproducer program that contains a header along the
-following lines:
+如果想要重放一个开头包含如下内容的复现程序：
 ```
 # {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true UseTmpDir:true HandleSegv:true Repro:false Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}
 ```
-then you need to adjust `syz-execprog` flags based on the values in the
-header. Namely, `Threaded`/`Procs`/`Sandbox` directly relate to
-`-threaded`/`-procs`/`-sandbox` flags. If `Repeat` is set to `true`, add
-`-repeat=0` flag to `syz-execprog`.
+你需要基于文件头中的值调整对应的参数。
+其中，`Threaded`/`Procs`/`Sandbox` 与 `-threaded`/`-procs`/`-sandbox` 参数对应。如果 `Repeat` 的值为 `true`，则在 `syz-execprog` 的参数中添加 `-repeat=0`。
+
