@@ -40,29 +40,28 @@ make
 scp -P 10022 -i bullseye.img.key bin/linux_amd64/syz-execprog bin/linux_amd64/syz-executor program root@localhost:
 ```
 
-5. 在待测试机上运行程序
+5. 在待测试机器上运行程序
 ``` bash
 ./syz-execprog -repeat=0 -procs=8 program
 ```
 
-下面是几条实用的 `syz-execprog` 参数： 
+下面是几个实用的 `syz-execprog` 参数： 
 ```
   -procs int
     	number of parallel processes to execute programs (default 1)
-      执行程序的进程数（默认值为 1）
+      执行程序的并发进程数（默认值为 1）
   -repeat int
     	repeat execution that many times (0 for infinite loop) (default 1)
       重复执行的次数（0 代表无限执行）（默认值为 1）
   -sandbox string
     	sandbox for fuzzing (none/setuid/namespace) (default "setuid")
-      fuzzing测试的沙盒模式（none/setuid/namespace）（默认为 "setuid" 模式）
+      模糊测试的沙盒模式（none/setuid/namespace）（默认为 "setuid" 模式）
   -threaded
     	use threaded mode in executor (default true)
       是否使用线程模式（默认为 是）
 ```
 
-`-threaded=0` 参数将会使程序作为一个简单的单线程系统调用序列来执行。
-`-threaded=1` 强制每个系统调用使用单独的线程，这样就可以在阻塞的系统调用上继续执行。
+`-threaded=0` 参数将会使程序作为一个简单的单线程系统调用序列来执行；而 `-threaded=1` 强制每个系统调用使用单独的线程，这样就可以在阻塞的系统调用上继续执行。
 
 
 版本较老的 syzkaller 还有如下参数：
