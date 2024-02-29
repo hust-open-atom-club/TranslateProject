@@ -1,5 +1,6 @@
 ---
-status: collected
+status: translating
+translator: tttturtle-russ
 title: "Executing syzkaller programs"
 author: Syzkaller Community
 collector: dzm91_hust
