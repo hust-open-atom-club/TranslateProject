@@ -1,11 +1,12 @@
 ---
-status: translated
-translated_date: 20240229
-translator: tttturtle-russ
+status: proofreading
 title: "Executing syzkaller programs"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240229
+translator: tttturtle-russ
+translated_date: 20240229
+proofreader: dzm91_hust
 link: https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md
 ---
 
