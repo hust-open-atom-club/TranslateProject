@@ -16,7 +16,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_p
 本文描述了如何执行现有的 syzkaller 程序用以复现 bug。通过这种方式，你可以重放一个单独的程序或一个包含多个程序的完整执行日志。
 
 1. 安装 Go 工具链（要求 Go 的版本不低于1.16）：
-从官网（https://golang.org/dl/）下载最新的 Go 发行版，并将其解压到 `$HOME/goroot`。
+从[官网](https://golang.org/dl/)下载最新的 Go 发行版，并将其解压到 `$HOME/goroot`。
 ``` bash
 export GOROOT=$HOME/goroot
 export GOPATH=$HOME/gopath
