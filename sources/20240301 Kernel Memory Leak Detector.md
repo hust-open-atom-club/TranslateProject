@@ -1,5 +1,6 @@
 ---
-status: collected
+status: translating
+translator: tttturtle-russ
 title: Kernel Memory Leak Detector
 author: Greg Kroah-Hartman
 collector: RutingZhang0429
