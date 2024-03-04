@@ -9,15 +9,15 @@ translated_date: 20240302
 link: https://github.com/google/syzkaller/blob/master/docs/internals.md
 ---
 
-# Syzkaller的工作原理
+# Syzkaller 的工作原理
 
-有关Syzkaller工作原理的通用描述[如下](internals.md#概述).
+有关 Syzkaller 工作原理的通用描述[如下](internals.md#概述).
 
-关于Linux内核特有的内部机制可以在[此处](linux/internals.md)找到。
+关于 Linux 内核特有的内部机制可以在[此处](linux/internals.md)找到。
 
 ## 概述
 
-syzkaller系统的进程结构如下图所示，其中红色标签表示对应的配置选项。
+syzkaller 系统的进程结构如下图所示，其中红色标签表示对应的配置选项。
 
 ![Process structure for syzkaller](process_structure.png?raw=true)
 
@@ -38,7 +38,7 @@ syzkaller系统的进程结构如下图所示，其中红色标签表示对应�
 
 ## 覆盖率
 
-Syzkaller是一种覆盖率导向的模糊测试器。有关覆盖率收集的详细信息，请参见[此处](/coverage.md)。
+Syzkaller 是一种覆盖率导向的模糊测试器。有关覆盖率收集的详细信息，请参见[此处](/coverage.md)。
 
 ## 崩溃报告
 
@@ -72,10 +72,10 @@ Syzkaller是一种覆盖率导向的模糊测试器。有关覆盖率收集的�
 
 有3种特殊类型的崩溃：
 - `no output from test machine` ：测试机器根本没有输出
-- `lost connection to test machine` ：与机器的SSH连接意外关闭
+- `lost connection to test machine` ：与机器的 SSH 连接意外关闭
 - `test machine is not executing programs` ：机器看起来是活动的，但在很长一段时间内未执行任何测试程序
 
 遇到这几种崩溃时，你大概率看不到 `reportN` 文件（例如，如果测试机器没有输出，就没有东西可放入报告中）。
-有时这些崩溃表明 `syzkaller` 本身存在错误（特别是如果在日志中看到Go的恐慌消息）。
+有时这些崩溃表明 `syzkaller` 本身存在错误（特别是如果在日志中看到 Go 的恐慌消息）。
 然而，大部分情况下表明内核死机或类似的严重问题（以下是通过这种方式发现的一些漏洞的示例：[1](https://groups.google.com/d/msg/syzkaller/zfuHHRXL7Zg/Tc5rK8bdCAAJ)， [2](https://groups.google.com/d/msg/syzkaller/kY_ml6TCm9A/wDd5fYFXBQAJ)， [3](https://groups.google.com/d/msg/syzkaller/OM7CXieBCoY/etzvFPX3AQAJ)）。
 
