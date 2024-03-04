@@ -1575,6 +1575,15 @@ astro-eslint-parser@^0.16.2, astro-eslint-parser@^0.16.3:
     espree "^9.0.0"
     semver "^7.3.8"
 
+astro-rehype-relative-markdown-links@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npmmirror.com/astro-rehype-relative-markdown-links/-/astro-rehype-relative-markdown-links-0.6.1.tgz#662b2ea7f7277fc9bcbfab0179aac50dae001ee7"
+  integrity sha512-kEloHUKEcRNxgqAkaC4hAHlOsYhpFe1nBvp9sJ7nYdBnzQMssmoCzc7RgCFGnweq2Veq57JPBNzvwfOPxyND3w==
+  dependencies:
+    debug "^4.3.4"
+    gray-matter "^4.0.3"
+    unist-util-visit "^4.1.2"
+
 astro@^4.2.1:
   version "4.4.9"
   resolved "https://registry.npmmirror.com/astro/-/astro-4.4.9.tgz#7450df810dd8b5ba8a7cba1c491b5fe4f9524ce5"
@@ -5403,7 +5412,7 @@ sharp@^0.32.6:
     tar-fs "^3.0.4"
     tunnel-agent "^0.6.0"
 
-sharp@^0.33.0, sharp@^0.33.2:
+sharp@^0.33.0:
   version "0.33.2"
   resolved "https://registry.npmmirror.com/sharp/-/sharp-0.33.2.tgz#fcd52f2c70effa8a02160b1bfd989a3de55f2dfb"
   integrity sha512-WlYOPyyPDiiM07j/UO+E720ju6gtNtHjEGg5vovUk1Lgxyjm2LFO+37Nt/UI3MMh2l6hxTWQWi7qk3cXJTutcQ==
@@ -6119,7 +6128,7 @@ unist-util-visit-parents@^6.0.0:
     "@types/unist" "^3.0.0"
     unist-util-is "^6.0.0"
 
-unist-util-visit@^4.0.0:
+unist-util-visit@^4.0.0, unist-util-visit@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmmirror.com/unist-util-visit/-/unist-util-visit-4.1.2.tgz#125a42d1eb876283715a3cb5cceaa531828c72e2"
   integrity sha512-MSd8OUGISqHdVvfY9TPhyK2VdUrPgxkUtWSuMHF6XAAFuL4LokseigBnZtPnJMu+FbynTkFNnFlyjxpVKujMRg==

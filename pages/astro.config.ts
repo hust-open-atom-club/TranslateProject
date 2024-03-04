@@ -6,7 +6,10 @@ import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
 
-import borkenMarkdownRemarkPlugin from "./plugin/BrokenMarkdownRemarkPlugin";
+import remarkBadImage from "./plugin/RemarkBadImage";
+import rehypeAstroRelativeMarkdownLinks from "astro-rehype-relative-markdown-links";
+import type { RehypePlugins } from "astro";
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,12 +30,9 @@ export default defineConfig({
           test: "Table of contents",
         },
       ],
-      [
-        borkenMarkdownRemarkPlugin,
-        null
-      ]
+      remarkBadImage,
     ],
-
+    rehypePlugins: [rehypeAstroRelativeMarkdownLinks] as RehypePlugins,
     shikiConfig: {
       theme: "one-dark-pro",
       wrap: true,
