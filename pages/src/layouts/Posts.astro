@@ -20,9 +20,10 @@ const { currentPage, totalPages, paginatedPosts } = Astro.props;
 const status = Astro.props.status || "all";
 
 function getStyle(tabStatus: string) {
+  const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 "
   return tabStatus === status
-    ? "mr-4 select-none bg-skin-accent px-4 py-2 text-skin-inverted hover:text-skin-inverted"
-    : "mr-4 select-none px-4 py-2";
+    ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
+    : base;
 }
 ---
 
