@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "How syzkaller works"
 author: Syzkaller Community
 collector: dzm91_hust
