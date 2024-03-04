@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Pagination from "@components/Pagination.astro";
+import Card from "@components/Card";
+import { SITE } from "@config";
+import LinkButton from "@components/LinkButton.astro";
+
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  paginatedPosts: CollectionEntry<"blog">[];
+  status: string | undefined;
+}
+
+const { currentPage, totalPages, paginatedPosts } = Astro.props;
+const status = Astro.props.status || "all";
+
+function getStyle(tabStatus: string) {
+  return tabStatus === status
+    ? "mr-4 select-none bg-skin-accent px-4 py-2 text-skin-inverted hover:text-skin-inverted"
+    : "mr-4 select-none px-4 py-2";
+}
+---
+
+<Layout title={`Posts | ${SITE.title}`}>
+  <Header activeNav="posts" />
+  <Main pageTitle="">
+    <nav>
+      <LinkButton href="/all/" className={getStyle("all")} ariaLabel="all">
+        全部
+      </LinkButton>
+      <LinkButton
+        href="/translated/"
+        className={getStyle("translated")}
+        ariaLabel="translated"
+      >
+        已翻译
+      </LinkButton>
+      <LinkButton
+        href="/translating/"
+        className={getStyle("translating")}
+        ariaLabel="Previous"
+      >
+        翻译中
+      </LinkButton>
+      <LinkButton
+        href="/untranslated/"
+        className={getStyle("untranslated")}
+        ariaLabel="Previous"
+      >
+        未翻译
+      </LinkButton>
+    </nav>
+    <ul>
+      {
+        paginatedPosts.map(({ data, slug }) => (
+          <Card href={`/posts/${slug}/`} frontmatter={data} />
+        ))
+      }
+    </ul>
+  </Main>
+
+  <Pagination
+    {currentPage}
+    {totalPages}
+    prevUrl={`/${status}${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
+    nextUrl={`/${status}/${currentPage + 1}/`}
+  />
+
+  <Footer noMarginTop={totalPages > 1} />
+</Layout>
