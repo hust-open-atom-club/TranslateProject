@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "HCTT",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerPage: 10,
+  postPerPage: 20,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
 };
 

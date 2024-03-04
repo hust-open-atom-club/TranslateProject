@@ -6,13 +6,14 @@ export interface Props {
   href?: string;
   frontmatter: CollectionEntry<"blog">["data"];
   secHeading?: boolean;
+  body?: string;
 }
 
-export default function Card({ href, frontmatter, secHeading = true }: Props) {
+export default function Card({ href, frontmatter, secHeading = true, body }: Props) {
   const {
     title,
     translator,
-    status
+    status,
   } = frontmatter;
 
   const headerProps = {
@@ -32,6 +33,11 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           <h3 {...headerProps}>{title}</h3>
         )}
       </a>
+      {
+        status === 'collected' && <div className="px-2 mx-2 text-slate-500">
+          {body && body.split(/\s/g).length} 词
+        </div>
+      }
       <div>
         <Status status={status} />
       </div>
@@ -46,13 +52,15 @@ function Status({ status }: { status: string }) {
     'translated': '已翻译',
     'translating': '翻译中',
     'collected': '已收集',
-    'proofread': '校对中',
+    'proofreading': '校对中',
+    'proofread': '已校对',
   } as any;
 
   const statusStyleMap = {
     'translated': 'bg-green-500',
     'translating': 'bg-yellow-300',
     'collected': 'bg-gray-500',
+    'proofreading': 'bg-blue-500',
     'proofread': 'bg-purple-500',
   } as any;
 

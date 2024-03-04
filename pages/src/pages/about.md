@@ -3,34 +3,14 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, responsive and SEO-friendly Astro blog theme. I designed and crafted this based on [my personal blog](https://satnaing.dev/blog).
+**HCTT(HUST openatom Club Translation Team)** 是“华科开放原子开源俱乐部”的翻译团队，学习[“Linux 中国”翻译项目](https://github.com/LCTT/TranslateProject)的模式，负责从国外优秀媒体翻译 Linux（特别是 Linux 内核安全）相关的技术、资讯、杂文等内容。
 
-This theme is aimed to be accessible out of the box. Light and dark mode are supported by
-default and additional color schemes can also be configured.
+## 加入我们
+请首先加入我们的[飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=4e3g0475-2966-40c7-a713-3fcf43893a67)，加群时请说明是“志愿者”。
 
-This theme is self-documented \_ which means articles/posts in this theme can also be considered as documentations. So, see the documentation for more info.
+新加入的成员，请：
 
-<div>
-  <img src="/assets/dev.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
-</div>
-
-## Tech Stack
-
-This theme is written in vanilla JavaScript (+ TypeScript for type checking) and a little bit of ReactJS for some interactions. TailwindCSS is used for styling; and Markdown is used for blog contents.
-
-## Features
-
-Here are certain features of this site.
-
-- fully responsive and accessible
-- SEO-friendly
-- light & dark mode
-- fuzzy search
-- super fast performance
-- draft posts
-- pagination
-- sitemap & rss feed
-- highly customizable
-
-If you like this theme, you can star/contribute to the [repo](https://github.com/satnaing/astro-paper).  
-Or you can even give any feedback via my [email](mailto:contact@satnaing.dev).
+1. 修改你的飞书群昵称为“译者-YOUR_GITEE_ID”。
+2. 请在开始贡献前[签署CLA](https://gitee.com/organizations/hust-open-atom-club/cla/hust_open_atom_club_cla)。
+2. 阅读 [WIKI](https://gitee.com/hust-open-atom-club/translate-project/wikis) 了解如何开始。
+3. 遇到不解之处，请在群内发问。

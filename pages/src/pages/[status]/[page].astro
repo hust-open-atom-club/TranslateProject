@@ -12,7 +12,7 @@ export async function getPostByStatus(status: string) {
   );
 }
 
-export const STATUS_LIST = ["all", "translating", "translated", "untranslated"] as const;
+export const STATUS_LIST = ["all", "translating", "translated", "collected", "proofreading", "proofread"] as const;
 
 export const getStaticPaths = (async () => {
   const statusList = STATUS_LIST;
