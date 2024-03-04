@@ -5,7 +5,7 @@ author: Greg Kroah-Hartman
 collector: mudongliang
 collected_date: 20240220
 translator: yanruo
-translated_date:20240221
+translated_date: 20240221
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst
 ---
 
