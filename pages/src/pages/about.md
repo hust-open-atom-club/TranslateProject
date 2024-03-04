@@ -1,6 +1,6 @@
 ---
 layout: ../layouts/AboutLayout.astro
-title: "About"
+title: "关于"
 ---
 
 **HCTT(HUST openatom Club Translation Team)** 是“华科开放原子开源俱乐部”的翻译团队，学习[“Linux 中国”翻译项目](https://github.com/LCTT/TranslateProject)的模式，负责从国外优秀媒体翻译 Linux（特别是 Linux 内核安全）相关的技术、资讯、杂文等内容。
