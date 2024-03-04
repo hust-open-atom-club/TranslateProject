@@ -7,11 +7,11 @@ import getPageNumbers from "@utils/getPageNumbers";
 import getPagination from "@utils/getPagination";
 
 export interface Props {
-  post: CollectionEntry<"blog">;
+  post: CollectionEntry<"posts">;
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("posts");
 
   const postResult = posts.map(post => ({
     params: { slug: post.slug },
@@ -21,10 +21,7 @@ export async function getStaticPaths() {
   return [...postResult];
 }
 
-const { slug } = Astro.params;
 const { post } = Astro.props;
-
-const posts = await getCollection("blog");
 ---
 
 <PostDetails post={post} />

@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 
-const getSortedPosts = (posts: CollectionEntry<"blog">[]) => {
+const getSortedPosts = (posts: CollectionEntry<"posts">[]) => {
   return posts;
 
     // TODO: implement sorting

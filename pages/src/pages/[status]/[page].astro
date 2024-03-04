@@ -7,7 +7,7 @@ import getPagination from "@utils/getPagination";
 import getPageNumbers from "@utils/getPageNumbers";
 
 export async function getPostByStatus(status: string) {
-  return await getCollection("blog", ({ data }) =>
+  return await getCollection("posts", ({ data }) =>
     status == "all" ? true : data?.status === status
   );
 }
