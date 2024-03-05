@@ -35,39 +35,18 @@ function getStyle(tabStatus: string) {
         全部
       </LinkButton>
       <LinkButton
-        href="/proofread/"
-        className={getStyle("proofread")}
-        ariaLabel="translated"
-      >
-        已校对
-      </LinkButton>
-      <LinkButton
-        href="/proofreading/"
-        className={getStyle("proofreading")}
-        ariaLabel="translated"
-      >
-        校对中
-      </LinkButton>
-      <LinkButton
         href="/translated/"
         className={getStyle("translated")}
         ariaLabel="Previous"
       >
-        已翻译
-      </LinkButton>
-      <LinkButton
-        href="/translating/"
-        className={getStyle("translating")}
-        ariaLabel="Previous"
-      >
-        翻译中
+        待校对
       </LinkButton>
       <LinkButton
         href="/collected/"
         className={getStyle("collected")}
         ariaLabel="Previous"
       >
-        已收集
+        待翻译
       </LinkButton>
     </nav>
     <ul>
