@@ -9,13 +9,13 @@ translated_date: 20240227
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ubsan.rst
 ---
 
-# Undefined Behavior Sanitizer - UBSAN
+# 未定义行为检查器 - UBSAN
 
-Sanitizer原意是消毒剂，在Linux Kernel中有一系列错误检查工具被称作sanitizer。本文介绍的UBSAN是一种动态的未定义行为检查工具。
+本文介绍的 UBSAN 是一种动态的未定义行为检查工具。
 
 UBSAN 使用编译时插桩捕捉未定义行为。编译器在可能导致未定义行为的操作前插入特定检查代码。如果检查失败，即，检测到未定义行为，则 \_\_ubsan_handle\* 函数将被调用打印错误信息。
 
-GCC自4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\] (详见 ``-fsanitize=undefined`` 选项及其子选项)之后引入这一特性。GCC 5.x 版本实现了更多检查器 \[[2](https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html)\]。
+GCC 自 4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\] (详见 ``-fsanitize=undefined`` 选项及其子选项)之后引入这一特性。GCC 5.x 版本实现了更多检查器 \[[2](https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html)\]。
 
 ## 报告样例
 
@@ -57,7 +57,7 @@ GCC自4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options
 
     CONFIG_UBSAN_SANITIZE_ALL=y
 
-为了在特定文件或目录中启动代码插桩，需要在相应的内核Makefile中添加一行类似内容:
+为了在特定文件或目录中启动代码插桩，需要在相应的内核 Makefile 中添加一行类似内容:
 
 -   单文件（如main.o）:
 
@@ -75,4 +75,4 @@ GCC自4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options
 
     UBSAN_SANITIZE := n
 
-未对齐的内存访问检测由单独的选项CONFIG_UBSAN_ALIGNMENT控制。在支持非对齐访问（CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y）的架构上，该选项默认关闭，但仍可在配置中启用，只是要注意这会产生大量 UBSAN 报告。
+未对齐的内存访问检测由单独的选项 CONFIG_UBSAN_ALIGNMENT 控制。在支持非对齐访问（CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y）的架构上，该选项默认关闭，但仍可在配置中启用，只是要注意这会产生大量 UBSAN 报告。
