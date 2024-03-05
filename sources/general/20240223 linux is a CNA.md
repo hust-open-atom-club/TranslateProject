@@ -23,3 +23,10 @@ CVE 组织[最近宣布](https://www.cve.org/Media/News/item/news/2024/02/13/ker
 
 一旦流程正常运转并且能够顺利分配 CVE，我会在未来写更多内容。这一公告只是第一步，它使我们成为了 Linux CVE 分配流程的管理者。
 
+___
+
+译自：[http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/](http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/)
+
+译者：sun-yu-777 校对：mudongliang
+
+本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。
