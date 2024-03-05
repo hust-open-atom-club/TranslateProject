@@ -1,11 +1,13 @@
 ---
-status: collected
+status: proofread
 title: "Undefined Behavior Sanitizer - UBSAN"
 author: Linux Kernel Community
 collector: dzm91_hust
 collected_date: 20240227
 translated: dzm91_hust
 translated_date: 20240227
+proofread: hustsjy
+proofread_date: 20240302
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ubsan.rst
 ---
 
