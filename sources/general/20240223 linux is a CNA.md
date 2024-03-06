@@ -25,8 +25,8 @@ CVE 组织[最近宣布](https://www.cve.org/Media/News/item/news/2024/02/13/ker
 
 ___
 
-译自：[http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/](http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/)
+译自：<http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/>
 
-译者：sun-yu-777 校对：mudongliang
+译者：[sun-yu-777](https://gitee.com/sun-yu-777) 校对：[mudongliang](https://gitee.com/mudongliang)
 
 本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。
