@@ -3,11 +3,11 @@ import { resolve, dirname } from 'path';
 import { existsSync } from 'fs';
 import type { RemarkPlugin } from '@astrojs/markdown-remark';
 
-const plugin: RemarkPlugin = (options) => (tree, file) => {
+const plugin: RemarkPlugin = (_options) => (tree, file) => {
   const filePath = file.history[0];
   const path = dirname(filePath);
 
-  modifyChildren((node: any, index, parent) => {
+  modifyChildren((node: any, _index, _parent) => {
     if (node?.children) {
       for (var child of node.children) {
         if (child.type == "image" && child.url && !child.url.startsWith("/") && !child.url.startsWith("http")) {

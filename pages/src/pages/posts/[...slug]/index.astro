@@ -1,10 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import Posts from "@layouts/Posts.astro";
 import PostDetails from "@layouts/PostDetails.astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import getPageNumbers from "@utils/getPageNumbers";
-import getPagination from "@utils/getPagination";
 
 export interface Props {
   post: CollectionEntry<"posts">;
