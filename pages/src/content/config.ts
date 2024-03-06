@@ -5,8 +5,8 @@ const blog = defineCollection({
   type: "content",
   schema: z.object({
     author: z.string().default(SITE.author),
-    status: z.enum(["translated", "translating", "collected", "proofread"]).default("collected"),
-    title: z.string(),
+    status: z.string().default("collected"),
+    title: z.string().default("未命名文章"),
     collector: z.string().default(SITE.author),
     collected_date: z.union(
       [z.date(), z.string(), z.number()]
