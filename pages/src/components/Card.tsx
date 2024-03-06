@@ -49,7 +49,7 @@ export default function Card({ href, frontmatter, secHeading = true, body }: Pro
 function Status({ status }: { status: string }) {
   const getStyle = (status: string) => {
     var s = STATUS_LIST.find(s => s.status === status);
-    if (s) return "bg-" + s.color;
+    if (s) return s.color;
     else return "bg-gray-200";
   }
 

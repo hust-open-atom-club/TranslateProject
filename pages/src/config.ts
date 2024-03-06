@@ -31,12 +31,12 @@ export const STATUS_LIST: {
   color?: string;
 }[] = [
     { status: "all", text: "全部" },
-    { status: "published", text: "已发布", hideInTab: true, color: "green-500" },
-    { status: "proofread", text: "已校对", tabText: "待发布", color: "purple-500" },
-    { status: "proofreading", text: "校对中", hideInTab: true, color: "blue-500" },
-    { status: "collected", text: "已收集", tabText: "待翻译", color: "gray-500" },
-    { status: "translated", text: "已翻译", tabText: "待校对", color: "orange-500" },
-    { status: "translating", text: "翻译中", hideInTab: true, color: "yellow-300" },
+    { status: "published", text: "已发布", hideInTab: true, color: "bg-green-500" },
+    { status: "proofread", text: "已校对", tabText: "待发布", color: "bg-purple-500" },
+    { status: "proofreading", text: "校对中", hideInTab: true, color: "bg-blue-500" },
+    { status: "collected", text: "已收集", tabText: "待翻译", color: "bg-gray-500" },
+    { status: "translated", text: "已翻译", tabText: "待校对", color: "bg-orange-500" },
+    { status: "translating", text: "翻译中", hideInTab: true, color: "bg-yellow-300" },
   ];
 
 export const SOCIALS: SocialObjects = [
