@@ -1,5 +1,5 @@
 ---
-status: translating
+status: published
 title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
@@ -53,7 +53,7 @@ Linux内核中未修复的安全问题不会自动分配CVE；只有在安全修
 
 ___
 
-译自：[https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst)
+译自：[https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst)
 
 译者：yanruo 校对：mudongliang
 
