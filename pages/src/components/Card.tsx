@@ -1,3 +1,4 @@
+import { STATUS_LIST } from "@config";
 import { slugifyStr } from "@utils/slugify";
 import type { CollectionEntry } from "astro:content";
 
@@ -46,29 +47,23 @@ export default function Card({ href, frontmatter, secHeading = true, body }: Pro
 }
 
 function Status({ status }: { status: string }) {
-  const statusTextMap = {
-    'translated': '已翻译',
-    'translating': '翻译中',
-    'collected': '已收集',
-    'proofreading': '校对中',
-    'proofread': '已校对',
-  } as any;
+  const getStyle = (status: string) => {
+    var s = STATUS_LIST.find(s => s.status === status);
+    if (s) return "bg-" + s.color;
+    else return "bg-gray-200";
+  }
 
-  const statusStyleMap = {
-    'translated': 'bg-green-500',
-    'translating': 'bg-yellow-300',
-    'collected': 'bg-gray-500',
-    'proofreading': 'bg-blue-500',
-    'proofread': 'bg-purple-500',
-  } as any;
+  const getText = (status: string) => {
+    var s = STATUS_LIST.find(s => s.status === status);
+    if (s) return s.text;
+    else return status;
+  }
+
 
   return (
     <span className="flex flex-row items-center">
-      <span className={`flex w-3 h-3 me-3 ${statusStyleMap[status] || 'bg-gray-200'} rounded-full`}></span>
-      <span>{statusTextMap[status] || status}</span>
+      <span className={`flex w-3 h-3 me-3 ${getStyle(status)} rounded-full`}></span>
+      <span>{getText(status)}</span>
     </span>
   )
-
-
-
 }

@@ -6,7 +6,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
-import { SITE } from "@config";
+import { SITE, STATUS_LIST } from "@config";
 import LinkButton from "@components/LinkButton.astro";
 
 export interface Props {
@@ -31,30 +31,17 @@ function getStyle(tabStatus: string) {
   <Header activeNav="posts" />
   <Main pageTitle="">
     <nav>
-      <LinkButton href="/all/" className={getStyle("all")} ariaLabel="all">
-        全部
-      </LinkButton>
-      <LinkButton
-        href="/proofread/"
-        className={getStyle("proofread")}
-        ariaLabel="Previous"
-      >
-        待发布
-      </LinkButton>
-      <LinkButton
-        href="/translated/"
-        className={getStyle("translated")}
-        ariaLabel="Previous"
-      >
-        待校对
-      </LinkButton>
-      <LinkButton
-        href="/collected/"
-        className={getStyle("collected")}
-        ariaLabel="Previous"
-      >
-        待翻译
-      </LinkButton>
+      {
+        STATUS_LIST.map(({status, hideInTab,text, tabText}) => !hideInTab && (
+          <LinkButton
+            href={`/${status}/`}
+            className={getStyle(status)}
+            ariaLabel={status}
+          >
+            {tabText || text}
+          </LinkButton>
+        ))
+      }
     </nav>
     <ul>
       {
