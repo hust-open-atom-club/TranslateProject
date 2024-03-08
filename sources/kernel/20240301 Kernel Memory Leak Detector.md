@@ -1,4 +1,4 @@
----
+ ---
 status: translated
 translated_date: "20240306"
 translator: tttturtle-russ
@@ -9,7 +9,7 @@ collected_date: "20240301"
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kmemleak.rst
 ---
 # 内核内存泄露检测器
-Kmemleak 提供了一个类似[垃圾追踪收集器](https://en.wikipedia.org/wiki/Tracing_garbage_collection)的方法来检测可能的内核内存泄漏，不同的是孤立对象不会被释放，而是仅通过 /sys/kernel/debug/kmemleak 报告。Valgrind 工具（`memcheck --leak-chekc`）使用了一种相同的方法来检测用户空间应用中的内存泄露。
+Kmemleak 提供了一个类似[可追踪的垃圾收集器](https://en.wikipedia.org/wiki/Tracing_garbage_collection)的方法来检测可能的内核内存泄漏，不同的是孤立对象不会被释放，而是仅通过 /sys/kernel/debug/kmemleak 报告。Valgrind 工具（`memcheck --leak-chekc`）使用了一种相似的方法来检测用户空间应用中的内存泄露。
 
 ## 用法
 \"Kernel hacking\" 中的 CONFIG_DEBUG_KMEMLEAK 必须被启用。一个内核线程每10分钟（默认情况下）扫描一次内存，并且打印出新发现的未被引用的对象个数。如果 `debugfs` 没有挂载，则执行：
@@ -17,15 +17,15 @@ Kmemleak 提供了一个类似[垃圾追踪收集器](https://en.wikipedia.org/w
     # mount -t debugfs nodev /sys/kernel/debug/
 
 
-显示扫描出的所有可能的内存泄漏的细节信息：
+显示所有扫描出的可能的内存泄漏的细节信息：
 
     # cat /sys/kernel/debug/kmemleak
 
-启动一次执行过程中的内存扫描：
+启动一次中等程度的内存扫描：
 
     # echo scan > /sys/kernel/debug/kmemleak
 
-清空当前可能的内存泄露列表：
+清空当前所有可能的内存泄露列表：
 
     # echo clear > /sys/kernel/debug/kmemleak
 
