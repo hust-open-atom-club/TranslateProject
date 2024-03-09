@@ -1,4 +1,4 @@
- ---
+---
 status: translated
 translated_date: "20240306"
 translator: tttturtle-russ
