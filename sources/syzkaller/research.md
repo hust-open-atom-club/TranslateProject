@@ -9,7 +9,7 @@ translated_date: 20240310
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---
 
-# 基于syzkaller的研究工作
+# 基于 syzkaller 的研究工作
 
 尊敬的研究人员，如果您需要任何帮助，请随时通过 syzkaller@googlegroups.com 与我们联系。
 
