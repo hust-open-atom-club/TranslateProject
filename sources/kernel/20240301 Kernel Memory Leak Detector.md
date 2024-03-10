@@ -1,5 +1,6 @@
 ---
-status: translating
+status: translated
+translated_date: "20240306"
 translator: tttturtle-russ
 title: Kernel Memory Leak Detector
 author: Greg Kroah-Hartman
@@ -7,170 +8,149 @@ collector: RutingZhang0429
 collected_date: "20240301"
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kmemleak.rst
 ---
-# Kernel Memory Leak Detector
+# 内核内存泄露检测器
+Kmemleak 提供了一个类似[可追踪的垃圾收集器](https://en.wikipedia.org/wiki/Tracing_garbage_collection)的方法来检测可能的内核内存泄漏，不同的是孤立对象不会被释放，而是仅通过 /sys/kernel/debug/kmemleak 报告。Valgrind 工具（`memcheck --leak-chekc`）使用了一种相似的方法来检测用户空间应用中的内存泄露。
 
-Kmemleak provides a way of detecting possible kernel memory leaks in away similar to a [tracing garbage collector](https://en.wikipedia.org/wiki/Tracing_garbage_collection),with the difference that the orphan objects are not freed but only reported via /sys/kernel/debug/kmemleak. A similar method is used by the Valgrind tool (`memcheck --leak-check`) to detect the memory leaks in user-space applications.
-
-## Usage
-
-CONFIG\_DEBUG\_KMEMLEAK in \"Kernel hacking\" has to be enabled. A kernel thread scans the memory every 10 minutes (by default) and prints the number of new unreferenced objects found.If the `debugfs` isn\'t already mounted, mount with:
+## 用法
+\"Kernel hacking\" 中的 CONFIG_DEBUG_KMEMLEAK 必须被启用。一个内核线程每10分钟（默认情况下）扫描一次内存，并且打印出新发现的未被引用的对象个数。如果 `debugfs` 没有挂载，则执行：
 
     # mount -t debugfs nodev /sys/kernel/debug/
 
-To display the details of all the possible scanned memory leaks:
+
+显示所有扫描出的可能的内存泄漏的细节信息：
 
     # cat /sys/kernel/debug/kmemleak
 
-To trigger an intermediate memory scan:
+启动一次中等程度的内存扫描：
 
     # echo scan > /sys/kernel/debug/kmemleak
 
-To clear the list of all current possible memory leaks:
+清空当前所有可能的内存泄露列表：
 
     # echo clear > /sys/kernel/debug/kmemleak
 
-New leaks will then come up upon reading `/sys/kernel/debug/kmemleak` again.
+当再次读取 `/sys/kernel/debug/kmemleak` 文件时，将会输出自上次扫描以来检测到的新的内存泄露。
 
-Note that the orphan objects are listed in the order they were allocated and one object at the beginning of the list may cause other subsequent objects to be reported as orphan.
+注意，孤立目标是通过被分配时间来排序的，列表开始的对象可能会导致后续的对象都被识别为孤立对象。
 
-Memory scanning parameters can be modified at run-time by writing to the `/sys/kernel/debug/kmemleak` file. The following parameters are supported:
+可以通过写入 `/sys/kernel/debug/kmemleak` 文件在运行时修改内存扫描参数。下面是支持的参数：
 
 - off
-    disable kmemleak (irreversible)
+    禁用 kmemleak（不可逆）
 - stack=on
-    enable the task stacks scanning (default)
+    开启任务栈扫描（默认）
 - stack=off
-    disable the tasks stacks scanning
+    禁用任务栈扫描
 - scan=on
-    start the automatic memory scanning thread (default)
+    开启自动内存扫描线程（默认）
 - scan=off
-    stop the automatic memory scanning thread
+    关闭自动内存扫描线程
 - scan=\<secs\>
-    set the automatic memory scanning period in seconds (default 600, 0 to stop the automatic scanning)
+    设定自动内存扫描间隔，以秒为单位（默认值为 600，设置为 0 表示停止自动扫描）
 - scan
-    trigger a memory scan
+    触发一次内存扫描
 - clear
-	clear list of current memory leak suspects, done by marking all current reported unreferenced objects grey, or free all kmemleak objects if kmemleak has been disabled.
+    通过标记所有当前已报告的未被引用对象为灰，从而清空当前可能的内存泄露列表；如果 kmemleak 被禁用，则释放所有 kmemleak 对象，。
 - dump=\<addr\>
-    dump information about the object found at \<addr\>
+    输出存储在 \<addr\> 中的对象信息
 
-Kmemleak can also be disabled at boot-time by passing `kmemleak=off` on the kernel command line.
+可以通过在内核命令行中传递 `kmemleak=off` 参数从而在启动时禁用 Kmemleak。
 
-Memory may be allocated or freed before kmemleak is initialised and these actions are stored in an early log buffer. The size of this buffer is configured via the CONFIG\_DEBUG\_KMEMLEAK\_MEM\_POOL\_SIZE option.
+在 kmemleak 初始化之前就可能会有内存分配或释放，这些操作被存储在一个早期日志缓冲区中。缓冲区的大小通过 CONFIG\_DEBUG\_KMEMLEAK\_MEM\_POOL\_SIZE 选项配置。
 
-If CONFIG\_DEBUG\_KMEMLEAK\_DEFAULT\_OFF are enabled, the kmemleak is disabled by default. Passing `kmemleak=on` on the kernel command line enables the function.
+如果 CONFIG\_DEBUG\_KMEMLEAK\_DEFAULT\_OFF 被启用，则 kmemleak 默认被禁用。在内核命令行中传递 `kmemleak=on` 参数来开启这个功能。
 
-If you are getting errors like \"Error while writing to stdout\" or \"write\_loop: Invalid argument\", make sure kmemleak is properly enabled.
+如果出现 \"Error while writing to stdout\" 或 \"write\_loop: Invalid argument\" 这样的错误，请确认 kmemleak 被正确启用。
 
-## Basic Algorithm
+## 基础算法
+通过 [`kmalloc()`](https://docs.kernel.org/core-api/mm-api.html#c.kmalloc "kmalloc")，[`vmalloc()`](https://docs.kernel.org/core-api/mm-api.html#c.vmalloc "vmalloc")， [`kmem_cache_alloc()`](https://docs.kernel.org/core-api/mm-api.html#c.kmem_cache_alloc "kmem_cache_alloc") 以及同类函数均被跟踪，指针，包括一些额外的信息如大小和栈追踪等，都被存储在红黑树中。对应的释放函数调用也被追踪，并从 kmemleak 数据结构中移除相应指针。
 
-The memory allocations via [`kmalloc()`](https://docs.kernel.org/core-api/mm-api.html#c.kmalloc "kmalloc"), [`vmalloc()`](https://docs.kernel.org/core-api/mm-api.html#c.vmalloc "vmalloc"), [`kmem_cache_alloc()`](https://docs.kernel.org/core-api/mm-api.html#c.kmem_cache_alloc "kmem_cache_alloc") and friends are traced and the pointers, together with additional information like size and stack trace, are stored in a rbtree. The corresponding freeing function calls are tracked and the pointers removed from the kmemleak data structures.
+对于一个已分配的内存块，如果通过扫描内存（包括保存寄存器）没有发现任何指针指向它的起始地址或者其中的任何位置，则认为这块内存是孤立的。这意味着内核无法将该内存块的地址传递给一个释放内存函数，这块内存便被认为泄露了。
 
-An allocated block of memory is considered orphan if no pointer to its start address or to any location inside the block can be found by scanning the memory (including saved registers). This means that there might be no way for the kernel to pass the address of the allocated block to a freeing function and therefore the block is considered a memory leak.
+扫描算法步骤：
 
-The scanning algorithm steps:
-
-> 1. mark all objects as white (remaining white objects will later be considered orphan)
-> 2. scan the memory starting with the data section and stacks, checking the values against the addresses stored in the rbtree. If a pointer to a white object is found, the object is added to the gray list
-> 3. scan the gray objects for matching addresses (some white objects can become gray and added at the end of the gray list) until the gray set is finished
-> 4. the remaining white objects are considered orphan and reported via /sys/kernel/debug/kmemleak
+> 1. 标记所有对象为白色（最后剩下的白色对象被认为是孤立的）
+> 2. 从数据节和栈开始扫描内存，检测每个值是否是红黑树中存储的地址。如果一个指向白色对象的指针被检测到，则将该对象标记为灰色。
+> 3. 扫描灰色对象引用的其他对象（有些白色对象可能会变为灰色并被添加到灰名单末尾）直到灰名单为空。
+> 4. 剩余的白色对象就被认为是孤立的并通过 /sys/kernel/debug/kmemleak 报告。
 >
 
-Some allocated memory blocks have pointers stored in the kernel\'s internal data structures and they cannot be detected as orphans. To avoid this, kmemleak can also store the number of values pointing to an address inside the block address range that need to be found so that the block is not considered a leak. One example is \_\_vmalloc().
 
-## Testing specific sections with kmemleak
+有些指向已分配的内存块的指针存储在内核内部的数据结构中，它们不能被检测为孤立。为了避免这种情况，kmemleak 也存储了指向需要被查找的内存块范围内
+的任意地址的地址数量，如此一来这些内存便不会被认为泄露。一个例子是 \_\_vmalloc()。
 
-Upon initial bootup your /sys/kernel/debug/kmemleak output page may be quite extensive. This can also be the case if you have very buggy code when doing development. To work around these situations you can use the \'clear\' command to clear all reported unreferenced objects from the
-/sys/kernel/debug/kmemleak output. By issuing a \'scan\' after a \'clear\' you can find new unreferenced objects; this should help with testing specific sections of code.
+## 用 kmemleak 测试特定部分
+在初始化启动阶段 /sys/kernel/debug/kmemleak 的输出可能会很多，这也可能是你在开发时编写的漏洞百出的代码导致的。
+为了解决这种情况你可以使用 \'clear\' 命令来清除 /sys/kernel/debug/kmemleak 输出的所有的未引用对象。在执行 \'clear\' 后执行 \'scan\' 可以发现新的未引用对象，这将会有利你测试代码的特定部分。
 
-To test a critical section on demand with a clean kmemleak do:
+为了用一个空的 kmemleak 测试一个特定部分，执行： 
 
     # echo clear > /sys/kernel/debug/kmemleak
-    ... test your kernel or modules ...
+    ... 测试你的内核或者模块 ...
     # echo scan > /sys/kernel/debug/kmemleak
 
-Then as usual to get your report with:
+然后像平常一样获得报告：
 
     # cat /sys/kernel/debug/kmemleak
 
-## Freeing kmemleak internal objects
+## 释放 kmemleak 内核对象
+为了允许访问先前发现的内存泄露，当用户禁用或发生致命错误导致 kmemleak 被禁用时，内核中的 kmemleak 对象不会被释放。这些对象可能会占用很大一部分物理内存。
 
-To allow access to previously found memory leaks after kmemleak has been disabled by the user or due to an fatal error, internal kmemleak objects won\'t be freed when kmemleak is disabled, and those objects may occupy a large part of physical memory.
-
-In this situation, you may reclaim memory with:
+在这种情况下，你可以用如下命令回收这些内存：
 
     # echo clear > /sys/kernel/debug/kmemleak
 
 ## Kmemleak API
+在 include/linux/kmemleak.h 头文件中查看函数原型：
 
-See the include/linux/kmemleak.h header for the functions prototype.
+-   `kmemleak_init` - 初始化 kmemleak
+-   `kmemleak_alloc` - 通知一个内存块的分配
+-   `kmemleak_alloc_percpu` - 通知一个 percpu 类型的内存分配
+-   `kmemleak_vmalloc` - 通知一个使用 vmalloc() 的内存分配
+-   `kmemleak_free` - 通知一个内存块的释放
+-   `kmemleak_free_part` - 通知一个部分的内存释放
+-   `kmemleak_free_percpu` - 通知一个 percpu 类型的内存释放
+-   `kmemleak_update_trace` - 更新分配对象过程的栈追踪
+-   `kmemleak_not_leak` - 标记一个对象内存为未泄露的
+-   `kmemleak_ignore` - 不要扫描或报告某个对象未泄露的
+-   `kmemleak_scan_area` - 在内存块中添加扫描区域
+-   `kmemleak_no_scan` - 不扫描某个内存块
+-   `kmemleak_erase` - 在指针变量中移除某个旧的值
+-   `kmemleak_alloc_recursive` - 和 kmemleak\_alloc 效果相同但会检查是否有递归的内存分配
+-   `kmemleak_free_recursive` - 和 kmemleak\_free 效果相同但会检查是否有递归的内存释放
 
--   `kmemleak_init` - initialize kmemleak
--   `kmemleak_alloc` - notify of a memory block allocation
--   `kmemleak_alloc_percpu` - notify of a percpu memory block allocation
--   `kmemleak_vmalloc` - notify of a vmalloc() memory allocation
--   `kmemleak_free` - notify of a memory block freeing
--   `kmemleak_free_part` - notify of a partial memory block freeing
--   `kmemleak_free_percpu` - notify of a percpu memory block freeing
--   `kmemleak_update_trace` - update object allocation stack trace
--   `kmemleak_not_leak` - mark an object as not a leak
--   `kmemleak_ignore` - do not scan or report an object as leak
--   `kmemleak_scan_area` - add scan areas inside a memory block
--   `kmemleak_no_scan` - do not scan a memory block
--   `kmemleak_erase` - erase an old value in a pointer variable
--   `kmemleak_alloc_recursive` - as kmemleak\_alloc but checks the
-    recursiveness
--   `kmemleak_free_recursive` - as kmemleak\_free but checks the
-    recursiveness
-
-The following functions take a physical address as the object pointer and only perform the corresponding action if the address has a lowmem mapping:
+下列函数使用一个物理地址作为对象指针并且只在地址有一个 lowmem 映射时做出相应的行为：
 
 -   `kmemleak_alloc_phys`
 -   `kmemleak_free_part_phys`
 -   `kmemleak_ignore_phys`
 
-## Dealing with false positives/negatives
+## 解决假阳性/假阴性
+假阴性是指由于在内存扫描中有值指向该对象导致 kmemleak 没有报告的实际存在的内存泄露（孤立对象）。为了减少假阴性的出现次数，kmemleak 提供了 kmemleak\_ignore，kmemleak\_scan\_area，kmemleak\_no\_scan 和 kmemleak\_erase 函数（见上）。任务栈也会增加假阴性的数量并且默认不开启对它们的扫描。
 
-The false negatives are real memory leaks (orphan objects) but not reported by kmemleak because values found during the memory scanning point to such objects. To reduce the number of false negatives, kmemleak provides the kmemleak\_ignore, kmemleak\_scan\_area, kmemleak\_no\_scan and kmemleak\_erase functions (see above). The task stacks also increase the amount of false negatives and their scanning is not enabled by default.
+假阳性是对象被误报为内存泄露（孤立对象）。对于已知未泄露的对象，kmemleak 提供了 kmemleak\_not\_leak 函数。同时 kmemleak\_ignore 可以用于标记已知不包含任何其他指针的内存块，标记后该内存块不会再被扫描。
 
-The false positives are objects wrongly reported as being memory leaks (orphan). For objects known not to be leaks, kmemleak provides the kmemleak\_not\_leak function. The memleak\_ignore could also be used if the memory block is known not to contain other pointers and it will no longer be scanned.
+一些被报告的泄露仅仅是暂时的，尤其是在 SMP（对称多处理）系统中，因为其指针暂存在 CPU 寄存器或栈中。Kmemleak 定义了 MSECS\_MIN\_AGE（默认值为 1000）来表示一个被报告为内存泄露的对象的最小存活时间。
 
-Some of the reported leaks are only transient, especially on SMP systems, because of pointers temporarily stored in CPU registers or stacks. Kmemleak defines MSECS\_MIN\_AGE (defaulting to 1000) representing the minimum age of an object to be reported as a memory leak.
+## 限制和缺点
+主要的缺点是内存分配和释放的性能下降。为了避免其他的损失，只有当 /sys/kernel/debug/kmemleak 文件被读取时才会进行内存扫描。无论如何，这个工具是出于调试的目标，性能表现可能不是最重要的。
 
-## Limitations and Drawbacks
+为了保持算法简单，kmemleak 寻找指向某个内存块范围中的任何值。这可能会引发假阴性现象的出现。但是，最后一个真正的内存泄露也会变得明显。
 
-The main drawback is the reduced performance of memory allocation and
-freeing. To avoid other penalties, the memory scanning is only performed
-when the /sys/kernel/debug/kmemleak file is read. Anyway, this tool is
-intended for debugging purposes where the performance might not be the
-most important requirement.
+非指针值的数据是假阴性的另一个来源。在将来的版本中，kmemleak 仅仅会扫描已分配结构体中的指针成员。这个特性会解决上述很多的假阴性情况。
 
-To keep the algorithm simple, kmemleak scans for values pointing to any
-address inside a block\'s address range. This may lead to an increased
-number of false negatives. However, it is likely that a real memory leak
-will eventually become visible.
+Kmemleak 会报告假阳性。这可能发生在某些被分配的内存块不需要被释放的情况下（某些 init\_call 函数中），指针的计算是通过其他方法而不是常规的 container\_of 宏或是指针被存储在 kmemleak 没有扫描的地方。
 
-Another source of false negatives is the data stored in non-pointer
-values. In a future version, kmemleak could only scan the pointer
-members in the allocated structures. This feature would solve many of
-the false negative cases described above.
+页分配和 ioremap 不会被追踪。
 
-The tool can report false positives. These are cases where an allocated
-block doesn\'t need to be freed (some cases in the init\_call
-functions), the pointer is calculated by other methods than the usual
-container\_of macro or the pointer is stored in a location not scanned
-by kmemleak.
-
-Page allocations and ioremap are not tracked.
-
-## Testing with kmemleak-test
-
-To check if you have all set up to use kmemleak, you can use the kmemleak-test module, a module that deliberately leaks memory. Set CONFIG\_SAMPLE\_KMEMLEAK as module (it can\'t be used as built-in) and boot the kernel with kmemleak enabled. Load the module and perform a scan with:
+## 使用 kmemleak-test 测试
+为了检测是否成功启用了 kmemleak，你可以使用一个故意制造内存泄露的模组 kmemleak-test。设置 CONFIG\_SAMPLE\_KMEMLEAK 为模组
+（不能作为内建模组使用） 并且启动启用了 kmemleak 的内核。加载模块并执行一次扫描：
 
     # modprobe kmemleak-test
     # echo scan > /sys/kernel/debug/kmemleak
 
-Note that the you may not get results instantly or on the first scanning. When kmemleak gets results, it\'ll log `kmemleak: <count of leaks> new suspected memory leaks`. Then read the file to see then:
+注意你可能无法立刻或在第一次扫描后得到结果。当 kmemleak 得到结果，将会输出日志 `kmemleak: <count of leaks> new suspected memory leaks`。然后通过读取文件获取信息：
 
     # cat /sys/kernel/debug/kmemleak
     unreferenced object 0xffff89862ca702e8 (size 32):
@@ -188,4 +168,4 @@ Note that the you may not get results instantly or on the first scanning. When k
         [<000000007c873fa6>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
     ...
 
-Removing the module with `rmmod kmemleak_test` should also trigger some kmemleak results.
+用 `rmmod kmemleak_test` 移除模块时也会触发 kmemleak 的结果输出。
