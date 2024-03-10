@@ -10,7 +10,7 @@
 
 新加入的成员，请：
 
-1. 修改你的飞书群昵称为“译者-您的_GitHub_ID”。
+1. 修改你的飞书群昵称为“译者-您的_Gitee_ID”。
 2. 请在开始贡献前[签署CLA](https://gitee.com/organizations/hust-open-atom-club/cla/hust_open_atom_club_cla)。
 3. 阅读 [WIKI](https://gitee.com/hust-open-atom-club/translate-project/wikis) 了解如何开始。
 4. 遇到不解之处，请在飞书群内发问。
