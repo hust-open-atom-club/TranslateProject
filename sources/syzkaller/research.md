@@ -1,18 +1,19 @@
 ---
-status: translating
+status: translated
 title: "Research"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
 translator: Eliza
+translated_date: 20240310
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---
 
-# Research work based on syzkaller
+# 基于syzkaller的研究工作
 
-Dear researchers, feel free to contact us at syzkaller@googlegroups.com if you need any assistance.
+尊敬的研究人员，如果您需要任何帮助，请随时通过 syzkaller@googlegroups.com 与我们联系。
 
-_newer first_
+_较新的研究工作_
 * [SyzDirect: Directed Greybox Fuzzing for Linux Kernel](https://dl.acm.org/doi/abs/10.1145/3576915.3623146)
 * [KIT: Testing OS-Level Virtualization for Functional Interference Bugs](https://doi.org/10.1145/3575693.3575731)
 * [SyzDescribe: Principled, Automated, Static Generation of Syscall Descriptions for Kernel Drivers](https://github.com/seclab-ucr/SyzDescribe)
@@ -55,7 +56,7 @@ _newer first_
 * [Drill the Apple Core: Up & Down](https://i.blackhat.com/eu-18/Wed-Dec-5/eu-18-Juwei_Lin-Drill-The-Apple-Core.pdf)
 * [WSL Reloaded](https://www.slideshare.net/AnthonyLAOUHINETSUEI/wsl-reloaded)
 
-# Other kernel fuzzing work
+# 其他内核模糊测试工作
 
 * [Hydra: Finding Semantic Bugs in File Systems with an Extensible Fuzzing Framework](https://squizz617.github.io/pubs/hydra-sosp19.pdf) ([github](https://github.com/sslab-gatech/hydra))
 * [Janus: Fuzzing File Systems via Two-Dimensional Input Space Exploration](https://gts3.org/assets/papers/2019/xu:janus.pdf) ([github](https://github.com/sslab-gatech/janus))
@@ -67,4 +68,4 @@ _newer first_
 * [A gentle introduction to Linux Kernel fuzzing](https://blog.cloudflare.com/a-gentle-introduction-to-linux-kernel-fuzzing/) (bridges AFL and KCOV)
 * [IMF: Inferred Model-based Fuzzer](https://acmccs.github.io/papers/p2345-hanA.pdf)
 
-Also see [tech talks page](/docs/talks.md).
+另请参阅 [tech talks page](/docs/talks.md).
