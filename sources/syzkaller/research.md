@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Research"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
+translator: Eliza
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---
 
