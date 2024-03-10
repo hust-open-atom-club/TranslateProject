@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Undefined Behavior Sanitizer - UBSAN"
 author: Linux Kernel Community
 collector: dzm91_hust
