@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Program syntax"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240229
+translator: QGrain
 link: https://github.com/google/syzkaller/blob/master/docs/program_syntax.md
 ---
 
