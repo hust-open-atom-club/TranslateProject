@@ -8,9 +8,9 @@ translator: QGrain
 link: https://github.com/google/syzkaller/blob/master/docs/program_syntax.md
 ---
 
-# 程序句法
+# 程序语法
 
-Syzkaller 使用一种袖珍的领域特定语言（DSL）来记录其执行的程序（如记录到 log0 等输出文件）、测试程序本身的代码和将程序存储在语料中（指 corpus.db）。此页面提供了对相关程序句法的简要描述。一些有用的信息也可以参见Syzkaller源码树中的[样例程序](https://github.com/google/syzkaller/tree/master/sys/linux/test)和程序的[反序列化](https://github.com/google/syzkaller/blob/master/prog/encoding.go)。
+Syzkaller 使用一种袖珍的领域特定语言（DSL）来记录其执行的程序（如记录到 log0 等输出文件）、测试程序本身的代码和将程序存储在语料中（指 corpus.db）。此页面提供了对相关程序语法的简要描述。一些有用的信息也可以参见Syzkaller源码树中的[样例程序](https://github.com/google/syzkaller/tree/master/sys/linux/test)和程序的[反序列化](https://github.com/google/syzkaller/blob/master/prog/encoding.go)。
 
 
 连同执行选项，该 DSL 提供了 syz-executor 运行一个程序所需要的一切。
@@ -73,7 +73,7 @@ ioctl$sock_SIOCGIFINDEX_80211(r0, 0x8933, &AUTO={'wlan0\x00', <r2=>0x0})
 目前，Syzkaller 支持以下调用属性。
 
 #### 错误注入
-句法： `fail_nth: N`。
+语法： `fail_nth: N`。
 
 该属性采用（十进制的）整型参数 `N`。如果该参数为非负数，错误将会注入到第 `N` 次执行。
 
@@ -83,7 +83,7 @@ ioctl$LOOP_SET_FD(r0, 0x4c00, r0) (fail_nth: 5)
 ```
 
 #### 异步
-句法： `async`。
+语法： `async`。
 
 指示 `syz-executor` 不要等待到该调用结束而是立即继续下一个调用。
 
