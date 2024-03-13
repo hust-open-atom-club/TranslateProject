@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Research"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
 translator: Eliza
 translated_date: 20240310
+proofreader: dzm91_hust
+proofread_date: 20240311
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---
 
@@ -13,7 +15,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/research.md
 
 尊敬的研究人员，如果您需要任何帮助，请随时通过 syzkaller@googlegroups.com 与我们联系。
 
-_较新的研究工作_
+_较新的研究工作优先放置_
 * [SyzDirect: Directed Greybox Fuzzing for Linux Kernel](https://dl.acm.org/doi/abs/10.1145/3576915.3623146)
 * [KIT: Testing OS-Level Virtualization for Functional Interference Bugs](https://doi.org/10.1145/3575693.3575731)
 * [SyzDescribe: Principled, Automated, Static Generation of Syscall Descriptions for Kernel Drivers](https://github.com/seclab-ucr/SyzDescribe)
