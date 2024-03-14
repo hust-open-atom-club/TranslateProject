@@ -1,6 +1,6 @@
 ---
 status: collected
-title: "**USB/IP Fuzzing for Linux Kernel**"
+title: "USB/IP Fuzzing for Linux Kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
