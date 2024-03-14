@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Syscall description language"
 author: Syzkaller Community
 collector: li-zhaoyang101
 collected_date: 20240301
+translator: QGrain
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions_syntax.md
 ---
 
