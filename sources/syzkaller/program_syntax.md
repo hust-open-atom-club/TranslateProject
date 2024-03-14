@@ -1,5 +1,5 @@
 ---
-status: translating
+status: translated
 title: "Program syntax"
 author: Syzkaller Community
 collector: dzm91_hust
@@ -8,28 +8,21 @@ translator: QGrain
 link: https://github.com/google/syzkaller/blob/master/docs/program_syntax.md
 ---
 
-# Program syntax
+# 程序语法
 
-Syzkaller uses a compact domain-specific language (DSL) for programs
-to log executed programs, test its code, and persist programs in the
-corpus. This page provides a brief description of the corresponding
-syntax. Some useful information can also be found in the
-[existing examples](/sys/linux/test) and in the program
-[deserialization code](/prog/encoding.go).
+Syzkaller 使用一种袖珍的领域特定语言（DSL）来记录其执行的程序（如记录到 log0 等输出文件）、测试程序本身的代码和将程序存储在语料中（指 corpus.db）。此页面提供了对相关程序语法的简要描述。一些有用的信息也可以参见Syzkaller源码树中的[样例程序](https://github.com/google/syzkaller/tree/master/sys/linux/test)和程序的[反序列化](https://github.com/google/syzkaller/blob/master/prog/encoding.go)。
 
-Together with execution options, the DSL provides everything that
-syz-executor needs to run a program.
 
-For example, consider the program:
+连同执行选项，该 DSL 提供了 syz-executor 运行一个程序所需要的一切。
+
+例如：
 ```
 r0 = syz_open_dev$loop(&(0x7f00000011c0), 0x0, 0x0)
 r1 = openat$6lowpan_control(0xffffffffffffff9c, &(0x7f00000000c0), 0x2, 0x0)
 ioctl$LOOP_SET_FD(r0, 0x4c00, r1)
 ```
 
-Each line in this program describes a particular syscall invocation,
-with the first two calls saving the result in temporary variables `r0`
-and `r1`, which are passed to the third call.
+该程序中的每一行描述了一个特定的系统调用的调用执行，前两个调用将返回结果存入临时变量 `r0` 和 `r1`，这两个变量将会作为调用参数传入第三个系统调用。
 
 ```
 line = assignment | call
@@ -51,62 +44,48 @@ pointer-addr = hex-integer
 region-size = hex-integer
 ```
 
-Programs may also contain blank lines and comments.
+程序也可能包含空行和注释。
 ```
-# Obtain a file handle
+# 获取一个文件句柄
 r0 = openat(0xffffffffffffff9c, &AUTO='./file1\x00', 0x42, 0x1ff)
 
-# Perform a write operation
+# 执行一个写操作
 write(r0, &AUTO="01010101", 0x4)
 ```
 
-### Memory management
+### 内存管理
 
-Memory management is performed by syzkaller itself. It will allocate
-virtual memory regions of the necessary size and set the final values
-of pointer arguments.
+程序测试用例中的内存管理是由 Syzkaller 实现的。它会为有需要的程序分配必要大小的虚拟内存区域并且设置指针的最终参数值。
 
-By using the `AUTO` keyword, programs can give syzkaller the full
-control over storing the data. This may be convenient e.g. when a
-parameter must be passed by reference, but the exact location of its
-value is not of particular importance.
+通过使用 `AUTO` 关键字，程序可以为 Syzkaller 提供对数据存储的完全掌控。例如，当一个参数必须通过引用传递但其取值的确切位置不是特别重要时，使用 `AUTO` 关键字将会很方便。
 
 ```
 r1 = syz_genetlink_get_family_id$nl80211(&AUTO='nl80211\x00', 0xffffffffffffffff)
 ioctl$sock_SIOCGIFINDEX_80211(r0, 0x8933, &AUTO={'wlan0\x00', <r2=>0x0})
 ```
 
-Alternatively, some data can be "anchored" to specific addresses. It
-may be especially important when a memory region must be shared
-between multiple calls.  In this case, pointer addresses must be given
-at the 0x7f0000000000 offset. Before the actual execution, syzkaller
-will adjust pointers to the start of the actual mmap'ed region.
+此外，一些数据可以（通过指定指针的地址偏移）“锚定” 到特定的地址。当一块内存区域必须在多个调用之间共享时，这一点可能尤其重要。在这种情况下，指针地址必须设置在 0x7f0000000000 偏移处。在实际执行之前，syzkaller 会将指针调整到实际 mmap 区域的开头。
 
-### Call properties
+### 调用属性
 
-Call properties specify extra information about how a specific call
-must be executed. Each call within a program has its own set of call
-properties. If no properties are provided, syzkaller takes the default
-ones.
+调用属性指定了有关如何执行一个特定调用的额外信息。程序中的每一个调用都有自己的调用属性集。如果未提供属性，Syzkaller 将采用默认的调用属性。
 
-Currently, syzkaller supports the following call properties.
+目前，Syzkaller 支持以下调用属性。
 
-#### Fault injection
-Syntax: `fail_nth: N`.
+#### 错误注入
+语法： `fail_nth: N`。
 
-It takes an integer (base 10) argument `N`. If the argument is
-non-negative, a fault will be injected into the `N`-th occasion.
+该属性采用（十进制的）整型参数 `N`。如果该参数为非负数，错误将会注入到第 `N` 次执行。
 
 ```
 r0 = openat$6lowpan_control(0xffffffffffffff9c, &(0x7f00000000c0), 0x2, 0x0)
 ioctl$LOOP_SET_FD(r0, 0x4c00, r0) (fail_nth: 5)
 ```
 
-#### Async
-Syntax: `async`.
+#### 异步
+语法： `async`。
 
-Instructs `syz-executor` not to wait until the call completes and
-to proceed immediately to the next call.
+指示 `syz-executor` 不要等待到该调用结束而是立即继续下一个调用。
 
 ```
 r0 = openat(0xffffffffffffff9c, &AUTO='./file1\x00', 0x42, 0x1ff)
@@ -115,11 +94,7 @@ read(r0, &AUTO=""/4, 0x4)
 close(r0)
 ```
 
-When setting `async` flags be aware of the following considerations:
-* Such programs should only be executed in threaded mode (i.e. `-threaded`
-flag must be passed to `syz-executor`.
-* Each `async` call is executed in a separate thread and there's a
-limited number of available threads (`kMaxThreads = 16`).
-* If an `async` call produces a resource, keep in mind that some other call
-might take it as input and `syz-executor` will just pass 0 if the resource-
-producing call has not finished by that time.
+设置 `async` 标志时，请注意以下注意事项：
+* 带有 `async` 属性的程序只能在线程模式下执行（即必须将 `-threaded` 标志传递给 `syz-executor`）。
+* 每个带有 `async` 属性的调用都在单独的线程中执行，并且有一个可用线程数量上限（`kMaxThreads = 16`）。
+* 如果一个带有 `async` 属性的调用生成了资源，请记住其他的调用可能会将其作为输入。如果届时生成资源的调用尚未执行完毕，`syz-executor` 将会将 0 作为参数传入依赖该资源的调用。
