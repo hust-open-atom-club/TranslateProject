@@ -1,6 +1,6 @@
 ---
 status: collected
-title: "No Title"
+title: "External network fuzzing for Linux kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
