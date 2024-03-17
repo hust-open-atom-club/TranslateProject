@@ -13,7 +13,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/usage.md
 
 ## 运行方式
 
-通过启动 `syz-manager` 命令如下：
+启动 `syz-manager` 命令如下：
 ```
 ./bin/syz-manager -config my.cfg
 ```
