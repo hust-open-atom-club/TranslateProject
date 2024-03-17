@@ -1,6 +1,6 @@
 ---
 status: translated
-title: "如何使用 syzkaller"
+title: "How to use syzkaller"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
