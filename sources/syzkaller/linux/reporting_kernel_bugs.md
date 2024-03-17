@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Reporting Linux kernel bugs"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: Ecila01
 link: https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md
 ---
 
