@@ -84,10 +84,7 @@ CONFIG_CMDLINE="net.ifnames=0"
 ## 漏洞检测配置：
 
 Syzkaller 被用于
-[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) （设置可用的上游 `CONFIG_KASAN=y`），
-[KTSAN](https://github.com/google/ktsan) （原型可用），
-[KMSAN](https://github.com/google/kmsan) （原型可用），
-或者 [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (设置可用的上游 `CONFIG_UBSAN=y`)。
+[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) （设置可用的上游 `CONFIG_KASAN=y`），[KTSAN](https://github.com/google/ktsan) （原型可用），[KMSAN](https://github.com/google/kmsan) （原型可用），或者 [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (设置可用的上游 `CONFIG_UBSAN=y`)。
 
 为释放后使用和越界访问漏洞的检测，启用 `KASAN`：
 ```
