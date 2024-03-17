@@ -11,7 +11,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup.md
 
 # 如何设置 syzkaller
 
-关于如何设置 linux 内核模糊测试的通用指导[如下所示](setup.md#install).
+关于如何设置 linux 内核模糊测试的通用指导[如下所示](setup.md#安装).
 
 针对特定虚拟机类型或内核架构的设置指南，请参阅以下页面:
 
