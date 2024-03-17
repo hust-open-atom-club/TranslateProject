@@ -5,6 +5,7 @@ author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
 translator：xin-zheqi
+translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---
 
@@ -12,12 +13,12 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 ## GCC
 
-获取版本 9及以上的 GCC `s390x-linux-gnu-gcc` 。最新的 Debian/Ubuntu/Fedora 发行版
+获取版本 9 及以上的 GCC `s390x-linux-gnu-gcc` 。最新的 Debian/Ubuntu/Fedora 发行版
 应该在 `gcc-s390x-linux-gnu` 软件包中提供足够新版本的交叉编译器。
 
 ## Kernel
 
-检查Linux内核资源版本:
+检查 Linux 内核资源版本:
 
 ``` bash
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git $KERNEL
