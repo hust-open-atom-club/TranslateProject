@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "How to use syzkaller"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: moyi_hust
 link: https://github.com/google/syzkaller/blob/master/docs/usage.md
 ---
 
