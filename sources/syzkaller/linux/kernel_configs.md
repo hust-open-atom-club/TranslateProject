@@ -8,44 +8,44 @@ translator: RutingZhang0429
 link: https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md
 ---
 
-# Linux kernel configs
+# Linux 内核配置
 
-List of recommended kernel configs for `syzkaller`. See [syzbot config](/dashboard/config/linux/upstream-apparmor-kasan.config) for a reference config.
+推荐的 `syzkaller` 内核配置一览。在 [syzbot config](/dashboard/config/linux/upstream-apparmor-kasan.config) 查看参考配置。
 
-## Syzkaller features
+## Syzkaller 功能
 
-To enable coverage collection, which is extremely important for effective fuzzing:
+启用覆盖率收集，这对进行有效的模糊测试十分重要：
 ```
 CONFIG_KCOV=y
 CONFIG_KCOV_INSTRUMENT_ALL=y
 CONFIG_KCOV_ENABLE_COMPARISONS=y
 CONFIG_DEBUG_FS=y
 ```
-Note that `CONFIG_KCOV_ENABLE_COMPARISONS` feature also requires `gcc8+` and the following commits if you are testing an old kernel:
+注意到如果你在测试一个旧版 kernel，`CONFIG_KCOV_ENABLE_COMPARISONS` 功能也要求 `gcc8+` 和如下的修改:
 ```
     kcov: support comparison operands collection
     kcov: fix comparison callback signature
 ```
 
-To detect memory leaks using the [Kernel Memory Leak Detector
-(kmemleak)](https://www.kernel.org/doc/html/latest/dev-tools/kmemleak.html):
+使用 [内核内存泄露检测器
+(kmemleak)](https://gitee.com/hust-open-atom-club/translate-project/blob/master/sources/kernel/20240301%20Kernel%20Memory%20Leak%20Detector.md) 检测内存泄漏：
 
 ```
 CONFIG_DEBUG_KMEMLEAK=y
 ```
 
-To show code coverage in web interface:
+在网页界面显示代码覆盖率：
 ```
 CONFIG_DEBUG_INFO=y
 ```
 
-For detection of enabled syscalls and kernel bitness:
+检测启动的系统调用和内核字长：
 ```
 CONFIG_KALLSYMS=y
 CONFIG_KALLSYMS_ALL=y
 ```
 
-For better sandboxing:
+为了更好地构建沙盒：
 ```
 CONFIG_NAMESPACES=y
 CONFIG_UTS_NS=y
@@ -56,47 +56,46 @@ CONFIG_CGROUP_PIDS=y
 CONFIG_MEMCG=y
 ```
 
-For `namespace` sandbox:
+为利用 `namespace` 实现沙盒：
 ```
 CONFIG_USER_NS=y
 ```
 
-For running in VMs `make kvm_guest.config` is generally required.
+为了在虚拟机中运行，通常需要 `make kvm_guest.config`。
 
-Debian images produced by [tools/create-image.sh](/tools/create-image.sh) also require:
+[tools/create-image.sh](/tools/create-image.sh) 生成的 Debian 镜像还需要：
 ```
 CONFIG_CONFIGFS_FS=y
 CONFIG_SECURITYFS=y
 ```
 
-It is recommended to disable the following config (and required if your kernel doesn't have commits [arm64: setup: introduce kaslr_offset()](https://github.com/torvalds/linux/commit/7ede8665f27cde7da69e8b2fbeaa1ed0664879c5)
- and [kcov: make kcov work properly with KASLR enabled](https://github.com/torvalds/linux/commit/4983f0ab7ffaad1e534b21975367429736475205)):
+推荐关闭如下的配置 (如果你的内核没有修改 [arm64: setup: introduce kaslr_offset()](https://github.com/torvalds/linux/commit/7ede8665f27cde7da69e8b2fbeaa1ed0664879c5)
+ 和 [kcov: make kcov work properly with KASLR enabled](https://github.com/torvalds/linux/commit/4983f0ab7ffaad1e534b21975367429736475205) 则必须关闭)：
 ```
 # CONFIG_RANDOMIZE_BASE is not set
 ```
 
-It is also recommended to disable the Predictable Network Interface Names mechanism. This can be done
-either via syzkaller configuration (see details [here](troubleshooting.md)) or by adjusting the following configs:
+同时，推荐关闭可预测的网络接口命名机制。可以通过 syzkaller 配置或调整如下配置来关闭：
 ```
 CONFIG_CMDLINE_BOOL=y
 CONFIG_CMDLINE="net.ifnames=0"
 ```
 
-## Bug detection configs
+## 漏洞检测配置：
 
-Syzkaller is meant to be used with
-[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) (available upstream with `CONFIG_KASAN=y`),
-[KTSAN](https://github.com/google/ktsan) (prototype available),
-[KMSAN](https://github.com/google/kmsan) (prototype available),
-or [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (available upstream with `CONFIG_UBSAN=y`).
+Syzkaller 被用于
+[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) （设置可用的上游 `CONFIG_KASAN=y`），
+[KTSAN](https://github.com/google/ktsan) （原型可用），
+[KMSAN](https://github.com/google/kmsan) （原型可用），
+or [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (设置可用的上游 `CONFIG_UBSAN=y`)。
 
-Enable `KASAN` for use-after-free and out-of-bounds detection:
+为释放后使用和越界访问漏洞的检测，启用 `KASAN`：
 ```
 CONFIG_KASAN=y
 CONFIG_KASAN_INLINE=y
 ```
 
-For testing with fault injection enable the following configs (syzkaller will pick it up automatically):
+为使用故障注入测试，启动如下配置（syzkaller 会自动识别它）：
 ```
 CONFIG_FAULT_INJECTION=y
 CONFIG_FAULT_INJECTION_DEBUG_FS=y
@@ -107,7 +106,7 @@ CONFIG_FAIL_MAKE_REQUEST=y
 CONFIG_FAIL_IO_TIMEOUT=y
 CONFIG_FAIL_FUTEX=y
 ```
-Note: you also need the following commits if you are testing an old kernel:
+请注意，如果你在测试一个旧版内核，你需要进行如下修改：
 ```
     fault-inject: support systematic fault injection
     fault-inject: simplify access check for fail-nth
@@ -115,7 +114,7 @@ Note: you also need the following commits if you are testing an old kernel:
     fault-inject: add /proc/<pid>/fail-nth
 ```
 
-Any other debugging configs, the more the better, here are some that proved to be especially useful:
+其他调试配置，越多越好，这里展示一些被证明特别有用的配置：
 ```
 CONFIG_LOCKDEP=y
 CONFIG_PROVE_LOCKING=y
@@ -133,7 +132,7 @@ CONFIG_DETECT_HUNG_TASK=y
 CONFIG_WQ_WATCHDOG=y
 ```
 
-Increase hung/stall timeout to reduce false positive rate:
+增加挂起/暂停时间限制来减少错误误报率：
 ```
 CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=140
 CONFIG_RCU_CPU_STALL_TIMEOUT=100
