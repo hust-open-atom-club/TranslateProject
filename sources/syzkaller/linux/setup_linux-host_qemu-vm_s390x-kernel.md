@@ -1,29 +1,29 @@
 ---
-status: translating
+status: translated
 title: "Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel"
 author: Syzkaller Community
 collector: chengziqiu
-translator：xin-zheqi
 collected_date: 20240314
+translator：xin-zheqi
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---
 
-# Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel
+# 安装: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel
 
 ## GCC
 
-Obtain `s390x-linux-gnu-gcc` at least GCC version 9. The latest Debian/Ubuntu/Fedora distributions
-should provide a recent enough version of a cross-compiler in the `gcc-s390x-linux-gnu` package.
+获取版本 9及以上的 GCC `s390x-linux-gnu-gcc` 。最新的 Debian/Ubuntu/Fedora 发行版
+应该在 `gcc-s390x-linux-gnu` 软件包中提供足够新版本的交叉编译器。
 
 ## Kernel
 
-Checkout Linux kernel source:
+检查Linux内核资源版本:
 
 ``` bash
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git $KERNEL
 ```
 
-Generate default configs:
+生成默认配置:
 
 ``` bash
 cd $KERNEL
@@ -31,7 +31,7 @@ make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- kvm_guest.config
 ```
 
-Enable kernel config options required for syzkaller as described [here](kernel_configs.md).
+启用 syzkaller 所需的内核配置选项，如下所述[kernel_configs.md](kernel_configs.md).
 
 ```
 ./scripts/config --file .config \
@@ -66,21 +66,21 @@ Enable kernel config options required for syzkaller as described [here](kernel_c
                  -e DEBUG_KMEMLEAK
 ```
 
-Edit `.config` file manually and enable them (or do that through `make menuconfig` if you prefer).
+手动编辑 `.config` 文件并在文件中启用它们（如果您愿意，也可以通过 `make menuconfig` 进行操作）.
 
-Since enabling these options results in more sub options being available, we need to regenerate config:
+由于启用这些选项会导致更多子选项可用，因此我们需要重新生成配置:
 
 ``` bash
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- olddefconfig
 ```
 
-Build the kernel:
+构建内核:
 
 ```
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- -j$(nproc)
 ```
 
-Now you should have `vmlinux` (kernel binary) and `bzImage` (packed kernel image):
+现在你应该有 `vmlinux` （内核二进制文件）和 `bzImage` （打包的内核映像）:
 
 ``` bash
 $ ls $KERNEL/vmlinux
@@ -93,7 +93,7 @@ $KERNEL/arch/s390/boot/bzImage
 
 ### Debian
 
-To create a Debian Linux image with the minimal set of required packages do:
+要使用最少的必需软件包集创建一个 Debian Linux 映像，请执行以下操作：
 
 ```
 cd $IMAGE/
@@ -102,15 +102,15 @@ chmod +x create-image.sh
 ./create-image.sh -a s390x
 ```
 
-The result should be `$IMAGE/bullseye.img` disk image.
+执行结果应当是 `$IMAGE/bullseye.img` 的磁盘映像文件.
 
-For additional options of `create-image.sh`, please refer to `./create-image.sh -h`
+有关 `create-image.sh` 的其他选项，请参阅 `./create-image.sh -h` 
 
 ## QEMU
 
 ### Debian
 
-Run:
+运行:
 
 ```shell
 qemu-system-s390x \
@@ -123,33 +123,31 @@ qemu-system-s390x \
 	-pidfile vm.pid 2>&1 | tee vm.log
 ```
 
-After that you should be able to ssh to QEMU instance in another terminal:
+之后，您应该能够在另一个终端中通过 ssh 连接到 QEMU 实例：
 
 ``` bash
 ssh -i $IMAGE/buster.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
 
-If this fails with "too many tries", ssh may be passing default keys before
-the one explicitly passed with `-i`. Append option `-o "IdentitiesOnly yes"`.
+如果出现 "too many tries" 的错误，可能是因为SSH在传递显示用 `-i` 参数传递的密钥之前会传递默认密钥。请在命令中添加选项 `-o "IdentitiesOnly yes"` 。
 
-To kill the running QEMU instance press `Ctrl+A` and then `X` or run:
+终止正在运行的 QEMU 实例，请按 `Ctrl+A` ，然后按 `X` 或run运行：
 
 ``` bash
 kill $(cat vm.pid)
 ```
 
-If QEMU works, the kernel boots and ssh succeeds, you can shutdown QEMU and try to run syzkaller.
+如果QEMU正常工作，内核启动并且SSH连接成功，您可以关闭QEMU并尝试运行syzkaller。
 
 ## syzkaller
 
-Build syzkaller as described [here](/docs/linux/setup.md#go-and-syzkaller), with `s390x` target:
+按照[此处](/docs/linux/setup.md#go-and-syzkaller)的说明构建syzkaller，target为s390x：
 
 ```
 make TARGETOS=linux TARGETARCH=s390x
 ```
 
-Then create a manager config like the following, replacing the environment
-variables `$GOPATH`, `$KERNEL` and `$IMAGE` with their actual values.
+然后创建一个管理器配置文件，内容如下，请将环境变量 `$GOPATH`、`$KERNEL` 和 `$IMAGE` 替换为实际的值：
 
 ```
 {
@@ -171,14 +169,13 @@ variables `$GOPATH`, `$KERNEL` and `$IMAGE` with their actual values.
 }
 ```
 
-Run syzkaller manager:
+运行syzkaller管理器:
 
 ``` bash
 mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-Now syzkaller should be running, you can check manager status with your web browser at `127.0.0.1:56741`.
+现在syzkaller应该正在运行，您可以使用您的Web浏览器在站点： `127.0.0.1:56741` 查看管理器的状态。
 
-If you get issues after `syz-manager` starts, consider running it with the `-debug` flag.
-Also see [this page](/docs/troubleshooting.md) for troubleshooting tips.
+如果在启动 `syz-manager` 后遇到问题，请考虑在 `-debug` 标志下运行它。此外，查看[此页面](/docs/troubleshooting.md)获取故障排除提示。
