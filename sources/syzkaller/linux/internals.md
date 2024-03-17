@@ -1,8 +1,8 @@
 ---
-status: collected
+status: translating
 title: "Linux-specific syzkaller internals"
 author: Syzkaller Community
-collector: chengziqiu
+collector: hust_cmx_18
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/linux/internals.md
 ---
