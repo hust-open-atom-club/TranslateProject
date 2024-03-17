@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Found bugs"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: shandianchengzi
 link: https://github.com/google/syzkaller/blob/master/docs/akaros/found_bugs.md
 ---
 
