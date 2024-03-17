@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: Gskh3450
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md
 ---
 
