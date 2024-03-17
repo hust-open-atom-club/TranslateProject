@@ -2,8 +2,9 @@
 status: translating
 title: "Linux-specific syzkaller internals"
 author: Syzkaller Community
-collector: hust_cmx_18
+collector: chengziqiu
 collected_date: 20240314
+translator: hust_cmx_18
 link: https://github.com/google/syzkaller/blob/master/docs/linux/internals.md
 ---
 
