@@ -1,56 +1,46 @@
 ---
-status: translating
+status: translated
 title: "Troubleshooting"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
 translator: renxiaohust
+translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/troubleshooting.md
 ---
 
-# Troubleshooting
+# 故障排除
 
-Here are some things to check if there are problems running syzkaller.
+如果您在运行 syzkaller 时遇到问题，请检查以下几点。
 
- - Check that QEMU can successfully boot the virtual machine.  For example,
-   if `IMAGE` is set to the VM's disk image (as per the `image` config value)
-   and `KERNEL` is set to the test kernel (as per the `kernel` config value)
-   then something like the following command should start the VM successfully:
+ - 检查 QEMU 是否能成功启动虚拟机。例如，如果`IMAGE`设置为虚拟机的磁盘映像（根据`image`选项的配置值），并且`KERNEL`设置为测试内核（根据`kernel`选项的配置值），那么类似以下的命令应该能成功启动 VM ：
 
      ```shell
      qemu-system-x86_64 -hda $IMAGE -m 256 -net nic -net user,host=10.0.2.10,hostfwd=tcp::23505-:22 -enable-kvm -kernel $KERNEL -append root=/dev/sda
      ```
-
- - Check that inbound SSH to the running virtual machine works.  For example, with
-   a VM running and with `SSHKEY` set to the SSH identity (as per the `sshkey` config value) the
-   following command should connect:
+ - 检查运行中的虚拟机的入站 SSH 是否工作。例如，当 VM 运行并且`SSHKEY`设置为对应的SSH身份（根据`sshkey`的配置值获取）时，以下命令应该能被用于连接 VM ：
 
      ```shell
      ssh -i $SSHKEY -p 23505 root@localhost
      ```
-
- - If you *are* having SSH difficulties, make sure your kernel configuration
-   has networking enabled. Sometimes defconfig errs minimalistic and omits the
-   following necessary options:
+ - 如果您 *确实* 遇到了 SSH 方面的困难，请确保您的内核配置中已经启用网络。有时内核的 defconfig 会过于简洁，以至于省略了以下必要选项：
      ```shell
      CONFIG_VIRTIO_NET=y
      CONFIG_E1000=y
      CONFIG_E1000E=y
      ```
- - If the virtual machine reports that it has "Failed to start Raise network interfaces" or (which
-   is a consequence of that) syzkaller is unable to connect to the virtual machines, try to disable
-   the Predictable Network Interface Names mechanism. There are two ways to achieve this:
-    - Add the following two lines to the kernel configuration file and recompile the kernel.
+ - 如果虚拟机报告 "Failed to start Raise network interfaces" 错误，或者 syzkaller 无法连接到虚拟机（这是上述错误的结果），请尝试禁用可预测的网络接口名称（Predictable Network Interface Names）机制。有两种方法可以实现禁用：
+    - 在内核配置文件中添加以下两行并重新编译内核。
       ```
       CONFIG_CMDLINE_BOOL=y
       CONFIG_CMDLINE="net.ifnames=0"
       ```
-    - Add the following line to the VM's properties inside the syzkaller manager configuration:
+    - 在 syzkaller 管理配置中的 VM 属性里添加以下行：
       ```
       "cmdline": "net.ifnames=0"
       ```
 
-      The resulting configuration may look like this:
+      添加后的配置示例如下：
       ```json
       {
         "target": "linux/amd64",
@@ -72,20 +62,14 @@ Here are some things to check if there are problems running syzkaller.
       }
       ```
 
-      This is, however, not guaranteed to work across all virtualization technologies.
+      然而，这并不保证在所有虚拟化技术中都能工作。
+ - 检查`CONFIG_KCOV`选项是否在 VM 内可用：
+    - `ls /sys/kernel/debug       # 检查是否挂载了debugfs`
+    - `ls /sys/kernel/debug/kcov  # 检查kcov是否启用`
+    - 从`Documentation/kcov.txt`构建测试程序并在 VM 内运行。
+ - 检查调试信息（来自`CONFIG_DEBUG_INFO`选项）是否可用：
+    - 将 kcov 测试程序的十六进制输出传递给`addr2line -a -i -f -e $VMLINUX`（其中`VMLINUX`是 vmlinux 文件，从`kernel_obj`配置值获取），以确认内核符号可用。
 
- - Check that the `CONFIG_KCOV` option is available inside the VM:
-    - `ls /sys/kernel/debug       # Check debugfs mounted`
-    - `ls /sys/kernel/debug/kcov  # Check kcov enabled`
-    - Build the test program from `Documentation/kcov.txt` and run it inside the VM.
+也可以查看 [此处](/docs/troubleshooting.md) 了解通用的故障排除建议。
 
- - Check that debug information (from the `CONFIG_DEBUG_INFO` option) is available
-    - Pass the hex output from the kcov test program to `addr2line -a -i -f -e $VMLINUX` (where
-      `VMLINUX` is the vmlinux file, as per the `kernel_obj` config value), to confirm
-      that symbols for the kernel are available.
-
-Also see [this](/docs/troubleshooting.md) for generic troubleshooting advice.
-
-If none of the above helps, file a bug on [the bug tracker](https://github.com/google/syzkaller/issues)
-or ask us directly on the syzkaller@googlegroups.com mailing list.
-Please include syzkaller commit id that you use and `syz-manager` output with `-debug` flag enabled if applicable.
+如果以上方法都没有帮助，请在 [错误追踪器](https://github.com/google/syzkaller/issues) 上提交错误，或直接通过 syzkaller@googlegroups.com 邮件列表询问我们。请在问题中包含您使用的 syzkaller 提交 id 和`-debug`标志启用时的`syz-manager`输出（如果适用的话）。
