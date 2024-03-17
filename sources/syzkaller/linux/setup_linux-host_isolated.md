@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Setup: Linux isolated host"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translater：xiaobor
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md
 ---
 
