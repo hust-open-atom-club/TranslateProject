@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
+translator:Tai-Xinwei
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup.md
 ---
 
