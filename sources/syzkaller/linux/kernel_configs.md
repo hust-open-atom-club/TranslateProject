@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Linux kernel configs"
 author: Syzkaller Community
 collector: li-zhaoyang101
 collected_date: 20240305
+translator: RutingZhang0429
 link: https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md
 ---
 
