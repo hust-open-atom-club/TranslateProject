@@ -1,5 +1,5 @@
 ---
-status: translating
+status: translated
 title: "Linux kernel configs"
 author: Syzkaller Community
 collector: li-zhaoyang101
