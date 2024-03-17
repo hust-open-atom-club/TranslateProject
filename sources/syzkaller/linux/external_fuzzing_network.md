@@ -1,8 +1,9 @@
 ---
-status: collected
+status: translating
 title: "External network fuzzing for Linux kernel"
 author: Syzkaller Community
 collector: chengziqiu
+translator:squirrel_sch
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_network.md
 ---
