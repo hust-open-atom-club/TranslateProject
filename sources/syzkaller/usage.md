@@ -1,43 +1,44 @@
 ---
-status: translating
+status: translated
 title: "How to use syzkaller"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
 translator: moyi_hust
+translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/usage.md
 ---
 
-# How to use syzkaller
+# 如何使用 syzkaller
 
-## Running
+## 运行方式
 
-Start the `syz-manager` process as:
+启动 `syz-manager` 命令如下：
 ```
 ./bin/syz-manager -config my.cfg
 ```
 
-The `syz-manager` process will wind up VMs and start fuzzing in them.
-The `-config` command line option gives the location of the configuration file, which is described [here](configuration.md).
-Found crashes, statistics and other information is exposed on the HTTP address specified in the manager config.
+`syz-manager` 进程将进入 VMs 并开始在其中进行模糊测试。
+`-config`  命令行选项给出了配置文件的位置[此处](configuration.md)对其进行了描述。
+syzkaller 发现的崩溃、统计信息和其他信息都暴露在管理器配置中指定的 HTTP 地址上。
 
-## Crashes
+## 崩溃
 
-Once syzkaller detected a kernel crash in one of the VMs, it will automatically start the process of reproducing this crash (unless you specified `"reproduce": false` in the config).
-By default it will use 4 VMs to reproduce the crash and then minimize the program that caused it.
-This may stop the fuzzing, since all of the VMs might be busy reproducing detected crashes.
+一旦 syzkaller 在某个 VM 中检测到内核崩溃，它将自动开始重现这个崩溃的过程（除非你在配置中指定 `"reproduce": false`）。
+默认情况下，它将使用 4 个 VM 来重现崩溃，然后缩小引起崩溃的程序。
+这可能会停止模糊测试，因为所有的 VM 可能都在忙于重现检测到的崩溃。
 
-The process of reproducing one crash may take from a few minutes up to an hour depending on whether the crash is easily reproducible or non-reproducible at all.
-Since this process is not perfect, there's a way to try to manually reproduce the crash, as described [here](reproducing_crashes.md).
+重现一个崩溃的过程可能需要从几分钟到一个小时不等，这取决于崩溃是否容易重现或根本不可重现。
+由于这个过程并不完美，有一种尝试手动重现崩溃的方法，如[此处](reproducing_crashes.md)所描述。
 
-If a reproducer is successfully found, it can be generated in one of the two forms: syzkaller program or C program.
-Syzkaller always tries to generate a more user-friendly C reproducer, but sometimes fails for various reasons (for example slightly different timings).
-In case syzkaller only generated a syzkaller program, there's [a way to execute them](reproducing_crashes.md) to reproduce and debug the crash manually.
+如果成功找到复现程序，它可以生成两种形式之一：syzkaller 程序或 C 程序。
+Syzkaller 总是尝试生成更用户友好的 C 语言复现程序，但有时因为各种原因失败（例如轻微不同的时间间隔）。
+如果 syzkaller 仅生成 syzkaller 程序，在这种情况下，有[一种方式](reproducing_crashes.md)可以执行这些程序来手动重现和调试崩溃
 
 ## Hub
 
-In case you're running multiple `syz-manager` instances, there's a way to connect them together and allow to exchange programs and reproducers, see the details [here](hub.md).
+如果你正在运行多个 `syz-manager` 实例，有一种方法可以将它们连接起来并允许交换程序和复现程序，详细信息见[这里](hub.md)。
 
-## Reporting bugs
+## 报告错误
 
-Check [here](linux/reporting_kernel_bugs.md) for the instructions on how to report Linux kernel bugs.
+查看[这里](linux/reporting_kernel_bugs.md)的说明，了解如何报告 Linux 内核错误。
