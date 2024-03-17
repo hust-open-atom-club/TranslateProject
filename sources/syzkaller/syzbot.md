@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "syzbot"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: shandianchengzi
 link: https://github.com/google/syzkaller/blob/master/docs/syzbot.md
 ---
 
