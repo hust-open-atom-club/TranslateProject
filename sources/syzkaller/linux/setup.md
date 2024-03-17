@@ -1,18 +1,19 @@
 ---
-status: translating
+status: translated
 title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
 translator:Tai-Xinwei
+translated_data: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup.md
 ---
 
-# How to set up syzkaller
+# 如何设置syzkaller
 
-Generic instructions on how to set up Linux kernel fuzzing with syzkaller are [below](setup.md#install).
+关于如何设置linux内核模糊测试的通用指导[如下所示](setup.md#install).
 
-Instructions for a particular VM type or kernel architecture can be found on these pages:
+针对特定虚拟机类型或内核架构的设置指南，请参阅以下页面:
 
 - [Setup: Ubuntu host, QEMU vm, x86-64 kernel](setup_ubuntu-host_qemu-vm_x86-64-kernel.md)
 - [Setup: Linux host, QEMU vm, arm64 kernel](setup_linux-host_qemu-vm_arm64-kernel.md)
@@ -22,24 +23,22 @@ Instructions for a particular VM type or kernel architecture can be found on the
 - [Setup: Linux host, Android device, arm32/64 kernel](setup_linux-host_android-device_arm-kernel.md)
 - [Setup: Linux isolated host](setup_linux-host_isolated.md)
 - [Setup: Ubuntu host, VMware vm, x86-64 kernel](setup_ubuntu-host_vmware-vm_x86-64-kernel.md)
-- [Setup: Ubuntu host, Odroid C2 board, arm64 kernel](setup_ubuntu-host_odroid-c2-board_arm64-kernel.md) [outdated]
+- [Setup: Ubuntu host, Odroid C2 board, arm64 kernel](setup_ubuntu-host_odroid-c2-board_arm64-kernel.md) [已过时]
 
-## Install
+## 安装
 
-The following components are needed to use syzkaller:
+要使用 syzkaller，需要以下组件:
 
- - Go compiler and syzkaller itself
- - C compiler with coverage support
- - Linux kernel with coverage additions
- - Virtual machine or a physical device
+ - Go 编译器和 syzkaller 本身
+ - 具有覆盖率支持的 C 编译器
+ - 增加了覆盖率的 Linux 内核
+ - 虚拟机或物理设备
 
-If you encounter any troubles, check the [troubleshooting](/docs/troubleshooting.md) page.
+如果你遇到任何问题, 请查看[故障排除](/docs/troubleshooting.md)页面.
 
-### Go and syzkaller
+### Go 和 syzkaller
 
-`syzkaller` is written in [Go](https://golang.org), and `Go 1.20+` toolchain is required for build.
-Generally we aim at supporting 2 latest releases of Go.
-The toolchain can be installed with:
+`syzkaller`是用[Go](https://golang.org)编写的，构建需要`Go 1.20+`工具链。通常我们支持最新的两个Go版本。可以使用以下命令安装工具链：
 
 ```
 wget https://dl.google.com/go/go1.21.4.linux-amd64.tar.gz
@@ -48,9 +47,9 @@ export GOROOT=`pwd`/go
 export PATH=$GOROOT/bin:$PATH
 ```
 
-See [Go: Download and install](https://golang.org/doc/install) for other options.
+其他选项请参见[Go: 下载和安装](https://golang.org/doc/install)。
 
-To download and build `syzkaller`:
+下载并构建 `syzkaller`:
 
 ``` bash
 git clone https://github.com/google/syzkaller
@@ -58,67 +57,53 @@ cd syzkaller
 make
 ```
 
-As the result compiled binaries should appear in the `bin/` dir.
+编译完成后，应在 `bin/` 目录中生成可执行文件.
 
-Note: if you want to do cross-OS/arch testing, you need to specify `TARGETOS`,
-`TARGETVMARCH` and `TARGETARCH` arguments to `make`. See the [Makefile](/Makefile) for details.
+注意: 如果要进行跨操作系统/架构测试, 需要在`make`命令中指定`TARGETOS`、`TARGETVMARCH`和`TARGETARCH`参数。详细信息请参阅[Makefile](/Makefile)。
 
-### Environment
+### 环境设置
 
-You might need to properly setup `binutils` if you're fuzzing in a cross-arch environment as described [here](coverage.md#binutils).
+如果在交叉架构环境下进行模糊测试，可能需要正确设置`binutils`，详见[这里](coverage.md#binutils)。
 
-### C Compiler
+### C 编译器
 
-Syzkaller is a coverage-guided fuzzer and therefore it needs the kernel to be built with coverage support, which requires a recent GCC version.
-Coverage support was submitted to GCC, released in GCC 6.1.0 or later.
-Make sure that your GCC meets this requirement, or get a GCC that [syzbot](/docs/syzbot.md) uses [here](/docs/syzbot.md#crash-does-not-reproduce).
+Syzkaller 是一种基于覆盖率的模糊测试工具，因此需要使用支持覆盖率的内核进行构建，这要求使用较新版本的 GCC。覆盖率支持已被提交到 GCC，从 GCC 6.1.0 版本开始发布。
+确保您的GCC符合此要求，或者获取[syzbot](/docs/syzbot.md)使用的GCC，参见[这里](/docs/syzbot.md#crash-does-not-reproduce)。
 
-### Linux Kernel
+### Linux 内核
 
-Besides coverage support in GCC, you also need support for it on the kernel side.
-KCOV was added into mainline Linux kernel in version 4.6 and is be enabled by `CONFIG_KCOV=y` kernel configation option.
-For older kernels you need to at least backport commit [kernel: add kcov code coverage](https://github.com/torvalds/linux/commit/5c9a8750a6409c63a0f01d51a9024861022f6593).
-Besides that, it's recomended to backport all kernel patches that touch `kernel/kcov.c`.
+除了 GCC 中的覆盖率支持外，还需要在内核方面进行相应的支持。KCOV 在 Linux 内核主线版本中于 4.6 版本中添加，并通过`CONFIG_KCOV=y`内核配置选项启用。
+对于旧版本的内核，至少需要将提交[kernel: add kcov code coverage](https://github.com/torvalds/linux/commit/5c9a8750a6409c63a0f01d51a9024861022f6593)进行移植。此外，建议移植所有涉及`kernel/kcov.c`的内核补丁。
 
-To enable more syzkaller features and improve bug detection abilities, it's recommended to use additional config options.
-See [this page](kernel_configs.md) for details.
+为了启用更多的 syzkaller 功能并提高漏洞检测能力，建议使用额外的配置选项。详见[此页面](kernel_configs.md)。
 
-### VM Setup
+### 虚拟机设置
 
-Syzkaller performs kernel fuzzing on worker virtual machines or physical devices.
-These worker enviroments are referred to as VMs.
-Out-of-the-box syzkaller supports QEMU, kvmtool and GCE virtual machines, Android devices and Odroid C2 boards.
+Syzkaller 在工作虚拟机或物理设备上执行内核模糊测试。这些工作环境被称为虚拟机 (VMs)。Syzkaller 支持 QEMU、kvmtool 和 GCE 虚拟机、Android 设备以及 Odroid C2 开发板。
 
-These are the generic requirements for a syzkaller VM:
+以下是 syzkaller VM 的通用要求：
 
- - The fuzzing processes communicate with the outside world, so the VM image needs to include
-   networking support.
- - The program files for the fuzzer processes are transmitted into the VM using SSH, so the VM image
-   needs a running SSH server.
- - The VM's SSH configuration should be set up to allow root access for the identity that is
-   included in the `syz-manager`'s configuration.  In other words, you should be able to do `ssh -i
-   $SSHID -p $PORT root@localhost` without being prompted for a password (where `SSHID` is the SSH
-   identification file and `PORT` is the port that are specified in the `syz-manager` configuration
-   file).
- - The kernel exports coverage information via a debugfs entry, so the VM image needs to mount
-   the debugfs filesystem at `/sys/kernel/debug`.
+ - 模糊测试进程需要与外界通信，因此 VM 镜像需要包含网络支持。
+ - 使用 SSH 将模糊器进程的程序文件传输到 VM 中，因此 VM 镜像需要运行 SSH 服务器。
+ - VM 的 SSH 配置应该设置为允许`syz-manager`配置中包含的身份的root访问权限。换句话说，您应该能够执行`ssh -i $SSHID -p $PORT root@localhost`而不会提示输入密码（其中`SSHID`是SSH身份文件，`PORT`是在`syz-manager`配置文件中指定的端口）。
+ - 内核通过 debugfs 条目导出覆盖率信息，因此 VM 镜像需要在`/sys/kernel/debug`挂载 debugfs 文件系统
 
-To use QEMU syzkaller VMs you have to install QEMU on your host system, see [QEMU docs](http://wiki.qemu.org/Manual) for details.
-The [create-image.sh](/tools/create-image.sh) script can be used to create a suitable Linux image.
+要在 QEMU 上使用 syzkaller VM，请在主机系统上安装 QEMU，有关详细信息请参见[QEMU 文档](http://wiki.qemu.org/Manual)。
+可以使用[create-image.sh](/tools/create-image.sh)脚本创建适用的Linux镜像。
 
-See the links at the top of the document for instructions on setting up syzkaller for QEMU, Android and some other types of VMs.
+有关在 QEMU、Android 和其他一些类型的 VM 上设置 syzkaller 的说明，请参见文章顶部的链接。
 
-### Troubleshooting
+### 故障排除
 
-* QEMU requires root for `-enable-kvm`.
+* QEMU 需要root权限才能使用 `-enable-kvm`.
 
-    Solution: add your user to the `kvm` group (`sudo usermod -a -G kvm` and relogin).
+    解决方法: 将用户添加到`kvm`组 (`sudo usermod -a -G kvm` 然后重新登录)。
 
-* QEMU crashes with:
+* QEMU 崩溃并显示以下错误：
 
     ```
     qemu-system-x86_64: error: failed to set MSR 0x48b to 0x159ff00000000
     qemu-system-x86_64: /build/qemu-EmNSP4/qemu-4.2/target/i386/kvm.c:2947: kvm_put_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
    ```
 
-    Solution: remove `-cpu host,migratable=off` from the QEMU command line. The easiest way to do that is to set `qemu_args` to `-enable-kvm` in the `syz-manager` config file.
+    解决方法： 从QEMU命令行中删除 `-cpu host,migratable=off`。最简单的方法是在`syz-manager`配置文件中将`qemu_args`设置为`-enable-kvm`。
