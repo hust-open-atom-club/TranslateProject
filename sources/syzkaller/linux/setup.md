@@ -63,7 +63,7 @@ make
 
 ### 环境设置
 
-如果在交叉架构环境下进行模糊测试，可能需要正确设置`binutils`，详见[这里](coverage.md#binutils)。
+如果在跨架构环境下进行模糊测试，可能需要正确设置`binutils`，详见[这里](coverage.md#binutils)。
 
 ### C 编译器
 
@@ -72,7 +72,7 @@ Syzkaller 是一种基于覆盖率的模糊测试工具，因此需要使用支�
 
 ### Linux 内核
 
-除了 GCC 中的覆盖率支持外，还需要在内核方面进行相应的支持。KCOV 在 Linux 内核主线版本中于 4.6 版本中添加，并通过`CONFIG_KCOV=y`内核配置选项启用。
+除了 GCC 中的覆盖率支持外，还需要在内核方面进行相应的支持。KCOV 在 4.6 版本合入 Linux 内核主线，并通过`CONFIG_KCOV=y`内核配置选项启用。
 对于旧版本的内核，至少需要将提交 [kernel: add kcov code coverage](https://github.com/torvalds/linux/commit/5c9a8750a6409c63a0f01d51a9024861022f6593) 进行移植。此外，建议移植所有涉及`kernel/kcov.c`的内核补丁。
 
 为了启用更多的 syzkaller 功能并提高漏洞检测能力，建议使用额外的配置选项。详见[此页面](kernel_configs.md)。
