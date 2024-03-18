@@ -60,7 +60,7 @@ Host *
 # 可选：Pstore 支持
 
 
-如果被测试的设备（DUT）支持 Pstore，则可以配置 syzkaller 从 /sys/fs/pstore 获取崩溃日志。您可以通过设置在 syzkaller 配置文件的 vm 部分 "pstore": true 来实现这一点。
+如果被测试的设备（DUT）支持 Pstore，则可以配置 syzkaller 从 /sys/fs/pstore 获取崩溃日志。您可以在 syzkaller 配置文件的 'vm' 节中设置 '"pstore": true '来实现这一点。
 
 # 可选：启动脚本
 
