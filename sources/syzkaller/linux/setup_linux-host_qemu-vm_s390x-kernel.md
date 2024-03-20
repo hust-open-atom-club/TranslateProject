@@ -4,7 +4,7 @@ title: "Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
-translator：xin-zheqi
+translator: xin-zheqi
 translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---

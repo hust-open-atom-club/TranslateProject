@@ -4,7 +4,7 @@ title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
-translator:Tai-Xinwei
+translator: Tai-Xinwei
 translated_data: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup.md
 ---
