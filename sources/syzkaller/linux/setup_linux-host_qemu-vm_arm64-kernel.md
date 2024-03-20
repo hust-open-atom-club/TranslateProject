@@ -1,23 +1,24 @@
 ---
-status: translating
+status: translated
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
 translator: Gskh3450
+translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md
 ---
 
-# Setup: Linux host, QEMU vm, arm64 kernel
+# 设置：Linux 主机，QEMU 虚拟机，arm64 内核
 
-This document will detail the steps involved in setting up a Syzkaller instance fuzzing any ARM64 linux kernel of your choice.
+这份文档将详细说明如何设置 Syzkaller 实例，以便对你选择的任何 ARM64 Linux 内核进行模糊测试。
 
-## Create a disk image
+## 创建一个磁盘映像
 
-We will use buildroot to create the disk image.
-You can obtain buildroot from [here](https://buildroot.uclibc.org/download.html).
-Extract the tarball and perform a `make menuconfig` inside it.
-Choose the following options.
+我们将使用 buildroot 来创建磁盘映像。
+你可以从[这里](https://buildroot.uclibc.org/download.html)获取 buildroot。
+解压缩tar格式的压缩文件，并在其中执行`make menuconfig`，
+选择以下选项。
 
     Target options
 	    Target Architecture - Aarch64 (little endian)
@@ -40,9 +41,9 @@ Choose the following options.
 	        exact size in blocks - 6000000
 	    [*] tar the root filesystem
 
-Run `make`. After the build, confirm that `output/images/rootfs.ext3` exists.
+运行`make`。编译完成后，确认`output/images/rootfs.ext3`文件是否存在。
 
-If you're expreriencing a very slow sshd start up time with arm64 qemu running on x86, the reason is probably low entropy and it be "fixed" with installing `haveged`. It can be found in the buildroot `menuconfig`:
+如果在 x86 上运行 arm64 qemu 时遇到 ssh 启动时间非常慢的问题，很可能是随机熵不足的问题，可以通过安装 `haveged`来“解决”这个问题。你可以在buildroot的 `menuconfig` 中找到该选项：
 
 ```
     Target packages
@@ -50,22 +51,22 @@ If you're expreriencing a very slow sshd start up time with arm64 qemu running o
 	        [*] haveged
 ```
 
-## Get the ARM64 toolchain from Linaro
+## 从Linaro获取ARM64工具链
 
-You will require an ARM64 kernel with gcc plugin support.
-If not, obtain the ARM64 toolchain from Linaro.
-Get `gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz` from [here](https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/aarch64-linux-gnu/).
-Extract and add its `bin/` to your `PATH`.
-If you have another ARM64 toolchain on your machine, ensure that this newly downloaded toolchain takes precedence.
+你需要一个支持gcc插件的ARM64内核。
+如果没有，请从 Linaro 获取ARM64工具链。
+从[这里](https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/aarch64-linux-gnu/)获取 `gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz` 。
+解压缩并将其 `bin/` 添加到你的 `PATH` 中。
+如果你的电脑上已经安装了其他ARM64工具链，请确保新下载的工具链被优先使用。
 
-## Compile the kernel
+## 编译内核
 
-Get the source code of the Linux kernel version you want to fuzz, and do the following.
+获取你想要进行模糊测试的Linux内核版本的源代码，并执行以下操作。
 
     $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make defconfig
     $ vim .config
 
-Change the following options :
+更改以下选项：
 ```
     CONFIG_KCOV=y
     CONFIG_KASAN=y
@@ -81,20 +82,20 @@ Change the following options :
     $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make -j40
 ```
 
-If the build was successful, you should have a `arch/arm64/boot/Image` file.
+如果编译成功，应该会有一个 `arch/arm64/boot/Image` 文件。
 
-## Obtain qemu for ARM64
+## 获取用于 ARM64 的 QEMU。
 
-Obtain the QEMU source from git or from the latest source release.
+从 git 获取 QEMU 源码或者从最新的源码发布中获取。
 
     $ ./configure
     $ make -j40
 
-If the build was successful, you should have a `aarch64-softmmu/qemu-system-aarch64` binary.
+如果编译成功，应该会有一个 `aarch64-softmmu/qemu-system-aarch64` 二进制文件。
 
-## Boot up manually
+## 手动启动内核
 
-You should be able to start up the kernel as follows.
+按照以下步骤启动内核。
 
     $ /path/to/aarch64-softmmu/qemu-system-aarch64 \
       -machine virt \
@@ -106,39 +107,40 @@ You should be able to start up the kernel as follows.
       -m 2048 \
       -net user,hostfwd=tcp::10023-:22 -net nic
 
-At this point, you should be able to see a login prompt.
+此时，你应该能够看到一个登录提示符。
 
-## Set up the QEMU disk
+## 设置 QEMU 磁盘
 
-Now that we have a shell, let us add a few lines to existing init scripts so that they are executed each time Syzkaller brings up the VM.
+现在我们已经有了一个 shell，接着我们向现有的初始化脚本添加几行代码，这样每次 Syzkaller 启动虚拟机时都会执行这些代码。
 
-At the top of /etc/init.d/S50sshd add the following lines:
+在 /etc/init.d/S50sshd 的顶部添加以下行：
 
     ifconfig eth0 up
     dhcpcd
     mount -t debugfs none /sys/kernel/debug
     chmod 777 /sys/kernel/debug/kcov
 
-Comment out the line
+将该行注释掉
 
     /usr/bin/ssh-keygen -A
 
-Next we set up ssh. Create an ssh keypair locally and copy the public key to `/authorized_keys` in `/`. Ensure that you do not set a passphrase when creating this key.
 
-Open `/etc/ssh/sshd_config` and modify the following lines as shown below.
+接下来我们要设置 ssh。在本地生成一个 ssh 密钥对，然后将公钥复制到 `/` 目录下的 `/authorized_keys` 文件中。在生成密钥时，请不要设置密码。
+
+打开 `/etc/ssh/sshd_config` 文件，并按照下面所示修改以下行。
 
     PermitRootLogin yes
     PubkeyAuthentication yes
     AuthorizedKeysFile      /authorized_keys
     PasswordAuthentication yes
 
-Reboot the machine, and ensure that you can ssh from host to guest as.
+重新启动计算机，并确保你可以从主机 ssh 连接到虚拟机。
 
     $ ssh -i /path/to/id_rsa root@localhost -p 10023
 
-## Build syzkaller
+## 编译 syzkaller
 
-Build syzkaller as described [here](/docs/linux/setup.md#go-and-syzkaller), with `arm64` target:
+按照[这里](/docs/linux/setup.md#go-and-syzkaller)的描述编译Syzkaller，目标为 `arm64`。
 
 ```
 CC=gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
@@ -146,9 +148,9 @@ make TARGETARCH=arm64
 ```
 
 
-## Modify your config file and start off syzkaller
+## 修改你的配置文件并启动Syzkaller。
 
-A sample config file that exercises the required options are shown below. Modify according to your needs.
+以下是一个示例配置文件，展示了所需选项的使用方式。根据你的需求进行修改。
 
 ```
 {
@@ -173,7 +175,7 @@ A sample config file that exercises the required options are shown below. Modify
 }
 ```
 
-At this point, you should be able to visit `localhost:56700` and view the results of the fuzzing.
+此时，你应该能够访问 `localhost:56700` 并查看模糊测试的结果。
 
-If you get issues after `syz-manager` starts, consider running it with the `-debug` flag.
-Also see [this page](/docs/troubleshooting.md) for troubleshooting tips.
+如果在 `syz-manager` 启动后遇到问题，请考虑使用 `-debug` 标志运行它。
+还可以查看[此页面](/docs/troubleshooting.md)获取故障排除提示。
