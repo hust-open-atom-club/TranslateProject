@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Setup: Linux host, Android device, arm32/64 kernel"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
+translator: Athanlaich
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md
 ---
 
