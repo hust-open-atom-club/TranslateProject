@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Research"
 author: Syzkaller Community
 collector: dzm91_hust
