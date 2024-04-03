@@ -11,7 +11,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 # 设置：Linux 主机，Android 设备，arm32/64 内核
 
-**注意：对真实的 Android 设备进行内核模糊测试可能会使其变成砖。**
+**注意：对真实的 Android 设备进行内核模糊测试可能会破坏它。**
 
 本文详细介绍了在 Android 设备上设置 syzkaller 实例对 `arm32/64` Linux 内核进行模糊测试的步骤。
 
@@ -89,7 +89,7 @@ cp sys/android/* sys/linux
 ./bin/syz-manager -config=android.cfg
 ```
 
-现在 syzkaller 应该正在运行，您可以在 web 浏览器中使用 `127.0.0.1:56741` 检查管理器状态。
+现在 syzkaller 应该正在运行，您可以在 web 浏览器中输入 `127.0.0.1:56741` 检查管理器状态。
 
 如果在 `syz-manager`  启动后遇到问题，请考虑使用 `-debug` 标志运行。
 
