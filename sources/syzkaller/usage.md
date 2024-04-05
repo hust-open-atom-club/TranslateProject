@@ -4,7 +4,7 @@ title: "How to use syzkaller"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
-translator: moyi_hust
+translator: moyihust
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240403
