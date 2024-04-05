@@ -1,5 +1,5 @@
 ---
-status: published
+status: proofread
 title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
