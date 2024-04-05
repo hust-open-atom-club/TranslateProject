@@ -4,7 +4,7 @@ title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_date: 20240220
-translator: yanruo
+translator: gitveg
 translated_date: 20240221
 proofreader: mudongliang
 proofread_date: 20240221
