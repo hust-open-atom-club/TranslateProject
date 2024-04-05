@@ -20,6 +20,10 @@ const blog = defineCollection({
     proofread_date: z.union(
       [z.date(), z.string(), z.number()]
     ).default(""),
+    publisher: z.string().default(SITE.author),
+    published_date: z.union(
+      [z.date(), z.string(), z.number()]
+    ).default(""),
   }),
 });
 
