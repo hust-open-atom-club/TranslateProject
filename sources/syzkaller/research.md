@@ -4,7 +4,7 @@ title: "Research"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240304
-translator: Eliza
+translator: ElizaXiao
 translated_date: 20240310
 proofreader: dzm91_hust
 proofread_date: 20240311
