@@ -15,12 +15,7 @@
 3. 阅读 [WIKI](https://github.com/hust-open-atom-club/TranslateProject/wiki/) 了解如何开始。
 4. 遇到不解之处，请在飞书群内发问。
 
-对于前端开发者，本仓库基于前端框架 `Astro`，若希望本地运行代码，请：
-
-1. 切换到 `pages` 目录下，依次运行 `npm install`、`npm run dev`；
-2. 如果是 `Windows` 系统，请删除 `pages/src/content/posts` 文件，新建 `pages/src/content/posts/` 文件夹，并将 `sources` 文件夹下的所有内容复制到新建的 `pages/src/content/posts/` 文件夹内。【注意，请不要把这处修改推送到远程仓库中】
-3. 打开 `http://localhost:4321/` 网址即可在本地预览网页内容。
-4. 更多有关 `Astro` 框架的使用说明见 [pages/README.md](./pages/README.md)。
+对于前端开发者，本仓库基于前端框架 `Astro`，若希望本地运行代码，请查看 [pages/README.md](./pages/README.md)。
 
 ## 如何开始
 
