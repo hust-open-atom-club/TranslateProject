@@ -1,10 +1,10 @@
 ---
-status: published
+status: proofread
 title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_date: 20240223
-translator: sun-yu-777
+translator: AAtomical
 translated_date: 20240223
 proofreader: mudongliang
 proofread_date: 20240310
@@ -24,11 +24,3 @@ CVE 组织[最近宣布](https://www.cve.org/Media/News/item/news/2024/02/13/ker
 您可以在此[邮件列表](https://lore.kernel.org/linux-cve-announce/)上找到我们分配的所有 CVE，并且如果您希望自动收到所有 CVE 的通知，请订阅该列表。可以在[此处](https://git.kernel.org/pub/scm/linux/security/vulns.git/)找到它们的 git 存储库，但请注意，随着时间的推移，存储库的结构会发生变化，因为我们在学习和管理流程方面会变得更加完善，所以暂时不要认为 git 树中的任何内容会固定不变。
 
 一旦流程正常运转并且能够顺利分配 CVE，我会在未来写更多内容。这一公告只是第一步，它使我们成为了 Linux CVE 分配流程的管理者。
-
-___
-
-译自：<http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/>
-
-译者：[sun-yu-777](https://gitee.com/sun-yu-777) 校对：[mudongliang](https://gitee.com/mudongliang)
-
-本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。

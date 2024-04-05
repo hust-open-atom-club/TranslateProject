@@ -4,7 +4,7 @@ title: "Linux Kernel CVE Assignment"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_date: 20240220
-translator: yanruo
+translator: gitveg
 translated_date: 20240221
 proofreader: mudongliang
 proofread_date: 20240221
@@ -52,11 +52,3 @@ Linux内核中未修复的安全问题不会自动分配CVE；只有在安全修
 简而言之，我们不知道您的用例，也不知道您使用的是内核的哪个部分，因此我们无法确定特定的CVE是否与您的系统相关。
 
 与往常一样，最好采取所有发布的内核更改，因为它们是由许多社区成员在一个统一的整体中一起进行测试的，而不是作为个别的精选更改。还要注意，对于许多bug来说，整体问题的解决方案并不是在单个更改中找到的，而是在彼此之上的许多修复的总和。理想情况下，CVEs将被分配给所有问题的所有修复，但有时我们将无法注意到一些修复，因此某些修复可能在没有CVE的情况下被采取。
-
-___
-
-译自：<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/cve.rst>
-
-译者：[yanruo](https://gitee.com/kyanruo) 校对：[mudongliang](https://gitee.com/mudongliang)
-
-本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。

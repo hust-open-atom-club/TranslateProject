@@ -10,10 +10,12 @@
 
 新加入的成员，请：
 
-1. 修改你的飞书群昵称为“译者-您的_Github_ID”。
+1. 修改你的飞书群昵称为“译者-YOUR_GITHUB_ID”。
 2. 请在开始贡献前[签署CLA](https://cla-assistant.io/hust-open-atom-club/TranslateProject)。
 3. 阅读 [WIKI](https://github.com/hust-open-atom-club/TranslateProject/wiki/) 了解如何开始。
 4. 遇到不解之处，请在飞书群内发问。
+
+对于前端开发者，本仓库基于前端框架 `Astro`，若希望本地运行代码，请查看 [pages/README.md](./pages/README.md)。
 
 ## 如何开始
 

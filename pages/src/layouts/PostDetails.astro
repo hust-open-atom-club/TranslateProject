@@ -13,7 +13,7 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const { title, author } = post.data;
+const { title, author, collected_date, collector, translated_date, translator, link, proofreader, proofread_date, publisher, published_date } = post.data;
 
 const { Content } = await post.render();
 
@@ -60,6 +60,34 @@ const layoutProps = {
     <!-- /> -->
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
+      <hr>
+      <div>
+        <p><strong>{!translated_date ? "原文链接：": "译自："}</strong> <a href={link}>{link}</a></p>
+        <p>
+          <strong>选题：</strong>
+          <a href={"https://github.com/" + collector}>{collector}</a>
+          {translated_date && (
+            <span>
+              &nbsp;&nbsp;
+              <strong>译者：</strong> 
+              <a href={"https://github.com/" + translator}>{translator}</a>
+              {proofread_date && (
+                <span>
+                  &nbsp;&nbsp;
+                  <strong>校对：</strong><a href={"https://github.com/" + proofreader}>{proofreader}</a>
+                </span>
+              )}
+              {published_date && (
+                <span>
+                  &nbsp;&nbsp;
+                  <strong>发布：</strong><a href={"https://github.com/" + publisher}>{publisher}</a>
+                </span>
+              )}
+            </span>
+          )}
+        </p>
+        <p>本文{!translated_date && "将"}由 <a href="https://github.com/hust-open-atom-club/translate-project">HCTT 翻译团队</a> 原创翻译，<a href="https://github.com/hust-open-atom-club">华中科技大学开放原子开源俱乐部</a>荣誉推出。</p>
+      </div>      
     </article>
 
     <!-- <ul class="my-8"> -->
@@ -68,7 +96,7 @@ const layoutProps = {
 
     <div
       class="my-8 flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
-    >
+    >    
       <button
         id="back-to-top"
         class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
