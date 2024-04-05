@@ -2,7 +2,7 @@
 status: translated
 title: "Found bugs"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: Eliza
 translated_date: 20240331

@@ -2,7 +2,7 @@
 status: translated
 title: "Setup: Linux isolated host"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translater: xiaobor123
 translate_data: 20240317

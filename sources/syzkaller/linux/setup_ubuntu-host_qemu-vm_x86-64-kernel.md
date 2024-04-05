@@ -2,7 +2,7 @@
 status: collected
 title: "Setup: Ubuntu host, QEMU vm, x86-64 kernel"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md
 ---

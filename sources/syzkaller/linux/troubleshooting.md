@@ -2,7 +2,7 @@
 status: translated
 title: "Troubleshooting"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: Ren Xiao
 translated_date: 20240317

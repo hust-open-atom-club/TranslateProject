@@ -2,7 +2,7 @@
 status: proofread
 title: "How to use syzkaller"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: moyihust
 translated_date: 20240317
