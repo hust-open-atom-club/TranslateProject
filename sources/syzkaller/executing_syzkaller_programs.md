@@ -73,10 +73,3 @@ scp -P 10022 -i bullseye.img.key bin/linux_amd64/syz-execprog bin/linux_amd64/sy
 # {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true UseTmpDir:true HandleSegv:true Repro:false Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}
 ```
 你需要基于文件头中的值调整对应的参数。其中，`Threaded`/`Procs`/`Sandbox` 与 `-threaded`/`-procs`/`-sandbox` 参数对应。如果 `Repeat` 的值为 `true`，则在 `syz-execprog` 的参数中添加 `-repeat=0`。
-
----
-译自：<https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md>
-
-译者：[tttturtle-russ](https://gitee.com/tttturtle-russ) 校对：[dzm91_hust](https://gitee.com/dzm91_hust)
-
-本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。
