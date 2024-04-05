@@ -4,7 +4,7 @@ title: "Troubleshooting"
 author: Syzkaller Community
 collector: chengziqiu
 collected_date: 20240314
-translator: renxiaohust
+translator: Ren Xiao
 translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/troubleshooting.md
 ---
