@@ -16,6 +16,10 @@ const blog = defineCollection({
       [z.date(), z.string(), z.number()]
     ).default(""),
     link: z.string().url().default(""),
+    proofreader: z.string().default(SITE.author),
+    proofread_date: z.union(
+      [z.date(), z.string(), z.number()]
+    ).default(""),
   }),
 });
 

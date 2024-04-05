@@ -13,7 +13,7 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const { title, author } = post.data;
+const { title, author, collected_date, collector, translated_date, translator, link, proofreader, proofread_date } = post.data;
 
 const { Content } = await post.render();
 
@@ -60,6 +60,32 @@ const layoutProps = {
     <!-- /> -->
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
+      <hr>
+      <div>
+        <!-- if there is translated_date, show below -->
+        {
+          translated_date && (
+            <p><strong>译自：</strong> <a href="{link}">{link}</a></p>
+            <p>
+              <strong>译者：</strong> 
+              <a href={"https://github/" + translator}>{translator}</a>
+              {
+                proofread_date && (
+                  <strong>校对：</strong><a href={"https://github/" + proofreader}>{proofreader}</a>
+                  <p>本文由<a href="https://gitee.com/hust-open-atom-club/translate-project">HCTT</a>原创翻译，<a href="https://gitee.com/hust-open-atom-club">华科开放原子俱乐部</a>荣誉推出。</p>
+                )
+              }
+            </p>
+          )
+        }
+        <!-- if there is not translated_date, show below -->
+        {
+          !translated_date && (
+            <p><strong>原文链接：</strong> <a href="{link}">{link}</a></p>
+          )
+        }
+        
+      </div>
     </article>
 
     <!-- <ul class="my-8"> -->
@@ -68,7 +94,7 @@ const layoutProps = {
 
     <div
       class="my-8 flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
-    >
+    >    
       <button
         id="back-to-top"
         class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
