@@ -78,10 +78,3 @@ GCC 自 4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Optio
     UBSAN_SANITIZE := n
 
 未对齐的内存访问检测由单独的选项 CONFIG_UBSAN_ALIGNMENT 控制。在支持非对齐访问（CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y）的架构上，该选项默认关闭，但仍可在配置中启用，只是要注意这会产生大量 UBSAN 报告。
-
----
-译自：<https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ubsan.rst>
-
-译者：[dzm91_hust](https://gitee.com/dzm91_hust) 校对：[hustsjy](https://gitee.com/hustsjy)
-
-本文由[HCTT](https://gitee.com/hust-open-atom-club/translate-project)原创翻译，[华科开放原子俱乐部](https://gitee.com/hust-open-atom-club)荣誉推出。
