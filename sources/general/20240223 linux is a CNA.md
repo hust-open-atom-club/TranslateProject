@@ -4,7 +4,7 @@ title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
 collected_date: 20240223
-translator: sun-yu-777
+translator: AAtomical
 translated_date: 20240223
 proofreader: mudongliang
 proofread_date: 20240310
