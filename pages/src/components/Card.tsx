@@ -3,20 +3,21 @@ import { slugifyStr } from "@utils/slugify";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
+  id?: string;
   href?: string;
   frontmatter: CollectionEntry<"posts">["data"];
   secHeading?: boolean;
   body?: string;
 }
 
-export default function Card({ href, frontmatter, secHeading = true, body }: Props) {
+export default function Card({ id, href, frontmatter, secHeading = true, body }: Props) {
   const {
     title,
     status,
   } = frontmatter;
 
   const headerProps = {
-    style: { viewTransitionName: slugifyStr(title) },
+    style: { viewTransitionName: slugifyStr(id) },
     className: "text-lg font-medium decoration-dashed hover:underline",
   };
 

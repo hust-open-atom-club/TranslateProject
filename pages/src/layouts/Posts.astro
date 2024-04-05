@@ -45,8 +45,8 @@ function getStyle(tabStatus: string) {
     </nav>
     <ul>
       {
-        paginatedPosts.map(({ data, slug, body }) => (
-          <Card href={`/posts/${slug}/`} frontmatter={data} body={body} />
+        paginatedPosts.map(({ id, data, slug, body }) => (
+          <Card id={id} href={`/posts/${slug}/`} frontmatter={data} body={body} />
         ))
       }
     </ul>
