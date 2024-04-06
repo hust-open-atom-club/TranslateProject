@@ -2,7 +2,7 @@
 status: collected
 title: "Setup: Debian/Ubuntu host, QEMU vm, riscv64 kernel"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_riscv64-kernel.md
 ---

@@ -13,6 +13,8 @@ export interface Props {
 
 const { post } = Astro.props;
 
+const { id } = post;
+
 const { title, author, collected_date, collector, translated_date, translator, link, proofreader, proofread_date, publisher, published_date } = post.data;
 
 const { Content } = await post.render();
@@ -51,7 +53,7 @@ const layoutProps = {
     </button>
   </div>
   <main id="main-content">
-    <h1 transition:name={slugifyStr(title)} class="post-title">{title}</h1>
+    <h1 transition:name={slugifyStr(id || title)} class="post-title">{title}</h1>
     <!-- <Datetime -->
     <!--   pubDatetime={pubDatetime} -->
     <!--   modDatetime={modDatetime} -->

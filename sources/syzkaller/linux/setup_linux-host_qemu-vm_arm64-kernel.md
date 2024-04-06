@@ -2,7 +2,7 @@
 status: translated
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: Gskh3450
 translated_date: 20240317

@@ -2,7 +2,7 @@
 status: translated
 title: "Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: xin-zheqi
 translated_date: 20240317

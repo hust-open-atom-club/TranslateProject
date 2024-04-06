@@ -2,7 +2,7 @@
 status: collected
 title: "Hafnium"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/hafnium/README.md
 ---

@@ -2,9 +2,9 @@
 status: proofread
 title: "Linux-specific syzkaller internals"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
-translator: hust_cmx_18
+translator: Earlystarry
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240405

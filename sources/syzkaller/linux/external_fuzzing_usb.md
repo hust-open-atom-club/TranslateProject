@@ -2,7 +2,7 @@
 status: collected
 title: "Internals"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_usb.md
 ---
