@@ -1,17 +1,19 @@
 ---
-status: translated
+status: proofread
 title: "Linux kernel configs"
 author: Syzkaller Community
 collector: li-zhaoyang101
 collected_date: 20240305
 translator: RutingZhang0429
 translated_date: 20240317
+proofreader: mudongliang
+proofread_date: 20240406
 link: https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md
 ---
 
 # Linux 内核配置
 
-推荐的 `syzkaller` 内核配置一览。参考配置详见 [syzbot config](/dashboard/config/linux/upstream-apparmor-kasan.config)。
+`syzkaller` 推荐的内核配置一览。参考配置详见 [syzbot config](https://github.com/google/syzkaller/dashboard/config/linux/upstream-apparmor-kasan.config)。
 
 ## Syzkaller 功能
 
@@ -22,14 +24,14 @@ CONFIG_KCOV_INSTRUMENT_ALL=y
 CONFIG_KCOV_ENABLE_COMPARISONS=y
 CONFIG_DEBUG_FS=y
 ```
-注意到如果你在测试一个旧版内核，`CONFIG_KCOV_ENABLE_COMPARISONS` 功能也要求 `gcc8+` 和如下的修改:
+特别注意，如果你在测试一个旧版内核，`CONFIG_KCOV_ENABLE_COMPARISONS` 功能同样需要 `gcc8+` 和如下修改:
 ```
     kcov: support comparison operands collection
     kcov: fix comparison callback signature
 ```
 
 使用 [内核内存泄露检测器
-(kmemleak)](https://gitee.com/hust-open-atom-club/translate-project/blob/master/sources/kernel/20240301%20Kernel%20Memory%20Leak%20Detector.md) 检测内存泄漏：
+(kmemleak)](https://github.com/hust-open-atom-club/TranslateProject/blob/master/sources/kernel/20240301%20Kernel%20Memory%20Leak%20Detector.md) 检测内存泄漏：
 
 ```
 CONFIG_DEBUG_KMEMLEAK=y
@@ -40,13 +42,13 @@ CONFIG_DEBUG_KMEMLEAK=y
 CONFIG_DEBUG_INFO=y
 ```
 
-检测启用的系统调用和内核字长：
+检测启用的内核系统调用和字长：
 ```
 CONFIG_KALLSYMS=y
 CONFIG_KALLSYMS_ALL=y
 ```
 
-为了更好地构建沙盒：
+为更好地构建沙盒：
 ```
 CONFIG_NAMESPACES=y
 CONFIG_UTS_NS=y
@@ -62,16 +64,16 @@ CONFIG_MEMCG=y
 CONFIG_USER_NS=y
 ```
 
-为了在虚拟机中运行，通常需要 `make kvm_guest.config`。
+为了能够在虚拟机中运行，通常需要 `make kvm_guest.config`。
 
-[tools/create-image.sh](/tools/create-image.sh) 生成的 Debian 镜像还需要：
+[tools/create-image.sh](https://github.com/google/syzkaller/tools/create-image.sh) 生成的 Debian 镜像还需要：
 ```
 CONFIG_CONFIGFS_FS=y
 CONFIG_SECURITYFS=y
 ```
 
-推荐关闭如下配置 (如果你的内核没有修改 [arm64: setup: introduce kaslr_offset()](https://github.com/torvalds/linux/commit/7ede8665f27cde7da69e8b2fbeaa1ed0664879c5)
- 和 [kcov: make kcov work properly with KASLR enabled](https://github.com/torvalds/linux/commit/4983f0ab7ffaad1e534b21975367429736475205) 则必须关闭)：
+推荐关闭如下配置（如果你的内核没有 [arm64: setup: introduce kaslr_offset()](https://github.com/torvalds/linux/commit/7ede8665f27cde7da69e8b2fbeaa1ed0664879c5)
+ 和 [kcov: make kcov work properly with KASLR enabled](https://github.com/torvalds/linux/commit/4983f0ab7ffaad1e534b21975367429736475205)两个代码提交，则如下配置必须关闭）：
 ```
 # CONFIG_RANDOMIZE_BASE is not set
 ```
@@ -84,8 +86,8 @@ CONFIG_CMDLINE="net.ifnames=0"
 
 ## 漏洞检测配置
 
-Syzkaller 可与
-[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) （设置可用的上游 `CONFIG_KASAN=y`），[KTSAN](https://github.com/google/ktsan) （原型可用），[KMSAN](https://github.com/google/kmsan) （原型可用），或者 [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (设置可用的上游 `CONFIG_UBSAN=y`) 配合使用。
+Syzkaller 可与 
+[KASAN](https://kernel.org/doc/html/latest/dev-tools/kasan.html) （内核上游配置为 `CONFIG_KASAN=y`），[KTSAN](https://github.com/google/ktsan) （原型可用），[KMSAN](https://github.com/google/kmsan) （原型可用），或者 [KUBSAN](https://kernel.org/doc/html/latest/dev-tools/ubsan.html) (内核上游配置为 `CONFIG_UBSAN=y`) 配合使用。
 
 为检测释放后使用和越界访问漏洞，启用 `KASAN`：
 ```
@@ -104,7 +106,7 @@ CONFIG_FAIL_MAKE_REQUEST=y
 CONFIG_FAIL_IO_TIMEOUT=y
 CONFIG_FAIL_FUTEX=y
 ```
-请注意，如果你在测试一个旧版内核，你需要进行如下修改：
+请注意，如果你在测试一个旧版内核，你同样需要如下代码提交：
 ```
     fault-inject: support systematic fault injection
     fault-inject: simplify access check for fail-nth
