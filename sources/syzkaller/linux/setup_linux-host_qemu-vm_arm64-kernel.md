@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
