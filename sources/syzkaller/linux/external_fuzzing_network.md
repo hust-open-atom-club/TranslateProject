@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "External network fuzzing for Linux kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: squirrelsss
 translated_date: 20240317
+proofreader: mudongliang
+proofread_date: 20240406
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_network.md
 ---
 
@@ -13,35 +15,30 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzin
 Linux 内核的外部网络模糊测试
 =========================================
 
-
-syzkaller 支持对网络栈的外部模糊测试。
-这是通过使用[TUN/TAP](https://www.kernel.org/doc/Documentation/networking/tuntap.txt)接口来实现的.
+syzkaller 已支持对网络栈的外部模糊测试。
+这是通过使用 [TUN/TAP](https://www.kernel.org/doc/Documentation/networking/tuntap.txt) 接口来实现的.
 它允许设置一个虚拟网络接口，并将从外部网络接收到的数据包发送到内核。
-这触发了与通过真实网络接口传递的真实数据包拥有相同的路径(除了驱动层)。
+这触发了真实数据包通过真实网络接口传递的相同路径(除了驱动层)。
 
+您需要启用 `CONFIG_TUN` 内核配置来开启外部网络模糊测试。
+关于如何设置虚拟接口，请参考 [executor/common_linux.h](/executor/common_linux.h) 中的 `initialize_tun()` 函数。
 
-您需要启用 CONFIG_TUN 内核配置来启用外部网络模糊测试。
-关于如何具体设置虚拟接口，请参考 [executor/common_linux.h](/executor/common_linux.h) 中的`initialize_tun()`函数
-
-
-对于模板的描述可以在 [sys/linux/vnet.txt](/sys/linux/vnet.txt) 中找到。
-目前有两个系统调用： `syz_emit_ethernet` 和  `syz_extract_tcp_res`。
+相关模板描述可在 [sys/linux/vnet.txt](/sys/linux/vnet.txt) 中找到。
+目前有两个系统调用： `syz_emit_ethernet` 和 `syz_extract_tcp_res`。
 第一个伪系统调用通过虚拟接口向外发送数据包。
 第二个伪系统调用尝试从外部接收数据包，并从中解析 TCP 序列号，以便在后续的数据包中使用。
 目前还有很多协议或协议扩展尚未描述，因此非常欢迎补充！
 
-
 由于模糊测试可能在同一个虚拟机实例内的多个执行器进程中进行，我们需要一种方式来隔离不同执行器的虚拟网络。
-目前，这是通过为每个执行器创建一个虚拟接口，并为这些接口分配不同的 MAC 地址、IPv4 地址和 IPv6 地址来实现的。
+目前，这是通过为每个执行器创建一个虚拟接口，并为这些接口分配不同的 MAC 地址、IPv4 地址和 IPv6 地址来实现。
 然后，模板描述利用 `proc` 类型来为每个执行器生成适当的地址。
-
 
 由于许多网络协议需要将校验和字段嵌入到数据包中，因此支持描述此类字段。
 这里存在一个 `csum` 类型，目前支持两种不同类型的校验和计算：
 Internet 校验和 [the Internet checksum](https://tools.ietf.org/html/rfc1071) : `csum[parent, inet, int16be]`,
 以及类似于 TCP 的伪头部校验和: `csum[tcp_packet, pseudo, IPPROTO_TCP, int16be]`。
-在通过虚拟接口发送数据包之前，会计算并嵌入这些校验和。
-这里还有一个很好的特性：当 syzkaller 生成 C 语言重现器时，它也会生成在运行时计算校验和的代码。
+在通过虚拟接口发送数据包之前，这些校验和会被计算并嵌入其中。
+这里还有一个很好的特性：当 syzkaller 生成 C 语言 reproducer 时，它也会生成代码并在运行时重新计算校验和。
 
 通过使用 `syz_emit_ethernet` and `syz_extract_tcp_res` 以下 syzkaller 程序能够建立基于 IPv4 的 TCP 连接：
 
