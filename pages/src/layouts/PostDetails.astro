@@ -51,6 +51,15 @@ const layoutProps = {
         ></path>
       </svg><span>返回</span>
     </button>
+    <!-- an edit button, set it right -->
+    <a
+      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
+      href={`https://github.com/hust-open-atom-club/TranslateProject/edit/master/sources/${id}`}
+      style="margin-left: auto;"
+    >
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2065" width="200" height="200"><path d="M172.4 775.4l0.7 0.7c6.7 6.4 16.2 9.7 26 8l229.5-40.5c6.3-1.1 11.8-4.2 16-8.4l0.1 0.1L857 322.7c35.1-35.1 35.1-92.2 0-127.3L752.4 90.7c-17-17-39.6-26.3-63.6-26.3s-46.7 9.3-63.6 26.3L212.8 503.3l0.1 0.1c-4.2 4.2-7.3 9.7-8.4 16L164 749.1c-1.6 9.9 1.8 19.6 8.4 26.3z m377.7-524.8l147.1 147.2-288 288.3-178.6 31.5 31.5-178.7 288-288.3z m117.4-117.5c5.6-5.6 13.1-8.7 21.2-8.7s15.6 3.1 21.2 8.7l104.7 104.7c11.7 11.7 11.7 30.8 0 42.5l-74.9 75-147.1-147.2 74.9-75zM929 900.4H93c-16.5 0-30 13.5-30 30s13.5 30 30 30h836c16.5 0 30-13.5 30-30s-13.5-30-30-30z" p-id="2066"></path></svg>
+        <span>&nbsp;编辑</span>
+    </a>
   </div>
   <main id="main-content">
     <h1 transition:name={slugifyStr(id || title)} class="post-title">{title}</h1>
