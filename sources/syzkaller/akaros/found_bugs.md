@@ -1,20 +1,21 @@
 ---
-status: translated
+status: proofread
 title: "Found bugs"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: shandianchengzi
 translated_date: 20240317
+proofreader: mudongliang
+proofread_date: 20240406
 link: https://github.com/google/syzkaller/blob/master/docs/akaros/found_bugs.md
 ---
 
 # 已经找到的 BUG
 
+绝大多数的最新 BUG 会被 [syzbot](/sources/syzkaller/syzbot.md) 报告到 [akaros](https://groups.google.com/forum/#!searchin/akaros/syzbot) 邮件列表中，同时会在 [dashboard（仪表盘）](https://syzkaller.appspot.com/akaros)上列出。 
 
-绝大多数的最新 BUG 会被 [syzbot](/sources/syzkaller/syzbot.md) 报告，并展现在 [acaros](https://groups.google.com/forum/#!searchin/akaros/syzbot) 邮件列表里，并会在 [dashboard（仪表盘）](https://syzkaller.appspot.com/akaros)上列出。 
-
-_新的会被放在列表的前面_
+_新的 BUG 会被放在列表前面_
 
 示例如下：
 
