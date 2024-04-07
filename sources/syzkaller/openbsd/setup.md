@@ -17,10 +17,10 @@ link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 
 - `$KERNEL` - 自定义编译的内核, 参见 [编译内核](#编译内核).
               如果遵循本指南，则默认值为 `/sys/arch/amd64/compile/SYZKALLER/obj/bsd` 
-- `$SSHKEY` - 用于连接至虚拟机且***不含密码***的密钥，建议使用专用的密钥。
+- `$SSHKEY` - 用于连接至虚拟机且***不含密码***的SSH密钥，建议使用专用的密钥。
 - `$USER`   - 用于运行 syzkaller 的用户名。
 - `$VMIMG`  - 虚拟机磁盘镜像。
-- `$VMID`   - 最近启动的虚拟机的 ID。
+- `$VMID`   - 最近启动的虚拟机的数字 ID。
 
 ## 安装 syzkaller
 
@@ -46,7 +46,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 
 ## 编译内核
 
-必须编译一个带有 [kcov(4)](https://man.openbsd.org/kcov.4) 支持的 `GENERIC` 内核：
+若要编译一个 `GENERIC` 内核，必须带有 [kcov(4)](https://man.openbsd.org/kcov.4) 支持：
 
 ```sh
 $ cd /sys/arch/amd64
@@ -87,7 +87,7 @@ $ make -C compile/SYZKALLER
    $ vmctl start -c -t syzkaller -b /bsd.rd -d "$VMIMG" syzkaller-1
    ```
 
-   并非以默认值回答的问题：
+   对偏离默认值的问题的回答：
 
    ```
    Password for root account? ******
@@ -114,7 +114,7 @@ $ make -C compile/SYZKALLER
    $ vmctl stop -w syzkaller-1
    ```
 
-## 配置和运行 syzkaller
+## 配置并运行 syzkaller
 
 ```sh
 $ pwd
