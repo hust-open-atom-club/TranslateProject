@@ -1,16 +1,19 @@
 ---
-status: translated
+status: proofread
 title: "Program syntax"
 author: Syzkaller Community
 collector: dzm91_hust
 collected_date: 20240229
 translator: QGrain
+translated_date: 20240311
+proofreader: hai119
+proofread_date: 20240407
 link: https://github.com/google/syzkaller/blob/master/docs/program_syntax.md
 ---
 
 # 程序语法
 
-Syzkaller 使用一种袖珍的领域特定语言（DSL）来记录其执行的程序（如记录到 log0 等输出文件）、测试程序本身的代码和将程序存储在语料中（指 corpus.db）。此页面提供了对相关程序语法的简要描述。一些有用的信息也可以参见Syzkaller源码树中的[样例程序](https://github.com/google/syzkaller/tree/master/sys/linux/test)和程序的[反序列化](https://github.com/google/syzkaller/blob/master/prog/encoding.go)。
+Syzkaller 使用一种紧凑的的领域特定语言（DSL）来记录其执行的程序、测试其代码并将程序持久化地存储在语料库中。此页面提供了对相关程序语法的简要描述。一些有用的信息也可以在[样例程序](https://github.com/google/syzkaller/tree/master/sys/linux/test)和程序的[反序列化](https://github.com/google/syzkaller/blob/master/prog/encoding.go)中找到。
 
 
 连同执行选项，该 DSL 提供了 syz-executor 运行一个程序所需要的一切。
@@ -64,7 +67,7 @@ r1 = syz_genetlink_get_family_id$nl80211(&AUTO='nl80211\x00', 0xffffffffffffffff
 ioctl$sock_SIOCGIFINDEX_80211(r0, 0x8933, &AUTO={'wlan0\x00', <r2=>0x0})
 ```
 
-此外，一些数据可以（通过指定指针的地址偏移）“锚定” 到特定的地址。当一块内存区域必须在多个调用之间共享时，这一点可能尤其重要。在这种情况下，指针地址必须设置在 0x7f0000000000 偏移处。在实际执行之前，syzkaller 会将指针调整到实际 mmap 区域的开头。
+此外，一些数据可以 “锚定” 到特定的地址。当一块内存区域必须在多个调用之间共享时，这一点可能尤其重要。在这种情况下，指针地址必须设置在 0x7f0000000000 偏移处。在实际执行之前，Syzkaller 会将指针调整到实际 mmap 区域的开头。
 
 ### 调用属性
 
