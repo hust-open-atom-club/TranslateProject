@@ -11,7 +11,7 @@ proofread_date: 20240407
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---
 
-# 设置: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel
+# 安装: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel
 
 ## GCC
 
@@ -125,13 +125,13 @@ qemu-system-s390x \
 	-pidfile vm.pid 2>&1 | tee vm.log
 ```
 
-之后，你应该能够在另一个终端中通过 ssh 连接到 QEMU 实例：
+之后，你应该能够在另一个终端中通过 SSH 连接到 QEMU 实例：
 
 ``` bash
 ssh -i $IMAGE/buster.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
 
-如果出现 "too many tries" 错误，可能是 ssh 先传递了默认密钥，而不是传递了 `-i` 所标识的指定密钥。请在命令中添加选项 `-o "IdentitiesOnly yes"`。
+如果出现 "too many tries" 错误，可能是 SSH 先传递了默认密钥，而不是传递了 `-i` 所标识的指定密钥。请在命令中添加选项 `-o "IdentitiesOnly yes"`。
 
 终止正在运行的 QEMU 实例，请按 `Ctrl+A` ，然后按 `X` 运行：
 
@@ -139,7 +139,7 @@ ssh -i $IMAGE/buster.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhos
 kill $(cat vm.pid)
 ```
 
-如果 QEMU 正常工作，内核启动并且 ssh 连接成功，您可以关闭 QEMU 并尝试运行 syzkaller 。
+如果 QEMU 正常工作，内核启动并且 SSH 连接成功，您可以关闭 QEMU 并尝试运行 syzkaller 。
 
 ## syzkaller
 
