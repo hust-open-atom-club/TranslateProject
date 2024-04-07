@@ -5,6 +5,7 @@ author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: keepgogogo
+translated_date: 20240407
 link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 ---
 
