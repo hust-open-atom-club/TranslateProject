@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: xin-zheqi
 translated_date: 20240317
+proofreader: JingJing1016
+proofread_date: 20240407
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---
 
@@ -13,12 +15,11 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 ## GCC
 
-获取版本 9 及以上的 GCC `s390x-linux-gnu-gcc` 。最新的 Debian/Ubuntu/Fedora 发行版
-应该在 `gcc-s390x-linux-gnu` 软件包中提供足够新版本的交叉编译器。
+获取至少 GCC 9 版本的 `s390x-linux-gnu-gcc`。最新的 Debian/Ubuntu/Fedora 发行版应该在 `gcc-s390x-linux-gnu` 软件包中提供足够新版本的交叉编译器。
 
 ## Kernel
 
-复刻 Linux 内核源码:
+获取 Linux 内核源码:
 
 ``` bash
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git $KERNEL
@@ -32,7 +33,7 @@ make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- defconfig
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- kvm_guest.config
 ```
 
-启用 syzkaller 所需的内核配置选项，如下所述[kernel_configs.md](kernel_configs.md).
+启用 syzkaller 所需的内核配置选项，如下所述 [kernel_configs.md](kernel_configs.md)。
 
 ```
 ./scripts/config --file .config \
@@ -67,7 +68,7 @@ make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- kvm_guest.config
                  -e DEBUG_KMEMLEAK
 ```
 
-手动编辑 `.config` 文件并在文件中启用它们（如果您愿意，也可以通过 `make menuconfig` 进行操作）.
+手动编辑 `.config` 文件并在文件中启用它们（如果你愿意，也可以通过 `make menuconfig` 进行操作）。
 
 由于启用这些选项会导致更多子选项可用，因此我们需要重新生成配置:
 
@@ -75,13 +76,13 @@ make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- kvm_guest.config
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- olddefconfig
 ```
 
-构建内核:
+编译内核:
 
-```
+``` bash
 make ARCH=s390 CROSS_COMPILE=s390x-linux-gnu- -j$(nproc)
 ```
 
-现在你应该有 `vmlinux` （内核二进制文件）和 `bzImage` （打包的内核镜像）:
+现在你应该有 `vmlinux`（内核二进制文件）和 `bzImage`（打包的内核镜像）:
 
 ``` bash
 $ ls $KERNEL/vmlinux
@@ -96,16 +97,16 @@ $KERNEL/arch/s390/boot/bzImage
 
 要使用最少的必需软件包集创建一个 Debian Linux 镜像，请执行以下操作：
 
-```
+``` bash
 cd $IMAGE/
 wget https://raw.githubusercontent.com/google/syzkaller/master/tools/create-image.sh -O create-image.sh
 chmod +x create-image.sh
 ./create-image.sh -a s390x
 ```
 
-执行结果应当是 `$IMAGE/bullseye.img` 的磁盘镜像文件.
+执行结果应当是 `$IMAGE/bullseye.img` 的磁盘镜像文件。
 
-有关 `create-image.sh` 的其他选项，请参阅 `./create-image.sh -h` 
+有关 `create-image.sh` 的其他选项，请参阅 `./create-image.sh -h`。
 
 ## QEMU
 
@@ -124,13 +125,13 @@ qemu-system-s390x \
 	-pidfile vm.pid 2>&1 | tee vm.log
 ```
 
-之后，您应该能够在另一个终端中通过 ssh 连接到 QEMU 实例：
+之后，你应该能够在另一个终端中通过 SSH 连接到 QEMU 实例：
 
 ``` bash
 ssh -i $IMAGE/buster.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
 
-如果出现 "too many tries" 错误，可能是 SSH 先传递了默认密钥，而不是传递了 `-i` 所标识的指定密钥。请在命令中添加选项 `-o "IdentitiesOnly yes"` 。
+如果出现 "too many tries" 错误，可能是 SSH 先传递了默认密钥，而不是传递了 `-i` 所标识的指定密钥。请在命令中添加选项 `-o "IdentitiesOnly yes"`。
 
 终止正在运行的 QEMU 实例，请按 `Ctrl+A` ，然后按 `X` 运行：
 
@@ -142,9 +143,9 @@ kill $(cat vm.pid)
 
 ## syzkaller
 
-按照[此处](/docs/linux/setup.md#go-and-syzkaller)的说明构建 syzkaller ， target 为s390x：
+按照 [此处](/sources/syzkaller/linux/setup.md#go-and-syzkaller) 的说明编译 syzkaller，target 为 s390x：
 
-```
+``` bash
 make TARGETOS=linux TARGETARCH=s390x
 ```
 
@@ -177,6 +178,6 @@ mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-现在 syzkaller 应该正在运行，您可以使用您的浏览器在站点： `127.0.0.1:56741` 查看管理器的状态。
+现在 syzkaller 应该正在运行，你可以通过浏览器在 `127.0.0.1:56741` 查看管理器的状态。
 
-如果在启动 `syz-manager` 后遇到问题，请考虑在 `-debug` 标志下运行它。此外，查看[此页面](/docs/troubleshooting.md)获取故障排除提示。
+如果在启动 `syz-manager` 后遇到问题，请考虑在 `-debug` 标志下运行它。此外，查看 [此页面](/sources/syzkaller/troubleshooting.md) 获取故障排除提示。
