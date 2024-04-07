@@ -4,7 +4,7 @@ title: "Troubleshooting"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
-translator: Ren Xiao
+translator: wyywwi
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240406

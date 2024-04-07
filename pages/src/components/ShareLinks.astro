@@ -6,34 +6,29 @@ const URL = Astro.url;
 
 const shareLinks = [
   {
-    name: "WhatsApp",
-    href: "https://wa.me/?text=",
-    linkTitle: `Share this post via WhatsApp`,
-  },
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/sharer.php?u=",
-    linkTitle: `Share this post on Facebook`,
-  },
-  {
-    name: "Twitter",
-    href: "https://twitter.com/intent/tweet?url=",
-    linkTitle: `Tweet this post`,
-  },
-  {
-    name: "Telegram",
-    href: "https://t.me/share/url?url=",
-    linkTitle: `Share this post via Telegram`,
-  },
-  {
-    name: "Pinterest",
-    href: "https://pinterest.com/pin/create/button/?url=",
-    linkTitle: `Share this post on Pinterest`,
-  },
-  {
     name: "Mail",
     href: "mailto:?subject=See%20this%20post&body=",
     linkTitle: `Share this post via email`,
+  },
+  {
+    name: "QQ",
+    href: "http://connect.qq.com/widget/shareqq/index.html?title=qqhaoyou&url=",
+    linkTitle: `通过 QQ 分享这篇文章`,
+  },
+  {
+    name: "Wechat",
+    href: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=", // 一个在线二维码生成服务的 URL
+    linkTitle: `通过微信分享这篇文章`,
+  },
+  {
+    name: "Weibo",
+    href: "http://service.weibo.com/share/share.php?url=",
+    linkTitle: `分享这篇文章到微博`,
+  },
+  {
+    name: "Zhihu",
+    href: "https://www.zhihu.com/share?url=", // 知乎的分享链接
+    linkTitle: `分享这篇文章到知乎`,
   },
 ] as const;
 ---
