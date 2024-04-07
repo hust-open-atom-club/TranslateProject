@@ -4,7 +4,7 @@ title: "Setup: Linux isolated host"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
-translater: xiaobor123
+translator: xiaobor123
 translate_data: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md
 ---
