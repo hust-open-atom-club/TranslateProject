@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Setup"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: keepgogogo
 link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 ---
 
