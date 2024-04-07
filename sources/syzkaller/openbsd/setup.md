@@ -8,37 +8,34 @@ translator: keepgogogo
 link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 ---
 
-# Setup
+# 指南
 
-Instructions for running OpenBSD host, OpenBSD vm, amd64 kernel.
-In addition, the host must be running `-current`.
+用于创建 amd64 架构 OpenBSD 主机和 OpenBSD 虚拟机的指令。另外，主机必须运行 `-current` 分支。
 
-Variables used throughout the instructions:
+在整个操作指南中使用的变量如下：
 
-- `$KERNEL` - Custom built kernel, see [Compile Kernel](#compile-kernel).
-              Defaults to `/sys/arch/amd64/compile/SYZKALLER/obj/bsd` if the
-              instructions are honored.
-- `$SSHKEY` - SSH key ***without a passphrase*** used to connect to the VMs,
-              it's advised to use a dedicated key.
-- `$USER`   - The name of the user intended to run syzkaller.
-- `$VMIMG`  - VM disk image.
-- `$VMID`   - The numeric ID of last started VM.
+- `$KERNEL` - 自定义编译的内核, 参见 [编译内核](#编译内核).
+              如果遵循本指南，则默认值为 `/sys/arch/amd64/compile/SYZKALLER/obj/bsd` 
+- `$SSHKEY` - 用于连接至虚拟机且***不含密码***的密钥，建议使用专用的密钥。
+- `$USER`   - 用于运行 syzkaller 的用户名。
+- `$VMIMG`  - 虚拟机磁盘镜像。
+- `$VMID`   - 最近启动的虚拟机的 ID。
 
-## Install syzkaller
+## 安装 syzkaller
 
-1. Install dependencies:
+1. 安装依赖：
 
    ```sh
    # pkg_add git gmake go
    ```
 
-   In order for reproducers to work, GCC from ports is also required:
+   为了让复现器能够正常工作，还需要安装来自 ports 的 GCC：
 
    ```sh
    # pkg_add gcc
    ```
 
-2. Clone repository:
+2. 下载仓库：
 
    ```sh
    $ git clone https://github.com/google/syzkaller
@@ -46,11 +43,9 @@ Variables used throughout the instructions:
    $ gmake all
    ```
 
-## Compile Kernel
+## 编译内核
 
-A `GENERIC` kernel must be compiled with
-[kcov(4)](https://man.openbsd.org/kcov.4)
-enabled:
+必须编译一个带有 [kcov(4)](https://man.openbsd.org/kcov.4) 支持的 `GENERIC` 内核：
 
 ```sh
 $ cd /sys/arch/amd64
@@ -64,11 +59,9 @@ $ make -C compile/SYZKALLER config
 $ make -C compile/SYZKALLER
 ```
 
-## Create VM
+## 创建虚拟机
 
-1. [vmd(8)](https://man.openbsd.org/vmd.8)
-   must be configured to allow non-root users to create VMs since it removes the
-   need to run syzkaller as root:
+1. 必须配置 [vmd(8)](https://man.openbsd.org/vmd.8) 来允许非 root 用户创建虚拟机，这可以避免以 root 用户来运行 syzkaller：
 
    ```sh
    $ cat /etc/vm.conf
@@ -81,26 +74,26 @@ $ make -C compile/SYZKALLER
    }
    ```
 
-2. Create disk image:
+2. 创建磁盘映像：
 
    ```sh
    $ vmctl create -s 4G "qcow2:$VMIMG"
    ```
 
-3. Install VM:
+3. 安装虚拟机：
 
    ```sh
    $ vmctl start -c -t syzkaller -b /bsd.rd -d "$VMIMG" syzkaller-1
    ```
 
-   Answers to questions that deviates from the defaults:
+   并非以默认值回答的问题：
 
    ```
    Password for root account? ******
    Allow root ssh login? yes
    ```
 
-4. Restart the newly created VM and copy the SSH-key:
+4. 重启新创建的虚拟机并复制 SSH 密钥：
 
    ```sh
    $ vmctl stop -w syzkaller-1
@@ -108,19 +101,19 @@ $ make -C compile/SYZKALLER
    $ ssh "root@100.64.${VMID}.3" 'cat >~/.ssh/authorized_keys' <$SSHKEY.pub
    ```
 
-5. Optionally, library ASLR can be disabled in order to improve boot time:
+5. 可选地，可以禁用 ASLR 库来提升开机速度：
 
    ```sh
    $ ssh "root@100.64.${VMID}.3" 'echo library_aslr=NO >>/etc/rc.conf.local'
    ```
 
-6. Finally, stop the VM:
+6. 最后，停止虚拟机：
 
    ```sh
    $ vmctl stop -w syzkaller-1
    ```
 
-## Configure and run syzkaller
+## 配置和运行 syzkaller
 
 ```sh
 $ pwd
