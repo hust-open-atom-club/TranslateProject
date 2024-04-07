@@ -5,7 +5,7 @@ author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: xiaobor123
-translate_data: 20240317
+translated_date: 20240317
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md
 ---
 
