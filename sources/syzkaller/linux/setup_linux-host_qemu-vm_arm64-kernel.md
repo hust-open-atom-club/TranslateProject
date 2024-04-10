@@ -142,7 +142,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 ## 编译 syzkaller
 
-按照 [这里](/docs/linux/setup.md#go-and-syzkaller) 的描述编译 Syzkaller，目标为 `arm64`。
+按照 [这里](/sources/syzkaller/linux/setup.md#go-and-syzkaller) 的描述编译 Syzkaller，目标为 `arm64`。
 
 ```
 CC=gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
@@ -180,4 +180,4 @@ make TARGETARCH=arm64
 此时，你应该能够访问 `localhost:56700` 并查看模糊测试的结果。
 
 如果在 `syz-manager` 启动后遇到问题，请考虑使用 `-debug` 标志运行它。
-还可以查看 [此页面](/docs/troubleshooting.md) 获取故障排除提示。
+还可以查看 [此页面](/sources/syzkaller/linux/troubleshooting.md) 获取故障排除提示。
