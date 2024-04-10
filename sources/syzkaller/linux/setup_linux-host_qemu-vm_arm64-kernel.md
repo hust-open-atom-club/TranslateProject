@@ -180,4 +180,4 @@ make TARGETARCH=arm64
 此时，你应该能够访问 `localhost:56700` 并查看模糊测试的结果。
 
 如果在 `syz-manager` 启动后遇到问题，请考虑使用 `-debug` 标志运行它。
-还可以查看 [此页面](/sources/syzkaller/linux/troubleshooting.md) 获取故障排除提示。
+还可以查看 [此页面](/sources/syzkaller/troubleshooting.md) 获取故障排除提示。
