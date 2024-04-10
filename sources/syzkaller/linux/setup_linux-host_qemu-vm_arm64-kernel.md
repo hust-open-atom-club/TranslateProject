@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Gskh3450
 translated_date: 20240317
+proofreader: Wum1ng
+proofread_date: 20240406
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md
 ---
 
@@ -16,8 +18,8 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 ## 创建一个磁盘映像
 
 我们将使用 buildroot 来创建磁盘映像。
-你可以从[这里](https://buildroot.uclibc.org/download.html)获取 buildroot。
-解压缩tar格式的压缩文件，并在其中执行`make menuconfig`，
+你可以从 [这里](https://buildroot.uclibc.org/download.html) 获取 buildroot。
+解压压缩包，并在其中执行 `make menuconfig`，
 选择以下选项。
 
     Target options
@@ -41,9 +43,9 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 	        exact size in blocks - 6000000
 	    [*] tar the root filesystem
 
-运行`make`。编译完成后，确认`output/images/rootfs.ext3`文件是否存在。
+运行 `make`。编译完成后，确认 `output/images/rootfs.ext3` 文件是否存在。
 
-如果在 x86 上运行 arm64 qemu 时遇到 ssh 启动时间非常慢的问题，很可能是随机熵不足的问题，可以通过安装 `haveged`来“解决”这个问题。你可以在buildroot的 `menuconfig` 中找到该选项：
+如果在 x86 上运行 arm64 qemu 时遇到 ssh 启动时间非常慢的问题，很可能是熵不足的问题，可以通过安装 `haveged` 来 “解决” 这个问题。你可以在 buildroot 的 `menuconfig` 中找到该选项：
 
 ```
     Target packages
@@ -51,17 +53,17 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 	        [*] haveged
 ```
 
-## 从Linaro获取ARM64工具链
+## 从 Linaro 获取 ARM64 工具链
 
-你需要一个支持gcc插件的ARM64内核。
-如果没有，请从 Linaro 获取ARM64工具链。
-从[这里](https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/aarch64-linux-gnu/)获取 `gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz` 。
+你需要一个支持 gcc 插件的 ARM64 内核。
+如果没有，请从 Linaro 获取 ARM64 工具链。
+从 [这里](https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/aarch64-linux-gnu/) 获取 `gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz` 。
 解压缩并将其 `bin/` 添加到你的 `PATH` 中。
-如果你的电脑上已经安装了其他ARM64工具链，请确保新下载的工具链被优先使用。
+如果你的电脑上已经安装了其他 ARM64 工具链，请确保新下载的工具链被优先使用。
 
 ## 编译内核
 
-获取你想要进行模糊测试的Linux内核版本的源代码，并执行以下操作。
+获取你想要进行模糊测试的 Linux 内核版本的源代码，并执行以下操作。
 
     $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make defconfig
     $ vim .config
@@ -84,16 +86,16 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 如果编译成功，应该会有一个 `arch/arm64/boot/Image` 文件。
 
-## 获取用于 ARM64 的 QEMU。
+## 获取用于 ARM64 的 QEMU
 
-从 git 获取 QEMU 源码或者从最新的源码发布中获取。
+从 git 或最新发布的源代码中获取 QEMU 源代码。
 
     $ ./configure
     $ make -j40
 
 如果编译成功，应该会有一个 `aarch64-softmmu/qemu-system-aarch64` 二进制文件。
 
-## 手动启动内核
+## 手动启动
 
 按照以下步骤启动内核。
 
@@ -111,7 +113,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 ## 设置 QEMU 磁盘
 
-现在我们已经有了一个 shell，接着我们向现有的初始化脚本添加几行代码，这样每次 Syzkaller 启动虚拟机时都会执行这些代码。
+现在我们已经有了一个 shell，接着我们向现有的初始化脚本添加几行代码，这样每次 Syzkaller 启动虚拟机时都会执行这些脚本。
 
 在 /etc/init.d/S50sshd 的顶部添加以下行：
 
@@ -140,7 +142,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 ## 编译 syzkaller
 
-按照[这里](/docs/linux/setup.md#go-and-syzkaller)的描述编译Syzkaller，目标为 `arm64`。
+按照 [这里](/sources/syzkaller/linux/setup.md#go-and-syzkaller) 的描述编译 Syzkaller，目标为 `arm64`。
 
 ```
 CC=gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-g++
@@ -148,9 +150,9 @@ make TARGETARCH=arm64
 ```
 
 
-## 修改你的配置文件并启动Syzkaller。
+## 修改你的配置文件并启动 Syzkaller
 
-以下是一个示例配置文件，展示了所需选项的使用方式。根据你的需求进行修改。
+以下是一个示例配置文件，包含了所需的选项。根据你的需求进行修改。
 
 ```
 {
@@ -178,4 +180,4 @@ make TARGETARCH=arm64
 此时，你应该能够访问 `localhost:56700` 并查看模糊测试的结果。
 
 如果在 `syz-manager` 启动后遇到问题，请考虑使用 `-debug` 标志运行它。
-还可以查看[此页面](/docs/troubleshooting.md)获取故障排除提示。
+还可以查看 [此页面](/sources/syzkaller/troubleshooting.md) 获取故障排除提示。
