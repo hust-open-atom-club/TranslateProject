@@ -17,7 +17,7 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 Common Vulnerabilities and Exposure(CVE®)编号是作为一种明确的方式来识别、定义和登记公开披露的安全漏洞。随着时间的推移，它们在内核项目中的实用性已经下降，CVE编号经常以不适当的方式和不适当的原因分配。因此，内核开发社区倾向于避免使用它们。然而，分配CVE和其他形式的安全标识符的持续压力，以及内核社区之外的个人和公司的持续滥用，已经清楚地表明内核社区应该控制这些CVE分配。
 
-Linux内核开发团队确实有能力为潜在的Linux内核安全问题分配CVE。当然,[CVED的分配](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst)独立于内核安全漏洞报送过程。
+Linux内核开发团队确实有能力为潜在的Linux内核安全问题分配CVE。当然，[CVE的分配](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/security-bugs.rst)独立于内核安全漏洞报送过程。
 
 所有分配给Linux内核的CVE列表可以在Linux-cve邮件列表的存档中找到，如https://lore.kernel.org/linux-cve-announce/所示。要获得分配的CVE通知，请“订阅”该邮件列表。要获得分配的CVE通知，请订阅该邮件列表：`<https://subspace.kernel.org/subscribing.html>` 。
 
