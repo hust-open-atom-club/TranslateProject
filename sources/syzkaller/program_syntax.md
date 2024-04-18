@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Program syntax"
 author: Syzkaller Community
 collector: dzm91_hust
@@ -8,6 +8,8 @@ translator: QGrain
 translated_date: 20240311
 proofreader: hai119
 proofread_date: 20240407
+publisher: JasonC10
+published_date: 20240418
 link: https://github.com/google/syzkaller/blob/master/docs/program_syntax.md
 ---
 
