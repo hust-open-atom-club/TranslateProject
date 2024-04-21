@@ -4,23 +4,12 @@ import { SITE, RANK_LIST } from "@config";
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import Layout from "./Layout.astro";
-import { useState, useEffect } from 'react';
 
 export interface Props {
-  status: string | undefined;
   rankResult: Map<string, Array<[string, Object]>>;
 }
 
 let paginatedPosts = await getCollection("posts", ({ data }) => true);
-
-const {status} = Astro.props;
-
-function getStyle(tabStatus: string) {
-  const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 "
-  return tabStatus === status
-    ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
-    : base;
-}
 
 // use all the post data to init the nameRank
 function getRank() {
@@ -60,7 +49,7 @@ function getRank() {
           thisRank.count += 1;
           oneRank.set(rankPerson, thisRank);
         } else {
-          oneRank.set(rankPerson, { count: 1, avatar: ""});
+          oneRank.set(rankPerson, { count: 1, avatar: "https://github.com/identicons/" + rankPerson + ".png"});
         }
     });
   });
@@ -75,6 +64,48 @@ function getRank() {
 }
 
 let rankResult = getRank();
+
+// Get the avatar by Github API 'https://api.github.com/search/users?q='
+async function getAvatar(name: string) {
+  let avatar = "https://github.com/identicons/" + name + ".png"; // random default avatar https://github.com/identicons/${name}.png
+  const response = await fetch(`https://api.github.com/search/users?q=${name}`);
+  const data = await response.json();
+  if (data.hasOwnProperty("items") && data.items.length > 0) {
+    avatar = data.items[0].avatar_url;
+  }
+  return avatar;
+}
+
+async function getAllAvatar() {
+  // update the avatar for each tag
+  let newRankResult = new Map();
+
+  // Create an array to store all the promises
+  let promises = [];
+
+  rankResult.forEach((value, key) => {
+    let oneRank = value;
+    oneRank.forEach(([name, feature], index) => {
+      // Push each promise into the promises array
+      promises.push(
+        getAvatar(name).then(avatar => {
+          feature.avatar = avatar;
+        })
+      );
+    });
+    // Update the newRankResult after all avatars are fetched for oneRank
+    Promise.all(promises).then(() => {
+      newRankResult.set(key, oneRank);
+    });
+  });
+
+  // Wait for all promises to resolve before continuing
+  await Promise.all(promises);
+
+  rankResult = newRankResult;
+}
+
+await getAllAvatar();
 ---
 
 <Layout title={`${SITE.title}`}>
@@ -122,7 +153,7 @@ let rankResult = getRank();
       });
     }
 
-    document.addEventListener("DOMContentLoaded", getAllAvatar);
+    // document.addEventListener("DOMContentLoaded", getAllAvatar);
   </script>
   <div id="content-container">
   <main id="main-content" class="mt-8 grid grid-cols-2 gap-8">
