@@ -1,7 +1,7 @@
 ---
 status: published
 title: "Linux Kernel CVE Assignment"
-author: Greg Kroah-Hartman
+author: Linux Kernel Community
 collector: mudongliang
 collected_date: 20240220
 translator: gitveg
