@@ -1,0 +1,153 @@
+---
+import { getCollection } from "astro:content";
+import { SITE, RANK_LIST } from "@config";
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import Layout from "./Layout.astro";
+import { useState, useEffect } from 'react';
+
+export interface Props {
+  status: string | undefined;
+  rankResult: Map<string, Array<[string, Object]>>;
+}
+
+let paginatedPosts = await getCollection("posts", ({ data }) => true);
+
+const {status} = Astro.props;
+
+function getStyle(tabStatus: string) {
+  const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 "
+  return tabStatus === status
+    ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
+    : base;
+}
+
+// use all the post data to init the nameRank
+function getRank() {
+  let nameRank = new Map();
+  let rankResult = new Map();
+  // set all nameRank as {"status": Map()}, e.g. {"translator": Map(), "proofreader": Map()}
+  RANK_LIST.forEach(({status}) => {
+    nameRank.set(status, new Map());
+  });
+  
+  // init all the tags rank
+  nameRank.forEach((value, key) => {
+    let oneRank = value;
+    paginatedPosts.forEach(({ data }) => {
+      const { translator, proofreader } = data;
+      // set the count and avatar for each tag
+      let rankPerson = "";
+      if (key === "translator" && translator) {
+        // need the status not be translating
+        if (data.status != "translating"){
+          rankPerson = translator;
+        }
+      }
+      else if (key === "proofreader" && proofreader) {
+        // need the status not be proofreading
+        if (data.status != "proofreading"){
+          rankPerson = proofreader;
+        }
+      }
+      // remove 'HCTT' and '' from the rank list
+      if (rankPerson === "" || rankPerson === "HCTT") {
+        return;
+      }
+      if (oneRank.has(rankPerson)) {
+          // update count
+          let thisRank = oneRank.get(rankPerson);
+          thisRank.count += 1;
+          oneRank.set(rankPerson, thisRank);
+        } else {
+          oneRank.set(rankPerson, { count: 1, avatar: ""});
+        }
+    });
+  });
+  // sort all the tags and store the result in "rankResult"
+  nameRank.forEach((value, key) => {
+    let oneRank = value;
+    let sortedRank = [...oneRank].sort((a, b) => b[1].count - a[1].count);
+    rankResult.set(key, sortedRank);
+  });
+
+  return rankResult;
+}
+
+let rankResult = getRank();
+---
+
+<Layout title={`${SITE.title}`}>
+  <Header activeNav="rank" />
+  <style>
+    #content-container {
+      display: flex;
+      justify-content: center;
+    }
+    #main-content {
+      display: flex;
+      /* justify-content: center; */
+      padding-left: 1rem;
+      max-width: 48rem;
+      padding-right: 1rem;
+      width: 100%;
+    }
+
+    #main-content > section {
+      flex-grow: 1;
+      max-width: 100%;
+    }
+  </style>
+  <script>
+    // Get the avatar by Github API 'https://api.github.com/search/users?q='
+    async function getAvatar(name: string) {
+      let avatar = "https://github.com/identicons/" + name + ".png"; // random default avatar https://github.com/identicons/${name}.png
+      const response = await fetch(`https://api.github.com/search/users?q=${name}`);
+      const data = await response.json();
+      if (data.hasOwnProperty("items") && data.items.length > 0) {
+        avatar = data.items[0].avatar_url;
+      }
+      return avatar;
+    }
+
+    async function getAllAvatar() {
+      // 获取所有带有 class="avatar-img" 的 img 元素
+      const avatarImgs = document.querySelectorAll(".avatar-img");
+      avatarImgs.forEach(async function(avatarImg) {
+        // 从每个 img 元素的 data-value 属性获取 GitHub 用户名
+        const name = avatarImg.getAttribute("data-name");
+        if (!name) return;
+        const avatarUrl = await getAvatar(name);
+        avatarImg.src = avatarUrl;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", getAllAvatar);
+  </script>
+  <div id="content-container">
+  <main id="main-content" class="mt-8 grid grid-cols-2 gap-8">
+    {RANK_LIST.map(({ status, text }) => (
+      <section id={status} class="mb-8 max-w-md prose-img:border-0">
+        <div class="border rounded-md shadow-md p-4">
+          <h2 class="text-xl font-bold mb-4">{text}</h2>
+          <ol>
+            {
+              rankResult.get(status).map(([name, feature], index) => (
+                <li class="flex justify-between items-center py-2" key={index}>
+                  <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name} >
+                    <img src={feature.avatar} class="w-8 h-8 rounded-full me-3 avatar-img" alt={name} onerror="this.src='https://github.com/identicons/github.png'" data-name={name}/>
+                    <span >{name}</span>
+                  </a>
+                  <span>{feature.count}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+    ))}
+  </main>
+</div> 
+  <Footer />
+</Layout>
+
