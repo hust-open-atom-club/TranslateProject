@@ -1,7 +1,7 @@
 ---
 status: proofread
 title: Kernel Memory Leak Detector
-author: Greg Kroah-Hartman
+author: Linux Kernel Community
 collector: RutingZhang0429
 collected_date: 20240301
 translator: tttturtle-russ
