@@ -39,6 +39,17 @@ export const STATUS_LIST: {
     { status: "translating", text: "翻译中", hideInTab: true, color: "bg-yellow-300" },
   ];
 
+export const RANK_LIST: {
+  status: string;
+  text?: string;
+  tabText?: string;
+  hideInTab?: boolean;
+  color?: string;
+}[] = [
+    { status: "translator", text: "翻译王者", tabText: "翻译王者", color: "bg-green-500" },
+    { status: "proofreader", text: "校验大佬", tabText: "校验大佬", color: "bg-purple-500" },
+  ];
+
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
