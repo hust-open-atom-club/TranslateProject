@@ -2,7 +2,7 @@
 status: collected
 title: "Headerparser"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliang
 collected_date: 20240304
 link: https://github.com/google/syzkaller/blob/master/docs/headerparser_usage.md
 ---

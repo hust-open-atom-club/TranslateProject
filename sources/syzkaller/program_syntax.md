@@ -2,7 +2,7 @@
 status: published
 title: "Program syntax"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliang
 collected_date: 20240229
 translator: QGrain
 translated_date: 20240311

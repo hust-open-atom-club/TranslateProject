@@ -2,7 +2,7 @@
 status: collected
 title: "syz-testbed"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliang
 collected_date: 20240304
 link: https://github.com/google/syzkaller/blob/master/docs/syz_testbed.md
 ---

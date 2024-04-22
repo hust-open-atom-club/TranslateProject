@@ -2,11 +2,11 @@
 status: published
 title: "Research"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliang
 collected_date: 20240304
 translator: ElizaXiao
 translated_date: 20240310
-proofreader: dzm91_hust
+proofreader: mudongliang
 proofread_date: 20240311
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---

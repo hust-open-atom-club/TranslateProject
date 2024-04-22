@@ -2,7 +2,7 @@
 status: translating
 title: "Pseudo-syscalls"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliang
 collected_date: 20240229
 translator: lidaxian121
 link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md

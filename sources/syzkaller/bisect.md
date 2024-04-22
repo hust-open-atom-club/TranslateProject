@@ -2,7 +2,7 @@
 status: collected
 title: "Syz-bisect"
 author: Syzkaller Community
-collector: dzm91_hust
+collector: mudongliangg
 collected_date: 20240229
 link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 ---
