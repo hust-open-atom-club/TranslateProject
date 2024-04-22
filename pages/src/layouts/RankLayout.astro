@@ -6,10 +6,10 @@ import Header from "@components/Header.astro";
 import Layout from "./Layout.astro";
 
 export interface Props {
-  rankResult: Map<string, Array<[string, Object]>>;
+  rankResult: Map<string, Array<[string, {count: number, avatar: string}]>>;
 }
 
-let paginatedPosts = await getCollection("posts", ({ data }) => true);
+let paginatedPosts = await getCollection("posts", (entry: unknown) => true);
 
 // use all the post data to init the nameRank
 function getRank() {
@@ -23,7 +23,9 @@ function getRank() {
   // init all the tags rank
   nameRank.forEach((value, key) => {
     let oneRank = value;
-    paginatedPosts.forEach(({ data }) => {
+    // for each post, update the count for each tag
+    for (let i = 0; i < paginatedPosts.length; i++) {
+      const { data }: { data: {status: string, translator: string, proofreader: string} } = paginatedPosts[i];
       const { translator, proofreader } = data;
       // set the count and avatar for each tag
       let rankPerson = "";
@@ -41,7 +43,7 @@ function getRank() {
       }
       // remove 'HCTT' and '' from the rank list
       if (rankPerson === "" || rankPerson === "HCTT") {
-        return;
+        continue;
       }
       if (oneRank.has(rankPerson)) {
           // update count
@@ -51,7 +53,7 @@ function getRank() {
         } else {
           oneRank.set(rankPerson, { count: 1, avatar: "https://github.com/identicons/" + rankPerson + ".png"});
         }
-    });
+    }
   });
   // sort all the tags and store the result in "rankResult"
   nameRank.forEach((value, key) => {
@@ -81,11 +83,11 @@ async function getAllAvatar() {
   let newRankResult = new Map();
 
   // Create an array to store all the promises
-  let promises = [];
+  let promises: any[] = [];
 
   rankResult.forEach((value, key) => {
     let oneRank = value;
-    oneRank.forEach(([name, feature], index) => {
+    oneRank.forEach(([name, feature]: [string, {count: number, avatar: string}], index: number) => {
       // Push each promise into the promises array
       promises.push(
         getAvatar(name).then(avatar => {
@@ -145,6 +147,8 @@ await getAllAvatar();
       // 获取所有带有 class="avatar-img" 的 img 元素
       const avatarImgs = document.querySelectorAll(".avatar-img");
       avatarImgs.forEach(async function(avatarImg) {
+        // 检查avatarImg是否是HTMLImageElement
+        if (!(avatarImg instanceof HTMLImageElement)) return;
         // 从每个 img 元素的 data-value 属性获取 GitHub 用户名
         const name = avatarImg.getAttribute("data-name");
         if (!name) return;
@@ -163,8 +167,8 @@ await getAllAvatar();
           <h2 class="text-xl font-bold mb-4">{text}</h2>
           <ol>
             {
-              rankResult.get(status).map(([name, feature], index) => (
-                <li class="flex justify-between items-center py-2" key={index}>
+              rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (
+                <li class="flex justify-between items-center py-2">
                   <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name} >
                     <img src={feature.avatar} class="w-8 h-8 rounded-full me-3 avatar-img" alt={name} onerror="this.src='https://github.com/identicons/github.png'" data-name={name}/>
                     <span >{name}</span>
