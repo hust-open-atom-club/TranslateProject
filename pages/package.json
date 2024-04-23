@@ -14,6 +14,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ant-design/charts": "^2.1.0",
     "@astrojs/check": "^0.5.6",
     "@astrojs/rss": "^4.0.2",
     "@resvg/resvg-js": "^2.6.0",
