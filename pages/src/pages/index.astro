@@ -4,7 +4,7 @@ import { getPostByStatus } from "./[status]/[page].astro";
 import getPagination from "@utils/getPagination";
 import Posts from "@layouts/Posts.astro";
 
-const status = "all";
+const status = "collected";
 const posts = await getPostByStatus(status);
 const sortedPosts = getSortedPosts(posts);
 
