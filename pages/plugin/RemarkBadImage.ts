@@ -12,9 +12,10 @@ const plugin: RemarkPlugin = (_options) => (tree, file) => {
       for (var child of node.children) {
         if (child.type == "image" && child.url && !child.url.startsWith("/") && !child.url.startsWith("http")) {
           let url = child.url;
+          child.url = './' + url;
           if (url.indexOf("?") > -1) {
             url = url.substring(0, url.indexOf("?"));
-            child.url = url;
+            child.url = './' + url;
           }
           let absPath = resolve(path, url)
           if (!existsSync(absPath)) {
