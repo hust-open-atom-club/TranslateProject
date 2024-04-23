@@ -11,7 +11,7 @@ export type CountItem = {
 const getStatusCount = (posts: CollectionEntry<"posts">[]) => {
     return STATUS_LIST.map(u => ({
         status: u.status,
-        desc: u.text,
+        desc: u.tabText,
         count: posts.filter(x => x.data.status === u.status).length
     })) as CountItem[];
 };

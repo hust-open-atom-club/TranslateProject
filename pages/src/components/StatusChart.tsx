@@ -10,7 +10,7 @@ type Props = {
 export default function StatusChart({ data }: Props) {
 
     const config: BarConfig = {
-        data,
+        data: data.filter(x => x.status !== 'proofreading'),
         xField: 'desc',
         yField: 'count',
         colorField: 'desc',
@@ -20,6 +20,13 @@ export default function StatusChart({ data }: Props) {
         },
         axis: {
             y: false,
+            x: {
+                tick: false,
+                line: false,
+                labelAutoHide: false,
+                labelFontSize: 16,
+                labelSpacing: 16,
+            }
         },
         theme: 'academy',
         tooltip: (k: CountItem) => k.count,
