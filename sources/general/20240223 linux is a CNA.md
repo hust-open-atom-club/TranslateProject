@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Linux is a CNA"
 author: Greg Kroah-Hartman
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: AAtomical
 translated_date: 20240223
 proofreader: mudongliang
 proofread_date: 20240310
+publisher: gitveg
+published_date: 20240423
 link: http://www.kroah.com/log/blog/2024/02/13/linux-is-a-cna/
 ---
 
