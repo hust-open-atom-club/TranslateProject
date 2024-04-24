@@ -8,6 +8,8 @@ translator: moyihust
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240403
+publisher: AAtomical
+published_date: 20240406
 link: https://github.com/google/syzkaller/blob/master/docs/usage.md
 ---
 
