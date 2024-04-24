@@ -1,9 +1,9 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://hctt.hust.college/", // replace this with your deployed domain
+  website: "https://hctt.hust.openatom.club/", // replace this with your deployed domain
   author: "HCTT",
-  desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
+  desc: "",
   title: "HCTT",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
@@ -30,13 +30,12 @@ export const STATUS_LIST: {
   hideInTab?: boolean;
   color?: string;
 }[] = [
-    { status: "all", text: "全部" },
-    { status: "published", text: "已发布", hideInTab: true, color: "bg-green-500" },
+    { status: "collected", text: "已收集", tabText: "待翻译", color: "bg-gray-500" },
+    { status: "translating", text: "翻译中", tabText: "翻译中", color: "bg-yellow-300" },
+    { status: "translated", text: "已翻译", tabText: "待校对", color: "bg-orange-500" },
     { status: "proofread", text: "已校对", tabText: "待发布", color: "bg-purple-500" },
     { status: "proofreading", text: "校对中", hideInTab: true, color: "bg-blue-500" },
-    { status: "collected", text: "已收集", tabText: "待翻译", color: "bg-gray-500" },
-    { status: "translated", text: "已翻译", tabText: "待校对", color: "bg-orange-500" },
-    { status: "translating", text: "翻译中", hideInTab: true, color: "bg-yellow-300" },
+    { status: "published", text: "已发布", tabText: "已发布", color: "bg-green-500" },
   ];
 
 export const RANK_LIST: {

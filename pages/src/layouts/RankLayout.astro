@@ -51,7 +51,7 @@ function getRank() {
           thisRank.count += 1;
           oneRank.set(rankPerson, thisRank);
         } else {
-          oneRank.set(rankPerson, { count: 1, avatar: "https://github.com/identicons/" + rankPerson + ".png"});
+          oneRank.set(rankPerson, { count: 1, avatar: "https://github.com/" + rankPerson + ".png"});
         }
     }
   });
@@ -107,7 +107,7 @@ async function getAllAvatar() {
   rankResult = newRankResult;
 }
 
-await getAllAvatar();
+// await getAllAvatar();
 ---
 
 <Layout title={`${SITE.title}`}>
