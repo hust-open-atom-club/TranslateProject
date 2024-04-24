@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "How to use syzkaller"
 author: Syzkaller Community
 collector: jxlpzqc
