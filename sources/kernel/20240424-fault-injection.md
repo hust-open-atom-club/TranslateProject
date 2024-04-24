@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: Fault injection capabilities infrastructure
 author: Linux Kernel Community
 collector: mudongliang
 collected_date: 20240424
+translator: ash2kzzz
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/fault-injection/fault-injection.rst
 ---
 
