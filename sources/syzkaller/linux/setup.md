@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: Tai-Xinwei
 translated_data: 20240317
 proofreader: mudongliang
 proofread_date: 20240405
+publisher: AAtomical
+published_date: 20240417
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup.md
 ---
 
