@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Troubleshooting"
 author: Syzkaller Community
 collector: jxlpzqc
