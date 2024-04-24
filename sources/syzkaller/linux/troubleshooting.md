@@ -8,6 +8,8 @@ translator: wyywwi
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240406
+publisher: JasonC10
+published_date: 20240419
 link: https://github.com/google/syzkaller/blob/master/docs/linux/troubleshooting.md
 ---
 
