@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - '**.md'
+      - 'sources/**.md'
 
 jobs:
   check-article:
