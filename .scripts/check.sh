@@ -5,13 +5,22 @@ get_diff_article_files() {
   FILES=$(cat $DIFF_JSON | yq e '.files[].path' - )
   ARTICLES=''
   for FILE in $FILES; do
-    if [[ "$FILE" == sources/*.md ]]; then
+    if [[ "$FILE" == sources/*.md ]]; then # Seems duplicated with action path filter, keeping for safety
       ARTICLES="$ARTICLES $FILE"
     fi
   done
   if [ -z "$ARTICLES" ]; then
     echo "No valid articles found in the PR. Skip checks."
     exit 0
+  fi
+}
+
+# Check if published_date is in the front matter
+check_published() {
+  PUBLISHED_ARTICLE=$1
+  PUBLISHED_DATE=$(yq -f extract '.published_date' $PUBLISHED_ARTICLE)
+  if [ "$PUBLISHED_DATE" == "null" ]; then
+    ERROR=$ERROR"Missing metadata in published_date; "
   fi
 }
 
@@ -93,7 +102,7 @@ for ARTICLE in $ARTICLES; do
   STATUS=$(yq -f extract '.status' $ARTICLE)
   case $STATUS in
     "published")
-      # No specific check for published articles
+      check_published $ARTICLE
       ;& # Fallthrough to ensure low stage checks will run on articles in higher stages
     "proofread")
       check_proofread $ARTICLE
