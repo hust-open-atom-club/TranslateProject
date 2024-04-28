@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "External network fuzzing for Linux kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: squirrelsss
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240406
+publisher: gitveg
+published_date: 20240428
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_network.md
 ---
 
