@@ -8,6 +8,8 @@ translator: ElizaXiao
 translated_date: 20240310
 proofreader: mudongliang
 proofread_date: 20240311
+publisher: AAtomical
+published_date: 20240402
 link: https://github.com/google/syzkaller/blob/master/docs/research.md
 ---
 
