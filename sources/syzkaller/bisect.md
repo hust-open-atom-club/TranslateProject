@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "Syz-bisect"
 author: Syzkaller Community
 collector: mudongliangg
 collected_date: 20240229
+translator: MarkMrLi
 link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 ---
 
