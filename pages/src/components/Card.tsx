@@ -28,9 +28,17 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
         className="flex-1 inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         {secHeading ? (
-          <h2 {...headerProps}><span >[{id.split('/')[0]}]</span> {title}</h2>
+          id ? (
+            <h2 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h2>
+          ) : (
+            <h2 {...headerProps}>{title}</h2>
+          )
         ) : (
-          <h3 {...headerProps}><span >[{id.split('/')[0]}]</span> {title}</h3>
+          id ? (
+            <h3 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h3>
+          ) : (
+            <h3 {...headerProps}>{title}</h3>
+          )
         )}
       </a>
       {
@@ -47,7 +55,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
   );
 }
 
-function Status({ status, id }: { status: string, id: string }) {
+function Status({ status, id }: { status: string, id: string | undefined }) {
   const getStyle = (status: string) => {
     var s = STATUS_LIST.find(s => s.status === status);
     if (s) return s.color;
