@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: Kernel Memory Leak Detector
 author: Linux Kernel Community
 collector: RutingZhang0429
@@ -8,6 +8,8 @@ translator: tttturtle-russ
 translated_date: 20240306
 proofreader: shandianchengzi
 proofread_date: 20240406
+publisher: gitveg
+published_date: 20240428
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kmemleak.rst
 ---
 # 内核内存泄露检测器
