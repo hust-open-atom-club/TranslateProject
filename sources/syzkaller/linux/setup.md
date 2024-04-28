@@ -5,7 +5,7 @@ author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240304
 translator: Tai-Xinwei
-translated_data: 20240317
+translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240405
 publisher: AAtomical
