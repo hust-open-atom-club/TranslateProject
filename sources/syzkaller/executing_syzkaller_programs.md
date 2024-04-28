@@ -8,6 +8,8 @@ translator: tttturtle-russ
 translated_date: 20240229
 proofreader: mudongliang
 proofread_date: 20240302
+publisher: gitveg
+published_date: 20240302
 link: https://github.com/google/syzkaller/blob/master/docs/executing_syzkaller_programs.md
 ---
 
