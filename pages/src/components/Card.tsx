@@ -28,9 +28,17 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
         className="flex-1 inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
         {secHeading ? (
-          <h2 {...headerProps}>{title}</h2>
+          id ? (
+            <h2 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h2>
+          ) : (
+            <h2 {...headerProps}>{title}</h2>
+          )
         ) : (
-          <h3 {...headerProps}>{title}</h3>
+          id ? (
+            <h3 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h3>
+          ) : (
+            <h3 {...headerProps}>{title}</h3>
+          )
         )}
       </a>
       {
@@ -39,7 +47,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
         </div>
       }
       <div>
-        <Status status={status} />
+        <Status status={status} id={id} />
       </div>
       {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       {/* <p>{description}</p> */}
@@ -47,7 +55,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
   );
 }
 
-function Status({ status }: { status: string }) {
+function Status({ status, id }: { status: string, id: string | undefined }) {
   const getStyle = (status: string) => {
     var s = STATUS_LIST.find(s => s.status === status);
     if (s) return s.color;
@@ -60,11 +68,29 @@ function Status({ status }: { status: string }) {
     else return status;
   }
 
-
-  return (
-    <span className="flex flex-row items-center">
-      <span className={`flex w-3 h-3 me-3 ${getStyle(status)} rounded-full`}></span>
-      <span>{getText(status)}</span>
-    </span>
-  )
+  if (status === 'collected' || status === 'translated' || status === 'proofread') {
+    return (
+      <span className="flex flex-row items-center">
+        <span className={`flex w-3 h-3 me-3 ${getStyle(status)} rounded-full`}></span>
+        <span>
+          <a
+          href={`https://github.com/hust-open-atom-club/TranslateProject/edit/master/sources/${id}`}
+          className="text-skin-accent hover:underline"
+          >
+            {getText(status)}
+          </a>
+        </span>
+      </span>
+    )
+  }
+  else{
+    return (
+      <span className="flex flex-row items-center">
+        <span className={`flex w-3 h-3 me-3 ${getStyle(status)} rounded-full`}></span>
+        <span>
+          {getText(status)}
+        </span>
+      </span>
+    )
+  }
 }

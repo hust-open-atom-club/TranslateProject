@@ -1,0 +1,29 @@
+name: Check Article Validity
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'sources/**.md'
+
+jobs:
+  check-article:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get Diff
+        id: git-diff-action
+        uses: GrantBirki/git-diff-action@v2.7.0
+        with:
+          json_diff_file_output: diff.json
+          file_output_only: true
+      - name: Run Checks
+        env: 
+          DIFF_JSON: ${{ steps.git-diff-action.outputs.json-diff-path }}
+          ACTOR_ID: ${{ github.actor }}
+        run: |
+          /bin/bash ./.scripts/check.sh
