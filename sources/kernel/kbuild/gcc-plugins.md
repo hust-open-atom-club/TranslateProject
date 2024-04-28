@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "GCC plugin infrastructure"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
+translator: yang-pengmai
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/gcc-plugins.rst
 ---
 
