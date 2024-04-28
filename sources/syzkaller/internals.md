@@ -8,6 +8,8 @@ translator: lidaxian121
 translated_date: 20240302
 proofreader: mudongliang
 proofread_date: 20240304
+publisher: gitveg
+published_date: 20240306
 link: https://github.com/google/syzkaller/blob/master/docs/internals.md
 ---
 
