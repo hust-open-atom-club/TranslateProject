@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Found bugs"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Eliza
 translated_date: 20240331
 proofreader: mudongliang
 proofread_date: 20240406
+publisher: gitveg
+published_date: 20240429
 link: https://github.com/google/syzkaller/blob/master/docs/darwin/found_bugs.md
 ---
 
