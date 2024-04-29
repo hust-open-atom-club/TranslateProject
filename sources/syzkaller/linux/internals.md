@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Linux-specific syzkaller internals"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Earlystarry
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240405
+publisher: gitveg
+published_date: 20240429
 link: https://github.com/google/syzkaller/blob/master/docs/linux/internals.md
 ---
 
