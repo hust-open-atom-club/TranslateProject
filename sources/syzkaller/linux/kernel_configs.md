@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Linux kernel configs"
 author: Syzkaller Community
 collector: li-zhaoyang101
@@ -8,6 +8,8 @@ translator: RutingZhang0429
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240406
+publisher: gitveg
+published_date: 20240429
 link: https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md
 ---
 
