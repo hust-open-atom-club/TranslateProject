@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Setup: Linux host, QEMU vm, arm64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Gskh3450
 translated_date: 20240317
 proofreader: Wum1ng
 proofread_date: 20240406
+publisher: gitveg
+published_date: 20240430
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md
 ---
 
