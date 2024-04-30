@@ -4,6 +4,7 @@ title: "Configuration"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: gitveg
 link: https://github.com/google/syzkaller/blob/master/docs/configuration.md
 ---
 
