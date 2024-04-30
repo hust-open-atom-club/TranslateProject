@@ -1,5 +1,5 @@
 ---
-status: collected
+status: translating
 title: "Configuration"
 author: Syzkaller Community
 collector: jxlpzqc
