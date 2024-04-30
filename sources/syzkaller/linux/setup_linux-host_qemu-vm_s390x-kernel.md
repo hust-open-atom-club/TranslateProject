@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Setup: Debian/Ubuntu/Fedora host, QEMU vm, s390x kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: xin-zheqi
 translated_date: 20240317
 proofreader: JingJing1016
 proofread_date: 20240407
+publisher: gitveg
+published_date: 20240430
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_s390x-kernel.md
 ---
 
