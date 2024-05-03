@@ -63,7 +63,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 }
 ```
 
-并使用以下命令运行二分查找 `bin/syz-bisect -config vm_bisect.cfg -crash /syzkaller/workdir/crashes/03ee30ae11dfd0ddd062af26566c34a8c853698d`。
+使用 `bin/syz-bisect -config vm_bisect.cfg -crash /syzkaller/workdir/crashes/03ee30ae11dfd0ddd062af26566c34a8c853698d`进行二分查找。
 
 `syz-bisect` 需要在指定的崩溃目录中找到 repro.cprog 或 repro.prog 文件。
 它也会利用 repro.opts 文件，但这不是必需的。
