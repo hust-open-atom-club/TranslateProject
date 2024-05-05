@@ -25,20 +25,25 @@ function getRank() {
     let oneRank = value;
     // for each post, update the count for each tag
     for (let i = 0; i < paginatedPosts.length; i++) {
-      const { data }: { data: {status: string, translator: string, proofreader: string} } = paginatedPosts[i];
-      const { translator, proofreader } = data;
+      const needToRank : {[key: string]: {expect_status: string}} = {
+        "collector": { "expect_status": ""},
+        "translator": { "expect_status": "translating"},
+        "proofreader": { "expect_status": "proofreading"},
+        "publisher": { "expect_status": ""}
+      };
+      // key not in needToRank, skip
+      if (!needToRank.hasOwnProperty(key)) {
+        continue;
+      }
+      // get data from post
+      const {data}: {data: any} = paginatedPosts[i];
+      // get the name from post
+      let name = data[key];
       // set the count and avatar for each tag
       let rankPerson = "";
-      if (key === "translator" && translator) {
-        // need the status not be translating
-        if (data.status != "translating"){
-          rankPerson = translator;
-        }
-      }
-      else if (key === "proofreader" && proofreader) {
-        // need the status not be proofreading
-        if (data.status != "proofreading"){
-          rankPerson = proofreader;
+      if (name) {
+        if (data.status != needToRank[key].expect_status) {
+          rankPerson = name;
         }
       }
       // remove 'HCTT' and '' from the rank list
@@ -124,6 +129,7 @@ async function getAllAvatar() {
       max-width: 48rem;
       padding-right: 1rem;
       width: 100%;
+      flex-wrap: wrap;
     }
 
     #main-content > section {
