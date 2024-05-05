@@ -77,23 +77,34 @@ const layoutProps = {
         <p>
           <strong>选题：</strong>
           <a href={"https://github.com/" + collector}>{collector}</a>
-          {translated_date && (
+          {translator != "HCTT" && (
             <span>
-              &nbsp;&nbsp;
-              <strong>译者：</strong> 
+              &nbsp;&nbsp;{
+                translated_date ? 
+                <strong>译者：</strong> : 
+                <strong>正在翻译：</strong>
+              }
               <a href={"https://github.com/" + translator}>{translator}</a>
-              {proofread_date && (
+              {
+                proofreader != "HCTT" && (
                 <span>
-                  &nbsp;&nbsp;
-                  <strong>校对：</strong><a href={"https://github.com/" + proofreader}>{proofreader}</a>
+                  &nbsp;&nbsp;{
+                    proofread_date ? 
+                    <strong>校对：</strong> : 
+                    <strong>正在校对：</strong>
+                  }
+                  <a href={"https://github.com/" + proofreader}>{proofreader}</a>
                 </span>
-              )}
-              {published_date && (
-                <span>
-                  &nbsp;&nbsp;
-                  <strong>发布：</strong><a href={"https://github.com/" + publisher}>{publisher}</a>
-                </span>
-              )}
+                )
+              }
+              {
+                published_date && (
+                  <span>
+                    &nbsp;&nbsp;
+                    <strong>发布者：</strong><a href={"https://github.com/" + publisher}>{publisher}</a>
+                  </span>
+                )
+              }
             </span>
           )}
         </p>
