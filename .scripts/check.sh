@@ -18,9 +18,15 @@ get_diff_article_files() {
 # Check if published_date is in the front matter
 check_published() {
   PUBLISHED_ARTICLE=$1
+  PUBLISHER=$(yq -f extract '.publisher' $PUBLISHED_ARTICLE)
   PUBLISHED_DATE=$(yq -f extract '.published_date' $PUBLISHED_ARTICLE)
-  if [ "$PUBLISHED_DATE" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in published_date; "
+  if [ "$PUBLISHER" == "null" ] || [ "$PUBLISHED_DATE" == "null" ]; then
+    ERROR=$ERROR"Missing metadata in publisher/published_date; "
+  else
+    # No stage check needed for the final stage
+    if [ "$PUBLISHER" != "$ACTOR_ID" ]; then
+      ERROR=$ERROR"Publisher is not the same as the PR opener; "
+    fi
   fi
 }
 
@@ -30,6 +36,12 @@ check_proofread() {
   PROOFREAD_DATE=$(yq -f extract '.proofread_date' $PROOFREAD_ARTICLE)
   if [ "$PROOFREAD_DATE" == "null" ]; then
     ERROR=$ERROR"Missing metadata in proofread_date; "
+  else
+    # Check if proofread_date is earlier than published_date
+    PUBLISHED_DATE=$(yq -f extract '.published_date' $PROOFREAD_ARTICLE)
+    if [ ! $PUBLISHED_DATE == "null" ] && [ $PUBLISHED_DATE -lt $PROOFREAD_DATE ]; then
+      ERROR=$ERROR"Published date is earlier than proofread date; "
+    fi
   fi
 }
 
@@ -55,6 +67,12 @@ check_translated() {
   TRANSLATED_DATE=$(yq -f extract '.translated_date' $TRANSLATED_ARTICLE)
   if [ "$TRANSLATED_DATE" == "null" ]; then
     ERROR=$ERROR"Missing metadata in translated_date; "
+  else
+    # Check if translated_date is earlier than proofread_date
+    PROOFREAD_DATE=$(yq -f extract '.proofread_date' $TRANSLATED_ARTICLE)
+    if [ ! $PROOFREAD_DATE == "null" ] && [ $PROOFREAD_DATE -lt $TRANSLATED_DATE ]; then
+      ERROR=$ERROR"Proofread date is earlier than translated date; "
+    fi
   fi
 }
 
@@ -86,6 +104,11 @@ check_collected() {
   if [ "$TITLE" == "null" ] || [ "$AUTHOR" == "null" ] || [ "$COLLECTOR" == "null" ] || [ "$COLLECTED_DATE" == "null" ] || [ "$LINK" == "null" ]; then
     ERROR=$ERROR"Missing metadata in title/author/collector/collected_date/link; "
   else
+    # Check if collected_date is earlier than translated_date
+    TRANSLATED_DATE=$(yq -f extract '.translated_date' $COLLECTED_ARTICLE)
+    if [ ! $TRANSLATED_DATE == "null" ] && [ $TRANSLATED_DATE -lt $COLLECTED_DATE ]; then
+      ERROR=$ERROR"Translated date is earlier than collected date; "
+    fi
     if [ "$STATUS" == "collected" ]; then
       if [ "$COLLECTOR" != "$ACTOR_ID" ]; then
         ERROR=$ERROR"Collector is not the same as the PR opener; "
