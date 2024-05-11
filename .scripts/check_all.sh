@@ -42,7 +42,7 @@ check_github_user() {
 update_report() {
   MSG=$1
   ERROR="$ERROR$MSG"
-  echo -e "\t- $MSG" >> $REPORT_MD
+  echo -e "\n\t- $MSG" >> $REPORT_MD
 }
 
 # Check if published_date is in the front matter
@@ -155,7 +155,7 @@ while IFS= read -r ARTICLE; do
   ERROR=""
   STATUS=$(yq -f extract '.status' "$ARTICLE")
   # Write the article name and status to the report
-  echo -e "## $ARTICLE\n- Status: $STATUS\n- Error:" >> $REPORT_MD
+  echo -e "\n## $ARTICLE\n- Status: $STATUS\n- Error: " >> $REPORT_MD
   case $STATUS in
     "published")
       check_published "$ARTICLE"
@@ -182,7 +182,7 @@ while IFS= read -r ARTICLE; do
   # Print log for each article
   if [ -z "$ERROR" ]; then
     echo "  ✨ All checks passed for $STATUS $ARTICLE"
-    echo "no error" > $REPORT_MD
+    echo "no error" >> $REPORT_MD
   else
     echo "  😭 Some checks failed for $STATUS $ARTICLE: $ERROR"
     CHECK_PASSED=0
