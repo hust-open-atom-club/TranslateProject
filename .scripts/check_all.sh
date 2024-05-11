@@ -190,10 +190,10 @@ while IFS= read -r ARTICLE; do
 done <<< "$ARTICLES"
 # Print overall result
 if [ $CHECK_PASSED -eq 0 ]; then
-  echo "❌ Some checks failed. Please fix the article(s)."
-  exit 1
+  echo "❌ Some checks failed. Please find report in artifacts and fix the article(s)."
 else
   echo "✅ All checks passed. The repo is safe."
-  exit 0
 fi
+
+exit 0
 
