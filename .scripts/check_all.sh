@@ -42,7 +42,7 @@ check_github_user() {
 update_report() {
   MSG=$1
   ERROR="$ERROR$MSG"
-  echo -e "\n\t- $MSG" >> $REPORT_MD
+  echo -e "\n\t- <font color=red>$MSG</font>" >> $REPORT_MD
 }
 
 # Check if published_date is in the front matter
@@ -185,6 +185,7 @@ while IFS= read -r ARTICLE; do
     echo "no error" >> $REPORT_MD
   else
     echo "  😭 Some checks failed for $STATUS $ARTICLE: $ERROR"
+    echo -e "\n- <font color=red>Need to be fixed</font>" >> $REPORT_MD
     CHECK_PASSED=0
   fi
 done <<< "$ARTICLES"
