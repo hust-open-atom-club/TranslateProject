@@ -18,9 +18,15 @@ get_diff_article_files() {
 # Check if published_date is in the front matter
 check_published() {
   PUBLISHED_ARTICLE=$1
+  PUBLISHER=$(yq -f extract '.publisher' $PUBLISHED_ARTICLE)
   PUBLISHED_DATE=$(yq -f extract '.published_date' $PUBLISHED_ARTICLE)
-  if [ "$PUBLISHED_DATE" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in published_date; "
+  if [ "$PUBLISHER" == "null" ] || [ "$PUBLISHED_DATE" == "null" ]; then
+    ERROR=$ERROR"Missing metadata in publisher/published_date; "
+  else
+    # No stage check needed for the final stage
+    if [ "$PUBLISHER" != "$ACTOR_ID" ]; then
+      ERROR=$ERROR"Publisher is not the same as the PR opener; "
+    fi
   fi
 }
 
