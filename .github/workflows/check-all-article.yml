@@ -14,3 +14,17 @@ jobs:
       - name: Run Checks for All Articles
         run: |
           /bin/bash ./.scripts/check_all.sh
+      - name: Generate Report
+        uses: BaileyJM02/markdown-to-pdf@v1.2.0
+        with:
+          input_path: ./.cache/report.md
+          output_dir: ./outputs
+          build_html: true
+          build_pdf: true
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: report
+          path: |
+            ./outputs/*
+            ./.cache/report.md

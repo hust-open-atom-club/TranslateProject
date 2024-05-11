@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+REPORT_MD=".cache/report.md"
+
 # Get valid files in git diff (markdown files in sources/)
 get_diff_article_files() {
   # Get the list of files in ./sources
@@ -11,25 +13,36 @@ get_diff_article_files() {
   fi
 }
 
+init_cache() {
+  mkdir -p .cache/users
+  echo "# Check Report" > "$REPORT_MD"
+}
+
 # Check if an id is a valid GitHub user using the GitHub API
 check_github_user() {
   USER_ID=$1
-  mkdir -p .cache
   # Check if the user has already been searched
-  if [ ! -f ".cache/$USER_ID" ]; then
+  if [ ! -f ".cache/users/$USER_ID" ]; then
     GITHUB_API="https://api.github.com/users/$USER_ID"
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" $GITHUB_API)
     
     # Cache the result
     if [ $RESPONSE_CODE -eq 404 ]; then
       sleep 1
-      echo 1 > ".cache/$USER_ID"
+      echo 1 > ".cache/users/$USER_ID"
     elif [ $RESPONSE_CODE -eq 200 ]; then
       sleep 1
-      echo 0 > ".cache/$USER_ID"
+      echo 0 > ".cache/users/$USER_ID"
     fi
   fi
-  cat ".cache/$USER_ID"
+  cat ".cache/users/$USER_ID"
+}
+
+# Update error report
+update_report() {
+  MSG=$1
+  ERROR="$ERROR$MSG"
+  echo -e "\t- $MSG" >> $REPORT_MD
 }
 
 # Check if published_date is in the front matter
@@ -38,11 +51,11 @@ check_published() {
   PUBLISHER=$(yq -f extract '.publisher' "$PUBLISHED_ARTICLE")
   PUBLISHED_DATE=$(yq -f extract '.published_date' "$PUBLISHED_ARTICLE")
   if [ "$PUBLISHER" == "null" ] || [ "$PUBLISHED_DATE" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in publisher/published_date; "
+    update_report "Missing metadata in publisher/published_date; "
   else
     # No stage check needed for the final stage
     if [ $(check_github_user $PUBLISHER) -eq 1 ]; then
-      ERROR=$ERROR"Publisher is not a valid GitHub user; "
+      update_report "Publisher is not a valid GitHub user; "
     fi
   fi
 }
@@ -52,12 +65,12 @@ check_proofread() {
   PROOFREAD_ARTICLE=$1
   PROOFREAD_DATE=$(yq -f extract '.proofread_date' "$PROOFREAD_ARTICLE")
   if [ "$PROOFREAD_DATE" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in proofread_date; "
+    update_report "Missing metadata in proofread_date; "
   else
     # Check if proofread_date is earlier than published_date
     PUBLISHED_DATE=$(yq -f extract '.published_date' "$PROOFREAD_ARTICLE")
     if [ ! $PUBLISHED_DATE == "null" ] && [ $PUBLISHED_DATE -lt $PROOFREAD_DATE ]; then
-      ERROR=$ERROR"Published date is earlier than proofread date; "
+      update_report "Published date is earlier than proofread date; "
     fi
   fi
 }
@@ -68,11 +81,11 @@ check_proofreading() {
   PROOFREADING_ARTICLE=$1
   PROOFREADER=$(yq -f extract '.proofreader' "$PROOFREADING_ARTICLE")
   if [ "$PROOFREADER" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in proofreader; "
+    update_report "Missing metadata in proofreader; "
   else
     if [ "$STATUS" == "proofreading" ] || [ "$STATUS" == "proofread" ]; then
       if [ $(check_github_user $PROOFREADER) -eq 1 ]; then
-        ERROR=$ERROR"Proofreader is not a valid GitHub user; "
+        update_report "Proofreader is not a valid GitHub user; "
       fi
     fi
   fi
@@ -83,12 +96,12 @@ check_translated() {
   TRANSLATED_ARTICLE=$1
   TRANSLATED_DATE=$(yq -f extract '.translated_date' "$TRANSLATED_ARTICLE")
   if [ "$TRANSLATED_DATE" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in translated_date; "
+    update_report "Missing metadata in translated_date; "
   else
     # Check if translated_date is earlier than proofread_date
     PROOFREAD_DATE=$(yq -f extract '.proofread_date' "$TRANSLATED_ARTICLE")
     if [ ! $PROOFREAD_DATE == "null" ] && [ $PROOFREAD_DATE -lt $TRANSLATED_DATE ]; then
-      ERROR=$ERROR"Proofread date is earlier than translated date; "
+      update_report "Proofread date is earlier than translated date; "
     fi
   fi
 }
@@ -99,11 +112,11 @@ check_translating() {
   TRANSLATING_ARTICLE=$1
   TRANSLATOR=$(yq -f extract '.translator' "$TRANSLATING_ARTICLE")
   if [ "$TRANSLATOR" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in translator; "
+    update_report "Missing metadata in translator; "
   else
     if [ "$STATUS" == "translating" ] || [ "$STATUS" == "translated" ]; then
       if [ $(check_github_user $TRANSLATOR) -eq 1 ]; then
-        ERROR=$ERROR"Translator is not a valid GitHub user; "
+        update_report "Translator is not a valid GitHub user; "
       fi
     fi
   fi
@@ -119,16 +132,16 @@ check_collected() {
   COLLECTED_DATE=$(yq -f extract '.collected_date' "$COLLECTED_ARTICLE")
   LINK=$(yq -f extract '.link' "$COLLECTED_ARTICLE")
   if [ "$TITLE" == "null" ] || [ "$AUTHOR" == "null" ] || [ "$COLLECTOR" == "null" ] || [ "$COLLECTED_DATE" == "null" ] || [ "$LINK" == "null" ]; then
-    ERROR=$ERROR"Missing metadata in title/author/collector/collected_date/link; "
+    update_report "Missing metadata in title/author/collector/collected_date/link; "
   else
     # Check if collected_date is earlier than translated_date
     TRANSLATED_DATE=$(yq -f extract '.translated_date' "$COLLECTED_ARTICLE")
     if [ ! $TRANSLATED_DATE == "null" ] && [ $TRANSLATED_DATE -lt $COLLECTED_DATE ]; then
-      ERROR=$ERROR"Translated date is earlier than collected date; "
+      update_report "Translated date is earlier than collected date; "
     fi
     if [ "$STATUS" == "collected" ]; then
       if [ $(check_github_user $COLLECTOR) -eq 1 ]; then
-        ERROR=$ERROR"Collector is not a valid GitHub user; "
+        update_report "Collector is not a valid GitHub user; "
       fi
     fi
   fi
@@ -136,10 +149,13 @@ check_collected() {
 
 CHECK_PASSED=1 # To check if all the articles pass
 get_diff_article_files
+init_cache
 while IFS= read -r ARTICLE; do
   echo "Checking article: $ARTICLE"
   ERROR=""
   STATUS=$(yq -f extract '.status' "$ARTICLE")
+  # Write the article name and status to the report
+  echo -e "## $ARTICLE\n- Status: $STATUS\n- Error:" >> $REPORT_MD
   case $STATUS in
     "published")
       check_published "$ARTICLE"
@@ -163,9 +179,10 @@ while IFS= read -r ARTICLE; do
       ERROR="Invalid status: $STATUS"
       ;;
   esac
-  # Printlog for each article
+  # Print log for each article
   if [ -z "$ERROR" ]; then
     echo "  ✨ All checks passed for $STATUS $ARTICLE"
+    echo "no error" > $REPORT_MD
   else
     echo "  😭 Some checks failed for $STATUS $ARTICLE: $ERROR"
     CHECK_PASSED=0
