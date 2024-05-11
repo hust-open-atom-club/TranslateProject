@@ -1,0 +1,16 @@
+name: Check All Article Validity
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-article:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run Checks for All Articles
+        run: |
+          /bin/bash ./.scripts/check_all.sh
