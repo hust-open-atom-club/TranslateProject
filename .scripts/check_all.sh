@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REPORT_MD=".cache/report.md"
+REPORT_MD="output/report.md"
 
 # Get valid files in git diff (markdown files in sources/)
 get_diff_article_files() {
@@ -15,6 +15,7 @@ get_diff_article_files() {
 
 init_cache() {
   mkdir -p .cache/users
+  mkdir -p output
   echo "# Check Report" > "$REPORT_MD"
 }
 
