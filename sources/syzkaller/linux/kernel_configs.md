@@ -2,7 +2,7 @@
 status: published
 title: "Linux kernel configs"
 author: Syzkaller Community
-collector: li-zhaoyang101
+collector: hai119
 collected_date: 20240305
 translator: RutingZhang0429
 translated_date: 20240317
