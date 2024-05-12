@@ -83,10 +83,8 @@ check_proofreading() {
   if [ "$PROOFREADER" == "null" ]; then
     update_report "Missing metadata in proofreader; "
   else
-    if [ "$STATUS" == "proofreading" ] || [ "$STATUS" == "proofread" ]; then
-      if [ $(check_github_user $PROOFREADER) -eq 1 ]; then
-        update_report "Proofreader is not a valid GitHub user; "
-      fi
+    if [ $(check_github_user $PROOFREADER) -eq 1 ]; then
+      update_report "Proofreader is not a valid GitHub user; "
     fi
   fi
 }
@@ -114,10 +112,8 @@ check_translating() {
   if [ "$TRANSLATOR" == "null" ]; then
     update_report "Missing metadata in translator; "
   else
-    if [ "$STATUS" == "translating" ] || [ "$STATUS" == "translated" ]; then
-      if [ $(check_github_user $TRANSLATOR) -eq 1 ]; then
-        update_report "Translator is not a valid GitHub user; "
-      fi
+    if [ $(check_github_user $TRANSLATOR) -eq 1 ]; then
+      update_report "Translator is not a valid GitHub user; "
     fi
   fi
 }
@@ -139,10 +135,8 @@ check_collected() {
     if [ ! $TRANSLATED_DATE == "null" ] && [ $TRANSLATED_DATE -lt $COLLECTED_DATE ]; then
       update_report "Translated date is earlier than collected date; "
     fi
-    if [ "$STATUS" == "collected" ]; then
-      if [ $(check_github_user $COLLECTOR) -eq 1 ]; then
-        update_report "Collector is not a valid GitHub user; "
-      fi
+    if [ $(check_github_user $COLLECTOR) -eq 1 ]; then
+      update_report "Collector is not a valid GitHub user; "
     fi
   fi
 }
