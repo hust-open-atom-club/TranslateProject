@@ -17,8 +17,8 @@ jobs:
       - name: Generate Report
         uses: BaileyJM02/markdown-to-pdf@v1.2.0
         with:
-          input_path: ./.cache/report.md
-          output_dir: ./outputs
+          input_path: ./output/report.md
+          output_dir: ./output/
           build_html: true
           build_pdf: true
       - name: Upload Report
@@ -26,5 +26,4 @@ jobs:
         with:
           name: report
           path: |
-            ./outputs/*
-            ./.cache/report.md
+            ./output/*
