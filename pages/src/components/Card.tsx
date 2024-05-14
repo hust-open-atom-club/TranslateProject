@@ -29,13 +29,19 @@ export default function Card({ id, href, frontmatter, secHeading = true, body }:
       >
         {secHeading ? (
           id ? (
-            <h2 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h2>
+            <h2 {...headerProps}>
+              <img className="inline-block w-6 h-6 me-2" src={"/assets/logo_" + id.split('/')[0] + ".png"} alt={id.split('/')[0] + " icon"}/>
+              {title}
+            </h2>
           ) : (
             <h2 {...headerProps}>{title}</h2>
           )
         ) : (
           id ? (
-            <h3 {...headerProps}><span>[{id.split('/')[0]}]</span> {title}</h3>
+            <h3 {...headerProps}>
+              <img className="inline-block w-6 h-6 me-2" src={"/assets/logo_" + id.split('/')[0] + ".png"} alt={id.split('/')[0] + " icon"}/>
+              {title}
+            </h3>
           ) : (
             <h3 {...headerProps}>{title}</h3>
           )
