@@ -8,9 +8,8 @@ translator: gitveg
 link: https://github.com/google/syzkaller/blob/master/docs/configuration.md
 ---
 
-# Configuration
+# 配置
 
-The operation of the syzkaller `syz-manager` process is governed by a
-configuration file, passed at invocation time with the `-config` option.
-This configuration can be based on the [example](/pkg/mgrconfig/testdata/qemu.cfg);
-the file is in JSON format and contains the the [following parameters](/pkg/mgrconfig/config.go).
+syzkaller `syz-manager` 进程的操作由一个配置文件控制，该文件在调用时通过 `-config` 选项传递。
+这个配置可以基于[示例](/pkg/mgrconfig/testdata/qemu.cfg)；
+文件为JSON格式，包含[参数](/pkg/mgrconfig/config.go)。
