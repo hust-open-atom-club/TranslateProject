@@ -4,6 +4,7 @@ title: "USB/IP Fuzzing for Linux Kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator：RutingZhang0429
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_usbip.md
 ---
 
