@@ -1,5 +1,5 @@
 ---
-status: collected
+status: translated
 title: "USB/IP Fuzzing for Linux Kernel"
 author: Syzkaller Community
 collector: jxlpzqc
