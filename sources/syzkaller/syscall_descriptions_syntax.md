@@ -1,5 +1,5 @@
 ---
-status: translating
+status: translated
 title: "Syscall description language"
 author: Syzkaller Community
 collector: hai119
