@@ -3,7 +3,7 @@ import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "about" | "search" | "rank";
+  activeNav?: "posts" | "tags" | "about" | "search" | "rank" | "tasks";
 }
 
 const { activeNav } = Astro.props;
@@ -57,6 +57,11 @@ const { activeNav } = Astro.props;
           <li>
             <a href="/" class={activeNav === "posts" ? "active" : ""}>
               文章
+            </a>
+          </li>
+          <li>
+            <a href="/collected/" class={activeNav === "tasks" ? "active" : ""}>
+              任务
             </a>
           </li>
           <li>

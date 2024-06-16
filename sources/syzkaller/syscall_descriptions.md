@@ -2,7 +2,7 @@
 status: collected
 title: "Syscall descriptions"
 author: Syzkaller Community
-collector: li-zhaoyang101
+collector: hai119
 collected_date: 20240301
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions.md
 ---

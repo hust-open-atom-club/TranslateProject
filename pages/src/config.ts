@@ -31,11 +31,11 @@ export const STATUS_LIST: {
   color?: string;
 }[] = [
     { status: "collected", text: "去翻译", tabText: "待翻译", color: "bg-gray-500" },
-    { status: "translating", text: "翻译中", tabText: "翻译中", color: "bg-yellow-300" },
+    { status: "translating", text: "翻译中", hideInTab: true, tabText: "翻译中", color: "bg-yellow-300" },
     { status: "translated", text: "去校对", tabText: "待校对", color: "bg-orange-500" },
     { status: "proofread", text: "去发布", tabText: "待发布", color: "bg-purple-500" },
     { status: "proofreading", text: "校对中", hideInTab: true, color: "bg-blue-500" },
-    { status: "published", text: "已发布", tabText: "已发布", color: "bg-green-500" },
+    { status: "published", text: "已发布", hideInTab: true, tabText: "已发布", color: "bg-green-500" },
   ];
 
 export const RANK_LIST: {
@@ -47,6 +47,8 @@ export const RANK_LIST: {
 }[] = [
     { status: "translator", text: "翻译王者", tabText: "翻译王者", color: "bg-green-500" },
     { status: "proofreader", text: "校验大佬", tabText: "校验大佬", color: "bg-purple-500" },
+    { status: "collector", text: "用心选题", tabText: "用心选题", color: "bg-red-500" },
+    { status: "publisher", text: "编辑部业绩", tabText: "编辑部业绩", color: "bg-blue-500" },
   ];
 
 export const SOCIALS: SocialObjects = [

@@ -2,7 +2,7 @@
 status: collected
 title: "Coverage"
 author: Syzkaller Community
-collector: li-zhaoyang101
+collector: hai119
 collected_date: 20240305
 link: https://github.com/google/syzkaller/blob/master/docs/linux/coverage.md
 ---

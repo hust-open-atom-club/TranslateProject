@@ -1,15 +1,18 @@
 ---
-status: collected
+status: proofread
 title: "Configuration"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: gitveg
+translated_date: 20240524
+proofreader: mudongliang
+proofread_date: 20240531
 link: https://github.com/google/syzkaller/blob/master/docs/configuration.md
 ---
 
-# Configuration
+# 配置
 
-The operation of the syzkaller `syz-manager` process is governed by a
-configuration file, passed at invocation time with the `-config` option.
-This configuration can be based on the [example](/pkg/mgrconfig/testdata/qemu.cfg);
-the file is in JSON format and contains the the [following parameters](/pkg/mgrconfig/config.go).
+Syzkaller 系统中的 `syz-manager` 进程操作由一个配置文件控制，该文件在调用时通过 `-config` 选项传递。
+这个配置可基于[示例](https://github.com/google/syzkaller/blob/master/pkg/mgrconfig/testdata/qemu.cfg)进行编写。
+文件为 JSON 格式，包含[多个参数](https://github.com/google/syzkaller/blob/master/pkg/mgrconfig/config.go)。

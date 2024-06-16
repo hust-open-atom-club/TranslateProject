@@ -4,7 +4,7 @@ import { getPostByStatus } from "./[status]/[page].astro";
 import getPagination from "@utils/getPagination";
 import Posts from "@layouts/Posts.astro";
 
-const status = "collected";
+const status = "published";
 const posts = await getPostByStatus(status);
 const sortedPosts = getSortedPosts(posts);
 
@@ -15,4 +15,4 @@ const pagination = getPagination({
 });
 ---
 
-<Posts {...pagination} status={status} />
+<Posts {...pagination} status={status} publishPage/>

@@ -17,9 +17,10 @@ export interface Props {
   totalPages: number;
   paginatedPosts: CollectionEntry<"posts">[];
   status: string | undefined;
+  publishPage?: boolean;
 }
 
-const { currentPage, totalPages, paginatedPosts } = Astro.props;
+const { currentPage, totalPages, paginatedPosts, publishPage } = Astro.props;
 const status = Astro.props.status || "all";
 
 function getStyle(tabStatus: string) {
@@ -33,26 +34,41 @@ const countData = getStatusCount(await getCollection("posts"));
 ---
 
 <Layout title={`${SITE.title}`}>
-  <Header activeNav="posts" />
+  <Header activeNav={publishPage ? "posts" : "tasks"} />
   <Main pageTitle="">
-    <StatusChart data={countData} client:only />
-    <nav>
-      {
-        STATUS_LIST.map(({status, hideInTab,text, tabText}) => !hideInTab && (
-          <LinkButton
-            href={`/${status}/`}
-            className={getStyle(status)}
-            ariaLabel={status}
-          >
-            {tabText || text}
-          </LinkButton>
-        ))
-      }
-    </nav>
+    {
+      !publishPage && STATUS_LIST.find(x => x.status == status)?.hideInTab && (
+        <StatusChart data={countData} client:only />
+      )
+    }
+    {
+      !publishPage && (
+        <nav>
+          {STATUS_LIST.map(
+            ({ status, hideInTab, text, tabText }) =>
+              !hideInTab && (
+                <LinkButton
+                  href={`/${status}/`}
+                  className={getStyle(status)}
+                  ariaLabel={status}
+                >
+                  {tabText || text}
+                </LinkButton>
+              )
+          )}
+        </nav>
+      )
+    }
     <ul>
       {
         paginatedPosts.map(({ id, data, slug, body }) => (
-          <Card id={id} href={`/posts/${slug}/`} frontmatter={data} body={body} />
+          <Card
+            id={id}
+            href={`/posts/${slug}/`}
+            frontmatter={data}
+            body={body}
+            publishCard={publishPage}
+          />
         ))
       }
     </ul>
