@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "How to contribute to syzkaller"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: QGrain
 link: https://github.com/google/syzkaller/blob/master/docs/contributing.md
 ---
 
