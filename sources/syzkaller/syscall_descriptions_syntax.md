@@ -115,7 +115,7 @@ flagname = const ["," const]*
 flagname = "\"" literal "\"" ["," "\"" literal "\""]*
 ```
 
-调用属性如下所示:
+调用属性如下所示：
 
 ```
 "disabled": 该调用将不会被用于模糊测试；用于临时禁用某些调用或禁止特定参数组合。
