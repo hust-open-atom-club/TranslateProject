@@ -1,22 +1,24 @@
 ---
-status: translated
+status: proofread
 title: "Syz-bisect"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240229
 translator: MarkMrLi
 translated_date: 20240428
+proofreader: mudongliang
+proofread_date: 20240702
 link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 ---
 
 # Syz-bisect
 
-`syz-bisect` 程序可用于对由 syzkaller 发现的崩溃进行查找责任提交和修复提交。
+`syz-bisect` 程序可用于对由 syzkaller 发现的崩溃进行查找责任提交（culprit commit）和修复提交（fix commit）。
 它还可以识别触发崩溃的配置选项。
 
 ## 使用方法
 
-使用 `make bisect` 编译 `syz-bisect`。
+使用 `make bisect` 构建 `syz-bisect`。
 
 在进行二分查找时，根据内核版本的不同，会使用不同的编译器。这些编译器可以在
 [这里](https://storage.googleapis.com/syzkaller/bisect_bin.tar.gz)下载。
@@ -25,7 +27,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 
 使用 [create-image.sh](../tools/create-image.sh) 创建用户空间 (chroot)。
 
-根据您的环境调整以下行并创建配置文件：
+根据您的环境调整以下内容并创建配置文件：
 
 ```
 {
@@ -63,7 +65,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 }
 ```
 
-使用 `bin/syz-bisect -config vm_bisect.cfg -crash /syzkaller/workdir/crashes/03ee30ae11dfd0ddd062af26566c34a8c853698d`进行二分查找。
+使用 `bin/syz-bisect -config vm_bisect.cfg -crash /syzkaller/workdir/crashes/03ee30ae11dfd0ddd062af26566c34a8c853698d` 进行二分查找。
 
 `syz-bisect` 需要在指定的崩溃目录中找到 repro.cprog 或 repro.prog 文件。
 它也会利用 repro.opts 文件，但这不是必需的。
@@ -78,7 +80,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 
 ## 输出
 
-`syz-bisect` 完成后需要一些时间，它会将结果输出到控制台。它还会将结果存储在指定崩溃目录的文件中：
+`syz-bisect` 需要一些时间运行，但完成后会将结果输出到控制台。它还会将结果存储在指定崩溃目录的文件中：
 
 `cause.commit` 被识别为导致崩溃的提交或文本“该崩溃已在最旧的测试版本上发生”
 
