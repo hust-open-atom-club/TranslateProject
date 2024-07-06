@@ -1,6 +1,19 @@
 import { STATUS_LIST } from "@config";
 import { slugifyStr } from "@utils/slugify";
 import type { CollectionEntry } from "astro:content";
+import { marked } from 'marked';
+
+// 定义一个函数，解析body为markdown格式，然后去掉解析出来的所有h标签元素
+const parseBody = (body: string) =>  {
+  let marked_content = marked(body.substring(0, 1000)); // 避免过长的解析
+  // check type of marked_content
+  if (typeof marked_content !== 'string') {
+    return body.substring(0, 130) + '……&nbsp&nbsp';
+  }
+  // remove h1
+  marked_content = marked_content.replace(/<h..*?>.*?<\/h.>/g, '');
+  return marked_content.substring(0, 130) + '……&nbsp&nbsp';
+}
 
 export interface Props {
   id?: string;
@@ -60,10 +73,13 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
         {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       </div>
       {publishCard &&
-        <p className="break-all">
-          <span className="mr-2">{body?.replace("#", "")?.substring(0, 130)}</span>
-          <a href={href} className="text-orange">[阅读更多]</a>
-        </p>
+        <div className="break-all prose">
+          {/* 解析body为markdown格式，然后去掉解析出来的所有h1标签元素，然后将所有段落解析成自然段<p> */}
+          <span className="mr-2" dangerouslySetInnerHTML={{
+            __html: parseBody(body || "") }} >
+              </span>
+          <a href={href}>[阅读更多]</a>
+        </div>
       }
     </li>
   );
