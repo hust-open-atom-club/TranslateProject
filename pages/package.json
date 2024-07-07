@@ -22,6 +22,8 @@
     "astro-rehype-relative-markdown-links": "^0.6.1",
     "fuse.js": "^7.0.0",
     "github-slugger": "^2.0.0",
+    "html-truncator": "^1.0.17",
+    "marked": "^13.0.2",
     "remark-collapse": "^0.1.2",
     "remark-toc": "^9.0.0",
     "satori": "^0.10.11",

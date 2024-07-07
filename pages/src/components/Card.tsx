@@ -1,6 +1,33 @@
 import { STATUS_LIST } from "@config";
 import { slugifyStr } from "@utils/slugify";
 import type { CollectionEntry } from "astro:content";
+import { marked } from 'marked';
+import truncate from "html-truncator";
+
+// 定义一个函数，解析body为markdown格式，然后去掉解析出来的所有h标签元素
+const parseBody = (body: string, href: string) => {
+  let marked_content = marked(body.substring(0, 1000)); // 避免过长的解析
+  // check type of marked_content
+  if (typeof marked_content !== 'string') {
+    return body.substring(0, 130) + "……&nbsp&nbsp<a href={" + href + "}>[阅读更多]</a>";
+  }
+  // remove h1
+  marked_content = marked_content.replace(/<h..*?>.*?<\/h.>/g, '');
+  // remove img
+  marked_content = marked_content.replace(/<img.*?>/g, '');
+  // limit shown content length, but keep the html tags which are not closed
+  marked_content = truncate(marked_content, 130);
+  // default end is '...', remove it
+  marked_content = marked_content.replace(/\.\.\.$/, "");
+  // get the last tag of the content
+  let lastTag = marked_content.lastIndexOf('<');
+  // record the last tag
+  let lastTagContent = marked_content.substring(lastTag);
+  // remove the last tag
+  marked_content = marked_content.substring(0, lastTag);
+  let end = "……&nbsp&nbsp<a href={" + href + "}>[阅读更多]</a>" + lastTagContent;
+  return marked_content + end;
+}
 
 export interface Props {
   id?: string;
@@ -60,10 +87,14 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
         {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       </div>
       {publishCard &&
-        <p className="break-all">
-          <span className="mr-2">{body?.replace("#", "")?.substring(0, 130)}</span>
-          <a href={href} className="text-orange">[阅读更多]</a>
-        </p>
+      // 去掉段后间隔
+        <div className="break-all prose">
+          {/* 注意需要my-0否则继承 */}
+          <p className="my-0" dangerouslySetInnerHTML={{
+            __html: parseBody(body || "", href || "") }} >
+              </p>
+          
+        </div>
       }
     </li>
   );
