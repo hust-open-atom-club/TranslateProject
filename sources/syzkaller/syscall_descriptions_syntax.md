@@ -47,7 +47,7 @@ type-options = [type-opt ["," type-opt]]
 	如果使用范围，其后可选择性地跟对齐参数
 示例：int8[100:200] 或 ioctl$I2C_SLAVE(..., arg intptr[0:0x3ff])
 "flags": 一组值，类型选项：
-	标志描述的引用（见下文），基本的整形类型（例如 "int32"）
+	标志描述的引用（见下文），基本的整型类型（例如 "int32"）
 示例：flags[iocb_flags, int32]，其中 iocb_flags = IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO
 "array": 可变/固定长度数组，类型选项：
 	元素类型，可选尺寸（固定为 "5"，或范围限定为 "5:10"的闭区间）
