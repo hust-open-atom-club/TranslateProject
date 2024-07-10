@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Syscall description language"
 author: Syzkaller Community
 collector: hai119
 collected_date: 20240301
 translator: QGrain
 translated_date: 20240617
+proofreader: foreverowl
+proofread_date: 20240711
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions_syntax.md
 ---
 
