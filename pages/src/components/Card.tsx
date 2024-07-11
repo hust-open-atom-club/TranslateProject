@@ -29,6 +29,11 @@ const parseBody = (body: string, href: string) => {
   return marked_content + end;
 }
 
+// 定义一个函数，解析20240428格式为2024-04-28
+const parseDate = (date: string) => {
+  return date.substring(0, 4) + "-" + date.substring(4, 6) + "-" + date.substring(6, 8);
+}
+
 export interface Props {
   id?: string;
   href?: string;
@@ -42,6 +47,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
   const {
     title,
     status,
+    published_date
   } = frontmatter;
 
   const headerProps = {
@@ -76,6 +82,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
             )
           )}
         </a>
+        <p {...headerProps}>{parseDate(published_date.toString())}</p>
         {
           status === 'collected' && <div className="px-2 mx-2 text-slate-500">
             {body && body.split(/\s/g).length} 词
@@ -87,8 +94,8 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
         {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       </div>
       {publishCard &&
-      // 去掉段后间隔
-        <div className="break-all prose">
+      // 去掉段后间隔，设置max-width为100%
+        <div className="break-all prose" style={{maxWidth: "100%"}} >
           {/* 注意需要my-0否则继承 */}
           <p className="my-0" dangerouslySetInnerHTML={{
             __html: parseBody(body || "", href || "") }} >
