@@ -8,6 +8,8 @@ translator: RutingZhang0429
 translated_date: 20240510
 proofreader: mudongliang
 proofread_date: 20240615
+publisher: gitveg
+published_date: 20240711
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/headers_install.rst
 ---
 
