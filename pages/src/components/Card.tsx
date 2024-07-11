@@ -82,7 +82,9 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
             )
           )}
         </a>
-        <p {...headerProps}>{parseDate(published_date.toString())}</p>
+        {
+          publishCard && <p {...headerProps}>{parseDate(published_date.toString())}</p>
+        }
         {
           status === 'collected' && <div className="px-2 mx-2 text-slate-500">
             {body && body.split(/\s/g).length} 词
@@ -103,7 +105,9 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
           
         </div>
       }
-    <hr className="my-4 border-skin-lightline" />
+      {
+        publishCard && <hr className="my-4 border-skin-lightline" />
+      }
     </li>
   );
 }
