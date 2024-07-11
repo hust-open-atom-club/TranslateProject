@@ -103,6 +103,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
           
         </div>
       }
+    <hr className="my-4 border-skin-lightline" />
     </li>
   );
 }
