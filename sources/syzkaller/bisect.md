@@ -25,7 +25,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 
 安装 ccache 以加速二分查找过程中的内核编译。
 
-使用 [create-image.sh](../tools/create-image.sh) 创建用户空间 (chroot)。
+使用 [create-image.sh](https://github.com/google/syzkaller/blob/master/tools/create-image.sh) 创建用户空间 (chroot)。
 
 根据您的环境调整以下内容并创建配置文件：
 
