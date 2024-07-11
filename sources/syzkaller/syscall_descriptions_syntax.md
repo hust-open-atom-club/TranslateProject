@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Syscall description language"
 author: Syzkaller Community
 collector: hai119
 collected_date: 20240301
 translator: QGrain
 translated_date: 20240617
+proofreader: foreverowl
+proofread_date: 20240711
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions_syntax.md
 ---
 
@@ -34,7 +36,7 @@ type-options = [type-opt ["," type-opt]]
 
 其余的类型选项是类型特定的：
 
-> 注：为了便于理解，每个类型选项下方都附带了从 syzlang 中挑选的相关示例
+> 注：为了便于理解，每个类型选项下方都附带了从 syzlang 中挑选的相关示例，类型选项由"[]"包裹。
 
 ```
 "const": 整型常量，类型选项:
@@ -42,11 +44,12 @@ type-options = [type-opt ["," type-opt]]
 示例：const[0, int32] 或 ioctl$I2C_SLAVE(..., cmd const[I2C_SLAVE], ...)，其中I2C_SLAVE为dev_i2c.txt.const定义的常量
 "intN"/"intptr": 没有特定含义的整数，类型选项：
 	一个可选值范围（例如 "5:10" 或 "100:200"）
-	或者一个标志描述的引用（见下文），
-	或单个值（如果使用范围，可选择后跟对齐参数）
+	或者一个标志描述的引用（见下文）， 
+	或单个值
+	如果使用范围，其后可选择性地跟对齐参数
 示例：int8[100:200] 或 ioctl$I2C_SLAVE(..., arg intptr[0:0x3ff])
 "flags": 一组值，类型选项：
-	标志描述的引用（见下文），基本 int 类型（例如 "int32"）
+	标志描述的引用（见下文），基本的整型类型（例如 "int32"）
 示例：flags[iocb_flags, int32]，其中 iocb_flags = IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO
 "array": 可变/固定长度数组，类型选项：
 	元素类型，可选尺寸（固定为 "5"，或范围限定为 "5:10"的闭区间）
@@ -67,17 +70,17 @@ type-options = [type-opt ["," type-opt]]
 	一个引号中的模式字符串（语法参考：https://golang.org/pkg/path/filepath/#Match，例如，"/sys/" 或 "/sys/**/*"）
 	也可以指定排除的 glob（例如 "/sys/**/*：-/sys/power/state"）
 示例：openat$sysfs(..., dir ptr[in, glob["/sys/**/*:-/sys/power/state"]], ...)
-"fmt": 整数的字符串表示形式（不以零结尾），类型选项：
-	形式（"dec"、"hex"、"oct" 之一）和值（resource、int、flags、const 或 proc）
+"fmt": 整数的字符串表示形式（非零终止），类型选项：
+	格式（"dec"、"hex"、"oct" 之一）和值（resource、int、flags、const 或 proc）
 	其结果数据总是大小固定的（分别对应地格式化为 "%020llu", "0x%016llx" 或 "%023llo"）
 示例：fmt[hex, int32] 或 fmt[dec, proc[10, 20]]
 "len": 另一个字段的长度（对于数组，它是元素的数量），类型选项：
 	对象的参数名称（argname）
 示例：mmap$xdp(addr vma, len len[addr], ...) 或 read(..., buf buffer[out], count len[buf])
-"bytesize": 类似于 "len"，但总是以字节表示大小，类型选项：
+"bytesize": 类似于 "len"，但总是以字节为单位表示大小，类型选项：
 	对象的参数名称（argname）
 示例：getsockopt$XDP_STATISTICS(..., val ..., len ptr[in, bytesize[val, int32]])
-"bitsize": 类似于 "len"，但总是以位表示大小，类型选项：
+"bitsize": 类似于 "len"，但总是以位为单位表示大小，类型选项：
 	对象的参数名称（argname）
 示例：bitsize[key, int16]，其中 key 为 array[int8]
 "offsetof": 字段与父类结构体头部的偏移量，类型选项：
@@ -88,7 +91,7 @@ type-options = [type-opt ["," type-opt]]
 	vma64 的大小为 8 字节，与目标指针大小无关
 示例：mmap$KVM_VCPU(addr vma, ...) 或 syz_kvm_setup_cpu$x86(..., usermem vma[24], ...)
 "proc": 每个进程的int值（参阅下面的描述），类型选项:
-	值范围的开启，每个进程有多少个值，基础类型
+	值范围的起始，每个进程有多少个值，基础类型
 示例：proc[0x0, 4, int8]
 "compressed_image": zlib压缩的磁盘映像
 	接受 `compressed_image` 作为参数的系统调用必须被标记为 `no_generate` 和 `no_minimize` 调用属性。
@@ -97,7 +100,7 @@ type-options = [type-opt ["," type-opt]]
 	文本类型 (x86_real, x86_16, x86_32, x86_64, arm64)
 示例：ptr[in, text[x86_64]]
 "void": 静态大小为 0 的类型
-	主要用于模板和 varlen 联合体内部，不能作为 syscall 的参数
+	主要用于模板和 varlen 联合体内部，不能作为系统调用的参数
 示例：write$FUSE_INTERRUPT(..., arg ptr[in, fuse_out[void]], ...)
 ```
 
@@ -121,7 +124,7 @@ flagname = "\"" literal "\"" ["," "\"" literal "\""]*
 "disabled": 该调用将不会被用于模糊测试；用于临时禁用某些调用或禁止特定参数组合。
 "timeout[N]": 对该调用在默认值的基础上的额外执行超时（以毫秒为单位）。
 "prog_timeout[N]": 对包含该调用的整个程序的额外执行超时（以毫秒为单位）；如果程序包含多个这样的调用，则使用其最大值。
-"ignore_return": 在回退反馈中忽略该系统调用的返回值；需要用于不返回固定错误代码而返回其他内容（如当前时间）的调用。
+"ignore_return": 在回退反馈中忽略该系统调用的返回值；用于不返回固定错误代码而返回其他内容（如当前时间）的调用。
 "breaks_returns": 在回退反馈中忽略程序中所有后续调用的返回值（不可信）。
 "no_generate": 不要尝试生成该系统调用，即只使用种子描述来生成它。
 "no_minimize": 在试图最小化崩溃程序时，请勿修改该系统调用的实例。
@@ -134,7 +137,7 @@ flagname = "\"" literal "\"" ["," "\"" literal "\""]*
 
 通过追加 `be` 后缀（例如 `int16be`），整数就变成了大端序。
 
-可以为整数指定一个数值范围，格式为 `int32[0:100]` 或 `int32[0:4096, 512]`（对于 512 对齐的 int）。
+可以为整数指定一个数值范围，格式为 `int32[0:100]` 或 `int32[0:4096, 512]`（对于 512 对齐的 int）（译者注：int32[0:4096, 512] 意为其取值为{0,512,1024,...}）。
 
 整数的第一个类型选项也可以是对标志说明或数值的引用。在这种情况下，不支持对齐参数。
 
@@ -163,6 +166,7 @@ structname "{" "\n"
 	(fieldname type ("(" fieldattribute* ")")? (if[expression])? "\n")+
 "}" ("[" attribute* "]")?
 ```
+> 注："?"表示匹配前面的子表达式零次或一次，"+"表示匹配前面的子表达式一次或多次
 
 字段可以在字段后的括号中指定属性，与字段类型无关。`in/out/inout` 属性指定每个字段的方向，例如：
 
@@ -219,12 +223,12 @@ unionname "[" "\n"
 
 联合体后的方括号中可以指定属性。属性包括：
 
-- `varlen`: 联合体大小是所选特定选项的大小（非静态已知）；如果没有该属性，联合体的大小是所有选项的最大值（类似于 C 联合体）。
+- `varlen`: 联合体大小是所选特定选项的大小（非静态已知）；如果没有该属性，联合体的大小是所有字段中的最大值（类似于 C 联合体）。
 - `size[N]`: 联合体的填充大小为指定的 `N`；填充内容未指定（但通常为零）
 
 ## Resources
 
-资源代表需要从一个系统调用的输出传递到另一个系统调用的输入的值。例如，`close` 系统调用需要先前由 `open` 或 `pipe` 系统调用返回的输入值（fd）。为此，`fd` 被声明为一种资源。这是模拟系统调用之间依赖关系的一种方式，因为将一个系统调用定义为资源的生产者，而将另一个系统调用定义为消费者，就定义了它们之间一种宽松的调用顺序。资源被描述为：
+资源代表需要从一个系统调用的输出传递到另一个系统调用的输入的值。例如，`close` 系统调用需要先前由 `open` 或 `pipe` 系统调用返回的值作为输入（fd）。为此，`fd` 被声明为一种资源。这是模拟系统调用之间依赖关系的一种方式，因为将一个系统调用定义为资源的生产者，而将另一个系统调用定义为消费者，就定义了它们之间一种宽松的调用顺序。资源被描述为：
 
 ```
 "resource" identifier "[" underlying_type "]" [ ":" const ("," const)* ]
@@ -271,7 +275,7 @@ test_struct {
 }
 ```
 
-每种资源类型（联合体和可选指针除外）必须被至少一个系统调用 “生产”（用作输出），并被至少一个系统调用 “消耗”（用作输入）。
+每种资源类型（联合体和可选指针除外）必须被至少一个系统调用 “生产”（用作输出），并被至少一个系统调用 “消费”（用作输入）。
 
 ## Type Aliases
 
@@ -288,7 +292,7 @@ type signalno int32[0:65]
 type net_port proc[20000, 4, int16be]
 ```
 
-这样，在任何情况下都可以使用类型别名来代替基础类型。基础类型需要像结构体字段一样进行描述，即带有基类型（如果需要的话）。此外，类型别名也可以用作系统调用参数。基础类型目前仅限于整数类型、`ptr`、`ptr64`、`const`、`flags` 和 `proc` 类型。
+这样，在任何情况下都可以使用类型别名来代替基础类型。基础类型需要像结构体字段一样进行描述，即带有基础类型（如果需要的话）。此外，类型别名也可以用作系统调用参数。基础类型目前仅限于整数类型、`ptr`、`ptr64`、`const`、`flags` 和 `proc` 类型。
 
 以下是一些内置的类型别名：
 ```
@@ -518,7 +522,7 @@ alternatives [
 ] [varlen]
 ```
 
-在突变和生成程序的过程中，syzkaller 会随机选择一个满足条件的联合字段。
+在变异和生成程序的过程中，syzkaller 会随机选择一个满足条件的联合字段。
 
 
 ### Expression syntax
