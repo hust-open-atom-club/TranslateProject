@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "KCOV: code coverage for fuzzing"
 author: Linux Kernel Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: tttturtle-russ
 translated_date: 20240421
 proofreader: tttturtle-russ
 proofread_date: 20240703
+publisher: gitveg
+published_date: 20240711
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kcov.rst
 ---
 
