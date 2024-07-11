@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Exporting kernel headers for use by userspace"
 author: Linux Kernel Community
 collector: tttturtle-russ
