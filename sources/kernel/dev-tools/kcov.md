@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "KCOV: code coverage for fuzzing"
 author: Linux Kernel Community
 collector: mudongliang
