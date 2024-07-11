@@ -1,78 +1,78 @@
 ---
-status: translating
+status: translated
 title: "How to contribute to syzkaller"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: QGrain
+translated_date: 20240712
 link: https://github.com/google/syzkaller/blob/master/docs/contributing.md
 ---
 
-# How to contribute to syzkaller
+# 如何向 syzkaller 项目贡献
 
-If you want to contribute to the project, feel free to send a pull request following the [guidelines](contributing.md#guidelines) below.
+如果你想为该项目做出贡献，请按照下面的[指南](contributing.md#guidelines)发送拉取请求。
 
-In case this is your first pull request to syzkaller, you will need to [sign Google CLA](https://cla.developers.google.com/)
-and add yourself to [AUTHORS](/AUTHORS)/[CONTRIBUTORS](/CONTRIBUTORS) files in the first commit.
+如果这是你第一次向 syzkaller 提交拉取请求，你需要[签署 Google CLA](https://cla.developers.google.com/)。
+并在第一次提交时将自己添加到 [AUTHORS](/AUTHORS)/[CONTRIBUTORS](/CONTRIBUTORS) 文件中。
 
-## What to work on
+## 工作内容
 
-Extending/improving [system call descriptions](syscall_descriptions.md) is always a good idea.
+扩展/改进 [系统调用描述](syscall_descriptions.md) 一直是个好主意。
 
-Unassigned issues from the [bug tracker](https://github.com/google/syzkaller/issues) are worth doing, but some of them might be complicated.
+[错误跟踪器](https://github.com/google/syzkaller/issues) 中未分配的议题是值得去做的，但其中有些议题可能比较复杂。
 
-To contribute code or syscall descriptions, at the very least you need to be able to build and run syzkaller, see the instructions [here](/docs/setup.md).
+要贡献代码或系统调用描述，至少需要能够构建并运行 syzkaller，请参阅[此处](/docs/setup.md)的说明。
 
-## Guidelines
+## 指南
 
-If you want to work on something non-trivial, please briefly describe it on the
-[syzkaller@googlegroups.com](https://groups.google.com/forum/#!forum/syzkaller) mailing list first,
-so that there is an agreement on the high level approach/design and no duplication of work between contributors.
+如果您想做一些并不微小的事情，请先在 [syzkaller@googlegroups.com](https://groups.google.com/forum/#!forum/syzkaller) 邮件列表上简要描述，以便在高层面的方法/设计上达成一致，且避免贡献者之间的重复工作。
 
-Split large changes into smaller, logically cohesive commits. Small commits are much easier and faster to review and iterate on.
+将大改动拆分成逻辑上连贯的小提交。小的提交更容易、更快地进行审核和迭代。
 
-Everything that can be reasonably tested should be tested.
+所有可以合理测试的内容都应进行测试。
 
-Provide enough documentation for other users to use the new feature.
+为其他用户使用新功能提供足够的文档。
 
-Keep the style of the code, tests, comments, docs, log/error messages consistent with the existing style.
+保持代码、测试、注释、文档、日志/错误信息的风格与现有风格一致。
 
-Continuous Integration (CI) system runs a number of tests and some [opinionated] style checks. They need to pass.
-You can test locally with `make presubmit`, if you don't have some prerequisites installed,
-you may use `syz-env` (see below).
+持续集成（CI）系统会运行大量测试和一些 [意见] 式检查。它们需要通过。你可以使用 `make presubmit` 进行本地测试，如果没有安装某些先决条件，你可以尝试使用 `syz-env` （见下文）。
 
-### Commits
+### 提交
 
-Commit messages should follow the following template:
+提交信息应遵循以下模板：
 
 ```
-dir/path: one-line description
-<empty line>
-Extended multi-line description that includes
-the problem you are solving and how it is solved.
+dir/path: 单行描述
+<空行>
+扩展的多行描述，包括
+您要解决的问题以及如何解决问题。
 ```
 
 `dir/path` is a relative path to the main dir this commit changes
 (look at examples in the [commit history](https://github.com/google/syzkaller/commits/master)).
-If several packages/dirs are significantly affected, then the following format is allowed:
+If several packages/dirs are significantly affected, then the following format is allowed:是本次提交更改的主目录的相对路径。（参见 [commit history](https://github.com/google/syzkaller/commits/master) 中的示例）。如果多个软件包/目录受到重大影响，则允许使用以下格式：
 ```
-dir1/path1, dir2/path2: one-line description
+dir1/path1, dir2/path2: 单行描述
 ```
-Though, dirs should not be included if they have only minor changes.
-For pervasive changes the following format is allowed:
+不过，如果目录仅有细微改动，则不应包括在内。
+对于普遍变化，可以使用以下格式：
 ```
-all: one-line description
+all: 单行描述
 ```
 
-Please pay attention to punctuation. In particular:
+请注意标点符号，特别是：
 
-- `one-line description` should *not* start with a Capital letter.
-- There is *no dot* at the end of `one-line description`.
-- `Extended multi-line description` is full English sentences with Capital letters and dots.
+- `单行描述` *不*应该以大写字母开头。
+- `单行描述` 末尾*没有点*。
+- `扩展的多行描述` 是带有大写字母和圆点的全英文句子。
 
-Commit message line length is limited to 120 characters.
+提交信息行长度限制为 120 个字符。
 
-Also:
+还有:
+
+- 如果您的提交修复了一个议题，请在提交信息中加入 `Fixes #NNN` 行（其中 `NNN` 是议题编号）。这将自动关闭议题。如果您需要提及议题，请添加 `Update #NNN`。
+- 对于系统调用描述，`*.const` 文件应该与 `*.txt` 的更改在同一提交中签入。
 
 - If your commit fixes an issue, please include `Fixes #NNN` line into commit message
 (where `NNN` is the issue number). This will auto-close the issue. If you need to mention
@@ -80,25 +80,23 @@ an issue without closing it, add `Update #NNN`.
 - For syscall descriptions `*.const` files are checked-in with the `*.txt` changes
 in the same commit.
 
-### Pull requests
+### 拉取请求
 
-- Rebase your working branch onto the master branch before sending a pull request to avoid merge conflicts.
-- Run `make presubmit` and ensure that it passes before sending a PR.
-  It may require some additional packages to be installed (try `sudo make install_prerequisites`).
-- Provide a brief high-level description in the pull request title.
-  The pull request text is mostly irrelevant, all the details should be in the commit messages.
-- If you're asked to add some fixes to your pull request, please squash the fixes into the old commits.
 
-### How to create a pull request on Github
+- 在发送拉取请求前，将你的工作分支变基到主分支以避免合并冲突。
+- 运行 `make presubmit` 并确保通过后再发送 PR。
+  可能需要安装一些额外的软件包（请尝试 `sudo make install_prerequisites`）。
+- 在拉取请求标题中提供简短的高级描述。
+  拉取请求文本大多无关紧要，所有细节都应在提交信息中说明。
+- 如果您被要求在拉取请求中添加一些修正，请将修正压入旧提交中。
 
-- First, you need an own git fork of syzkaller repository. Navigate to
-[github.com/google/syzkaller](https://github.com/google/syzkaller) and press `Fork` button in the top-right corner of
-the page. This will create `https://github.com/YOUR_GITHUB_USERNAME/syzkaller` repository.
+### 如何在 Github 上创建一个拉取请求
 
-- Checkout main syzkaller repository if you have not already. The simplest way to do it is to run `git clone https://github.com/google/syzkaller`, this will checkout
-the repository in the current working directory.
-- Remember to `export PATH=$GOPATH/bin:$PATH` if you have not already.
-- Then add your repository as an additional origin:
+- 首先，您需要一个自己的 syzkaller 仓库的 git fork。导航到 [github.com/google/syzkaller](https://github.com/google/syzkaller)，然后点击页面右上角的 "Fork "按钮。这将创建 `https://github.com/YOUR_GITHUB_USERNAME/syzkaller` 仓库。
+
+- 请切换到 syzkaller 主版本库，如果尚未进行这一步。最简单的方法是运行 `git clone https://github.com/google/syzkaller`，这将在当前工作目录中切换到该仓库。
+- 请记得 `export PATH=$GOPATH/bin:$PATH`，如果尚未导出 PATH 到环境变量。
+- 然后将您的仓库添加为附加源：
 
     ```shell
     cd syzkaller
@@ -107,55 +105,48 @@ the repository in the current working directory.
     git checkout -b my-branch my-origin/master
     ```
 
-This adds git origin `my-origin` with your repository and checks out new branch `my-branch` based on `master` branch.
+这会将您的仓库添加到 git origin `my-origin`，并基于 `master` 分支创建并切换新的分支 `my-branch` 。
 
-- Change/add files as necessary.
-- Commit changes locally. For this you need to run `git add` for all changed files, e.g. `git add sys/linux/sys.txt`. You can run `git status` to see what files were changed/created. When all files are added (`git status` shows no files in `Changes not staged for commit` section and no relevant files in `Untracked files` section), run `git commit` and enter commit description in your editor.
-- Run tests locally (`make install_prerequisites` followed by `make presubmit`).
-- Push the commit to your fork on github with `git push my-origin my-branch`.
-- Navigate to [github.com/google/syzkaller](https://github.com/google/syzkaller) and you should see green `Compare & pull request` button, press it. Then press `Create pull request`. Now your pull request should show up on [pull requests page](https://github.com/google/syzkaller/pulls).
-- If you don't see `Create pull request` button for any reason, you can create pull request manually. For that navigate to [pull requests page](https://github.com/google/syzkaller/pulls), press `New pull request`, then `compare across forks` and choose `google/syzkaller`/`master` as base and `YOUR_GITHUB_USERNAME/syzkaller`/`my-branch` as compare and press `Create pull request`.
-- If you decided to rebase commits in `my-branch` (e.g. to rebase them onto updated master) after you created a pull-request, you will need to do a force push: `git push -f my-origin my-branch`.
+- 根据需要更改/添加文件。
+- 将更改提交到本地。为此，你需要对所有更改的文件运行 `git add`，例如 `git add sys/linux/sys.txt`。你可以运行 `git status` 查看有哪些文件被修改/创建。当所有文件都添加完毕后（`git status` 显示 `Changes not staged for commit` 部分没有文件，并且 `Untracked files` 部分没有相关文件），运行 `git commit` 并在你的编辑器中输入提交描述。
+- 在本地运行测试（`make install_prerequisites`，然后执行 `make presubmit`）。
+- 使用 `git push my-origin my-branch` 将提交推送到 github 上的分叉。
+- 导航至 [github.com/google/syzkaller](https://github.com/google/syzkaller)，你会看到绿色的 `Compare & pull request` 按钮，按下它。然后按 `创建拉取请求`。现在你的拉取请求应该会出现在[拉取请求页面](https://github.com/google/syzkaller/pulls)上。
+- 如果你由于任何原因看不到 `创建拉取请求` 按钮，你可以手动创建拉取请求。为此，请导航至 [pull requests page](https://github.com/google/syzkaller/pulls)，按下 `New pull request`，然后按下 `compare across forks` 并选择 `google/syzkaller`/`master` 作为基础，选择 `YOUR_GITHUB_USERNAME/syzkaller`/`my-branch` 作为比较，然后按下 `Create pull request`。
+- 如果在创建了拉取请求后，你决定对 `my-branch` 中的提交进行变基（例如，将它们变基到更新的 master 上），则需要执行一次强制推送：`git push -f my-origin my-branch`。
 
-### Using syz-env
+### 使用 syz-env
 
-Developing syzkaller requires a number of tools installed (Go toolchain, C/C++ cross-compilers, golangci-lint, etc).
-Installing all of them may be cumbersome, e.g. due broken/missing packages.
-[syz-env](/tools/syz-env) provides a working hermetic development environment based on a Docker container.
-If you don't yet have Docker installed, see [documentation](https://docs.docker.com/engine/install),
-in particular regarding enabling [sudo-less](https://docs.docker.com/engine/install/linux-postinstall)
-Docker (Googlers see go/docker).
+开发 syzkaller 需要安装大量工具（Go 工具链、C/C++ 交叉编译器、golangci-lint 等）。安装所有这些工具可能会很麻烦，例如由于软件包损坏/缺失。[syz-env](/tools/syz-env) 提供了一个基于 Docker 容器的密封开发环境。如果尚未安装 Docker，请参阅[文档](https://docs.docker.com/engine/install)、特别是关于启用 [sudo-less](https://docs.docker.com/engine/install/linux-postinstall) 的 Docker（Googlers 参见 go/docker）。
 
-It's recommended to create an alias for `syz-env` script:
+建议为 `syz-env` 脚本创建别名：
 ```
 alias syz-env="$(go env GOPATH)/src/github.com/google/syzkaller/tools/syz-env"
 ```
-Then it can be used to wrap almost any make invocation as:
+然后，几乎所有的 make 调用都可以用它来封装：
 ```
 syz-env make format
 syz-env make presubmit
 syz-env make extract SOURCEDIR=$(readlink -f ~/linux)
 ```
-Or other commands/scripts, e.g.:
+或其他命令/脚本，例如：
 ```
 syz-env go test -short ./pkg/csource
 ```
-Or you may run the shell inside of the container with just `syz-env` and look around.
+或者，你也可以只使用 `syz-env` 来在容器内运行 shell 并四处看看。
 
-To update `syz-env` container to the latest version do:
+要将 `syz-env` 容器更新到最新版本，请执行以下操作：
 
 ``` bash
 docker pull gcr.io/syzkaller/env
 ```
 
-If you do not have access to the `gcr.io` registry, there is also a mirror in `docker.pkg.github.com` registry.
-In order to use it, you need to
-[authenticate Docker](https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages)
-with your Github account with:
+如果你无法访问 `gcr.io` 登记处，在 `docker.pkg.github.com` 登记处中也有一个镜像。要使用它，你需要使用你的 Github 账户来[验证 Docker](https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages)：
+
 ```
 docker login https://docker.pkg.github.com
 ```
-and then pull the image and retag it to the name expacted by `syz-env`:
+然后拉取镜像，并将其重新标记为 `syz-env` 所期望的名称：
 ```
 docker pull docker.pkg.github.com/google/syzkaller/env
 docker tag docker.pkg.github.com/google/syzkaller/env gcr.io/syzkaller/env
