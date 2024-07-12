@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Setup: Linux host, Android device, arm32/64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Athanlaich
 translated_date: 20240401
+proofreader: mudongliang
+proofread_date: 20240710
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md
 ---
 
@@ -27,7 +29,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 
 设置 adb 桥接，使 adb 和 fastboot 正常工作。
 
-设置串行端口，按照您设备的说明操作，以便监视内核日志消息。在基于 Android 的开发板上，串行端口通常以 USB（或某些自定义）端口，或通过 GPIO 引脚的形式暴露。在手机上，您可以使用 Android 串行电缆或[Suzy-Q](https://chromium.googlesource.com/chromiumos/platform/ec/+/master/docs/case_closed_debugging.md)。syzkaller 也可以在没有专用串行端口的情况下工作（通过回退到`adb shell dmesg -w`），但这是不可靠的，并且会将许多崩溃转换为 "丢失与测试机器的连接" 崩溃，并且没有额外的信息。
+设置串行端口，按照您设备的说明操作，以便监视内核日志消息。在基于 Android 的开发板上，串行端口通常以 USB（或某些自定义）端口，或通过 GPIO 引脚的形式暴露。在手机上，您可以使用 Android 串行电缆或[Suzy-Q](https://chromium.googlesource.com/chromiumos/platform/ec/+/master/docs/case_closed_debugging.md)。syzkaller 也可以在没有专用串行端口的情况下工作（通过回退到 `adb shell dmesg -w`），但这是不可靠的，并且会将许多崩溃转换为 "丢失与测试机器的连接" 崩溃，并且没有额外的信息。
 
 获取适合您设备的编译器工具链。
 
@@ -47,7 +49,7 @@ make TARGETOS=linux TARGETARCH=arm
 make TARGETOS=linux TARGETARCH=arm64
 ```
 
-如果您使用的是旧版 Android `/dev/ion` 驱动程序（内核 <= 3.18），在构建 syzkaller 之前，请复制旧的`/dev/ion`描述：
+如果您使用的是旧版 Android `/dev/ion` 驱动程序（内核版本 <= 3.18），在构建 syzkaller 之前，请复制旧的 `/dev/ion` 描述：
 
 ``` bash
 cp sys/android/* sys/linux
@@ -79,7 +81,7 @@ cp sys/android/* sys/linux
 
 如果您的内核不支持覆盖率收集（例如，没有 KCOV 补丁的 `arm32`），请设置 `"cover": false`。
 
-如果您的设备没有电池服务，请关闭 `battery_check`，详情请参见[此处](/vm/adb/adb.go)的注释。
+如果您的设备没有电池服务，请关闭 `battery_check`，详情请参见[此处]((https://github.com/google/syzkaller/blob/master/vm/adb/adb.go)的注释。
 
 ## 运行 syzkaller
 
