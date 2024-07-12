@@ -1,23 +1,25 @@
 ---
-status: translated
-title: "Setup"
+status: proofread
+title: "配置"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: keepgogogo
 translated_date: 20240407
+proofreader: mudongliang
+proofread_date: 20240712
 link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 ---
 
 # 指南
 
-用于创建 amd64 架构 OpenBSD 主机和 OpenBSD 虚拟机的指令。另外，主机必须运行 `-current` 分支。
+以下为创建 amd64 架构 OpenBSD 主机和 OpenBSD 虚拟机的指令。另外，主机必须运行 `-current` 分支。
 
 在整个操作指南中使用的变量如下：
 
-- `$KERNEL` - 自定义编译的内核, 参见 [编译内核](#编译内核).
-              如果遵循本指南，则默认值为 `/sys/arch/amd64/compile/SYZKALLER/obj/bsd` 
-- `$SSHKEY` - 用于连接至虚拟机且***不含密码***的SSH密钥，建议使用专用的密钥。
+- `$KERNEL` - 自定义编译的内核，参见 [编译内核](#编译内核)。
+              如果遵循本指南，则默认值为 `/sys/arch/amd64/compile/SYZKALLER/obj/bsd`。 
+- `$SSHKEY` - 用于连接至虚拟机且**不含密码**的 SSH 密钥，建议使用专用密钥。
 - `$USER`   - 用于运行 syzkaller 的用户名。
 - `$VMIMG`  - 虚拟机磁盘镜像。
 - `$VMID`   - 最近启动的虚拟机的数字 ID。
@@ -30,13 +32,13 @@ link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
    # pkg_add git gmake go
    ```
 
-   为了让复现器能够正常工作，还需要安装来自 ports 的 GCC：
+   为了让 syzkaller 复现工具正常工作，还需要安装来自 ports 的 GCC：
 
    ```sh
    # pkg_add gcc
    ```
 
-2. 下载仓库：
+2. 复刻仓库：
 
    ```sh
    $ git clone https://github.com/google/syzkaller
@@ -46,7 +48,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 
 ## 编译内核
 
-若要编译一个 `GENERIC` 内核，必须带有 [kcov(4)](https://man.openbsd.org/kcov.4) 支持：
+若要成功编译一个 `GENERIC` 内核，[kcov(4)](https://man.openbsd.org/kcov.4) 必须启用：
 
 ```sh
 $ cd /sys/arch/amd64
