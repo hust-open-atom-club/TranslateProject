@@ -1,6 +1,6 @@
 ---
 status: proofread
-title: "配置"
+title: "Setup"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
