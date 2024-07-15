@@ -103,7 +103,7 @@ all: 单行描述
 - 根据需要更改/添加文件。
 - 将更改提交到本地。为此，你需要对所有更改的文件运行 `git add`，例如 `git add sys/linux/sys.txt`。你可以运行 `git status` 查看有哪些文件被修改/创建。当所有文件都添加完毕后（`git status` 显示 `Changes not staged for commit` 部分没有文件，并且 `Untracked files` 部分没有相关文件），运行 `git commit` 并在你的编辑器中输入提交描述。
 - 在本地运行测试（`make install_prerequisites`，然后执行 `make presubmit`）。
-- 使用 `git push my-origin my-branch` 将提交推送到 github 上的分叉。
+- 使用 `git push my-origin my-branch` 将提交推送到 github 上的复刻仓库。
 - 导航至 [github.com/google/syzkaller](https://github.com/google/syzkaller)，你会看到绿色的 `比较 & 拉取请求` 按钮，按下它。然后按 `创建拉取请求`。现在你的拉取请求应该会出现在[拉取请求页面](https://github.com/google/syzkaller/pulls)上。
 - 如果你由于任何原因看不到 `创建拉取请求` 按钮，你可以手动创建拉取请求。为此，请导航至[拉取请求页面](https://github.com/google/syzkaller/pulls)，按下 `新的拉取请求`，然后按下 `横叉比较` 并选择 `google/syzkaller`/`master` 作为基础，选择 `YOUR_GITHUB_USERNAME/syzkaller`/`my-branch` 作为比较，然后按下 `创建拉取请求`。
 - 如果在创建了拉取请求后，你决定对 `my-branch` 中的提交进行变基（例如，将它们变基到更新的 master 上），则需要执行一次强制推送：`git push -f my-origin my-branch`。
