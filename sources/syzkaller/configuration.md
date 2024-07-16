@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Configuration"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: gitveg
 translated_date: 20240524
 proofreader: mudongliang
 proofread_date: 20240531
+publisher:JasonC10
+published_date: 20240712
 link: https://github.com/google/syzkaller/blob/master/docs/configuration.md
 ---
 
