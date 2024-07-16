@@ -8,7 +8,7 @@ translator: MarkMrLi
 translated_date: 20240428
 proofreader: mudongliang
 proofread_date: 20240702
-publisher:JasonC10
+publisher: JasonC10
 published_time: 20240711
 link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 ---
