@@ -605,6 +605,6 @@ meta arches["arch1", "arch2"]
 
 描述文件还包含指向 Linux 内核头文件的 `include` 指令、指向自定义 Linux 内核头文件目录的 `incdir` 指令和定义符号常量值的 `define` 指令。
 
-syzkaller 执行器定义了一些[伪系统调用](./pseudo_syscalls.md)，可以像描述文件中的其他系统调用一样使用。这些伪系统调用可扩展为 C 代码，并可执行用户自定义的操作。你可以在 [executor/common_linux.h](../executor/common_linux.h) 中找到一些例子。
+syzkaller 执行器定义了一些[伪系统调用](pseudo_syscalls.md)，可以像描述文件中的其他系统调用一样使用。这些伪系统调用可扩展为 C 代码，并可执行用户自定义的操作。你可以在 [executor/common_linux.h](https://github.com/google/syzkaller/tree/master/executor/common_linux.h) 中找到一些例子。
 
 另请参阅 [tips](syscall_descriptions.md#tips)，了解如何编写好的描述。
