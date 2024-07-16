@@ -13,10 +13,10 @@ link: https://github.com/google/syzkaller/blob/master/docs/contributing.md
 
 # 如何为 syzkaller 项目做贡献
 
-如果你想为本项目做出贡献，请按照下面的[指南](contributing.md#guidelines)提交拉取请求。
+如果你想为本项目做出贡献，请按照下面的[指南](contributing.md#指南)提交拉取请求。
 
 如果这是你第一次向 syzkaller 提交拉取请求，你需要[签署 Google CLA](https://cla.developers.google.com/)，
-并在第一次提交时将自己添加到 [AUTHORS](/AUTHORS)/[CONTRIBUTORS](/CONTRIBUTORS) 文件中。
+并在第一次提交时将自己添加到 [AUTHORS](https://github.com/google/syzkaller/tree/master/AUTHORS)/[CONTRIBUTORS](https://github.com/google/syzkaller/tree/master/CONTRIBUTORS) 文件中。
 
 ## 工作内容
 
@@ -24,7 +24,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/contributing.md
 
 [错误跟踪器](https://github.com/google/syzkaller/issues) 中未分配的议题是值得去做的，但其中有些议题可能比较复杂。
 
-要贡献代码或系统调用描述，你至少需要能够构建并运行 syzkaller，请参阅[此处](/docs/setup.md)的说明。
+要贡献代码或系统调用描述，你至少需要能够构建并运行 syzkaller，请参阅[此处](https://github.com/google/syzkaller/tree/master/docs/setup.md)的说明。
 
 ## 指南
 
@@ -110,7 +110,7 @@ all: 单行描述
 
 ### 使用 syz-env
 
-开发 syzkaller 需要安装大量工具（Go 工具链、C/C++ 交叉编译器、golangci-lint 等）。安装所有这些工具可能会很麻烦，例如由于软件包损坏/缺失。[syz-env](/tools/syz-env) 提供了一个基于 Docker 容器的密封开发环境。如果尚未安装 Docker，请参阅[文档](https://docs.docker.com/engine/install)，特别是关于启用 [sudo-less](https://docs.docker.com/engine/install/linux-postinstall) 的 Docker（Googlers 参见 go/docker）。
+开发 syzkaller 需要安装大量工具（Go 工具链、C/C++ 交叉编译器、golangci-lint 等）。安装所有这些工具可能会很麻烦，例如由于软件包损坏/缺失。[syz-env](https://github.com/google/syzkaller/tree/master/tools/syz-env) 提供了一个基于 Docker 容器的密封开发环境。如果尚未安装 Docker，请参阅[文档](https://docs.docker.com/engine/install)，特别是关于启用 [sudo-less](https://docs.docker.com/engine/install/linux-postinstall) 的 Docker（Googlers 参见 go/docker）。
 
 建议为 `syz-env` 脚本创建别名：
 
