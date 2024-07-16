@@ -41,67 +41,84 @@ type-options = [type-opt ["," type-opt]]
 ```
 "const": 整型常量，类型选项:
 	值，基础类型（"intN" 或 "intptr"）
-示例：const[0, int32] 或 ioctl$I2C_SLAVE(..., cmd const[I2C_SLAVE], ...)，其中I2C_SLAVE为dev_i2c.txt.const定义的常量
+	示例：const[0, int32] 或 ioctl$I2C_SLAVE(..., cmd const[I2C_SLAVE], ...)，其中I2C_SLAVE为dev_i2c.txt.const定义的常量
+
 "intN"/"intptr": 没有特定含义的整数，类型选项：
 	一个可选值范围（例如 "5:10" 或 "100:200"）
 	或者一个标志描述的引用（见下文）， 
 	或单个值
 	如果使用范围，其后可选择性地跟对齐参数
-示例：int8[100:200] 或 ioctl$I2C_SLAVE(..., arg intptr[0:0x3ff])
+	示例：int8[100:200] 或 ioctl$I2C_SLAVE(..., arg intptr[0:0x3ff])
+
 "flags": 一组值，类型选项：
 	标志描述的引用（见下文），基本的整型类型（例如 "int32"）
-示例：flags[iocb_flags, int32]，其中 iocb_flags = IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO
+	示例：flags[iocb_flags, int32]，其中 iocb_flags = IOCB_FLAG_RESFD, IOCB_FLAG_IOPRIO
+
 "array": 可变/固定长度数组，类型选项：
 	元素类型，可选尺寸（固定为 "5"，或范围限定为 "5:10"的闭区间）
-示例：array[int8, 5] 或 array[int8, 5:10]
+	示例：array[int8, 5] 或 array[int8, 5:10]
+
 "ptr"/"ptr64": 指向对象的指针，类型选项:
 	方向（输入/输出/输入输出）；对象的类型
 	ptr64 的大小为 8 字节，与目标指针大小无关
-示例：io_getevents(..., timeout ptr[in, timespec, opt])，其中opt表示该参数是可选的
+	示例：io_getevents(..., timeout ptr[in, timespec, opt])，其中opt表示该参数是可选的
+
 "string": 以零结尾的内存缓冲区（不包含指针间接寻址），类型选项：
 	一个常量字符串的引号中的字符串值（例如，"foo" 或 十六进制的`deadbeef`），
 	或一个对字符串标志的引用（特殊值 `filename` 将产生文件名），后面可跟着一个缓冲区大小（字符串值将用 \x00 填充到该大小）
-示例：mount$9p_tcp(src ptr[in, string["127.0.0.1"]], ...)
+	示例：mount$9p_tcp(src ptr[in, string["127.0.0.1"]], ...)
+
 "stringnoz": 非零终止的内存缓冲区（不包含指针间接寻址），类型选项：
 	一个常量字符串的引号中的字符串值（例如，"foo" 或 十六进制的`deadbeef`），
 	或一个对字符串标志的引用
-示例：stringnoz[cgroup_subsystems]，其中cgroup_subsystems = "cpu", "memory", "io", ...
+	示例：stringnoz[cgroup_subsystems]，其中cgroup_subsystems = "cpu", "memory", "io", ...
+
 "glob": 要在目标文件上匹配的 glob 模式，类型选项：
 	一个引号中的模式字符串（语法参考：https://golang.org/pkg/path/filepath/#Match，例如，"/sys/" 或 "/sys/**/*"）
 	也可以指定排除的 glob（例如 "/sys/**/*：-/sys/power/state"）
-示例：openat$sysfs(..., dir ptr[in, glob["/sys/**/*:-/sys/power/state"]], ...)
+	示例：openat$sysfs(..., dir ptr[in, glob["/sys/**/*:-/sys/power/state"]], ...)
+
 "fmt": 整数的字符串表示形式（非零终止），类型选项：
 	格式（"dec"、"hex"、"oct" 之一）和值（resource、int、flags、const 或 proc）
 	其结果数据总是大小固定的（分别对应地格式化为 "%020llu", "0x%016llx" 或 "%023llo"）
-示例：fmt[hex, int32] 或 fmt[dec, proc[10, 20]]
+	示例：fmt[hex, int32] 或 fmt[dec, proc[10, 20]]
+
 "len": 另一个字段的长度（对于数组，它是元素的数量），类型选项：
 	对象的参数名称（argname）
-示例：mmap$xdp(addr vma, len len[addr], ...) 或 read(..., buf buffer[out], count len[buf])
+	示例：mmap$xdp(addr vma, len len[addr], ...) 或 read(..., buf buffer[out], count len[buf])
+
 "bytesize": 类似于 "len"，但总是以字节为单位表示大小，类型选项：
 	对象的参数名称（argname）
-示例：getsockopt$XDP_STATISTICS(..., val ..., len ptr[in, bytesize[val, int32]])
+	示例：getsockopt$XDP_STATISTICS(..., val ..., len ptr[in, bytesize[val, int32]])
+
 "bitsize": 类似于 "len"，但总是以位为单位表示大小，类型选项：
 	对象的参数名称（argname）
-示例：bitsize[key, int16]，其中 key 为 array[int8]
+	示例：bitsize[key, int16]，其中 key 为 array[int8]
+
 "offsetof": 字段与父类结构体头部的偏移量，类型选项：
 	字段（field）
-示例：offsetof[ebt_among_info:FIELD, int32]，其中FILELD为ebt_among_info的某个结构体成员（通过:的成员索引支持嵌套，如offsetof[A:B:C, int32]）
+	示例：offsetof[ebt_among_info:FIELD, int32]，其中FILELD为ebt_among_info的某个结构体成员（通过:的成员索引支持嵌套，如offsetof[A:B:C, int32]）
+
 "vma"/"vma64": 指向一组页面的指针（用作 mmap/munmap/mremap/madvice 的输入），类型选项：
 	可选的页面数量（例如 vma[7]）或页面范围（例如 vma[2-4]）
 	vma64 的大小为 8 字节，与目标指针大小无关
-示例：mmap$KVM_VCPU(addr vma, ...) 或 syz_kvm_setup_cpu$x86(..., usermem vma[24], ...)
+	示例：mmap$KVM_VCPU(addr vma, ...) 或 syz_kvm_setup_cpu$x86(..., usermem vma[24], ...)
+
 "proc": 每个进程的int值（参阅下面的描述），类型选项:
 	值范围的起始，每个进程有多少个值，基础类型
-示例：proc[0x0, 4, int8]
+	示例：proc[0x0, 4, int8]
+
 "compressed_image": zlib压缩的磁盘映像
 	接受 `compressed_image` 作为参数的系统调用必须被标记为 `no_generate` 和 `no_minimize` 调用属性。
-示例：syz_mount_image$f2fs(..., img ptr[in, compressed_image]) fd_dir (timeout[4000], no_generate, no_minimize)
+	示例：syz_mount_image$f2fs(..., img ptr[in, compressed_image]) fd_dir (timeout[4000], no_generate, no_minimize)
+
 "text": 指定类型的机器码，类型选项:
 	文本类型 (x86_real, x86_16, x86_32, x86_64, arm64)
-示例：ptr[in, text[x86_64]]
+	示例：ptr[in, text[x86_64]]
+
 "void": 静态大小为 0 的类型
 	主要用于模板和 varlen 联合体内部，不能作为系统调用的参数
-示例：write$FUSE_INTERRUPT(..., arg ptr[in, fuse_out[void]], ...)
+	示例：write$FUSE_INTERRUPT(..., arg ptr[in, fuse_out[void]], ...)
 ```
 
 在 structs/unions/pointers 中使用时，flags/len/flags 也有尾随的基础类型的类型选项。
@@ -356,13 +373,13 @@ sock_fprog {
 
 ```
 s1 {
-    f0      len[s2]  # length of s2
+	f0      len[s2]  # length of s2
 }
 
 s2 {
-    f0      s1
-    f1      array[int32]
-    f2      len[parent, int32]
+	f0      s1
+	f1      array[int32]
+	f2      len[parent, int32]
 }
 ```
 
@@ -426,14 +443,14 @@ define MY_PATH_MAX	PATH_MAX + 2
 
 ```
 header_fields {
-  magic       const[0xabcd, int16]
-  haveInteger int8
+	magic       const[0xabcd, int16]
+	haveInteger int8
 } [packed]
 
 packet {
-  header  header_fields
-  integer int64  (if[value[header:haveInteger] == 0x1])
-  body    array[int8]
+	header  header_fields
+	integer int64  (if[value[header:haveInteger] == 0x1])
+	body    array[int8]
 } [packed]
 
 some_call(a ptr[in, packet])
@@ -465,17 +482,17 @@ some_call(&AUTO={{AUTO, 0x0}, @void, []})
 禁止在位域上设置条件：
 ```
 struct {
-  f0 int
-  f1 int:3 (if[value[f0] == 0x1])  # It will not compile.
+	f0 int
+	f1 int:3 (if[value[f0] == 0x1])  # It will not compile.
 }
 ```
 
 但你可以在条件中引用位域：
 ```
 struct {
-  f0 int:1
-  f1 int:7
-  f2 int   (if[value[f0] == value[f1]])
+	f0 int:1
+	f1 int:7
+	f2 int   (if[value[f0] == value[f1]])
 } [packed]
 ```
 
@@ -485,14 +502,14 @@ struct {
 
 ```
 struct {
-  type int
-  body alternatives
+	type int
+	body alternatives
 }
 
 alternatives [
-  int     int64 (if[value[struct:type] == 0x1])
-  arr     array[int64, 5] (if[value[struct:type] == 0x2])
-  default int32
+	int     int64 (if[value[struct:type] == 0x1])
+	arr     array[int64, 5] (if[value[struct:type] == 0x2])
+	default int32
 ] [varlen]
 
 some_call(a ptr[in, struct])
@@ -517,8 +534,8 @@ some_call(&AUTO={0x0, @default=0xabcd})
 
 ```
 alternatives [
-  int int64 (if[value[struct:type] == 0x1])
-  arr array[int64, 5] (if[value[struct:type] == 0x1])
+	int int64 (if[value[struct:type] == 0x1])
+	arr array[int64, 5] (if[value[struct:type] == 0x1])
 ] [varlen]
 ```
 
@@ -535,16 +552,16 @@ alternatives [
 
 ```
 sub_struct {
-  f0 int
-  # 引用父结构中的一个字段。
-  f1 int (if[value[struct:f2]]) # 与 if[value[struct:f2] != 0] 相同。
+	f0 int
+	# 引用父结构中的一个字段。
+	f1 int (if[value[struct:f2]]) # 与 if[value[struct:f2] != 0] 相同。
 }
 
 struct {
-  f2 int
-  f3 sub_struct
-  f4 int (if[value[f2] == 0x2]) # 引用一个同级字段。
-  f5 int (if[value[f3:f0] == 0x1]) # 引用一个嵌套字段。
+	f2 int
+	f3 sub_struct
+	f4 int (if[value[f2] == 0x2]) # 引用一个同级字段。
+	f5 int (if[value[f3:f0] == 0x1]) # 引用一个嵌套字段。
 } [packed]
 
 call(a ptr[in, struct])
@@ -555,18 +572,18 @@ call(a ptr[in, struct])
 
 ```
 struct {
-  f0 int
-  f1 int (if[value[f0] == 0x1])
-  f2 int (if[value[f1] == 0x1])
+	f0 int
+	f1 int (if[value[f0] == 0x1])
+	f2 int (if[value[f1] == 0x1])
 }
 ```
 
 你也可以在表达式中引用常量：
 ```
 struct {
-  f0 int
-  f1 int
-  f2 int (if[value[f0] & SOME_CONST == OTHER_CONST])
+	f0 int
+	f1 int
+	f2 int (if[value[f0] & SOME_CONST == OTHER_CONST])
 }
 ```
 
