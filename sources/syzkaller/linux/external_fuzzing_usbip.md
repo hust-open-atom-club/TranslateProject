@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "USB/IP Fuzzing for Linux Kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: RutingZhang0429
 translated_date: 20240602
 proofreader: mudongliang
 proofread_date: 20240702
+publisher: JasonC10
+published_date: 20240715
 link: https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_usbip.md
 ---
 

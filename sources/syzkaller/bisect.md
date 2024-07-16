@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Syz-bisect"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: MarkMrLi
 translated_date: 20240428
 proofreader: mudongliang
 proofread_date: 20240702
+publisher: JasonC10
+published_date: 20240711
 link: https://github.com/google/syzkaller/blob/master/docs/bisect.md
 ---
 
