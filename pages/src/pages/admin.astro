@@ -11,20 +11,24 @@ import { SITE } from "@config";
 import StatusChart from "@components/StatusChart";
 import getStatusCount from "@utils/getStatusCount";
 import { getCollection } from "astro:content";
+import Translating from "@layouts/translating.astro";
+// import type { Code } from "astro:components";
+import getPagination from "@utils/getPagination";
+
 
 const collection = await getCollection("posts");
 const countData = getStatusCount(collection);
 
-// function getStyle(tabStatus: string) {
-//   const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 ";
-//   return tabStatus === status
-//     ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
-//     : base;
-// }
-
+const status="translating";
 const { totalPages, paginatedPosts = [] } = Astro.props;
 
 // 获取所有状态为status的文章
+ const trasnlatingPosts = await getCollection("posts", (entry) => entry.data.status === "translating");
+const pagination = getPagination({
+  posts: trasnlatingPosts,
+  page: 1,
+  isIndex: true,
+});
 
 // 获取每篇文章的翻译者和翻译开始时间
 ---
@@ -59,7 +63,8 @@ const { totalPages, paginatedPosts = [] } = Astro.props;
         )
       }
     </ul>
+    <Translating {...pagination}  status={status}/>
   </Main>
-
+  
   <Footer noMarginTop={totalPages > 1} />
 </Layout>
