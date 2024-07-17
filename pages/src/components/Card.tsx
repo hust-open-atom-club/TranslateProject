@@ -47,6 +47,7 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
   const {
     title,
     status,
+    translator,
     published_date
   } = frontmatter;
 
@@ -88,6 +89,11 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
         {
           status === 'collected' && <div className="px-2 mx-2 text-slate-500">
             {body && body.split(/\s/g).length} 词
+          </div>
+        }
+        {
+          status === 'translating' && <div className="px-2 mx-2 text-slate-500">
+            {translator}
           </div>
         }
         <div>
