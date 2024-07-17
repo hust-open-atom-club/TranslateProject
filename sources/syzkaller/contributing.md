@@ -8,6 +8,8 @@ translator: QGrain
 translated_date: 20240712
 proofreader: mudongliang
 proofread_date: 20240715
+publisher: mudongliang
+published_date: 20240717
 link: https://github.com/google/syzkaller/blob/master/docs/contributing.md
 ---
 

@@ -8,6 +8,8 @@ translator: QGrain
 translated_date: 20240617
 proofreader: foreverowl
 proofread_date: 20240711
+publisher: mudongliang
+published_date: 20240717
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions_syntax.md
 ---
 
