@@ -1,73 +1,65 @@
 ---
-import type { CollectionEntry } from "astro:content";
+// import type { CollectionEntry } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Pagination from "@components/Pagination.astro";
+// import Pagination from "@components/Pagination.astro";
 import Card from "@components/Card";
-import { SITE, STATUS_LIST } from "@config";
-import LinkButton from "@components/LinkButton.astro";
+import { SITE } from "@config";
+// import LinkButton from "@components/LinkButton.astro";
 import StatusChart from "@components/StatusChart";
 import getStatusCount from "@utils/getStatusCount";
 import { getCollection } from "astro:content";
 
-const countData = getStatusCount(await getCollection("posts"));
-async function getAvatar(name: string) {
-  let avatar = "https://github.com/identicons/" + name + ".png"; // random default avatar https://github.com/identicons/${name}.png
-  const response = await fetch(`https://api.github.com/search/users?q=${name}`);
-  const data = await response.json();
-  if (data.hasOwnProperty("items") && data.items.length > 0) {
-    avatar = data.items[0].avatar_url;
-  }
-  return avatar;
-}
+const collection = await getCollection("posts");
+const countData = getStatusCount(collection);
 
-function getStyle(tabStatus: string) {
-  const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 ";
-  return tabStatus === status
-    ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
-    : base;
-}
+// function getStyle(tabStatus: string) {
+//   const base = "mr-4 select-none inline-block w-20 text-center px-4 py-2 ";
+//   return tabStatus === status
+//     ? base + " bg-skin-accent text-skin-inverted hover:text-skin-inverted"
+//     : base;
+// }
 
-const { currentPage, totalPages, paginatedPosts=[] } = Astro.props;
-
-const status = Astro.props.status || "translating";
-
-
-
+const { totalPages, paginatedPosts = [] } = Astro.props;
 
 // 获取所有状态为status的文章
-const postsByStatus = paginatedPosts.filter(post => post.status === status);
 
 // 获取每篇文章的翻译者和翻译开始时间
-const postsData = await Promise.all(postsByStatus.map(async post => {
-  const translator = post.translator;
-  const startTime = post.startTime;
-  const avatar = await getAvatar(translator);
-  const deadline = new Date(startTime);
-  deadline.setMonth(deadline.getMonth() + 1); // 翻译开始时间加一个月
-  return { ...post, avatar, startTime, deadline };
-}));
 ---
 
 <Layout title={`${SITE.title}`}>
   <Header activeNav="posts" />
   <Main pageTitle="">
     <StatusChart data={countData} client:only />
-    
+
     <!-- 添加一个列表展示翻译中的文章链接、翻译者的头像链接、翻译开始时间和翻译开始时间加一个月 -->
     <ul>
-        {
-          paginatedPosts.map(({ id, data, slug, body }) => (
-            <Card id={id} href={`/posts/${slug}/`} frontmatter={data} body={body} />
-          ))
-          
-        }
-      </ul>
+      {
+        paginatedPosts.map(
+          ({
+            id,
+            data,
+            slug,
+            body,
+          }: {
+            id: string;
+            data: any;
+            slug: string;
+            body: string;
+          }) => (
+            <Card
+              id={id}
+              href={`/posts/${slug}/`}
+              frontmatter={data}
+              body={body}
+            />
+          )
+        )
+      }
+    </ul>
   </Main>
-
-
 
   <Footer noMarginTop={totalPages > 1} />
 </Layout>
