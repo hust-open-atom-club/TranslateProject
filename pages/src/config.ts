@@ -31,7 +31,7 @@ export const STATUS_LIST: {
   color?: string;
 }[] = [
     { status: "collected", text: "去翻译", tabText: "待翻译", color: "bg-gray-500" },
-    { status: "translating", text: "翻译中", hideInTab: true, tabText: "翻译中", color: "bg-yellow-300" },
+    { status: "translating", text: "翻译中", tabText: "待提交", color: "bg-yellow-300" },
     { status: "translated", text: "去校对", tabText: "待校对", color: "bg-orange-500" },
     { status: "proofread", text: "去发布", tabText: "待发布", color: "bg-purple-500" },
     { status: "proofreading", text: "校对中", hideInTab: true, color: "bg-blue-500" },
