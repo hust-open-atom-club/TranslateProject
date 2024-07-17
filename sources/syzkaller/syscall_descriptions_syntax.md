@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Syscall description language"
 author: Syzkaller Community
 collector: hai119

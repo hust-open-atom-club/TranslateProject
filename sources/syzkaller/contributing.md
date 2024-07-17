@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "How to contribute to syzkaller"
 author: Syzkaller Community
 collector: jxlpzqc
