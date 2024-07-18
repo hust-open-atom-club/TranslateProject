@@ -1,6 +1,6 @@
 ---
 status: collected
-title: "Explaining the "No working init found." boot hang message"
+title: Explaining the "No working init found." boot hang message
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718

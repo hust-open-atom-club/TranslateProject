@@ -1,6 +1,6 @@
 ---
 status: collected
-title: "The important bits (aka "TL;DR")"
+title: The important bits (aka "TL;DR")
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
