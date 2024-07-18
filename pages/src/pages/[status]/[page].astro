@@ -41,4 +41,5 @@ const pagination = getPagination({
 });
 ---
 
-<Posts {...pagination} status={status} />
+<!-- if status === 'published', add publishPage param -->
+<Posts {...pagination} status={status} publishPage={status === 'published'} />
