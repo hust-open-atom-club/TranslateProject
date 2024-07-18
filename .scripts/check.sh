@@ -22,11 +22,13 @@ check_published() {
   PUBLISHED_DATE=$(yq -f extract '.published_date' $PUBLISHED_ARTICLE)
   if [ "$PUBLISHER" == "null" ] || [ "$PUBLISHED_DATE" == "null" ]; then
     ERROR=$ERROR"Missing metadata in publisher/published_date; "
-  else
-    # No stage check needed for the final stage
-    if [ "$PUBLISHER" != "$ACTOR_ID" ]; then
-      ERROR=$ERROR"Publisher is not the same as the PR opener; "
-    fi
+  # Comment this check since it's good to give a last chance for people
+  # to fix some minor issues missed in the previous stages
+  # else
+  #   # No stage check needed for the final stage
+  #   if [ "$PUBLISHER" != "$ACTOR_ID" ]; then
+  #     ERROR=$ERROR"Publisher is not the same as the PR opener; "
+  #   fi
   fi
 }
 
@@ -81,11 +83,15 @@ check_translated() {
 check_translating() {
   TRANSLATING_ARTICLE=$1
   TRANSLATOR=$(yq -f extract '.translator' $TRANSLATING_ARTICLE)
+  TRANSLATING_DATE=$(yq -f extract '.translating_date' $TRANSLATING_ARTICLE)
   if [ "$TRANSLATOR" == "null" ]; then
     ERROR=$ERROR"Missing metadata in translator; "
   else
     if [ "$STATUS" == "translating" ] || [ "$STATUS" == "translated" ]; then
-      if [ "$TRANSLATOR" != "$ACTOR_ID" ]; then
+      COLLECTED_DATE=$(yq -f extract '.collected_date' $TRANSLATING_ARTICLE)
+      if [ ! $TRANSLATING_DATE == "null" ] && [ $TRANSLATING_DATE -lt $COLLECTED_DATE ]; then
+        ERROR=$ERROR"Translating date is earlier than collected date;"
+      elif [ "$TRANSLATOR" != "$ACTOR_ID" ]; then
         ERROR=$ERROR"Translator is not the same as the PR opener; "
       fi
     fi
