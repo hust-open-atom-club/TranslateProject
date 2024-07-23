@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "Setup: Linux isolated host"
 author: Syzkaller Community
 collector: jxlpzqc
