@@ -61,13 +61,7 @@ const countData = getStatusCount(await getCollection("posts"));
     }
     <ul>
       {
-        // sort by date
-        paginatedPosts.sort((a, b) => {
-          // 假设 published_date 是字符串形式如 '20240428'
-          const dateA = parseInt(a.data.published_date.toString());
-          const dateB = parseInt(b.data.published_date.toString());
-          return dateB - dateA; // 降序排列，若需升序改为 dateA - dateB
-        }).map(({ id, data, slug, body }) => (
+        paginatedPosts.map(({ id, data, slug, body }) => (
           <Card
             id={id}
             href={`/posts/${slug}/`}
