@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Setup: Linux host, Android device, arm32/64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Athanlaich
 translated_date: 20240401
 proofreader: mudongliang
 proofread_date: 20240710
+publisher: mudongliang
+publish_date: 20240721
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md
 ---
 
