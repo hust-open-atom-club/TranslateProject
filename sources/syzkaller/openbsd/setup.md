@@ -9,7 +9,7 @@ translated_date: 20240407
 proofreader: mudongliang
 proofread_date: 20240712
 publisher: mudongliang
-publish_date: 20240723
+published_date: 20240723
 link: https://github.com/google/syzkaller/blob/master/docs/openbsd/setup.md
 ---
 

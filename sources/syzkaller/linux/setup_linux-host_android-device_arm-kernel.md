@@ -9,7 +9,7 @@ translated_date: 20240401
 proofreader: mudongliang
 proofread_date: 20240710
 publisher: mudongliang
-publish_date: 20240721
+published_date: 20240721
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_android-device_arm-kernel.md
 ---
 
