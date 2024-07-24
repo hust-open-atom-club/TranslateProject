@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Setup: Linux isolated host"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: xiaobor123
 translated_date: 20240317
 proofreader: mudongliang
 proofread_date: 20240723
+publisher: mudongliang
+published_date: 20240724
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md
 ---
 
