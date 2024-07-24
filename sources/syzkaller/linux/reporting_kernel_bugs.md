@@ -5,6 +5,7 @@ author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Ecila01
+translated_date: 20240724
 link: https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md
 ---
 
