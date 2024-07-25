@@ -1,35 +1,32 @@
 ---
-status: collected
-title: "Kernel Concurrency Sanitizer (KCSAN)"
+status: translated
+title: "内核并发消毒剂 （KCSAN）"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: tttturtle-russ
+translated_date: 20240720
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kcsan.rst
 ---
 
-# Kernel Concurrency Sanitizer (KCSAN)
+# 内核并发消毒剂 （KCSAN）
 
-The Kernel Concurrency Sanitizer (KCSAN) is a dynamic race detector,
-which relies on compile-time instrumentation, and uses a
-watchpoint-based sampling approach to detect races. KCSAN\'s primary
-purpose is to detect [data races](#data-races).
+内核并发消毒剂（KCSAN）是一个动态竞争检测器，依赖编译时插桩，并且使用基于观察点的采样方法来检测竞争。KCSAN 的主要目的是检测 [数据竞争](#数据竞争)。
 
-## Usage
+## 使用
 
-KCSAN is supported by both GCC and Clang. With GCC we require version 11
-or later, and with Clang also require version 11 or later.
+KCSAN 受 GCC 和 Clang 支持。使用 GCC 需要版本 11 或更高，使用 Clang
+也需要 版本 11 或更高。
 
-To enable KCSAN configure the kernel with:
+为了启用 KCSAN，用如下参数配置内核:
 
     CONFIG_KCSAN = y
 
-KCSAN provides several other configuration options to customize
-behaviour (see the respective help text in `lib/Kconfig.kcsan` for more
-info).
+KCSAN 提供了几个其他的配置选项来自定义行为（见 `lib/Kconfig.kcsan` 中的各自的帮助文档以获取更多信息）。
 
-### Error reports
+### 错误报告
 
-A typical data race report looks like this:
+一个典型数据竞争的报告如下所示:
 
     ==================================================================
     BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
@@ -53,13 +50,9 @@ A typical data race report looks like this:
     Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
     ==================================================================
 
-The header of the report provides a short summary of the functions
-involved in the race. It is followed by the access types and stack
-traces of the 2 threads involved in the data race. If KCSAN also
-observed a value change, the observed old value and new value are shown
-on the \"value changed\" line respectively.
+报告的头部提供了一个关于竞争中涉及到的函数的简短总结。随后是竞争中的两个线程的访问类型和堆栈信息。如果 KCSAN 发现了一个值的变化，那么那个值的旧值和新值会在 "value changed"这一行单独显示。
 
-The other less common type of data race report looks like this:
+另一个不太常见的数据竞争类型的报告如下所示:
 
     ==================================================================
     BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
@@ -77,31 +70,16 @@ The other less common type of data race report looks like this:
     Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
     ==================================================================
 
-This report is generated where it was not possible to determine the
-other racing thread, but a race was inferred due to the data value of
-the watched memory location having changed. These reports always show a
-\"value changed\" line. A common reason for reports of this type are
-missing instrumentation in the racing thread, but could also occur due
-to e.g. DMA accesses. Such reports are shown only if
-`CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`, which is enabled by
-default.
+这个报告是当另一个竞争线程不可能被发现，但是可以从观测的内存地址的值改变而推断出来的时候生成的。这类报告总是会带有"value changed"行。这类报告的出现通常是因为在竞争线程中没有插桩，也可能是因为其他原因，比如 DMA 访问。这类报告只会在设置了内核参数 `CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y` 时才会出现，而这个参数是默认启用的。
 
-### Selective analysis
+### 选择性分析
 
-It may be desirable to disable data race detection for specific
-accesses, functions, compilation units, or entire subsystems. For static
-blacklisting, the below options are available:
+对于一些特定的访问，函数，编译单元或者整个子系统，可能需要警用数据竞争检测。
+对于静态黑名单，有如下可用的参数：
 
--   KCSAN understands the `data_race(expr)` annotation, which tells
-    KCSAN that any data races due to accesses in `expr` should be
-    ignored and resulting behaviour when encountering a data race is
-    deemed safe. Please see [\"Marking Shared-Memory Accesses\" in the
-    LKMM](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt)
-    for more information.
+-   KCSAN 支持使用 `data_race(expr)` 注解，这个注解告诉 KCSAN 任何由访问 `expr` 所引起的数据竞争都应该被忽略，其产生的行为后果被认为是安全的。请查阅 [\"Marking Shared-Memory Accesses\" in the LKMM](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt) 获得更多信息。
 
--   Similar to `data_race(...)`, the type qualifier `__data_racy` can be
-    used to document that all data races due to accesses to a variable
-    are intended and should be ignored by KCSAN:
+-   与 `data_race(...)` 相似，可以使用类型限定符 `__data_racy` 来标记一个变量，所有访问该变量而导致的数据竞争都是故意为之并且应该被 KCSAN 忽略:
 
         struct foo {
             ...
@@ -109,133 +87,70 @@ blacklisting, the below options are available:
             ...
         };
 
--   Disabling data race detection for entire functions can be
-    accomplished by using the function attribute `__no_kcsan`:
+-   使用函数属性 `__no_kcsan` 可以对整个函数禁用数据竞争检测:
 
         __no_kcsan
         void foo(void) {
             ...
 
-    To dynamically limit for which functions to generate reports, see
-    the [DebugFS interface](#debugfs-interface) blacklist/whitelist
-    feature.
+    为了动态限制该为哪些函数生成报告，查阅 [Debug文件系统接口](#debug-文件系统接口) 黑名单/白名单特性。
 
--   To disable data race detection for a particular compilation unit,
-    add to the `Makefile`:
+-   为特定的编译单元禁用数据竞争检测，将下列参数加入到 `Makefile` 中:
 
         KCSAN_SANITIZE_file.o := n
 
--   To disable data race detection for all compilation units listed in a
-    `Makefile`, add to the respective `Makefile`:
+-   为 `Makefile` 中的所有编译单元禁用数据竞争检测，将下列参数添加到相应的 `Makefile` 中:
 
         KCSAN_SANITIZE := n
 
-Furthermore, it is possible to tell KCSAN to show or hide entire classes
-of data races, depending on preferences. These can be changed via the
-following Kconfig options:
+此外，可以根据偏好设置 KCSAN 显示或隐藏整个类别的数据竞争。可以使用如下 Kconfig 参数进行更改:
 
--   `CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY`: If enabled and a
-    conflicting write is observed via a watchpoint, but the data value
-    of the memory location was observed to remain unchanged, do not
-    report the data race.
--   `CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC`: Assume that plain aligned
-    writes up to word size are atomic by default. Assumes that such
-    writes are not subject to unsafe compiler optimizations resulting in
-    data races. The option causes KCSAN to not report data races due to
-    conflicts where the only plain accesses are aligned writes up to
-    word size.
--   `CONFIG_KCSAN_PERMISSIVE`: Enable additional permissive rules to
-    ignore certain classes of common data races. Unlike the above, the
-    rules are more complex involving value-change patterns, access type,
-    and address. This option depends on
-    `CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y`. For details please see
-    the `kernel/kcsan/permissive.h`. Testers and maintainers that only
-    focus on reports from specific subsystems and not the whole kernel
-    are recommended to disable this option.
+-   `CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY`:
+    如果启用了该参数并且通过观测点观测到一个有冲突的写操作，但是对应的内存地址中存储的值没有改变，则不会报告这起数据竞争。
+-   `CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC`:
+    假设默认情况下，不超过字大小的简单对齐写入操作是原子的。假设这些写入操作不会受到不安全的编译器优化影响，从而导致数据竞争。该选项使 KCSAN 不报告仅由不超过字大小的简单对齐写入操作引起的冲突所导致的数据竞争。
+-   `CONFIG_KCSAN_PERMISSIVE`:
+    启用额外的宽松规则来忽略某些常见类型的数据竞争。与上面的规则不同，这条规则更加复杂，涉及到值改变模式，访问类型和地址。这个选项依赖编译选项 `CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y`。请查看 `kernel/kcsan/permissive.h` 获取更多细节。对于只侧重于特定子系统而不是整个内核报告的测试者和维护者，建议禁用该选项。
 
-To use the strictest possible rules, select `CONFIG_KCSAN_STRICT=y`,
-which configures KCSAN to follow the Linux-kernel memory consistency
-model (LKMM) as closely as possible.
+要使用尽可能严格的规则，选择 `CONFIG_KCSAN_STRICT=y`，这将配置 KCSAN 尽可 能紧密地遵循 Linux 内核内存一致性模型（LKMM）。
 
-### DebugFS interface
+### Debug 文件系统接口
 
-The file `/sys/kernel/debug/kcsan` provides the following interface:
+文件 `/sys/kernel/debug/kcsan` 提供了如下接口：
 
--   Reading `/sys/kernel/debug/kcsan` returns various runtime
-    statistics.
--   Writing `on` or `off` to `/sys/kernel/debug/kcsan` allows turning
-    KCSAN on or off, respectively.
--   Writing `!some_func_name` to `/sys/kernel/debug/kcsan` adds
-    `some_func_name` to the report filter list, which (by default)
-    blacklists reporting data races where either one of the top
-    stackframes are a function in the list.
--   Writing either `blacklist` or `whitelist` to
-    `/sys/kernel/debug/kcsan` changes the report filtering behaviour.
-    For example, the blacklist feature can be used to silence frequently
-    occurring data races; the whitelist feature can help with
-    reproduction and testing of fixes.
+-   读 `/sys/kernel/debug/kcsan` 返回不同的运行时统计数据。
+-   将 `on` 或 `off` 写入 `/sys/kernel/debug/kcsan` 允许打开或关闭 KCSAN。
+-   将 `!some_func_name` 写入 `/sys/kernel/debug/kcsan` 会将 `some_func_name` 添加到报告过滤列表中，这将（默认）禁止报告任意一个顶层栈帧在该列表中的数据竞争。
+-   将 `blacklist` 或 `whitelist` 写入 `/sys/kernel/debug/kcsan` 会改变报告过滤行为。例如，黑名单的特性可以用来过滤掉经常发生的数据竞争。白名单特性可以帮助复现和修复测试。
 
-### Tuning performance
+### 性能调优
 
-Core parameters that affect KCSAN\'s overall performance and bug
-detection ability are exposed as kernel command-line arguments whose
-defaults can also be changed via the corresponding Kconfig options.
+影响 KCSAN 整体的性能和 bug 检测能力的核心参数是作为内核命令行参数公开的，其默认 值也可以通过相应的 Kconfig 选项更改。
 
--   `kcsan.skip_watch` (`CONFIG_KCSAN_SKIP_WATCH`): Number of per-CPU
-    memory operations to skip, before another watchpoint is set up.
-    Setting up watchpoints more frequently will result in the likelihood
-    of races to be observed to increase. This parameter has the most
-    significant impact on overall system performance and race detection
-    ability.
--   `kcsan.udelay_task` (`CONFIG_KCSAN_UDELAY_TASK`): For tasks, the
-    microsecond delay to stall execution after a watchpoint has been set
-    up. Larger values result in the window in which we may observe a
-    race to increase.
--   `kcsan.udelay_interrupt` (`CONFIG_KCSAN_UDELAY_INTERRUPT`): For
-    interrupts, the microsecond delay to stall execution after a
-    watchpoint has been set up. Interrupts have tighter latency
-    requirements, and their delay should generally be smaller than the
-    one chosen for tasks.
+-   `kcsan.skip_watch` (`CONFIG_KCSAN_SKIP_WATCH`):
+    在另一个观测点设置之前每个 CPU要跳过的内存操作次数。更加频繁的设置观测点将增加观察到竞争情况的可能性。这个参数对系统整体的性能和竞争检测能力影响最显著。
+-   `kcsan.udelay_task` (`CONFIG_KCSAN_UDELAY_TASK`):
+    对于任务，观测点设置之后暂停执行的微秒延迟。值越大，检测到竞争情况的可能性越高。
+-   `kcsan.udelay_interrupt` (`CONFIG_KCSAN_UDELAY_INTERRUPT`):
+    对于中断，观测点设置之后暂停执行的微秒延迟。中断对于延迟的要求更加严格，其延迟通常应该小于为任务选择的延迟。
 
-They may be tweaked at runtime via `/sys/module/kcsan/parameters/`.
+它们可以通过 `/sys/module/kcsan/parameters/` 在运行时进行调整。
 
-## Data Races
+## 数据竞争
 
-In an execution, two memory accesses form a *data race* if they
-*conflict*, they happen concurrently in different threads, and at least
-one of them is a *plain access*; they *conflict* if both access the same
-memory location, and at least one is a write. For a more thorough
-discussion and definition, see [\"Plain Accesses and Data Races\" in the
-LKMM](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922).
+在一次执行中，如果两个内存访问存在 *冲突*，在不同的线程中并发执行，并且至少 有一个访问是 *简单访问*，则它们就形成了 *数据竞争*。如果它们访问了同一个内存地址并且至少有一个是写操作，则称它们存在 *冲突*。有关更详细的讨论和定义，见 [\"Plain Accesses and Data Races\" in the LKMM](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922)。
 
-### Relationship with the Linux-Kernel Memory Consistency Model (LKMM)
+### 与 Linux 内核内存一致性模型（LKMM）的关系
 
-The LKMM defines the propagation and ordering rules of various memory
-operations, which gives developers the ability to reason about
-concurrent code. Ultimately this allows to determine the possible
-executions of concurrent code, and if that code is free from data races.
+LKMM 定义了各种内存操作的传播和排序规则，让开发者可以推理并发代码。最终这允许确定并发代码可能的执行情况并判断这些代码是否存在数据竞争。
 
-KCSAN is aware of *marked atomic operations* (`READ_ONCE`, `WRITE_ONCE`,
-`atomic_*`, etc.), and a subset of ordering guarantees implied by memory
-barriers. With `CONFIG_KCSAN_WEAK_MEMORY=y`, KCSAN models load or store
-buffering, and can detect missing `smp_mb()`, `smp_wmb()`, `smp_rmb()`,
-`smp_store_release()`, and all `atomic_*` operations with equivalent
-implied barriers.
+KCSAN 可以识别 *被标记的原子操作* （ `READ_ONCE`, `WRITE_ONCE` , `atomic_*` 等），以及内存屏障所隐含的一部分顺序保证。启用 `CONFIG_KCSAN_WEAK_MEMORY=y` 配置，KCSAN 会对加载或存储缓冲区进行建模，并可以检测遗漏的 `smp_mb()`, `smp_wmb()`, `smp_rmb()`, `smp_store_release()`，以及所有的 具有等效隐含内存屏障的 `atomic_*` 操作。
 
-Note, KCSAN will not report all data races due to missing memory
-ordering, specifically where a memory barrier would be required to
-prohibit subsequent memory operation from reordering before the barrier.
-Developers should therefore carefully consider the required memory
-ordering requirements that remain unchecked.
+请注意，KCSAN 不会报告所有由于缺失内存顺序而导致的数据竞争，特别是在需要内存屏障来禁止后续内存操作在屏障之前重新排序的情况下。因此，开发人员应该仔细考虑那些未被检查的内存顺序要求。
 
-## Race Detection Beyond Data Races
+## 数据竞争以外的竞争检测
 
-For code with complex concurrency design, race-condition bugs may not
-always manifest as data races. Race conditions occur if concurrently
-executing operations result in unexpected system behaviour. On the other
-hand, data races are defined at the C-language level. The following
-macros can be used to check properties of concurrent code where bugs
-would not manifest as data races.
+对于有着复杂并发设计的代码，竞争状况不总是表现为数据竞争。如果并发操作引起了意料之外的系统行为，则认为发生了竞争状况。另一方面，数据竞争是在 C 语言层面定义的。下面的宏定义可以用来检测非数据竞争的漏洞并发代码的属性。
 
 ::: {.kernel-doc functions="ASSERT_EXCLUSIVE_WRITER ASSERT_EXCLUSIVE_WRITER_SCOPED
 ASSERT_EXCLUSIVE_ACCESS ASSERT_EXCLUSIVE_ACCESS_SCOPED
@@ -243,59 +158,27 @@ ASSERT_EXCLUSIVE_BITS"}
 include/linux/kcsan-checks.h
 :::
 
-## Implementation Details
+## 实现细节
 
-KCSAN relies on observing that two accesses happen concurrently.
-Crucially, we want to (a) increase the chances of observing races
-(especially for races that manifest rarely), and (b) be able to actually
-observe them. We can accomplish (a) by injecting various delays, and (b)
-by using address watchpoints (or breakpoints).
+KCSAN 需要观测两个并发访问。特别重要的是，我们想要（a）增加观测到竞争的机会（尤其是很少发生的竞争），以及（b）能够实际观测到这些竞争。我们可以通过（a）注入不同的延迟，以及（b）使用地址观测点（或断点）来实现。
 
-If we deliberately stall a memory access, while we have a watchpoint for
-its address set up, and then observe the watchpoint to fire, two
-accesses to the same address just raced. Using hardware watchpoints,
-this is the approach taken in
-[DataCollider](http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf).
-Unlike DataCollider, KCSAN does not use hardware watchpoints, but
-instead relies on compiler instrumentation and \"soft watchpoints\".
+如果我们在设置了地址观察点的情况下故意延迟一个内存访问，然后观察到观察点被触发，那么两个对同一地址的访问就发生了竞争。使用硬件观察点，这是 [DataCollider](http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf) 中采用 的方法。与 DataCollider 不同，KCSAN 不使用硬件观察点，而是依赖于编译器插装和"软 观测点"。
 
-In KCSAN, watchpoints are implemented using an efficient encoding that
-stores access type, size, and address in a long; the benefits of using
-\"soft watchpoints\" are portability and greater flexibility. KCSAN then
-relies on the compiler instrumenting plain accesses. For each
-instrumented plain access:
+在 KCSAN 中，观察点是通过一种高效的编码实现的，该编码将访问类型、大小和地址存储在一个长整型变量中；使用"软观察点"的好处是具有可移植性和更大的灵活性。然后，KCSAN 依赖于编译器对普通访问的插桩。对于每个插桩的普通访问：
 
-1.  Check if a matching watchpoint exists; if yes, and at least one
-    access is a write, then we encountered a racing access.
-2.  Periodically, if no matching watchpoint exists, set up a watchpoint
-    and stall for a small randomized delay.
-3.  Also check the data value before the delay, and re-check the data
-    value after delay; if the values mismatch, we infer a race of
-    unknown origin.
+1.  检测是否存在一个复合的观测点，如果存在，并且至少有一个操作是写操作，则我们发现了一个竞争访问。
+2.  如果不存在匹配的观察点，则定期的设置一个观测点并随机延迟一小段时间。
+3.  在延迟前检查数据值，并在延迟后重新检查数据值；如果值不匹配，我们推测存在一个未知来源的竞争状况。
 
-To detect data races between plain and marked accesses, KCSAN also
-annotates marked accesses, but only to check if a watchpoint exists;
-i.e. KCSAN never sets up a watchpoint on marked accesses. By never
-setting up watchpoints for marked operations, if all accesses to a
-variable that is accessed concurrently are properly marked, KCSAN will
-never trigger a watchpoint and therefore never report the accesses.
+为了检测普通访问和标记访问之间的数据竞争，KCSAN 也对标记访问进行标记，但仅用于 检查是否存在观察点；即 KCSAN 不会在标记访问上设置观察点。通过不在标记操作上设置观察点，如果对一个变量的所有并发访问都被正确标记，KCSAN 将永远不会触发观察点 ，因此也不会报告这些访问。
 
-### Modeling Weak Memory
+### 弱内存建模
 
-KCSAN\'s approach to detecting data races due to missing memory barriers
-is based on modeling access reordering (with
-`CONFIG_KCSAN_WEAK_MEMORY=y`). Each plain memory access for which a
-watchpoint is set up, is also selected for simulated reordering within
-the scope of its function (at most 1 in-flight access).
+KSCAN 检测由于缺失内存屏障的数据检测的方法是居于对访问重新排序的建模（使用参数 `CONFIG_KCSAN_WEAK_MEMORY=y`）。每个设置了观察点的普通内存访问也会被选择在其函数范围内进行模拟重新排序（最多一个正在进行的访问）。
 
-Once an access has been selected for reordering, it is checked along
-every other access until the end of the function scope. If an
-appropriate memory barrier is encountered, the access will no longer be
-considered for simulated reordering.
+一旦某个访问被选择用于重新排序，它将在函数范围内与每个其他访问进行检查。如果遇到适当的内存屏障，该访问将不再被考虑进行模拟重新排序。
 
-When the result of a memory operation should be ordered by a barrier,
-KCSAN can then detect data races where the conflict only occurs as a
-result of a missing barrier. Consider the example:
+当内存操作的结果应该由屏障排序时，KCSAN 可以检测到仅由于缺失屏障而导致的冲突的 数据竞争。考虑下面的例子:
 
     int x, flag;
     void T1(void)
@@ -309,70 +192,25 @@ result of a missing barrier. Consider the example:
         ... = x;                    // data race!
     }
 
-When weak memory modeling is enabled, KCSAN can consider `x` in `T1` for
-simulated reordering. After the write of `flag`, `x` is again checked
-for concurrent accesses: because `T2` is able to proceed after the write
-of `flag`, a data race is detected. With the correct barriers in place,
-`x` would not be considered for reordering after the proper release of
-`flag`, and no data race would be detected.
+当启用了弱内存建模，KCSAN 将考虑对 `T1` 中的 `x` 进行模拟重新排序。在写入 `flag` 之后，x再次被检查是否有并发访问：因为 `T2` 可以在写入 `flag` 之后继续进行，因此检测到数据竞争。如果遇到了正确的屏障，`x` 在正确 释放 `flag` 后将不会被考虑重新排序，因此不会检测到数据竞争。
 
-Deliberate trade-offs in complexity but also practical limitations mean
-only a subset of data races due to missing memory barriers can be
-detected. With currently available compiler support, the implementation
-is limited to modeling the effects of \"buffering\" (delaying accesses),
-since the runtime cannot \"prefetch\" accesses. Also recall that
-watchpoints are only set up for plain accesses, and the only access type
-for which KCSAN simulates reordering. This means reordering of marked
-accesses is not modeled.
+在复杂性上的权衡以及实际的限制意味着只能检测到一部分由于缺失内存屏障而导致的数据竞争。由于当前可用的编译器支持，KCSAN 的实现仅限于建模"缓冲"（延迟访问）的效果，因为运行时不能"预取"访问。同时要注意，观测点只设置在普通访问上，这是唯一一个 KCSAN 会模拟重新排序的访问类型。这意味着标记访问的重新排序不会被建模。
 
-A consequence of the above is that acquire operations do not require
-barrier instrumentation (no prefetching). Furthermore, marked accesses
-introducing address or control dependencies do not require special
-handling (the marked access cannot be reordered, later dependent
-accesses cannot be prefetched).
+上述情况的一个后果是获取操作不需要屏障插桩（不需要预取）。此外，引入地址或控制依赖的标记访问不需要特殊处理（标记访问不能重新排序，后续依赖的访问不能被预取）。
 
-### Key Properties
+### 关键属性
 
-1.  **Memory Overhead:** The overall memory overhead is only a few MiB
-    depending on configuration. The current implementation uses a small
-    array of longs to encode watchpoint information, which is
-    negligible.
-2.  **Performance Overhead:** KCSAN\'s runtime aims to be minimal, using
-    an efficient watchpoint encoding that does not require acquiring any
-    shared locks in the fast-path. For kernel boot on a system with 8
-    CPUs:
-    -   5.0x slow-down with the default KCSAN config;
-    -   2.8x slow-down from runtime fast-path overhead only (set very
-        large `KCSAN_SKIP_WATCH` and unset
-        `KCSAN_SKIP_WATCH_RANDOMIZE`).
-3.  **Annotation Overheads:** Minimal annotations are required outside
-    the KCSAN runtime. As a result, maintenance overheads are minimal as
-    the kernel evolves.
-4.  **Detects Racy Writes from Devices:** Due to checking data values
-    upon setting up watchpoints, racy writes from devices can also be
-    detected.
-5.  **Memory Ordering:** KCSAN is aware of only a subset of LKMM
-    ordering rules; this may result in missed data races (false
-    negatives).
-6.  **Analysis Accuracy:** For observed executions, due to using a
-    sampling strategy, the analysis is *unsound* (false negatives
-    possible), but aims to be complete (no false positives).
+1.  **内存开销**：整体的内存开销只有几 MiB，取决于配置。当前的实现是使用一个小长整型数组来编码观测点信息，几乎可以忽略不计。
+2.  **性能开销**：KCSAN 的运行时旨在性能开销最小化，使用一个高效的观测点编码，在快速路径中不需要获取任何锁。在拥有 8 个 CPU 的系统上的内核启动来说：
+    -   使用默认 KCSAN 配置时，性能下降 5 倍；
+    -   仅因运行时快速路径开销导致性能下降 2.8 倍（设置非常大的 `KCSAN_SKIP_WATCH` 并取消设置 `KCSAN_SKIP_WATCH_RANDOMIZE`）。
+3.  **注解开销**：KCSAN 运行时之外需要的注释很少。因此，随着内核的发展维护的开 销也很小。
+4.  **检测设备的竞争写入**：由于设置观测点时会检查数据值，设备的竞争写入也可以被检测到。
+5.  **内存排序**：KCSAN 只了解一部分 LKMM排序规则；这可能会导致漏报数据竞争（ 假阴性）。
+6.  **分析准确率**： 对于观察到的执行，由于使用采样策略，分析是 \*不健全 \* 的 （可能有假阴性），但期望得到完整的分析（没有假阳性）。
 
-## Alternatives Considered
+## 考虑的替代方案
 
-An alternative data race detection approach for the kernel can be found
-in the [Kernel Thread Sanitizer
-(KTSAN)](https://github.com/google/ktsan/wiki). KTSAN is a
-happens-before data race detector, which explicitly establishes the
-happens-before order between memory operations, which can then be used
-to determine data races as defined in [Data Races](#data-races).
+一个内核数据竞争检测的替代方法是 [Kernel Thread Sanitizer(KTSAN)](https://github.com/google/ktsan/wiki)。KTSAN 是一个先行发生的数据竞争检测器，它显式建立内存操作之间的先行发生顺序，这可以用来确定[数据竞争](#数据竞争) 中定义的数据竞争。
 
-To build a correct happens-before relation, KTSAN must be aware of all
-ordering rules of the LKMM and synchronization primitives.
-Unfortunately, any omission leads to large numbers of false positives,
-which is especially detrimental in the context of the kernel which
-includes numerous custom synchronization mechanisms. To track the
-happens-before relation, KTSAN\'s implementation requires metadata for
-each memory location (shadow memory), which for each page corresponds to
-4 pages of shadow memory, and can translate into overhead of tens of GiB
-on a large system.
+为了建立正确的先行发生关系，KTSAN 必须了解 LKMM 的所有排序规则和同步原语。不幸的是，任何遗漏都会导致大量的假阳性，这在包含众多自定义同步机制的内核上下文中特别有害。为了跟踪前因后果关系，KTSAN 的实现需要为每个内存位置提供元数据（影子内存），这意味着每页内存对应 4 页影子内存，在大型系统上可能会带来数十 GiB 的开销 。
