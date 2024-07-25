@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "内核并发消毒剂 （KCSAN）"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -8,6 +8,8 @@ translator: tttturtle-russ
 translated_date: 20240720
 proofreader: mudongliang
 proofread_date: 20240725
+publisher: mudongliang
+published_date: 20240725
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kcsan.rst
 ---
 
