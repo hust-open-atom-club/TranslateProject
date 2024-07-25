@@ -4,8 +4,12 @@ const getSortedPosts = (posts: CollectionEntry<"posts">[]) => {
     // TODO: implement sorting
 
     // split all the posts by its status
-    const publishedPosts = posts.filter((post) => post.data.status === "published");
-    const otherPosts = posts.filter((post) => post.data.status !== "published");
+    const publishedPosts = posts.filter((post
+      : CollectionEntry<"posts">
+    ) => post.data.status === "published");
+    const otherPosts = posts.filter((post
+      : CollectionEntry<"posts">
+    ) => post.data.status !== "published");
     // sort the published posts by its published date
     publishedPosts.sort((a: CollectionEntry<"posts">, b: CollectionEntry<"posts">) => {
       return new Date(b.data.published_date).getTime() - new Date(a.data.published_date).getTime();
