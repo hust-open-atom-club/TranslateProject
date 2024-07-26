@@ -1,6 +1,6 @@
 ---
 status: collected
-title: ""
+title: "Set udev rules for PMF Smart PC Builder"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
