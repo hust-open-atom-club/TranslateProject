@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "ABI stable symbols"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: Athanlaich
+translating_date: 20240728
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-stable.rst
 ---
 
