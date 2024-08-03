@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Continuous integration fuzzing"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: mudongliang
 translated_date: 20240727
 proofreader: gitveg
 proofread_date: 20240731
+publisher: gitveg
+published_date: 20240731
 link: https://github.com/google/syzkaller/blob/master/docs/ci.md
 ---
 
