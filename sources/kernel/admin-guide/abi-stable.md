@@ -1,23 +1,19 @@
 ---
-status: collected
+status: translated
 title: "ABI stable symbols"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: Athanlaich
+translated_date: 20240728
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-stable.rst
 ---
 
-# ABI stable symbols
+# ABI 稳定符号
 
-Documents the interfaces that the developer has defined to be stable.
+文档记录了开发者定义为稳定的接口。
 
-Userspace programs are free to use these interfaces with no
-restrictions, and backward compatibility for them will be guaranteed for
-at least 2 years.
+用户空间程序可以没有限制地自由使用这些接口，并且这些接口将在未来至少2年内保证向后兼容。
 
-Most interfaces (like syscalls) are expected to never change and always
-be available.
+大多数接口（如系统调用）预期将永远不会改变，并始终可用。
 
-::: {.kernel-abi rst=""}
-ABI/stable
-:::
