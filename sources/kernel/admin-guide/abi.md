@@ -11,5 +11,4 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 # Linux ABI 描述
 
-[abi-stable](./abi-stable.md) [abi-testing](./abi-testing.md) [abi-obsolete](./abi-obsolete.md) [abi-removed](	
-./abi-removed.md)
+[abi-stable](./abi-stable.md) [abi-testing](./abi-testing.md) [abi-obsolete](./abi-obsolete.md) [abi-removed](./abi-removed.md)	
