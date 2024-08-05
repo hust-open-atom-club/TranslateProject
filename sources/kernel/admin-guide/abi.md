@@ -10,3 +10,6 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 ---
 
 # Linux ABI 描述
+
+[abi-stable](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-stable.rst) [abi-testing](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-testing.rst) [abi-obsolete](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-obsolete.rst) [abi-removed](	
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-removed.rst)
