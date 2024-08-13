@@ -2,7 +2,7 @@
 status: translated
 title: "Setup: Debian host, QEMU vm, arm kernel"
 author: Syzkaller Community
-collector: chengziqiu
+collector: jxlpzqc
 collected_date: 20240314
 translator: apowerfulmei
 translated_date: 20240317
