@@ -1,127 +1,103 @@
 ---
-status: translating
+status: translated
 title: "GCC plugin infrastructure"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
 translator: yang-pengmai
+translated_date: 20240813
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/gcc-plugins.rst
 ---
 
-# GCC plugin infrastructure
+# GCC 插件架构基础
 
-## Introduction
+## 介绍
 
-GCC plugins are loadable modules that provide extra features to the
-compiler[^1]. They are useful for runtime instrumentation and static
-analysis. We can analyse, change and add further code during compilation
-via callbacks[^2], GIMPLE[^3], IPA[^4] and RTL passes[^5].
+GCC 插件是为编译器提供额外功能的可加载模块[^1]。 它们对于运行时插装和静态分析非常有用。
+我们可以在编译过程中通过回调[^2]，GIMPLE[^3]，IPA[^4]和 RTL 传递[^5]来分析、修改和添加更多的代码。
 
-The GCC plugin infrastructure of the kernel supports building
-out-of-tree modules, cross-compilation and building in a separate
-directory. Plugin source files have to be compilable by a C++ compiler.
+内核的 GCC 插件基础结构支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由 C++ 编译器编译。
 
-Currently the GCC plugin infrastructure supports only some
-architectures. Grep \"select HAVE_GCC_PLUGINS\" to find out which
-architectures support GCC plugins.
+目前 GCC 插件基础结构只支持一些架构。选择 \"select HAVE_GCC_PLUGINS\" 来查找支持 GCC 插件的架构。
 
-This infrastructure was ported from grsecurity[^6] and PaX[^7].
+这个架构基础是从 grsecurity[^6] 和 PaX[^7] 移植过来的。
 
 \--
 
-## Purpose
+## 目的
 
-GCC plugins are designed to provide a place to experiment with potential
-compiler features that are neither in GCC nor Clang upstream. Once their
-utility is proven, the goal is to upstream the feature into GCC (and
-Clang), and then to finally remove them from the kernel once the feature
-is available in all supported versions of GCC.
+GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上游没有的潜在编译器功能。
+一旦它们的实用性得到验证，目标就是将这些功能添加到 GCC（和 Clang）的上游，然后在所有支持的 GCC 版本都支持这些功能后，再将它们从内核中移除。
 
-Specifically, new plugins should implement only features that have no
-upstream compiler support (in either GCC or Clang).
+具体来说，新插件应该只实现上游编译器（GCC 和 Clang）不支持的功能。
 
-When a feature exists in Clang but not GCC, effort should be made to
-bring the feature to upstream GCC (rather than just as a kernel-specific
-GCC plugin), so the entire ecosystem can benefit from it.
+当 Clang 中存在而 GCC 中不存在某项功能时，应努力将该功能上传到上游 GCC（而不仅仅是作为内核专用的 GCC 插件），以使整个生态都能从中受益。
 
-Similarly, even if a feature provided by a GCC plugin does *not* exist
-in Clang, but the feature is proven to be useful, effort should be spent
-to upstream the feature to GCC (and Clang).
+类似的，如果 GCC 插件提供的功能在 Clang 中不存在，但该功能被证明是有用的，也应努力将该功能上传到 GCC（和 Clang）。
 
-After a feature is available in upstream GCC, the plugin will be made
-unbuildable for the corresponding GCC version (and later). Once all
-kernel-supported versions of GCC provide the feature, the plugin will be
-removed from the kernel.
+在上游 GCC 提供了某项功能后，该插件将无法在相应的 GCC 版本（以及更高版本）下编译。一旦所有内核支持的 GCC 版本都提供了该功能，该插件将从内核中移除。
 
-## Files
+## 文档
 
 **\$(src)/scripts/gcc-plugins**
 
-> This is the directory of the GCC plugins.
+> 这是 GCC 插件的目录。
 
 **\$(src)/scripts/gcc-plugins/gcc-common.h**
 
-> This is a compatibility header for GCC plugins. It should be always
-> included instead of individual gcc headers.
+> 这是 GCC 插件的兼容性头文件。
+> 应始终包含它，而不是单独的 GCC 头文件。
 
 **\$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
 \$(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
 \$(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
 \$(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
 
-> These headers automatically generate the registration structures for
-> GIMPLE, SIMPLE_IPA, IPA and RTL passes. They should be preferred to
-> creating the structures by hand.
+> 这些标头可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL 通程的注册结构
+> 与手动创建结构相比，它们更受欢迎。
 
-## Usage
+## 用法
 
-You must install the gcc plugin headers for your gcc version, e.g., on
-Ubuntu for gcc-10:
+你必须为你的 GCC 版本安装 GCC 插件头文件，以在 Ubuntu 上安装 gcc-10 为例：
 
     apt-get install gcc-10-plugin-dev
 
-Or on Fedora:
+或者在 Fedora 上:
 
     dnf install gcc-plugin-devel libmpc-devel
 
-Or on Fedora when using cross-compilers that include plugins:
+或者在 Fedora 上使用包含插件的交叉编译器时：
 
     dnf install libmpc-devel
 
-Enable the GCC plugin infrastructure and some plugin(s) you want to use
-in the kernel config:
+在内核配置中启用 GCC 插件基础架构和一些你想使用的插件：
 
     CONFIG_GCC_PLUGINS=y
     CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
     ...
 
-Run gcc (native or cross-compiler) to ensure plugin headers are
-detected:
-
+运行 gcc（本地或交叉编译器），确保能够检测到插件头：
+    
     gcc -print-file-name=plugin
     CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc -print-file-name=plugin
 
-The word \"plugin\" means they are not detected:
+\"plugin\"这个词的意思是它们没有被检测到：
 
     plugin
 
-A full path means they are detected:
+完整的路径表示已经检测到它们：
 
     /usr/lib/gcc/x86_64-redhat-linux/12/plugin
 
-To compile the minimum tool set including the plugin(s):
+编译包括插件在内的最小工具集：
 
     make scripts
 
-or just run the kernel make and compile the whole kernel with the
-cyclomatic complexity GCC plugin.
+或者直接运行内核 make，使用循环复杂性 GCC 插件编译整个内核。
 
-## 4. How to add a new GCC plugin
+## 4. 如何添加新的 GCC 插件
 
-The GCC plugins are in scripts/gcc-plugins/. You need to put plugin
-source files right under scripts/gcc-plugins/. Creating subdirectories
-is not supported. It must be added to scripts/gcc-plugins/Makefile,
-scripts/Makefile.gcc-plugins and a relevant Kconfig file.
+GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 scripts/gcc-plugins/ 目录下。不支持创建子目录。必须添加在 scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins 和相关的 Kconfig 文件中。
 
 [^1]: <https://gcc.gnu.org/onlinedocs/gccint/Plugins.html>
 
