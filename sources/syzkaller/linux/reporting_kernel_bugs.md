@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Reporting Linux kernel bugs"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Ecila01
 translated_date: 20240731
 proofreader: mudongliang
 proofread_date: 20240812
+publisher: mudongliang
+published_date: 20240813
 link: https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md
 ---
 
