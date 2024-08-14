@@ -1,6 +1,6 @@
 ---
 status: collected
-title: ""
+title: "Java(tm) Binary Kernel Support for Linux v1.03"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718

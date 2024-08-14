@@ -1,32 +1,31 @@
 ---
-status: translating
+status: proofread
 title: "Setup: Debian host, QEMU vm, arm kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: apowerfulmei
+translated_date: 20240317
+proofreader: QGrain
+proofread_date: 20240814
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm-kernel.md
 ---
 
-# Setup: Debian host, QEMU vm, arm kernel
+# 设置： Debian主机，QEMU虚拟机，arm内核
 
 # GCC
 
-Obtain a fresh `arm-linux-gnueabihf-gcc`. Latest Debian distributions provide
-version 7.2.0, which should be enough. Otherwise you can download Linaro
-compiler [here](https://www.linaro.org/downloads).
+获取最新的 `arm-linux-gnueabihf-gcc` 工具。最新的 Debian 发行版中提供的版本为 7.2.0，这对于本文的工作来说已经足够。你也可以点击[这里](https://www.linaro.org/downloads)来下载Linaro编译器。
 
-# Kernel
+# 内核
 
-The instructions are tested with `v4.16.1`. Check that you have/backport
-["arm: port KCOV to arm"](https://groups.google.com/d/msg/syzkaller/zLThPHplyIc/9ncfpRvVCAAJ)
-patch. Create kernel config with:
+以下指令已在 `v4.16.1` 上进行测试。请首先检查补丁["arm: port KCOV to arm"](https://groups.google.com/d/msg/syzkaller/zLThPHplyIc/9ncfpRvVCAAJ)是否已经应用或回溯过，随后使用如下命令创建内核配置：
 
 ```shell
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- vexpress_defconfig
 ```
 
-Then enable the following configs on top:
+接着优先启用以下配置：
 
 ```
 CONFIG_KCOV=y
@@ -40,26 +39,24 @@ CONFIG_PID_NS=y
 CONFIG_NET_NS=y
 ```
 
-Also check out general kernel configuration [recommendations](/docs/linux/kernel_configs.md).
+也可以查看一些通用的内核配置[建议](/docs/linux/kernel_configs.md)。
 
-Then build kernel with:
+随后使用以下命令构建内核：
 
 ```
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 ```
 
-# Image
+# 映像
 
-We will use buildroot to create the disk image. You can obtain buildroot
-[here](https://buildroot.uclibc.org/download.html). Instructions were tested
-with buildroot `c665c7c9cd6646b135cdd9aa7036809f7771ab80`. First run:
+我们使用 buildroot 来创建磁盘映像。你可以点击[此处](https://buildroot.uclibc.org/download.html)来获取 buildroot。以下指令已在 buildroot `c665c7c9cd6646b135cdd9aa7036809f7771ab80` 上进行测试。首先运行：
 
 ```
 make qemu_arm_vexpress_defconfig
 make menuconfig
 ```
 
-Choose the following options:
+选择如下选项：
 
 ```
     Target packages
@@ -71,22 +68,22 @@ Choose the following options:
 	        exact size - 1g
 ```
 
-Unselect:
+取消选择如下选项：
 
 ```
     Kernel
 	    Linux Kernel
 ```
 
-Run `make`.
+运行命令 `make`。
 
-Then add the following line to `output/target/etc/fstab`:
+在 `output/target/etc/fstab` 中添加如下一行内容：
 
 ```
 debugfs	/sys/kernel/debug	debugfs	defaults	0	0
 ```
 
-Then replace `output/target/etc/ssh/sshd_config` with the following contents:
+将 `output/target/etc/ssh/sshd_config` 替换为如下内容:
 
 ```
 PermitRootLogin yes
@@ -94,33 +91,33 @@ PasswordAuthentication yes
 PermitEmptyPasswords yes
 ```
 
-Run `make` again.
+再次运行命令 `make` 。
 
-# Test kernel and image
+# 测试内核与映像
 
-Run:
+运行：
 
 ```
 qemu-system-arm -m 512 -smp 2 -net nic -net user,host=10.0.2.10,hostfwd=tcp::10022-:22 -display none -serial stdio -machine vexpress-a15 -dtb /linux/arch/arm/boot/dts/vexpress-v2p-ca15-tc1.dtb -sd /buildroot/output/images/rootfs.ext2 -snapshot -kernel /linux/arch/arm/boot/zImage -append "earlyprintk=serial console=ttyAMA0 root=/dev/mmcblk0"
 ```
 
-This should boot the kernel. Wait for login prompt, then in another console run:
+上述命令将会启动内核。等待登录提示信息，随后在另一个控制台中运行：
 
 ```
 ssh -p 10022 root@localhost
 ```
 
-ssh should succeed.
+ssh 命令应该能够成功登录。
 
 # syzkaller
 
-Build syzkaller as described [here](/docs/linux/setup.md#go-and-syzkaller), with `arm` target:
+按照[这里](/docs/linux/setup.md#go-and-syzkaller)描述的步骤构建 syzkaller，将目标架构设置为 `arm` ：
 
 ```
 make TARGETOS=linux TARGETARCH=arm
 ```
 
-Create manager config `arm.cfg` similar to the following one (changing paths as necessary):
+按照如下示例创建管理器配置文件 `arm.cfg`（根据需要更改路径）：
 
 ```
 {
@@ -147,4 +144,4 @@ Create manager config `arm.cfg` similar to the following one (changing paths as 
 }
 ```
 
-Finally, run `bin/syz-manager -config arm.cfg`.
+最后，运行命令 `bin/syz-manager -config arm.cfg`。

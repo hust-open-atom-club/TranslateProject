@@ -10,6 +10,8 @@ import { SITE } from "@config";
 // import LinkButton from "@components/LinkButton.astro";
 import StatusChart from "@components/StatusChart";
 import getStatusCount from "@utils/getStatusCount";
+import getSortedPosts from "@utils/getSortedPosts";
+import { getPostByStatus } from "./[status]/[page].astro";
 import { getCollection } from "astro:content";
 import Translating from "@layouts/translating.astro";
 // import type { Code } from "astro:components";
@@ -19,16 +21,18 @@ import getPagination from "@utils/getPagination";
 const collection = await getCollection("posts");
 const countData = getStatusCount(collection);
 
-const status="translating";
-const { totalPages, paginatedPosts = [] } = Astro.props;
-
 // 获取所有状态为status的文章
- const trasnlatingPosts = await getCollection("posts", (entry) => entry.data.status === "translating");
+const status="translating";
+const posts = await getPostByStatus(status);
+const sortedPosts = getSortedPosts(posts);
+
 const pagination = getPagination({
-  posts: trasnlatingPosts,
+  posts: sortedPosts,
   page: 1,
   isIndex: true,
 });
+
+const { totalPages, paginatedPosts = [] } = Astro.props;
 
 // 获取每篇文章的翻译者和翻译开始时间
 ---

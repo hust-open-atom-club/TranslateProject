@@ -1,11 +1,15 @@
 ---
-status: translated
+status: published
 title: "Setup: Linux isolated host"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: xiaobor123
 translated_date: 20240317
+proofreader: mudongliang
+proofread_date: 20240723
+publisher: mudongliang
+published_date: 20240724
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_isolated.md
 ---
 
@@ -22,6 +26,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-hos
 考虑到可能只有 SSH 可用，我们将使用反向 SSH 代理来允许模糊实例和管理器进行通信。
 
 确保目标机器上的 sshd 配置中 AllowTcpForwarding 设置为 yes。
+
 ```
 machine:~# grep Forwarding /etc/ssh/sshd_config
 AllowTcpForwarding yes
@@ -29,7 +34,8 @@ AllowTcpForwarding yes
 
 ## 内核
 
-被隔离的虚拟机不部署内核映像，因此确保目标机器上的内核是使用以下选项构建的：
+被隔离的虚拟机不部署内核映像，因此，请确保目标机器上的内核使用以下选项构建：
+
 ```
 CONFIG_KCOV=y
 CONFIG_DEBUG_INFO=y
@@ -38,6 +44,7 @@ CONFIG_KASAN_INLINE=y
 ```
 
 当 KASLR 被禁用时，代码覆盖率效果更好：
+
 ```
 # CONFIG_RANDOMIZE_BASE is not set
 ```
@@ -49,6 +56,7 @@ CONFIG_KASAN_INLINE=y
 如果您无法使用 SSH 密钥，您应该配置您的管理机器以重用现有的 SSH 连接。
 
 将以下行添加到您的 ~/.ssh/config 文件中：
+
 ```
 Host *
 	ControlMaster auto
@@ -58,7 +66,6 @@ Host *
 在进行模糊测试之前，连接到机器并保持连接打开，这样所有的 scp 和 ssh 使用都会重用该连接。
 
 # 可选：Pstore 支持
-
 
 如果被测试的设备（DUT）支持 Pstore，则可以配置 syzkaller 从 /sys/fs/pstore 获取崩溃日志。您可以在 syzkaller 配置文件的 `vm` 节中设置 `"pstore": true` 来实现这一点。
 
@@ -71,6 +78,7 @@ Host *
 按照[这里](/docs/linux/setup.md#go-and-syzkaller)描述的步骤构建 syzkaller。
 
 使用以下配置：
+
 ```
 {
 	"target": "linux/amd64",
@@ -101,7 +109,9 @@ Host *
  - `vm.target_reboot` 如果远程进程挂起，则重新启动机器（对于广泛模糊测试很有用，默认情况下为false）
 
 运行 syzkaller manager：
+
 ``` bash
 ./bin/syz-manager -config=my.cfg
 ```
+
 如果在启动 syz-manager 后遇到问题，请考虑使用 -debug 标志运行它。同时参阅[此页面](/docs/troubleshooting.md)以获取故障排除提示。

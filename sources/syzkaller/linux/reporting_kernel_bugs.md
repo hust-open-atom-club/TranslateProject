@@ -1,94 +1,86 @@
 ---
-status: translating
+status: published
 title: "Reporting Linux kernel bugs"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Ecila01
+translated_date: 20240731
+proofreader: mudongliang
+proofread_date: 20240812
+publisher: mudongliang
+published_date: 20240813
 link: https://github.com/google/syzkaller/blob/master/docs/linux/reporting_kernel_bugs.md
 ---
 
-# Reporting Linux kernel bugs
+# 报告 Linux 内核错误
 
-Before reporting a bug make sure nobody else already reported it. The easiest way to do this is to search through the [syzkaller mailing list](https://groups.google.com/forum/#!forum/syzkaller), [syzkaller-bugs mailing list](https://groups.google.com/forum/#!forum/syzkaller-bugs) and [syzbot dashboard](https://syzkaller.appspot.com/upstream) for key frames present in the kernel stack traces.
+在报告错误之前，请确保没有其他人已经重复报告过它. 最简单的方法是在 [syzkaller 邮件列表](https://groups.google.com/forum/#!forum/syzkaller), [syzkaller-bugs 邮件列表](https://groups.google.com/forum/#!forum/syzkaller-bugs) 和 [syzbot dashboard](https://syzkaller.appspot.com/upstream) 中搜索内核栈跟踪中存在的关键栈帧。
 
-Please report found bugs to the Linux kernel maintainers.
-To find out the list of maintainers responsible for a particular kernel subsystem, use the [get_maintainer.pl](https://github.com/torvalds/linux/blob/master/scripts/get_maintainer.pl) script: `./scripts/get_maintainer.pl -f guilty_file.c`. Please add `syzkaller@googlegroups.com` to the CC list.
-Make sure to mention the exact kernel branch and revision where the bug occurred.
-Many kernel mailing lists reject HTML formatted messages, so use the plain text mode when sending the report.
+请将发现的错误报告给 Linux 内核维护人员。要找出负责特定内核子系统的维护者列表，请使用 [get_maintainer.pl](https://github.com/torvalds/linux/blob/master/scripts/get_maintainer.pl) 脚本：`./scripts/get_maintainer.pl -f guilty_file.c`。请将 `syzkaller@googlegroups.com` 添加到抄送列表。确保在报告中明确指出发生错误的确切内核分支和版本号。因为许多内核邮件列表不接受 HTML 格式的邮件，所以在发送报告时请使用纯文本模式。
 
-Think of what you report. Today, Linux maintainers are overwhelmed with bug reports, so increasing the incoming flow won't help to fix all the bugs.
-The more actionable your report is, the higher the chance that it will be addressed.
-Note that people are more likely to care about kernel crashes (e.g. use-after-frees or panics) than of INFO: messages and such, unless it is clearly visible from the report what exactly is wrong.
-If there are stalls or hangs, only report them if they are frequent enough or have a reliable reproducer.
+在提交报告前需要字斟句酌。如今，Linux 维护者被日益增加的 bug 报告所淹没，因此仅仅增加报告的提交量无助于解决内核错误本身。因此，您的报告越详细越具有可操作性，解决它的可能性就越大。请注意，人们更关心内核崩溃，如释放后使用（use-after-frees）或严重错误（panics）而非仅仅是 INFO 错误信息或者类似的信息，除非从报告中清楚地指出了到底在哪里出现了什么具体问题。如果有停顿（stalls）或挂起异常（hangs），只有在它们发生得足够频繁或能够定位错误原因时才报告它们。
 
-Overall, bugs without reproducers are way less likely to be triaged and fixed.
-If the bug is reproducible, include the reproducer (C source if possible, otherwise a syzkaller program) and the `.config` you used for your kernel.
-If the reproducer is available only in the form of a syzkaller program, please link [the instructions on how to execute them](/docs/executing_syzkaller_programs.md) in your report.
-Check that the reproducer works if you run it manually.
-Syzkaller tries to simplify the reproducer, but the result might not be ideal.
-You can try to simplify or annotate the reproducer manually, that greatly helps kernel developers to figure out why the bug occurs.
+总体而言，没有重现用例 (reproducers) 的错误不太可能被分类和修复。如果内核错误是可复现的，请提交包括重现用例（如果可能的话，使用 C 源代码，否则使用 syzkaller 程序）和编译内核使用的 `.config` 文件。如果重现用例仅以 syzkaller 程序的形式提供，请在您的报告中给出链接说明[如何执行它们](/docs/executing_syzkaller_programs.md)。如果您手动运行，请检查重现用例是否正常工作。Syzkaller 试图简化复制器，但结果可能并不理想。您可以尝试手动简化或注释重现用例，这极大地帮助内核开发人员找出错误发生的原因。
 
-If you want to get extra credit, you can try to understand the bug and develop a fix yourself.
-If you can't figure out the right fix, but have some understanding of the bug, please add your thoughts and conclusions to the report, that will save some time for kernel developers.
+如果您想进一步做出贡献，您可以尝试了解错误并尝试自行修复内核程序。如果您无法找到正确的修复方法，但对错误有一定的了解，也请在报告中添加您的想法和结论，这将为内核开发人员节省时间。
 
-## Reporting security bugs
+## 报告安全漏洞
 
-If you believe that a found bug poses potential security threat, consider following the instructions below.
-Note, that these instructions are a work-in-progress and based on my current understanding of the disclosure process.
-This instruction is now being discussed [here](http://seclists.org/oss-sec/2017/q3/242).
+如果您确信发现的内核错误会带来潜在的安全威胁，请考虑按照以下说明进行操作。 
+请注意，这些说明是基于我正在进行的工作和对当前过程的理解。 现在 [这里](http://seclists.org/oss-sec/2017/q3/242).正在讨论这个说明。
 
-If you don't want to deal with this complex disclosure process you can either:
+如果您不想陷入这个复杂的披露过程，您可以：
 
-1. Report the bug privately to `security@kernel.org`. In this case it should be fixed in the upstream kernel, but there are no guarantees that the fix will be propagated to stable or distro kernels. The maximum embargo on this list is 7 days.
-2. Report the bug privately to a vendor such as Red Hat (`secalert@redhat.com`) or SUSE (`security@suse.com`). They should fix the bug, assign a CVE, and notify other vendors. The maximum embargo on these lists is 5 weeks.
-3. Report the bug publicly to `oss-security@lists.openwall.com`.
+1. 私下将错误报告给 `security@kernel.org`. 在这种情况下，它应该在上游内核中修复，但不能保证错误修复会传播到稳定版或发行版内核。此清单上的最长禁止公开披露期限为 7 天。
+2. 私下向例如 Red Hat (`secalert@redhat.com`) 或者 SUSE (`security@suse.com`) 等供应商报告错误. 他们会修复错误，分配 CVE，并通知其他供应商。这些名单上的最长禁运期限 embargo 为5周。
+3. 将该错误公开报告给 `oss-security@lists.openwall.com`。
 
-If you want to deal with the disclosure yourself, read below.
+如果您想自己处理披露，请阅读下文。
 
-The three main mailing lists for reporting and disclosing Linux kernel security issues are `security@kernel.org`, `linux-distros@vs.openwall.org` and `oss-security@lists.openwall.com`.
-The links for the guidelines for these lists are below, please read them carefully before sending anything to these lists.
+用于报告和披露 Linux 内核安全问题的三个主要邮件列表是 `security@kernel.org`, `linux-distros@vs.openwall.org` 和 `oss-security@lists.openwall.com`.
+这些列表的指南链接如下，在向这些列表发送任何内容之前，请仔细阅读它们。
 
 1. `security@kernel.org` - https://www.kernel.org/doc/html/latest/admin-guide/security-bugs.html
 2. `linux-distros@vs.openwall.org` - http://oss-security.openwall.org/wiki/mailing-lists/distros
 3. `oss-security@lists.openwall.com` - http://oss-security.openwall.org/wiki/mailing-lists/oss-security
 
-### Reporting minor security bugs
+### 报告次要安全漏洞
 
-To report minor security bugs (such as local DOS or local info leak):
+要报告次要安全漏洞（例如本地拒绝服务（DOS）或本地信息泄漏），您应当：
 
-1. Report the bug publicly to kernel developers as described above and wait until a fix is committed. Alternatively, you can develop and send a fix yourself.
-2. Request a CVE from MITRE through [the web form](https://cveform.mitre.org/). Describe the bug details and add a link to the fix (from `patchwork.kernel.org`, `git.kernel.org` or `github.com`) in the request.
-3. Once a CVE is assigned, send the bug details, the CVE number and a link to the fix to `oss-security@lists.openwall.com`.
+1. 如上所述，向内核开发人员公开报告错误，并等待错误修复被提交。或者，您可以自己开发并发送修复程序。
+2. 通过[网页表单](https://cveform.mitre.org/)向 MITRE 请求 CVE。描述内核错误的详细信息，并在请求中添加指向修复的链接 (`patchwork.kernel.org`, `git.kernel.org` 或者 `github.com`).
+3. 分配 CVE 后，将内核错误详细信息、CVE 编号和修复链接发送到 `oss-security@lists.openwall.com`.
 
-### Reporting major security bugs
+### 报告主要安全漏洞
 
-To report major security bugs (such as LPE, remote DOS, remote info leak or RCE):
+要报告主要安全漏洞（例如本地提权（LPE）、远程拒绝服务、远程信息泄漏或远程代码执行（RCE）），您应当：
 
-1. Understand the bug and develop a patch with a fix if possible. Optionally develop a proof-of-concept exploit.
-2. Notify `security@kernel.org`:
-    * Describe vulnerability details, include the proposed patch and optionally the exploit.
-    * Ask for 7 days of embargo.
-    * Work on the patch together with the `security@kernel.org` members.
-3. Notify `linux-distros@vs.openwall.org`:
-    * Describe vulnerability details, include the proposed patch and optionally the exploit.
-    * Ask them to assign a CVE number.
-    * Ask for 7 days of embargo.
-4. Wait 7 days for linux distros to apply the patch.
-5. Ask `linux-distros@vs.openwall.org` to make the CVE description public and roll out the updated kernels.
-6. Send the fix upstream:
-    * Mention the CVE number in the commit message.
-    * Mention syzkaller in the commit message.
-7. Notify `oss-security@lists.openwall.com`:
-    * Describe vulnerability details, include a link to the committed patch.
-8. Wait 1-3 days for people to update their kernels.
-9. Optionally publish the exploit on `oss-security@lists.openwall.com`.
+1. 理解错误原因，如果可能，请开发修复漏洞的补丁。（可选）开发漏洞 PoC（proof-of-concept）。
+2. 通知 `security@kernel.org`：
+    * 描述漏洞详细信息，包括建议的补丁和漏洞利用（可选）。
+    * 要求 7 天的 embargo 。
+    * 与 `security@kernel.org` 的成员一起处理补丁.
+3. 通知 `linux-distros@vs.openwall.org`：
+    * 描述漏洞详细信息，包括建议的补丁和漏洞利用（可选）。
+    * 要求他们分配一个 CVE 编号。
+    * 要求 7 天的 embargo 。
+4. 等待 7 天，让 linux 发行版应用补丁。
+5. 要求 `linux-distros@vs.openwall.org` 公开 CVE 描述并推出更新的内核.
+6. 将漏洞修复发送到上游：
+    * 在提交消息中提及 CVE 编号。
+    * 在提交消息中提及 syzkaller 。
+7. 通知 `oss-security@lists.openwall.com`：
+    * 描述漏洞详细信息，包括指向已提交补丁的链接。
+8. 等待 1-3 天，让大众更新系统内核。
+9. （可选）在 `oss-security@lists.openwall.com` 上发布漏洞利用方法。
 
-A few notes:
+几点说明：
 
-* There should ideally be no delay between reports to `security@kernel.org` and `linux-distros@vs.openwall.org`.
-* When working on the patch together with the `security@kernel.org` members and upstream maintainers, keep the linux-distros aware of the progress.
-* There should ideally be no delay between CVE description publication, distros' updates, upstream commit and notification to `oss-security@lists.openwall.com`. All of these should be on the same day, at worst.
-* The moment the issue is made public (e.g. patch is submitted upstream, CVE description published, etc.) it must be reported to `oss-security@lists.openwall.com` right away.
+* 理想情况下，应当同时向 `security@kernel.org` 和 `linux-distros@vs.openwall.org` 报告。
+* 在与 `security@kernel.org` 成员和上游维护者一起开发补丁时，请让 linux-distros 了解进度。
+* 理想情况下，CVE 描述发布、发行版更新、上游提交和向 `oss-security@lists.openwall.com` 发布通知应该同时完成。最差情况下，这些操作都应该在同一天完成。
+* 一旦问题被公开（如向上游提交补丁、发布 CVE 描述等），必须立即向 `oss-security@lists.openwall.com` 报告。
 
-A good example of an LPE announcement structure on `oss-security@lists.openwall.com` can be found [here](http://seclists.org/oss-sec/2016/q4/607), however the timeline doesn't look right there: public announcement should have occurred right after the patch was submitted to netdev.
+[点击此处](http://seclists.org/oss-sec/2016/q4/607)可查看 `oss-security@lists.openwall.com` 上的一个本地提权公告样例，但是时间线看起来并不正确。公开的公告应该在补丁提交给 netdev 后立即发出。

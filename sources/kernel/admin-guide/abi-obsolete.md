@@ -1,20 +1,18 @@
 ---
-status: collected
+status: translated
 title: "ABI obsolete symbols"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: ElizaXiao
+translated_date: 20240802
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-obsolete.rst
 ---
 
-# ABI obsolete symbols
+# ABI 废弃符号
 
-Documents interfaces that are still remaining in the kernel, but are
-marked to be removed at some later point in time.
+文档记录了仍保留在内核中的接口，但它们已被标记为将在稍后某个时间点被移除。
 
-The description of the interface will document the reason why it is
-obsolete and when it can be expected to be removed.
+接口的描述将记录其被废弃的原因，以及预期何时会被移除。
 
-::: {.kernel-abi rst=""}
-ABI/obsolete
-:::
+

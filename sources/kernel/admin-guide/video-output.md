@@ -1,6 +1,6 @@
 ---
 status: collected
-title: ""
+title: "Video Output Switcher Control"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718

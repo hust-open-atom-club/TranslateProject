@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Troubleshooting"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: mudongliang
+translating_date: 20240813
 link: https://github.com/google/syzkaller/blob/master/docs/troubleshooting.md
 ---
 
