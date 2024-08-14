@@ -11,15 +11,15 @@ proofread_date: 20240814
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm-kernel.md
 ---
 
-# 设置： Debian主机，QEMU虚拟机，arm内核
+# 设置：Debian 主机，QEMU 虚拟机，arm 内核
 
 # GCC
 
-获取最新的 `arm-linux-gnueabihf-gcc` 工具。最新的 Debian 发行版中提供的版本为 7.2.0，这对于本文的工作来说已经足够。你也可以点击[这里](https://www.linaro.org/downloads)来下载Linaro编译器。
+获取最新的 `arm-linux-gnueabihf-gcc` 工具。最新的 Debian 发行版中提供的版本为 7.2.0，这对于本文的工作来说已经足够。你也可以点击 [这里](https://www.linaro.org/downloads) 来下载 Linaro 编译器。
 
 # 内核
 
-以下指令已在 `v4.16.1` 上进行测试。请首先检查补丁["arm: port KCOV to arm"](https://groups.google.com/d/msg/syzkaller/zLThPHplyIc/9ncfpRvVCAAJ)是否已经应用或回溯过，随后使用如下命令创建内核配置：
+以下指令已在 `v4.16.1` 上进行测试。请首先检查补丁 ["arm: port KCOV to arm"](https://groups.google.com/d/msg/syzkaller/zLThPHplyIc/9ncfpRvVCAAJ) 是否已经应用或回溯过，随后使用如下命令创建内核配置：
 
 ```shell
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- vexpress_defconfig
@@ -39,7 +39,7 @@ CONFIG_PID_NS=y
 CONFIG_NET_NS=y
 ```
 
-也可以查看一些通用的内核配置[建议](/docs/linux/kernel_configs.md)。
+也可以查看一些通用的内核配置 [建议](/docs/linux/kernel_configs.md)。
 
 随后使用以下命令构建内核：
 
@@ -49,7 +49,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 
 # 映像
 
-我们使用 buildroot 来创建磁盘映像。你可以点击[此处](https://buildroot.uclibc.org/download.html)来获取 buildroot。以下指令已在 buildroot `c665c7c9cd6646b135cdd9aa7036809f7771ab80` 上进行测试。首先运行：
+我们使用 buildroot 来创建磁盘映像。你可以点击 [此处](https://buildroot.uclibc.org/download.html) 来获取 buildroot。以下指令已在 buildroot `c665c7c9cd6646b135cdd9aa7036809f7771ab80` 上进行测试。首先运行：
 
 ```
 make qemu_arm_vexpress_defconfig
@@ -83,7 +83,7 @@ make menuconfig
 debugfs	/sys/kernel/debug	debugfs	defaults	0	0
 ```
 
-将 `output/target/etc/ssh/sshd_config` 替换为如下内容:
+将 `output/target/etc/ssh/sshd_config` 替换为如下内容：
 
 ```
 PermitRootLogin yes
@@ -91,7 +91,7 @@ PasswordAuthentication yes
 PermitEmptyPasswords yes
 ```
 
-再次运行命令 `make` 。
+再次运行命令 `make`。
 
 # 测试内核与映像
 
@@ -111,7 +111,7 @@ ssh 命令应该能够成功登录。
 
 # syzkaller
 
-按照[这里](/docs/linux/setup.md#go-and-syzkaller)描述的步骤构建 syzkaller，将目标架构设置为 `arm` ：
+按照 [这里](/docs/linux/setup.md#go-and-syzkaller) 描述的步骤构建 syzkaller，将目标架构设置为 `arm`：
 
 ```
 make TARGETOS=linux TARGETARCH=arm
