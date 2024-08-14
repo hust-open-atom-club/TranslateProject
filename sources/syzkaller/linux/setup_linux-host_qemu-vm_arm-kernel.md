@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Setup: Debian host, QEMU vm, arm kernel"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: apowerfulmei
 translated_date: 20240317
 proofreader: QGrain
 proofread_date: 20240814
+publisher：gitveg
+published_date：20240814
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm-kernel.md
 ---
 
