@@ -1,17 +1,19 @@
 ---
-status: translated
+status: proofread
 title: "Pseudo-syscalls"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240229
 translator: lidaxian121
 translated_date: 20240719
+proofreader: hai119
+proofread_date: 20240815
 link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 ---
 
 # 伪系统调用
 
-除了常规系统调用外，[系统调用描述](https://github.com/hust-open-atom-club/TranslateProject/blob/master/sources/syzkaller/syscall_descriptions.md)文件也包含伪系统调用。它们是在执行器中定义的 C 函数。当测试程序使用伪系统调用时，执行器将在生成的 C 程序中生成伪系统调用函数。
+除了常规系统调用外，[系统调用描述](syscall_descriptions.md) 文件也包含伪系统调用。它们是在执行器中定义的 C 函数。当测试程序使用伪系统调用时，执行器将在生成的 C 程序中生成伪系统调用函数。
 
 伪系统调用的存在使得测试程序可以拥有执行特定操作的特定代码块，它们还可以作为更加测试友好的原始系统调用包装器来使用。
 
@@ -19,26 +21,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 
 ## 如何将伪系统调用添加到执行器中
 
-首先，考虑伪系统调用的范围以及它将涉及的系统和子系统。执行器包含一组固定的 C 头文件，其中包含伪系统调用的代码。在创建新文件之前，检查新伪系统调用是否可以适应现有文件之一。这些头文件在 [gen.go](https://github.com/google/syzkaller/blob/master/pkg/compiler/gen.go) 中定义：
-
-    executorFilenames := []string{
-            "common_linux.h",
-            "common_akaros.h",
-            "common_bsd.h",
-            "common_fuchsia.h",
-            "common_windows.h",
-            "common_test.h",
-            "common_kvm_amd64.h",
-            "common_kvm_arm64.h",
-            "common_usb_linux.h",
-            "common_usb_netbsd.h",
-            "common_usb.h",
-            "android/android_seccomp.h",
-            "kvm.h",
-            "kvm_amd64.S.h",
-    }
-
-例如，如果我们的新伪系统调用特定于 Linux，则 [common_linux.h](https://github.com/google/syzkaller/blob/master/executor/common_linux.h) 将是放置它的地方。
+首先，考虑伪系统调用的范围以及它将涉及的系统和子系统。执行器包含一组固定的 C 头文件 `executor/common*.h`，其中包含伪系统调用的代码。在创建新文件之前，检查新伪系统调用是否可以适应现有文件之一。例如，如果我们的新伪系统调用特定于 Linux，则 [common_linux.h](https://github.com/google/syzkaller/blob/master/executor/common_linux.h) 将是放置它的地方。
 
 真正的伪系统调用函数可能看起来就像下面的这个例子一样：
 
@@ -51,15 +34,9 @@ link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
     }
     #endif
 
-确保满足所有函数的要求并且可以编译成功。注意，函数名称必须以 "syz_" 开头。它还可以接受不同数量的参数。参数的类型必须是 `volatile long`，返回类型是 `long`。之所以需要使用 `long` ，是为了避免潜在的调用约定问题，因为它被转换为接受 `long` 的函数指针。用 `volatile` 的原因很有趣：许多libc函数都用各种参数约束注释（例如，此参数不应为 `NULL`，或者该参数必须是有效的文件描述符）；复现程序（C reproducers）可能使用常量参数调用这些函数，而编译器可能会看到某些约束被违反（例如，将  `NULL`  传递给 `non-NULL` 参数，或者将 `-1` 作为文件描述符传递），并生成错误或者警告。使用 `volatile` 可以防止这种情况。
+确保满足所有函数的要求并且可以编译成功。注意，函数名称必须以 "syz_" 开头。它还可以接受不同数量的参数。参数的类型必须是 `volatile long`，返回类型是 `long`。之所以需要使用 `long`，是为了避免潜在的调用约定问题，因为它被转换为接受 `long` 的函数指针。用 `volatile` 的原因很有趣：许多 libc 函数都用各种参数约束注释（例如，此参数不应为 `NULL`，或者该参数必须是有效的文件描述符）；复现程序（ C reproducers）可能使用常量参数调用这些函数，而编译器可能会看到某些约束被违反（例如，将  `NULL`  传递给 `non-NULL` 参数，或者将 `-1` 作为文件描述符传递），并生成错误或者警告。使用 `volatile` 可以防止这种情况。
 
-现在，为了正确处理伪系统调用，我们必须更新 [syscalls_linux.go](https://github.com/google/syzkaller/blob/master/pkg/host/syscalls_linux.go) 中的 `isSupportedSyzkall` 并为某个系统调用添加特定的情况，必要时启用它。如果我们想无条件启用它，我们可以简单地让 `isSupportedSyzkall` 为其返回 `true，""`：
-
-    func isSupportedSyzkall(sandbox string, c *prog.Syscall) (bool, string) {
-            switch c.CallName {
-            ...
-            case "syz_mycall":
-                    return true, ""
+现在，为了正确处理伪系统调用，我们必须更新 [linux_syscalls.go](https://github.com/google/syzkaller/blob/master/pkg/vminfo/linux_syscalls.go) 中的 `linuxSyscallChecks` 并为某个系统调用添加特定的情况，必要时启用它。如果我们想无条件启用它，我们可以简单地为其使用 `alwaysSupported`。 
 
 最后，运行 `make generate`。现在，你可以将它当作系统调用描述文件中的普通系统调用一样使用：
 
@@ -69,8 +46,8 @@ link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 
 ## 外部依赖
 
-伪系统调用的实现不能使用任何外部库或外部头文件，除了一些最基本和标准的库（比如 `<unistd.h>` 和 `<sys/mman.h>` ）。特别是，它不能依赖于附加软件包安装的库或者头文件，也不能依赖于最近添加的内核子系统的头文件。外部依赖性已经被证明是脆弱的，并且很容易导致构建中断，因为模糊测试器上任何的构建和运行以及 C 复现器都需要所有依赖项。例如，软件包或者头文件可能在某些发行版上缺少，命名不同，版本错误，损坏，或与其他头文件冲突。不幸的是，无法可靠地指定此类依赖项以及 C 程序的要求。因此，如果伪系统调用需要某些结构，常量或辅助函数的定义，则这些应该尽可能简短地在执行器代码中描述（它们将成为复现程序（C reproducers）的一部分）。
+伪系统调用的实现不能使用任何外部库或外部头文件，除了一些最基本和标准的库（比如 `<unistd.h>` 和 `<sys/mman.h>` ）。特别是，它不能依赖于附加软件包安装的库或者头文件，也不能依赖于最近添加的内核子系统的头文件。外部依赖性已经被证明是脆弱的，并且很容易导致构建中断，因为模糊测试器上任何的构建和运行以及 C 复现器都需要所有依赖项。例如，软件包或者头文件可能在某些发行版上缺少，命名不同，版本错误，损坏，或与其他头文件冲突。不幸的是，无法可靠地指定此类依赖项以及 C 程序的要求。因此，如果伪系统调用需要某些结构，常量或辅助函数的定义，则这些应该尽可能简短地在执行器代码中描述（它们将成为复现程序（ C reproducers）的一部分）。
 
 ## 测试
 
-每个新的伪系统调用应该在 `sys/OS/test` 中至少有一个测试。参见 [Linux tests](https://github.com/google/syzkaller/blob/master/sys/linux/test) 作为示例。测试只是一个检查系统调用返回值的程序。对于某个伪系统调用应该至少有一个测试包含使用它的“主要成功场景”。可以看看 [io_uring 测试](https://github.com/google/syzkaller/blob/master/sys/linux/test/io_uring)，这是一个很好的例子。这样的测试很重要，因为它们确保伪系统调用的代码不包含“愚蠢”的错误（例如，每次在 NULL-deref 上崩溃）。这样，模糊测试器才可以想出成功的方案（伪系统调用和周围描述的组合），并且在将来能够持续工作。有关测试的详细信息，请参见[描述的测试](https://github.com/hust-open-atom-club/TranslateProject/blob/master/sources/syzkaller/syscall_descriptions.md)。
+每个新的伪系统调用应该在 `sys/OS/test` 中至少有一个测试。参见 [Linux tests](https://github.com/google/syzkaller/blob/master/sys/linux/test) 作为示例。测试只是一个检查系统调用返回值的程序。对于某个伪系统调用应该至少有一个测试包含使用它的“主要成功场景”。可以看看 [io_uring 测试](https://github.com/google/syzkaller/blob/master/sys/linux/test/io_uring)，这是一个很好的例子。这样的测试很重要，因为它们确保伪系统调用的代码不包含“愚蠢”的错误（例如，每次在 NULL-deref 上崩溃）。这样，模糊测试器才可以想出成功的方案（伪系统调用和周围描述的组合），并且在将来能够持续工作。有关测试的详细信息，请参见 [描述的测试](syscall_descriptions.md)。
