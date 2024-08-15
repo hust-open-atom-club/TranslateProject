@@ -13,11 +13,11 @@ link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 
 # 伪系统调用
 
-除了常规系统调用外，[ 系统调用描述 ](syscall_descriptions.md) 文件也包含伪系统调用。它们是在执行器中定义的 C 函数。当测试程序使用伪系统调用时，执行器将在生成的 C 程序中生成伪系统调用函数。
+除了常规系统调用外，[系统调用描述](syscall_descriptions.md) 文件也包含伪系统调用。它们是在执行器中定义的 C 函数。当测试程序使用伪系统调用时，执行器将在生成的 C 程序中生成伪系统调用函数。
 
 伪系统调用的存在使得测试程序可以拥有执行特定操作的特定代码块，它们还可以作为更加测试友好的原始系统调用包装器来使用。
 
-通常来说是 **不建议** 使用伪系统调用的，这是因为它们破坏了声明性描述的所有优势（声明性，简洁性，模糊器对所有方面的控制，全局逻辑改进的可能性，静态检查，减少错误等），增加了维护负担，不可重复使用，并且使 C 重现器（ C reproducers）更长。然而， syzkaller 语言（ syzlang）的表现力不足以涵盖所有可能的情况，因此需要根据具体情况考虑是否使用伪系统调用（额外的好处、代码量、扩展 syzkaller 语言以涵盖此情况的可能性等）。
+通常来说是**不建议**使用伪系统调用的，这是因为它们破坏了声明性描述的所有优势（声明性，简洁性，模糊器对所有方面的控制，全局逻辑改进的可能性，静态检查，减少错误等），增加了维护负担，不可重复使用，并且使 C 重现器（C reproducers）更长。然而，syzkaller 语言（syzlang）的表现力不足以涵盖所有可能的情况，因此需要根据具体情况考虑是否使用伪系统调用（额外的好处、代码量、扩展 syzkaller 语言以涵盖此情况的可能性等）。
 
 ## 如何将伪系统调用添加到执行器中
 
@@ -50,4 +50,4 @@ link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 
 ## 测试
 
-每个新的伪系统调用应该在 `sys/OS/test` 中至少有一个测试。参见 [Linux tests](https://github.com/google/syzkaller/blob/master/sys/linux/test) 作为示例。测试只是一个检查系统调用返回值的程序。对于某个伪系统调用应该至少有一个测试包含使用它的“主要成功场景”。可以看看 [io_uring 测试 ](https://github.com/google/syzkaller/blob/master/sys/linux/test/io_uring)，这是一个很好的例子。这样的测试很重要，因为它们确保伪系统调用的代码不包含“愚蠢”的错误（例如，每次在 NULL-deref 上崩溃）。这样，模糊测试器才可以想出成功的方案（伪系统调用和周围描述的组合），并且在将来能够持续工作。有关测试的详细信息，请参见 [ 描述的测试 ](syscall_descriptions.md)。
+每个新的伪系统调用应该在 `sys/OS/test` 中至少有一个测试。参见 [Linux tests](https://github.com/google/syzkaller/blob/master/sys/linux/test) 作为示例。测试只是一个检查系统调用返回值的程序。对于某个伪系统调用应该至少有一个测试包含使用它的“主要成功场景”。可以看看 [io_uring 测试](https://github.com/google/syzkaller/blob/master/sys/linux/test/io_uring)，这是一个很好的例子。这样的测试很重要，因为它们确保伪系统调用的代码不包含“愚蠢”的错误（例如，每次在 NULL-deref 上崩溃）。这样，模糊测试器才可以想出成功的方案（伪系统调用和周围描述的组合），并且在将来能够持续工作。有关测试的详细信息，请参见 [描述的测试](syscall_descriptions.md)。
