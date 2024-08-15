@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Troubleshooting"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: mudongliang
 translated_date: 20240814
+proofreader: QGrain
+proofread_date: 20240815
 link: https://github.com/google/syzkaller/blob/master/docs/troubleshooting.md
 ---
 
@@ -27,4 +29,4 @@ link: https://github.com/google/syzkaller/blob/master/docs/troubleshooting.md
 
 另外，也可以查看 [Linux 内核特定的故障排除建议](linux/troubleshooting.md)。
 
-如果上述方法都没有帮助，可以在 [错误跟踪器（bug tracker）](https://github.com/google/syzkaller/issues) 上提交 bug，或者直接在 syzkaller@googlegroups.com 邮件列表上询问我们。如果可能，请附上你使用的 syzkaller 版本号和启用了 `-debug` 标志的 `syz-manager` 输出。
+如果上述方法都没有帮助，可以在 [错误跟踪器（bug tracker）](https://github.com/google/syzkaller/issues) 上提交 bug，或者直接在 syzkaller@googlegroups.com 邮件列表上询问我们。如果可以，请附上你使用的 syzkaller 版本号和启用了 `-debug` 标志的 `syz-manager` 输出。
