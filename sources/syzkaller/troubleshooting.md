@@ -11,7 +11,7 @@ proofread_date: 20240815
 link: https://github.com/google/syzkaller/blob/master/docs/troubleshooting.md
 ---
 
-# Troubleshooting
+# 故障排查
 
 如果你在运行 syzkaller 时遇到问题，以下是一些故障排除的方法：
 
