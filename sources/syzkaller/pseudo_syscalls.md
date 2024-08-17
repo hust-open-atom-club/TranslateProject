@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Pseudo-syscalls"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: lidaxian121
 translated_date: 20240719
 proofreader: hai119
 proofread_date: 20240815
+publisher: gitveg
+published_date: 20240816
 link: https://github.com/google/syzkaller/blob/master/docs/pseudo_syscalls.md
 ---
 
