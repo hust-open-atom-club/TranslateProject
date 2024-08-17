@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Troubleshooting"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: mudongliang
 translated_date: 20240814
 proofreader: QGrain
 proofread_date: 20240815
+publisher: mudongliang
+published_date: 20240815
 link: https://github.com/google/syzkaller/blob/master/docs/troubleshooting.md
 ---
 
