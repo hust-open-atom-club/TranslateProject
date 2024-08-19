@@ -1,28 +1,29 @@
 ---
-status: translated
+status: proofread
 title: "GCC plugin infrastructure"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
 translator: yang-pengmai
 translated_date: 20240813
+proofreader: mudongliang
+proofread_date: 20240819
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/gcc-plugins.rst
 ---
 
-# GCC 插件架构基础
+# GCC 插件基础设施
 
 ## 介绍
 
-GCC 插件是为编译器提供额外功能的可加载模块[^1]。 它们对于运行时插装和静态分析非常有用。
-我们可以在编译过程中通过回调[^2]，GIMPLE[^3]，IPA[^4]和 RTL 传递[^5]来分析、修改和添加更多的代码。
+GCC 插件是为编译器提供额外功能的可加载模块[^1]。它们对于运行时插装和静态分析非常有用。
+我们可以在编译过程中通过回调[^2]，GIMPLE[^3]，IPA[^4] 和 RTL Passes[^5] （译者注：Pass 是编译器所采用的一种结构化技术，用于完成编译对象，如 IR，的分析、优化或转换等功能）来分析、修改和添加更多的代码。
 
-内核的 GCC 插件基础结构支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由 C++ 编译器编译。
+内核的 GCC 插件基础设施支持构建树外模块、交叉编译和在单独的目录中构建。插件源文件必须由 C++ 编译器编译。
 
-目前 GCC 插件基础结构只支持一些架构。选择 \"select HAVE_GCC_PLUGINS\" 来查找支持 GCC 插件的架构。
+目前 GCC 插件基础设施只支持一些架构。选择 \"select HAVE_GCC_PLUGINS\" 来查找支持 GCC 插件的架构。
 
-这个架构基础是从 grsecurity[^6] 和 PaX[^7] 移植过来的。
+这个基础设施是从 grsecurity[^6] 和 PaX[^7] 移植过来的。
 
-\--
 
 ## 目的
 
@@ -33,7 +34,7 @@ GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上�
 
 当 Clang 中存在而 GCC 中不存在某项功能时，应努力将该功能上传到上游 GCC（而不仅仅是作为内核专用的 GCC 插件），以使整个生态都能从中受益。
 
-类似的，如果 GCC 插件提供的功能在 Clang 中不存在，但该功能被证明是有用的，也应努力将该功能上传到 GCC（和 Clang）。
+类似的，如果 GCC 插件提供的功能在 Clang 中不存在，但该功能被证明是有用的，也应努力将该功能上传到 GCC。
 
 在上游 GCC 提供了某项功能后，该插件将无法在相应的 GCC 版本（以及更高版本）下编译。一旦所有内核支持的 GCC 版本都提供了该功能，该插件将从内核中移除。
 
@@ -53,12 +54,12 @@ GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上�
 \$(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
 \$(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
 
-> 这些标头可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL 通程的注册结构
+> 这些头文件可以自动生成 GIMPLE、SIMPLE_IPA、IPA 和 RTL passes 的注册结构。
 > 与手动创建结构相比，它们更受欢迎。
 
 ## 用法
 
-你必须为你的 GCC 版本安装 GCC 插件头文件，以在 Ubuntu 上安装 gcc-10 为例：
+你必须为你的 GCC 版本安装 GCC 插件头文件，以在 Ubuntu 上的 gcc-10 为例：
 
     apt-get install gcc-10-plugin-dev
 
@@ -70,22 +71,22 @@ GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上�
 
     dnf install libmpc-devel
 
-在内核配置中启用 GCC 插件基础架构和一些你想使用的插件：
+在内核配置中启用 GCC 插件基础设施和一些你想使用的插件：
 
     CONFIG_GCC_PLUGINS=y
     CONFIG_GCC_PLUGIN_LATENT_ENTROPY=y
     ...
 
-运行 gcc（本地或交叉编译器），确保能够检测到插件头：
+运行 gcc（本地或交叉编译器），确保能够检测到插件头文件：
     
     gcc -print-file-name=plugin
     CROSS_COMPILE=arm-linux-gnu- ${CROSS_COMPILE}gcc -print-file-name=plugin
 
-\"plugin\"这个词的意思是它们没有被检测到：
+\"plugin\" 这个词意味着它们没有被检测到：
 
     plugin
 
-完整的路径表示已经检测到它们：
+完整的路径则表示已经检测到了它(们)：
 
     /usr/lib/gcc/x86_64-redhat-linux/12/plugin
 
@@ -93,11 +94,11 @@ GCC 插件的设计目的是提供一个场所，用于试验 GCC 或 Clang 上�
 
     make scripts
 
-或者直接运行内核 make，使用循环复杂性 GCC 插件编译整个内核。
+或者直接在内核中运行 make，使用循环复杂性 GCC 插件编译整个内核。
 
 ## 4. 如何添加新的 GCC 插件
 
-GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 scripts/gcc-plugins/ 目录下。不支持创建子目录。必须添加在 scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins 和相关的 Kconfig 文件中。
+GCC 插件位于 scripts/gcc-plugins/。你需要将插件源文件放在 scripts/gcc-plugins/ 目录下。创建子目录并不支持，你必须添加在 scripts/gcc-plugins/Makefile、scripts/Makefile.gcc-plugins 和相关的 Kconfig 文件中。
 
 [^1]: <https://gcc.gnu.org/onlinedocs/gccint/Plugins.html>
 
