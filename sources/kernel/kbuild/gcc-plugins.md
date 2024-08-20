@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "GCC plugin infrastructure"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -8,6 +8,8 @@ translator: yang-pengmai
 translated_date: 20240813
 proofreader: mudongliang
 proofread_date: 20240819
+publisher: mudongliang
+published_date: 20240819
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/gcc-plugins.rst
 ---
 
