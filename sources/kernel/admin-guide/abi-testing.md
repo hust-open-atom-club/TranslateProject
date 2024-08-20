@@ -1,17 +1,19 @@
 ---
-status: translated
+status: proofread
 title: "ABI testing symbols"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
 translator: ElizaXiao
 translated_date: 20240803
+proofreader: JasonC10
+proofread_date: 20240820
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/abi-testing.rst
 ---
 
 # ABI testing symbols
 
-文档记录了被认为稳定的接口，因为这些接口的主要开发已经完成。
+本文档记录了被认为稳定的接口，因为这些接口的主要开发已经完成。
 
 接口可以被更改以添加新功能，但当前接口不会因此被破坏，除非在它们当中发现了严重错误或安全问题。
 
