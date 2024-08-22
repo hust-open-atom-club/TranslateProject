@@ -1,0 +1,82 @@
+---
+status: published
+title: "Undefined Behavior Sanitizer - UBSAN"
+author: Linux Kernel Community
+collector: mudongliang
+collected_date: 20240227
+translator: mudongliang
+translated_date: 20240227
+proofreader: JingJing1016
+proofread_date: 20240302
+publisher: gitveg
+published_date: 20240320
+link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/ubsan.rst
+---
+
+# 未定义行为检查器 - UBSAN
+
+本文介绍的 UBSAN 是一种动态的未定义行为检查工具。
+
+UBSAN 使用编译时插桩捕捉未定义行为。编译器在可能导致未定义行为的操作前插入特定检查代码。如果检查失败，即，检测到未定义行为，则 \_\_ubsan_handle\* 函数将被调用打印错误信息。
+
+GCC 自 4.9.x \[[1](https://gcc.gnu.org/onlinedocs/gcc-4.9.0/gcc/Debugging-Options.html)\] (详见 ``-fsanitize=undefined`` 选项及其子选项)之后引入这一特性。GCC 5.x 版本实现了更多检查器 \[[2](https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html)\]。
+
+## 报告样例
+
+    ================================================================================
+    UBSAN: Undefined behaviour in ../include/linux/bitops.h:110:33
+    shift exponent 32 is to large for 32-bit type 'unsigned int'
+    CPU: 0 PID: 0 Comm: swapper Not tainted 4.4.0-rc1+ #26
+     0000000000000000 ffffffff82403cc8 ffffffff815e6cd6 0000000000000001
+     ffffffff82403cf8 ffffffff82403ce0 ffffffff8163a5ed 0000000000000020
+     ffffffff82403d78 ffffffff8163ac2b ffffffff815f0001 0000000000000002
+    Call Trace:
+     [<ffffffff815e6cd6>] dump_stack+0x45/0x5f
+     [<ffffffff8163a5ed>] ubsan_epilogue+0xd/0x40
+     [<ffffffff8163ac2b>] __ubsan_handle_shift_out_of_bounds+0xeb/0x130
+     [<ffffffff815f0001>] ? radix_tree_gang_lookup_slot+0x51/0x150
+     [<ffffffff8173c586>] _mix_pool_bytes+0x1e6/0x480
+     [<ffffffff83105653>] ? dmi_walk_early+0x48/0x5c
+     [<ffffffff8173c881>] add_device_randomness+0x61/0x130
+     [<ffffffff83105b35>] ? dmi_save_one_device+0xaa/0xaa
+     [<ffffffff83105653>] dmi_walk_early+0x48/0x5c
+     [<ffffffff831066ae>] dmi_scan_machine+0x278/0x4b4
+     [<ffffffff8111d58a>] ? vprintk_default+0x1a/0x20
+     [<ffffffff830ad120>] ? early_idt_handler_array+0x120/0x120
+     [<ffffffff830b2240>] setup_arch+0x405/0xc2c
+     [<ffffffff830ad120>] ? early_idt_handler_array+0x120/0x120
+     [<ffffffff830ae053>] start_kernel+0x83/0x49a
+     [<ffffffff830ad120>] ? early_idt_handler_array+0x120/0x120
+     [<ffffffff830ad386>] x86_64_start_reservations+0x2a/0x2c
+     [<ffffffff830ad4f3>] x86_64_start_kernel+0x16b/0x17a
+    ================================================================================
+
+## 用法
+
+使用如下内核配置启用UBSAN:
+
+    CONFIG_UBSAN=y
+
+使用如下内核配置检查整个内核:
+
+    CONFIG_UBSAN_SANITIZE_ALL=y
+
+为了在特定文件或目录中启动代码插桩，需要在相应的内核 Makefile 中添加一行类似内容:
+
+-   单文件（如main.o）:
+
+        UBSAN_SANITIZE_main.o := y
+
+-   一个目录中的所有文件:
+
+        UBSAN_SANITIZE := y
+
+即使``CONFIG_UBSAN_SANITIZE_ALL=y``，为了避免文件被插桩，可使用:
+
+    UBSAN_SANITIZE_main.o := n
+
+与:
+
+    UBSAN_SANITIZE := n
+
+未对齐的内存访问检测由单独的选项 CONFIG_UBSAN_ALIGNMENT 控制。在支持非对齐访问（CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y）的架构上，该选项默认关闭，但仍可在配置中启用，只是要注意这会产生大量 UBSAN 报告。

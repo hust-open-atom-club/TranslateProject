@@ -1,0 +1,74 @@
+---
+// import type { CollectionEntry } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+// import Pagination from "@components/Pagination.astro";
+import Card from "@components/Card";
+import { SITE } from "@config";
+// import LinkButton from "@components/LinkButton.astro";
+import StatusChart from "@components/StatusChart";
+import getStatusCount from "@utils/getStatusCount";
+import getSortedPosts from "@utils/getSortedPosts";
+import { getPostByStatus } from "./[status]/[page].astro";
+import { getCollection } from "astro:content";
+import Translating from "@layouts/translating.astro";
+// import type { Code } from "astro:components";
+import getPagination from "@utils/getPagination";
+
+
+const collection = await getCollection("posts");
+const countData = getStatusCount(collection);
+
+// 获取所有状态为status的文章
+const status="translating";
+const posts = await getPostByStatus(status);
+const sortedPosts = getSortedPosts(posts);
+
+const pagination = getPagination({
+  posts: sortedPosts,
+  page: 1,
+  isIndex: true,
+});
+
+const { totalPages, paginatedPosts = [] } = Astro.props;
+
+// 获取每篇文章的翻译者和翻译开始时间
+---
+
+<Layout title={`${SITE.title}`}>
+  <Header activeNav="posts" />
+  <Main pageTitle="">
+    <StatusChart data={countData} client:only />
+
+    <!-- 添加一个列表展示翻译中的文章链接、翻译者的头像链接、翻译开始时间和翻译开始时间加一个月 -->
+    <ul>
+      {
+        paginatedPosts.map(
+          ({
+            id,
+            data,
+            slug,
+            body,
+          }: {
+            id: string;
+            data: any;
+            slug: string;
+            body: string;
+          }) => (
+            <Card
+              id={id}
+              href={`/posts/${slug}/`}
+              frontmatter={data}
+              body={body}
+            />
+          )
+        )
+      }
+    </ul>
+    <Translating {...pagination}  status={status}/>
+  </Main>
+  
+  <Footer noMarginTop={totalPages > 1} />
+</Layout>

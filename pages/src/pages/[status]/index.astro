@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getPostByStatus } from "./[page].astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import getPagination from "@utils/getPagination";
+import Posts from "@layouts/Posts.astro";
+import { STATUS_LIST } from "@config";
+
+export const getStaticPaths = (async () => {
+  const statusList = STATUS_LIST;
+
+  return statusList.map(({status}) => {
+    return {
+      params: { status },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { status } = Astro.params;
+const posts = await getPostByStatus(status);
+const sortedPosts = getSortedPosts(posts);
+
+const pagination = getPagination({
+  posts: sortedPosts,
+  page: 1,
+  isIndex: true,
+});
+---
+
+<!-- if status === 'published', add publishPage param -->
+<Posts {...pagination} status={status} publishPage={status === 'published'} />

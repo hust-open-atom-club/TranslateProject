@@ -1,0 +1,56 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Pagination from "@components/Pagination.astro";
+import Card from "@components/Card";
+import { SITE } from "@config";
+import { getCollection } from "astro:content";
+
+
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  paginatedPosts: CollectionEntry<"posts">[];
+  status: string | undefined;
+  publishPage?: boolean;
+}
+
+// 仅获取状态为"translating"的文章
+const status = "translating";
+const collection = await getCollection(
+  "posts",
+  entry => entry.data.status === "translating"
+);
+
+const { currentPage, totalPages, publishPage } = Astro.props;
+const paginatedPosts = collection; // 假设collection.results包含了分页后的文章列表
+
+
+---
+
+<Layout title={`${SITE.title}`}>
+  <!-- <Header activeNav={publishPage ? "posts" : "tasks"} /> -->
+  <Main pageTitle="">
+    <ul>
+      {
+        // sort by date
+        paginatedPosts.map(({ id, data, slug, body }) => (
+            <Card
+              id={id}
+              href={`/posts/${slug}/`}
+              frontmatter={data}
+              body={body}
+              publishCard={publishPage}
+            />
+          ))
+      }
+    </ul>
+  </Main>
+
+  <Pagination
+    {...{ currentPage, totalPages }}
+    prevUrl={`/${status}${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
+    nextUrl={`/${status}/${currentPage + 1}/`}
+  />
+</Layout>

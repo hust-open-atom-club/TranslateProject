@@ -1,0 +1,256 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import type { CollectionEntry } from "astro:content";
+import { slugifyStr } from "@utils/slugify";
+import ShareLinks from "@components/ShareLinks.astro";
+import { SITE } from "@config";
+
+export interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+
+const { id } = post;
+
+const { title, author, collected_date, collector, translated_date, translator, link, proofreader, proofread_date, publisher, published_date } = post.data;
+
+const { Content } = await post.render();
+
+// const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
+// const ogUrl = new URL(
+//   ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
+//   Astro.url.origin
+// ).href;
+
+const layoutProps = {
+  title: `${title} | ${SITE.title}`,
+  author,
+  // ogImage: ogUrl,
+  scrollSmooth: true,
+};
+---
+
+<Layout {...layoutProps}>
+  <Header />
+
+  <!-- <div class="progress-container fixed top-0 z-10 h-1 w-full bg-skin-fill">
+    <div class="progress-bar h-1 w-0 bg-skin-accent" id="myBar"></div>
+  </div> -->
+
+  <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
+    <button
+      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
+      onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+        ><path
+          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+        ></path>
+      </svg><span>返回</span>
+    </button>
+    <!-- an edit button, set it right -->
+    <a
+      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
+      href={`https://github.com/hust-open-atom-club/TranslateProject/edit/master/sources/${id}`}
+      style="margin-left: auto;"
+    >
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2065" width="200" height="200"><path d="M172.4 775.4l0.7 0.7c6.7 6.4 16.2 9.7 26 8l229.5-40.5c6.3-1.1 11.8-4.2 16-8.4l0.1 0.1L857 322.7c35.1-35.1 35.1-92.2 0-127.3L752.4 90.7c-17-17-39.6-26.3-63.6-26.3s-46.7 9.3-63.6 26.3L212.8 503.3l0.1 0.1c-4.2 4.2-7.3 9.7-8.4 16L164 749.1c-1.6 9.9 1.8 19.6 8.4 26.3z m377.7-524.8l147.1 147.2-288 288.3-178.6 31.5 31.5-178.7 288-288.3z m117.4-117.5c5.6-5.6 13.1-8.7 21.2-8.7s15.6 3.1 21.2 8.7l104.7 104.7c11.7 11.7 11.7 30.8 0 42.5l-74.9 75-147.1-147.2 74.9-75zM929 900.4H93c-16.5 0-30 13.5-30 30s13.5 30 30 30h836c16.5 0 30-13.5 30-30s-13.5-30-30-30z" p-id="2066"></path></svg>
+        <span>&nbsp;编辑</span>
+    </a>
+  </div>
+  <main id="main-content">
+    <h1 transition:name={slugifyStr(id || title)} class="post-title">{title}</h1>
+    <!-- <Datetime -->
+    <!--   pubDatetime={pubDatetime} -->
+    <!--   modDatetime={modDatetime} -->
+    <!--   size="lg" -->
+    <!--   className="my-2" -->
+    <!-- /> -->
+    <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
+      <Content />
+      <hr>
+      <div>
+        <p><strong>{!translated_date ? "原文链接：": "译自："}</strong> <a href={link}>{link}</a></p>
+        <p>
+          <strong>选题：</strong>
+          <a href={"https://github.com/" + collector}>{collector}</a>
+          {translator != "HCTT" && (
+            <span>
+              &nbsp;&nbsp;{
+                translated_date ? 
+                <strong>译者：</strong> : 
+                <strong>正在翻译：</strong>
+              }
+              <a href={"https://github.com/" + translator}>{translator}</a>
+              {
+                proofreader != "HCTT" && (
+                <span>
+                  &nbsp;&nbsp;{
+                    proofread_date ? 
+                    <strong>校对：</strong> : 
+                    <strong>正在校对：</strong>
+                  }
+                  <a href={"https://github.com/" + proofreader}>{proofreader}</a>
+                </span>
+                )
+              }
+              {
+                published_date && (
+                  <span>
+                    &nbsp;&nbsp;
+                    <strong>发布者：</strong><a href={"https://github.com/" + publisher}>{publisher}</a>
+                  </span>
+                )
+              }
+            </span>
+          )}
+        </p>
+        <p>本文{!translated_date && "将"}由 <a href="https://github.com/hust-open-atom-club/translate-project">HCTT 翻译团队</a> 原创翻译，<a href="https://github.com/hust-open-atom-club">华中科技大学开放原子开源俱乐部</a>荣誉推出。</p>
+      </div>      
+    </article>
+
+    <!-- <ul class="my-8"> -->
+    <!--   {tags.map(tag => <Tag tag={slugifyStr(tag)} />)} -->
+    <!-- </ul> -->
+
+    <div
+      class="my-8 flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
+    >    
+      <button
+        id="back-to-top"
+        class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="rotate-90">
+          <path
+            d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+          ></path>
+        </svg>
+        <span>返回开头</span>
+      </button>
+
+      <ShareLinks />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  }
+  .post-title {
+    @apply text-2xl font-semibold text-skin-accent;
+  }
+</style>
+
+<script is:inline>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-skin-fill";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-skin-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    if (document) {
+      const myBar = document.getElementById("myBar");
+      if (myBar) {
+        myBar.style.width = scrolled + "%";
+      }
+    }
+  }
+  document.addEventListener("scroll", updateScrollProgress);
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    let headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
+    for (let heading of headings) {
+      heading.classList.add("group");
+      let link = document.createElement("a");
+      link.innerText = "#";
+      link.className = "heading-link hidden group-hover:inline-block ml-2";
+      link.href = "#" + heading.id;
+      link.ariaHidden = "true";
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    let copyButtonLabel = "Copy";
+    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (let codeBlock of codeBlocks) {
+      let wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      let copyButton = document.createElement("button");
+      copyButton.className =
+        "copy-code absolute right-3 -top-3 rounded bg-skin-card px-2 py-1 text-xs leading-4 text-skin-base font-medium";
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      let code = block.querySelector("code");
+      let text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    document.querySelector("#back-to-top")?.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+  }
+  backToTop();
+</script>
