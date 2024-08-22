@@ -1,89 +1,74 @@
 ---
-status: translating
+status: translated
 title: "Introduction"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
 translator: Athanlaich
-translating_date: 20240822
+translated_date: 20240822
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/bug-bisect.rst
 ---
 
-# Bisecting a bug
+# 二分查找一个错误
 
-Last updated: 28 October 2016
+最后更新：2016年10月28日
 
-## Introduction
+## 介绍
 
-Always try the latest kernel from kernel.org and build from source. If
-you are not confident in doing that please report the bug to your
-distribution vendor instead of to a kernel developer.
+请你总是尝试从 kernel.org 获取最新的内核并从源代码构建。如果你对自己能够做到这一点不自信，请将错误报告给你的发行版供应商，而不是内核开发者。
 
-Finding bugs is not always easy. Have a go though. If you can\'t find it
-don\'t give up. Report as much as you have found to the relevant
-maintainer. See MAINTAINERS for who that is for the subsystem you have
-worked on.
+发现错误并不总是容易的。尽管如此，你还是需要尝试寻找。如果你找不到，不要放弃。将你发现的尽可能多的信息报告给相关的维护者。请参阅 MAINTAINERS 了解你工作的子系统对应的维护者是谁。
 
-Before you submit a bug report read
-\'Documentation/admin-guide/reporting-issues.rst\'.
+在提交错误报告之前，请阅读 
+\'Documentation/admin-guide/reporting-issues.rst\' 。
 
-## Devices not appearing
+## 设备未显示
 
-Often this is caused by udev/systemd. Check that first before blaming it
-on the kernel.
+这通常是由 udev/systemd 引起的。在将错误归咎于内核之前，请先检查这一点。
 
-## Finding patch that caused a bug
+## 寻找导致错误的补丁
 
-Using the provided tools with `git` makes finding bugs easy provided the
-bug is reproducible.
+使用 `git` 提供的工具，只要错误是可复现的，就很容易找到错误。
 
-Steps to do it:
+执行步骤:
 
--   build the Kernel from its git source
+-   从 git 源代码构建内核
 
--   start bisect with[^1]:
+-   开始二分查找[^1]:
 
         $ git bisect start
 
--   mark the broken changeset with:
+-   用以下命令标记有问题的变更集：
 
         $ git bisect bad [commit]
 
--   mark a changeset where the code is known to work with:
+-   用以下命令标记一个已知的代码可以工作的变更集：
 
         $ git bisect good [commit]
 
--   rebuild the Kernel and test
+-   重新构建内核并测试
 
--   interact with git bisect by using either:
+-   根据你正在测试的变更集中是否发生了错误，使用以下命令与 git bisect 交互：
 
         $ git bisect good
 
-    or:
+    或者:
 
         $ git bisect bad
 
-    depending if the bug happened on the changeset you\'re testing
+-   经过几次交互后，git bisect 将给出可能导致错误的变更集。
 
--   After some interactions, git bisect will give you the changeset that
-    likely caused the bug.
-
--   For example, if you know that the current version is bad, and
-    version 4.8 is good, you could do:
+-   例如，如果你知道当前版本有问题，而 4.8 版本是好的，你可以这样做：
 
         $ git bisect start
         $ git bisect bad                 # Current version is bad
         $ git bisect good v4.8
 
-For further references, please read:
+有关进一步参考，请阅读：
 
--   The man page for `git-bisect`
--   [Fighting regressions with git
-    bisect](https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html)
--   [Fully automated bisecting with \"git bisect
-    run\"](https://lwn.net/Articles/317154)
--   [Using Git bisect to figure out when brokenness was
-    introduced](http://webchick.net/node/99)
+-   `git-bisect` 的手册页
+-   [使用 git bisect 对抗回归](https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html)
+-   [使用 "git bisect run" 全自动二分查找](https://lwn.net/Articles/317154)
+-   [使用 Git bisect 找出何时引入了错误](http://webchick.net/node/99)
 
-[^1]: You can, optionally, provide both good and bad arguments at git
-    start with `git bisect start [BAD] [GOOD]`
+[^1]: 你可以通过使用 `git bisect start [BAD] [GOOD]` 选择性地同时提供好的和坏的参数
