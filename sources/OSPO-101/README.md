@@ -11,8 +11,6 @@ link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/README.md
 
 # OSPO 101 培训课程
 
-<img src="ospo101.svg" width="380" height="200" />
-
 OSPO 101 是一门专注于开源项目办公室（Open Source Program Office, OSPO）管理的课程。
 
 本课程内容按模块化设计以便按需分片使用：
