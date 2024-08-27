@@ -1,23 +1,25 @@
 ---
-status: translated
+status: proofread
 title: "OSPO 101 Training Modules"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
 translator: mudongliang
 translated_date: 20240822
+proofreader: ElizaXiao
+proofread_date: 20240827
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/README.md
 ---
 
 # OSPO 101 培训课程
 
-OSPO 101 是一门专注于开源项目办公室（Open Source Program Office, OSPO）管理的课程。
+OSPO 101 是一门专注于开源项目办公室（Open Source Program Office，OSPO）管理的课程。
 
-本课程内容按模块化设计以便按需分片使用：
+本课程内容按模块化设计，以便其能够按需分块使用：
 
 * [开源简介](module1/README.md)
 * [开源业务战略](module2/README.md)
-* [开源项目办公室 (OSPO) 的有效管理](module3/README.md)
+* [开源项目办公室（OSPO）的有效管理](module3/README.md)
 * [开源开发实践](module4/README.md)
 * [开源合规项目](module5/README.md)
 * [与开源项目有效合作](module6/README.md)
@@ -34,9 +36,9 @@ OSPO 101 是一门专注于开源项目办公室（Open Source Program Office, O
   * [开源业务模型介绍](module2/README.md#section-introducing-open-source-business-models)
   * [制定开源战略](module2/README.md#section-developing-an-open-source-strategy)
   * [制定开源政策](module2/README.md#section-developing-open-source-policies)
-  * [介绍开源项目办公室 (OSPO)](module2/README.md#section-introducing-the-open-source-program-office)
+  * [开源项目办公室（OSPO）介绍](module2/README.md#section-introducing-the-open-source-program-office)
 
-* [开源项目办公室 (OSPO) 的有效管理](module3/README.md)
+* [开源项目办公室（OSPO）的有效管理](module3/README.md)
   * [开源项目办公室与您的组织](module3/README.md#open-source-program-offices-ospo-and-your-organization)
   * [构建一个有效的开源项目办公室](module3/README.md#building-an-effective-open-source-program-office)
   * [额外信息与案例研究](module3/README.md#additional-resources)
@@ -60,4 +62,4 @@ OSPO 101 是一门专注于开源项目办公室（Open Source Program Office, O
 * [创建开源项目](module7/README.md)
   * [开源项目创建概述](module7/README.md#open-source-project-creation-overview)
   * [新项目准备](module7/README.md#section-new-project-preparations)
-  * [成功的项目启动与维持](module7/README.md##section-successful-project-launch-and-sustainment)
+  * [成功项目的启动与维持](module7/README.md##section-successful-project-launch-and-sustainment)
