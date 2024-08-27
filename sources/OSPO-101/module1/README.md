@@ -1,381 +1,380 @@
 ---
-status: translating
+status: translaed
 title: "OSPO 101 Training Modules - Module 1"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
 translator: Athanlaich
-translating_date: 20240827
+translated_date: 20240828
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module1/README.md
 ---
 
-# Section: Introducing Open Source
+# 章节: 介绍开源
 
-## Lesson: Introduction
+## 课程: 介绍
 
-### Section Overview
+### 章节概述
 
-In this section, we will provide definitions of open source, open standards and closed source software, as well as comparisons between them.  We will also provide an overview of how these three elements are used together to deliver technology solutions that we all rely on.
+在本节中，我们将提供开源、开放标准和闭源软件的定义，并对它们进行比较。我们还将概述这三种元素如何共同作用，提供我们都依赖的技术解决方案。
 
-### Learning Objectives
+### 学习目标
 
-By the end of this section, you should be able to:
+在本节结束时，你应该能够：
 
-* Define open source, open standards and closed source software.
+* 定义开源、开放标准和闭源软件。
+  
+* 解释这三种概念的异同。
 
-* Explain the differences and similarities for all three concepts.
+* 理解这三种概念如何协同工作。
 
-* Understand how all three concepts work together.
+## 课程: 定义
 
-## Lesson: Definitions
+### 什么是开源软件？
 
-### What is Open Source Software?
+根据[维基百科](https://en.wikipedia.org/wiki/Software_license)的定义:
 
-According to [Wikipedia](https://en.wikipedia.org/wiki/Software_license):
+**开源软件** (**OSS**) 是一种计算机软件，其源代码在许可下发布，版权持有者授予用户研究、修改和分发软件的权利，且不限制任何人和任何目的。开源软件可以以协作的公开方式开发。
 
-**Open source software** (**OSS**) is a type of computer software in which source code is released under a license in which the copyright holder grants users the rights to study, change, and distribute the software to anyone and for any purpose. Open source software may be developed in a collaborative public manner.
+我们来详细解析一下这个定义：
 
-Let's break down this definition and explore it a bit:
+**计算机软件**
 
-**Computer Software**
+计算机软件指的是由作者编写的程序或固件。软件的作者可以是一个或多个人，也可能代表一个公司进行工作。程序以机器可读的格式在特定的计算机上运行，这种格式是通过将 “源代码” 转换为 “二进制格式” 来实现的。
 
-Computer Software refers to a program or firmware written by an author. The author of the software can be one or many people, and possibly doing the work on behalf of a company. The program is runnable on a particular computer through a machine-readable format that is achieved through conversion of ‘source code’ to what is known as ‘binary format.’
+**源代码**											
 
-**Source Code**											
+源代码指的是一组人类可读的指令，用于表示计算机执行的算法或想法。许多计算机语言可以用来编写源代码，源代码通过编译或实时解释的过程转换为机器可读的二进制格式。拥有源代码可以使你研究和有效修改软件。
 
-Source Code refers to the human-readable set of instructions used to represent an algorithm or idea for a computer to execute. Many computer languages can be used to write source code, which will get converted to machine-readable binary format through the process of compilation or real-time interpretation. Having the source code allows you to study and efficiently modify the software.
+**许可证**
 
-**License**
+许可证是一个 **法律文件**， 记录和正式表达与软件和/或源代码相关的一系列法律可执行的行为、过程或合同义务或权利。
 
-License is a **legal** document that records and formally expresses a set of legally enforceable acts, processes, or contractual duties, obligations, or rights related to the software and/or source code.
+**研究、修改和分发** 
 
-**Study, Change and Distribute** 
+开源软件的一个基本组成部分是各种开源许可证授予的自由，使个人可以研究软件，为自身目的进行修改，然后将修改后的版本重新分发给任何人用于任何目的。对修改版本的要求因所使用的开源许可证类型而异。有关更多细节将在本课程系列的后续模块中说明。
 
-A fundamental component of open source software is the freedom granted by various open source licenses allowing individuals to study the software, change it for their own purposes, and then redistribute their changes to anyone else for any purpose. The requirements placed on the changed version vary depending on the type of open source license used.  More details will be provided on this in later modules in this course series.
+**协作的公开方式**
 
-**Collaborative Public Manner**
+协作的公开方式很重要，因为许可证提供的自由允许围绕流行的开源软件形成大规模和多样化的社区，推动创新，并使公司能够贡献和获益于这些软件项目。Linux 就是这种社区的一个关键例子，但还有许多其他的例子，如 Apache Web 服务器、Kubernetes 和 OpenStack。 
 
-Collaborative Public Manner is important here because the freedoms provided by the license allow for large and diverse communities to form around popular open source software, helping drive innovation and allowing companies to both contribute to and reap the benefits of these software projects. Linux is a key example of one such community, but there are many others like the Apache Web Server, Kubernetes and OpenStack. 
+### 什么是闭源软件？
 
-### What is Closed Source Software?
+不属于开源软件的软件就是闭源软件。根据[维基百科](https://en.wikipedia.org/wiki/Software_license)的定义，闭源软件的解释如下：
 
-Software that is not open source software is closed source software. Here’s an explanation of what the closed source software is based on the [Wikipedia](https://en.wikipedia.org/wiki/Software_license) definition:
+**闭源**软件，也常被称为**专有**软件，是非自由计算机软件，其软件发布者或其他人保留超过开源软件允许的知识产权——通常是源代码的[版权](https://en.wikipedia.org/wiki/Copyright)，但有时也包括专利权。
 
-**Closed source** software, also often referred to as **proprietary** software, is non-free computer software for which the software's publisher or another person retains intellectual rights beyond those allowed for open source software— usually [copyright](https://en.wikipedia.org/wiki/Copyright) of the source code but sometimes also patent rights.
+同样，我们来详细解析一下这个定义：
 
-As before, let’s unpack this definition a bit and explore some key elements:
+**闭源**
 
-**Closed Source**
+与开源相对，闭源软件的源代码不会由软件的作者提供。提供和安装在计算机上的仅是机器可读格式。例如，很流行的 Microsoft Office 就是这样提供的。
 
-In contrast to open source, closed source software’s human-readable instructions are not made available by the author or authors of the software.  What is delivered and installed on a computer is the machine-readable format only.  Popular programs like Microsoft Office, for example, are delivered this way.
+**非自由**
 
-**Non-free**
+非自由指的是作者分发软件时所使用的许可证不是开源许可证，禁止研究、修改或重新分发程序给任何人。使用闭源软件可能会有费用，也可能没有费用。
 
-Non-free here refers to the fact that the author(s) distribute it under a license that is not open source software, that forbids studying, modifying or redistributing the program to anyone. There may or may not be a fee for its use.
+**知识产权**
 
-**Intellectual Rights**
+作者不仅保留对源代码的访问权，还保留了用于设计程序的想法和/或算法的访问权。
 
-The author(s) retain access not only to the source code, but also to the ideas and/or algorithms used to design the program.
+另一个主要区别是，闭源软件通常由开发团队（通常为公司工作，但不总是）设计和开发，这些团队通常不会与外部社区成员合作（而开源软件通常会这样做）。
 
-The other main distinction here is that closed source software is designed and developed by teams of developers (usually working for a corporation, but not always) who are typically not collaborating with outside community members (as is typically done with open source software).  
+### 什么是开放标准？
 
-### What are Open Standards?
+关于“开放标准”的定义有多种，我们可以在这里综合它们的要点：
 
-There are various definitions available for what an ‘open standard’ is, and we can coalesce pieces of them here:
+**开放标准**是公开可用且免版税的，而“标准”指的是由正式委员会批准的技术，这些委员会对所有感兴趣的各方开放，并在共识的基础上进行运作。开放标准是公开的，并通过协作和共识驱动的过程进行开发、批准和维护。
 
-**Open Standards** are publicly available and royalty-free, while 'standard' means a technology approved by formalized committees that are open to participation by all interested parties and operate on a consensus basis. An open standard is publicly available, and developed, approved and maintained via a collaborative and consensus driven process.
+此外，**开放标准**不应禁止符合该标准的开源软件实现。
 
-Additionally, **Open Standards** should not prohibit conforming implementations in open source software.
+让我们更深入地探讨一下：
 
-Let’s go ahead and dive a bit deeper here as well:
+**公开可用**
 
-**Publicly available**
+标准对公众免费提供。
 
-The standard is available to the public at no cost.
+**免版税**											
 
-**Royalty-free**											
+这是开放标准与非开放标准之间的重要区别。允许任何人使用标准而无需从实体处获得许可证（或支付实体费用），这种能力对于一个标准能够被广泛采用至关重要。
 
-This is an important distinction between open and non-open standards. This is the ability for anyone to utilize the standard to build a solution without having to obtain a license from an entity (or pay an entity) is paramount to wider adoption.
+**协作和共识驱动的过程**
 
-**Collaborative and Consensus Driven Process**
+这应该是你从开源的定义中熟悉的，它在这里也很关键，因为它允许更多的观点，并且在各种公司和个人中广泛采用的机会更大。这也有时使得定义标准成为一个漫长的过程。
 
-This should now be familiar to you from the previous definitions of open source, and it is also critical here as it allows for both a wider set of perspectives and also the best chance at broad adoption by a variety of companies and individuals. It also sometimes makes defining standards a lengthy process.
+**符合性实现**										
 
-**Conforming Implementations**										
+这是开源倡议（OSI）提出的一个具体定义，OSI 是一个行业联盟，帮助维护已批准的开源许可证以及开源的正式定义。他们的开放标准要求（OSR）进一步明确标准的定义不应排除构建符合该标准的开源软件。遵守这一点可以给那些使用该标准的人带来信心，因为他们在选择实现标准时，既可以选择开源软件，也可以选择闭源软件。
 
-This is a specific definition set forth by the Open Source Initiative (OSI), an industry consortium that helps maintain both approved open source licenses as well as the formal definition of open source. Their Open Standards Requirement (OSR) adds in this definition to further clarify that there should be nothing in the standard’s definition that would preclude someone building a piece of open source software that conforms to the standard itself.  Abiding by this gives those who use the standard confidence that they will have both open source and closed source options to choose from when picking an implementation.
+我们每天都依赖许多标准，包括 **TCP/IP** （互联网通信的基础标准）、**HTTP**（万维网背后的协议）、**HTML**（网页作者用于格式化内容的语言）、**GSM**（世界大部分地区的手机通信标准）、**ODF**（用于不同文字处理器之间交换文档的开放文档格式）和**PDF**（用于生成打印准备文档的便携文档格式）。
 
-There are many standards that we rely on every day, including **TCP/IP** (the underlying standard for communications on the Internet), **HTTP** (the protocol behind the World Wide Web), **HTML** (the language used by web page authors to format content), **GSM** (the standard for much of the world’s cellular phone communications), **ODF** (the Open Document Format used to exchange documents between various word processors), and **PDF** (the Portable Document Format used to produce print-ready documents).
+在许多情况下，这些标准有开源实现，允许许多个人和组织参与构建和推进这些技术。
 
-In many of those cases, there are open source implementations of these standards to allow many individuals and organizations to participate in helping build and advance these technologies.
+**混合与匹配**
 
-**Mixing and Matching**
+在今天的技术环境中，很少有这三种元素（开源、开放标准、闭源软件）是单独使用的情况。
 
-In today’s technology landscape, there is rarely a case where only one of these three elements (open source, open standards, closed source software) is used in isolation.  
+通常，你会遇到开源实现的开放标准（例如 Apache Web 服务器对 HTTP 的实现），但你也会发现实施开放标准的闭源软件实例，例如实现密钥管理互操作协议（KMIP）标准的加密软件公司，从而允许多厂商之间的互操作性，甚至其他开源软件。
 
-Most often, you’ll experience open source implementations of open standards (like the Apache Web Server’s implementation of HTTP), but you can also find instances of closed source software that implement an open standard, such as cryptography software companies who implement the Key Management Interoperability Protocol (KMIP) standard, allowing interoperability among many vendors, and even other open source software.
+你还会看到闭源软件与开源软件一起使用，例如在封闭源操作系统如 Windows 和 Mac OS X 上使用流行的开源 Firefox 浏览器。即便是开源操作系统如 Linux，也用于运行闭源应用程序，如股票交易应用程序和其他金融软件。
 
-You’ll also see closed source software being used alongside open source software, as in the case of people using the popular open source Firefox browser on closed source operating systems like Windows and Mac OS X.  Even open source operating systems like Linux are used to run closed source applications like stock exchange applications and other financial software.
+# 章节: 开源软件的简短历史
 
-# Section: A Short History of Open Source Software
+## 课程: 介绍
 
-## Lesson: Introduction
+### 章节概述
 
-### Section Overview
+在本节中，我们将简要回顾自由软件运动的起源，以及随后的开源软件的诞生。我们将讨论实用主义与理想主义如何影响开源成为组织中业务和技术战略的关键组成部分。还将简要讨论开放标准在这一领域的演变。
 
-In this section, we will provide a brief overview of the roots of the free software movement, and the subsequent birth of open source software.  We’ll include a discussion of how pragmatism vs. idealism played into open source becoming a critical component of business and technology strategies in organizations. There will also be a short discussion on the evolution of open standards play in this space.
+### 学习目标
+在本节结束时，你应该能够：
 
-### Learning Objectives
+* 解释自由软件运动如何催生了开源软件。
 
-By the end of this section, you should be able to:
+* 描述理想主义与实用主义的观念如何影响了开源软件的采纳。
 
-* Explain how the Free Software movement gave birth to open source.
+* 阐述开放标准的演变及其在这一生态系统中的作用。
 
-* Describe how the notions of idealism vs. pragmatism affected the adoption of open source.
+## 课程: 自由软件与开源软件
 
-* Articulate the evolution of open standards and the role they play in this ecosystem.
+### 漫长而丰富的历史
 
-## Lesson: Free Software & Open Source
+自计算机时代开始以来，软件共享一直存在。事实上，不共享软件才是例外，而非规则。**开源软件**的概念早于这一术语的使用。有关早期软件的详细历史，有许多资源可以查阅，包括[维基百科](https://en.wikipedia.org/wiki/History_of_free_and_open-source_software)，但我们在这里提供一个简洁的版本。需要注意的是，对这一演变的某些细节存在很多分歧，但了解基本的时间线是很重要的。
 
-### A Long and Storied History
+在计算的早期（1950年代至1960年代），软件主要由早期计算机公司的学术人员和企业研究人员制作。编写软件既困难又耗时，通常作为**公有领域**作品进行共享。这些作品不归个人作者或艺术家所有。任何人都可以在不获得许可的情况下使用**公有领域**作品，但无法拥有它。软件本身不被视为商品，因为它需要专门的（且昂贵的）计算机硬件才能运行。
 
-Sharing of software has gone on since the beginnings of the computer age. In fact, not sharing software was the exception and not the rule. The concept of **Open Source Software (OSS)** long predates the use of the term.  For a detailed history of the early days of software, there are many resources you can check, including [Wikipedia](https://en.wikipedia.org/wiki/History_of_free_and_open-source_software), but we’ll give a condensed version here. It’s important also to note that there are many disagreements about certain details of this evolution, but it’s important to understand the basic timeline.
+在20世纪60年代末，随着计算机操作系统和编译器技术的发展，构建有效软件的过程变得更加简便，这些软件能够在多种计算机平台上运行。这直接导致了只专注于软件开发的公司的兴起。1974年，软件获得了版权保护的权利，这为软件成为重要的商品铺平了道路，这些公司为了保护自己的软件产品进行了不懈的斗争。
 
-In the early days of computing (1950s-1960s), software was produced mainly by academics and corporate researchers working for early computer companies.  It was difficult and time consuming to write, and generally shared as works of **public-domain**.  These works are not owned by an individual author or artist. Anyone can use a **public domain** work without obtaining permission, but no one can ever own it. The software was not seen as a commodity in and of itself, as it required the specialized (and expensive) computer hardware to even run.
+1970年代后期和1980年代初见证了仅分发机器可读代码而不提供相应的人类可读源码的趋势。1980年代初，麻省理工学院的研究员 Richard Stallman 开始了一个项目，编写后来成为 GNU 操作系统的内容（该系统后来启发了现在流行的 Linux 内核）。在此期间，他创立了自由软件基金会（Free Software Foundation），并撰写了[自由软件定义](https://en.wikipedia.org/wiki/The_Free_Software_Definition) ，以试图把在 MIT 开发的软件从已经改变和占有它的企业手中夺回。
 
-In the late 1960s, things began to change, as computer operating systems and compiler technologies began to make it less cumbersome to build effective software that ran on a variety of computer platforms.  This led directly to the rise of software-only companies, and with software gaining the right to be copyrighted in 1974, the die was cast for software to become an important commodity that these companies fought to protect.
+自由软件基金会的另一个主要成就是创建了 GNU 公共许可证（GPL），该许可证使用“Copyleft”的概念，要求对自由软件所做的任何更改都必须提供给接收自由软件的用户。Linus Torvalds（Linux操作系统的创造者）在1991年发布了他的第一个内核，并使用 GPL 进行许可。正如我们现在所知，它已经成为全球大部分技术的基础。
 
-The late 1970s and early 1980s saw the increasing trend of only distributing machine-readable code without the associated human-readable source code.  In the early 1980s, MIT researcher Richard Stallman began a project to write what would become the GNU operating system (which would later inspire the popular Linux kernel).  During this time, he established the Free Software Foundation and wrote the [Free Software Definition](https://en.wikipedia.org/wiki/The_Free_Software_Definition) in an attempt to wrest control of software created at MIT back from corporate interests who had changed and co-opted it.
+1997年，Eric S. Raymond 发表了《大教堂与集市》（*The Cathedral & The Bazaar*），这是对早期学术黑客社区和自由软件原则的分析，促成了1998年的一次战略会议，参加者包括了几个行业和自由软件界的个人，其中包括 Christine Peterson ，她创造了“开源软件”一词。在下一节中，我们将探讨这一“品牌”变化的原因。
 
-The Free Software Foundation’s other main claim to fame is the creation of the GNU Public License (GPL), which used the notion of ‘Copyleft’ to require any changes made to Free Software to be made available to the user receiving the free software.  Linus Torvalds (creator of the Linux operating system) released his first kernel in 1991, licensed with the GPL.  As we now know, it has become the basis for a significant portion of the world’s technology.
+### 实用主义 vs. 理想主义
 
-In 1997 Eric. S. Raymond published *The Cathedral & The Bazaar,* an analysis of the former academic hacker community and free software principles, which led to a strategy meeting in 1998 of several industry and free software individuals, including Christine Peterson, who coined the term ‘open source software.’  In the next section, we’ll examine the reasons for this change in ‘brand.’
+“自由软件”和“开源软件”命名争议的核心在于英语中的一种奇特现象。很特别的是，“free”这个词有两种不同的含义：
 
-### Pragmatism vs. Idealism
+* 自由言论中的“自由”，即分发的自由。 
 
-At the heart of the naming debate between ‘Free Software’ and ‘Open Source Software’ is an oddity in the English language.  Specifically, the two different meanings of ‘free’:
+* 免费，即“免费啤酒”的说法。
 
-* Free as in free speech, freedom to distribute. 
+Christine Peterson 和其他支持 “开源” 的人试图在这里澄清“自由”的概念——明确表明源代码将对外开放以供检查、再分发和修改。随着越来越多的公司参与这些软件生态系统，开源软件的吸引力逐渐增强，很大程度上是因为 “自由” 软件没有像“专业”开发的软件那样被认为具有价值。事实上，优质的开源软件数量只在不断增加，而且其中许多是由专业人员开发的。
 
-* Free as in no cost, or as is often said as in "free beer". 
+然而，随着企业参与的增加，自由软件基金会的倡导者和开源社区在世界观上出现了分歧。具体来说，这主要围绕着理想主义与实用主义。
 
-Christine Peterson and the others involved in advocating for ‘open source’ were attempting to clarify the concept of free here - making it clear that the source code would be open for inspection, redistribution and modifications.  As more corporations became involved with these software ecosystems, open source gained traction, in large part due to the perception that ‘free’ software didn’t have as much value as ‘professionally’ developed code.  In reality, the amount of quality open source software has only continued to increase, and much of it is professionally developed.
+**理想主义**
 
-With more corporate involvement though came a bifurcation in the world view of Free Software Foundation advocates and the open source community.  Specifically, this centers around idealism vs. pragmatism.
+在这里，“自由”意味着自由而非免费。人们深信，所有软件都应该开放，不仅仅出于技术原因，更是出于意识形态和道德原因。
 
-**Idealism**
+**实用主义**
 
-Here "free" means as in freedom, not beer. There is a profound belief that all software should be open for ideological and ethical reasons, not just technological ones. 
+在这里，主要考虑的是技术因素，包括更快更好的开发，更多的贡献者和审稿人，更容易的调试等。
 
-**Pragmatism**
+需要注意的是，更具意识形态的观点同样具有强烈的技术动力，在很多情况下，两者的目标是一致的。例如： 
 
-Here the primary considerations are technical ones including faster and better development involving more contributors and reviewers, easier debugging, etc. 
+* 用于拯救生命的医疗设备（如心脏起搏器或胰岛素泵）的软件是否应该保密？我们是否没有权利知道这些设备的控制机制？我们如何确定这些设备不会受到可能会对我们的生命构成威胁的外部攻击？
 
-It’s important to note the more ideological perspective has strong technical imperatives as well, and in many cases the objectives of both streams coincide. For example: 
+* 用于投票机的软件是否应该封闭？特别是在一项又一项实验表明封闭源代码的投票机存在大量安全漏洞的情况下，我们如何确保能够尊重计票结果的完整性？
 
-* Should the software powering a life-saving medical device (such as a pacemaker, or an insulin pump), be secret? Do we not have the right to know what is controlling such devices? How do we know they are not vulnerable to external attacks that can kill us? 
+不幸的是，这两种开源态度之间的冲突常常是尖锐和破坏性的。这种争论不太可能结束；但需要注意的是，由于企业的参与，实用主义方法拥有大部分经济资源，而更具哲学意义的阵营将始终拥有坚定的追随者。绝大多数开源工作发生在这两个极端之间，但重要的是两者的存在能够为提供有价值的界限。
 
-* Should the software powering voting machines be closed? How can we be sure we can respect the integrity of tabulated results? This is particularly true when experiment after experiment has shown closed source voting machines to be full of security vulnerabilities. 
+### 开放标准的演变
 
-Unfortunately, the conflicts between these two attitudes towards open source have often been acrimonious and destructive. It is unlikely to ever end; but it’s important to note the pragmatic approach has most of the economic resources behind it due to corporate buy-in, and the more philosophical camp will always have determined adherents. The vast majority of the work in open source happens somewhere between these two extremes, but it’s important for each to exist to provide valuable boundaries.
+在许多方面，标准的演变反映了从自由软件到开源的转变。在这种情况下，三种标准开始发展——封闭标准、*事实上的*标准和开放标准。
 
-### The Evolution of Open Standards
+封闭标准不是公开的，要求实施者向第三方支付版税，或者两者兼有。例如，最常见的无线标准，包括4G、蓝牙或 WiFi ，都是封闭标准。这些标准的规范要么因访问限制，要么因知识产权条款而受到限制。
 
-In many ways, the evolution of standards mirrors that of free software to open source. In this case, three kinds of standards began to evolve—closed standards, *de facto* standards, and open standards.
+随着软件市场的增长，以及客户需要解决的问题变得如此之大，以至于需要多个专业领域的协作，互操作性显然将成为各类企业的关键要求。
 
-Closed standards are not publicly available, require implementers to pay royalties to third parties, or both.  For example, most common wireless standards the average person recognizes, including 4G, Bluetooth, or WiFi are closed standards. These standards have specifications that are restricted either by access or intellectual property terms.
+客户开始向供应商施压，要求他们允许异构系统结合最佳解决方案来解决问题。为了实现这一点，开放标准开始发展，允许许多人协作，提出在应用程序和系统之间有效传输数据的方法。一些开放标准一开始并不是有意成为标准的。一些标准始于开源项目，并通过广泛采用成为*事实上的*标准。最常见的例子是 Linux 内核，它已成为某些设备类别的*事实上的*标准，例如在高性能计算领域，Linux 为全球100%的Top 500超级计算机提供动力。
 
-As the software market began to grow, and the kinds of problems customers were solving became so large that they required multiple areas of speciality, it became apparent that interoperability was going to be a key requirement for businesses of all kinds.  
+这里有太多开放标准无法一一列举，但您可以在[维基百科](https://en.wikipedia.org/wiki/Open_standard)上找到一个相当不错的列表。浏览这个列表，你会发现一些你可能知道的（TCP/IP, PDF），以及一些你可能依赖但不太了解的（HTML, USB）。
 
-Customers began to pressure vendors to allow for heterogeneous systems that brought best-of-breeds solutions to bear on their problems.  To make this possible, open standards began to develop, allowing many people to collaborate on ways of effectively moving data between and among applications and systems. Some open standards didn’t start as intentional standards. Some started as open source projects that through widespread adoption became *de facto* standards. The most common example is the Linux kernel which has become a *de facto *standard for classes of devices, such as in high performance computing where Linux powers 100% of the world’s Top 500 Supercomputers. 
+### 历史正在发生
 
-There are too many open standards to list here, but you can find a reasonably good list on [Wikipedia](https://en.wikipedia.org/wiki/Open_standard). Perusing that list you’ll find ones that you probably know about (TCP/IP, PDF), as well as others you probably rely on but didn’t know as much about (HTML, USB).
+提供这一历史背景的主要原因在于它既告知了过去的情况，也象征着在软件和技术行业中没有什么是静止的。永远会有如何在自由软件的理想主义方面与商业价值的实用主义方面之间取得平衡的问题。
 
-### History is Always Happening
+此外，越来越多的思考围绕计算的伦理方面，以及它如何影响从许可、知识产权到协作模式的一切。
 
-The main reason for providing this historical background is that it both informs what has come before, but also symbolizes that nothing is ever static in the software and technology industry.  There will always be questions of balancing the idealist aspects of free software with the more commercial values of pragmatism.
+了解我们在开源和开放标准方面的历史，可以让我们更好地评估未来我们需要走的方向。
 
-There is also a growing movement around thinking about the ethical aspects of computing and how that affects everything from licensing, to intellectual property and collaboration models.
+# 章节: 使用开源的原因
 
-Understanding where we’ve come from in open source and open standards will give us the context to properly evaluate where we need to go in the future.
+## 课程：简介
 
-# Section: Reasons to Use Open Source
+### 章节概述
 
-## Lesson: Introduction
+在本节中，我们将概述开源的社区和协作模型如何确保企业级软件的持续高效开发。我们还将讨论一些将开源与开放标准有效结合以增加价值的潜在方法。
 
-### Section Overview
+### 学习目标
 
-In this section, we will give an overview of how the community and collaborative model of open source ensures continued efficient development of enterprise-grade software. We’ll also discuss some potential ways to effectively marry open source with open standards for increased value.
+在本节结束时，您应该能够：
 
-### Learning Objectives
+* 描述开源的社区和协作模型。
 
-By the end of this section, you should be able to:
+* 明确阐述开源为企业提供价值的商业理由。
 
-* Describe the community and collaborative model of open source.
+* 解释如何将开源和开放标准结合以增加技术解决方案的整体价值。
 
-* Articulate solid business reasons why open source provides value for enterprises.
+## 课程：为什么我应该使用开源和开放标准？
 
-* Explain how open source and open standards can be combined to increase the overall value of a technology solution.
+### 什么是开源社区？
 
-## Lesson: Why Should I Use Open Source & Standards
+并不存在某种神秘的“开源社区”，让所有开源开发神奇地发生。实际上，有许多不同的开源社区，它们具有许多不同类型的文化。然而，社区的构想可以追溯到计算机早期，植根于学术/企业/共享/黑客的心态。几乎所有社区都具有以下主要特征：
 
-### What Is an Open Source Community?
+* 开发资源的地理分布。
 
-There is not some mythical ‘open source community’ that magically makes all open source development happen.  There are many different open source communities, with many different types of cultures.  However, the community construct harkens back to the earliest days of computers, rooted in the academic/corporate/sharing/hacker mentality. Almost all communities have the following main characteristics:
+* 分散的决策能力。
 
-* Geographic distribution of development resources.
+* 开发和决策的透明度。
 
-* Decentralized decision-making capabilities.
+* 精英管理——通过持续有价值的贡献获得影响力。
 
-* Transparency of both development and decision making.
+此外，大多数社区表现出紧密的垂直层次结构与松散的水平结构的结合，这使得小改动（开源的通用语言）可以向上流动，经过许多快速审查周期，从而提供一系列 “制衡机制” 以帮助确保软件质量。
 
-* Meritocracy - influence is earned through sustained valuable contributions.
-
-In addition, most communities exhibit a tight vertical hierarchy, with loose horizontal structure, which allows small changes (the lingua franca of open source) to flow upward, passing through many rapid review cycles that provide a significant set of ‘checks and balances’ that help ensure software quality.
-
-An example community organizational structure:
+一个社区组织结构的示例：
 
 ![image alt text](community-org-structure.png)
 
-### How Does This Model Differ from Other Development Models?
+### 这种模型与其他开发模型有何不同？
 
-While modern software development teams inside of technology corporations can share some of the ‘agile’ principles illustrated above, they generally have some significant differences.  These differences are neither good nor bad, and often exist for very good reasons.  They do, however, provide a challenge for organizations as they begin the journey toward more open source community participation.
+虽然现代技术公司内部的软件开发团队可以分享上面所示的某些“敏捷”原则，但它们通常存在一些显著的差异。这些差异既不是好的也不是坏的，而是通常出于非常正当的原因存在。然而，它们确实给组织在迈向更多开源社区参与的旅程中带来了挑战。
 
-Here are some of the most significant practices of open source software projects that are different from corporate development teams:
+以下是开源软件项目与企业开发团队最显著的不同之处：
 
-* Influence and stature are not conveyed by title or position - meritocracy rules the day.
+* 影响力和地位不是通过头衔或职位来传达的——精英管理占据主导地位。
 
-* Transparency in both source code and decision making is paramount - no side conversations or decisions.
+* 源代码和决策的透明性至关重要——没有旁边的对话或决定。
 
-* Support for geographically-distributed teams is built in - asynchronous modes of communication and culture are the norm.
+* 对地理分布团队的支持是内置的——异步的通信模式和文化是常态。
 
-Some organizations have applied lessons from the open source community to their own internal efforts (a practice known as ‘Inner Source’) to take advantage of the speed and flexibility they offer.  Doing this can also help build the necessary institutional culture that allows for easier engagement with the upstream open source ecosystem.
+一些组织已经从开源社区中借鉴经验，并将这些经验应用到他们自己的内部努力中（称为“内源”）以利用它们提供的速度和灵活性。这样做还可以帮助建立必要的机构文化，从而更容易参与上游开源生态系统。
 
-### The Business Perspective
+### 商业视角
 
-Now that we’ve covered a bit of what the community development model looks like, let’s look at some reasons that businesses of all sizes have chosen open source as a valuable technology tool to help them solve real-world problems.  
+在讨论了一些社区开发模式之后，让我们来看一下各种规模的企业选择开源作为宝贵的技术工具来解决实际问题的原因。
 
-Open source usage within an enterprise provides the following advantages:
+企业内部使用开源软件具有以下优势：
 
-* Speed
+* 速度
+  
+* 成本更低
+  
+* 可定制性
+  
+* 创新性
+  
+* 安全性
+  
+* 商业优势
+  
+* 许可灵活性
 
-* Lower Cost
+我们将在接下来的几节中详细讨论这些优势。
 
-* Customizability
+### 开源如何加快开发速度？
 
-* Innovation
+开源软件在加速软件开发周期方面发挥了重要作用。一个最显著的例子就是移动设备市场，我们看到主要的新产品在6到12个月的周期内发布。开源对于快速演化交付至关重要。
 
-* Security
+那么开源到底是如何加速开发的呢？
 
-* Business Advantage
+* 获取开源软件通常更快更容易——无需采购订单、合同、工作说明书或许可谈判就可以开始使用。
+  
+* 开源部署通常更快。与通常漫长且繁琐的商业安装、配置和实施周期不同，开源来自于一种下载即用的文化。
 
-* Flexibility in licensing
+* 领先的开源项目以社区驱动的功能演进，而非收入驱动的管理决策为主。这种快速的决策方式（通常是一种[懒共识](http://community.apache.org/committers/lazyConsensus.html)）使项目能够非常迅速地整合新功能和修复问题。
 
-We’ll cover each of these in the next few sections.
+* 由于广泛的社区测试，成熟的开源软件通常具有更高的质量。事实上，根据  [Forrester Research 的研究](https://fossbazaar.org/system/files/OpenSourceForTheNextGenerationOfEnterpriseIT.pdf)，软件质量在92%的情况下达到了或超出了预期。
 
-### How Does Open Source Speedup Development?
+* 开源支持通过源代码、协作社区、接口和工具进行定制。
 
-Open Source Software has proven instrumental in speeding software development cycles.  One of the most striking examples is in the mobile device market where we are seeing major new products being released in 6-12 month cycles.  Open source is essential to fast evolutionary delivery.
+* 使用渐进交付方法，开源通常可以在数小时内投入使用，而不是数周或数月。
 
-So exactly how does open source speed up development?
+### 为什么开源成本更低？
 
-* Open Source software acquisition is often faster and easier – no purchase orders, contracts, SOW or license negotiations to get started.
+使用开源软件可以通过多种经过验证的方式显著降低开发成本：
 
-* Open source deployments are usually much quicker.  Unlike commercial installation, configuration, and implementation cycles which are often too long and cumbersome, open source comes from a download-and-go culture.
+* 最近的一项 [Red Hat 研究](https://www.redhat.com/cms/managed-files/rh-enterprise-open-source-report-detail-f21756-202002-en.pdf) 显示，开源软件的总体拥有成本比商业/闭源解决方案低30%。
 
-* The leading open source projects are evolving faster with community driven features, instead of revenue driven management. Fast decision making in open source (often a form of [lazy consensus](http://community.apache.org/committers/lazyConsensus.html)) enables projects to incorporate new features and fixes very rapidly. 
+* 使用开源软件可以避免功能过剩。许多闭源产品具备的功能超出了客户的实际使用需求，而且这些功能通常是打包销售的，必须支付相应费用。
 
-* Because it is subjected to broad community testing, mature open source is often of higher quality.  In fact, software quality met or exceeded expectations 92% of the time according to a  [Forrester Research study](https://fossbazaar.org/system/files/OpenSourceForTheNextGenerationOfEnterpriseIT.pdf).
+* 开源有助于防止供应商锁定并促进竞争。即使在使用商业开源供应商的情况下，您也可以自由更换供应商，甚至在不改变应用程序的情况下终止支持。
 
-* Open source supports customization with the source code, a collaborative community, interfaces and tools.
+* 开源还可以降低咨询、培训和支持成本，因为技术并非独家使用。您可以经常从多个供应商获取支持，甚至可以从活跃的开发者社区获得支持。许多公司雇佣来自社区的开发者来支持他们的实现，并将修复贡献回上游项目。
 
-* With an evolutionary delivery approach, open source is usually up and running in hours instead of weeks or months.
+* 活跃的社区通常提供比商业支持协议更高质量的支持，而且是免费的。
 
-### Why Is Open Source Lower Cost?
+### 为什么开源更灵活？
 
-Using open source software can significantly reduce development costs in a number of proven ways:
+开源提供了比任何第三方软件替代方案都更大的灵活性：
 
-* A recent [Red Hat study](https://www.redhat.com/cms/managed-files/rh-enterprise-open-source-report-detail-f21756-202002-en.pdf) has shown that open source has a 30% lower total cost of ownership compared to commercial/closed source solutions.
+* 使用开源，您永远不会被供应商、其费用、购买结构或再分发条款所束缚。开源实现了供应商独立性和竞争选择。
 
-* With open source you can avoid functionality overkill. Many closed source products have an overload of capabilities that clients rarely use, need, or even want.  And they are often bundled so that they must be paid for anyway.
+* 开源通常在部署上有非常宽松的合同限制，或者根本没有限制，因此您可以在平台、用户数量、处理器数量上拥有最大的灵活性。
 
-* Open source helps prevent vendor lock in and promotes competition.  Even where commercial open source vendors are utilized, you have the freedom to switch vendors or even drop support without changing your application.
+* 由于您可以访问源代码，您可以创建所需的任何定制，如果这些定制对其他人有价值，社区可能会在未来的版本中支持它们。
 
-* Open source also helps with consulting, training and support costs because there is no exclusive access to the technology.  You can often multi-source support from vendors or even receive support from a vibrant community of developers. Many companies hire developers from the community to support their implementations, and contribute fixes back to the upstream project.
+* 开源社区鼓励并促进定制，使其更容易扩展解决方案以适应特定用例或与其他产品集成。
 
-* Active communities often provide higher quality support than commercial support agreements, and what’s more, it’s free.
+* 健康的开源社区提供持续的支持，并鼓励改进的输入和建议。
 
-### Why Is Open Source More Flexible?
+### 开源如何支持创新？
 
-Open source offers the most flexibility of any 3rd party software alternative:
+开源软件最初被构想为通过协作促进开发和创新的一种方式。
 
-* With open source you are never locked into a vendor, their costs, their buying structures or their re-distribution terms.  Open source enables vendor independence and competitive options.
+开源方法在创新方面的有效性已被证明，因此许多前沿的软件技术都是由开源社区推动的。例如：
 
-* Open source often has very liberal contractual limits on deployment, if any, so you have the greatest possible flexibility on platforms, numbers of users, number of processors.
+* 互联网主要是作为一大批开源项目开发的。
 
-* Because you have access to the source code, you may create any customizations you need, and if they are of value to others, the community may support them in a future release.
+* 软件开发工具的创新和集成很大程度上是开源领域的。
 
-* Open source communities encourage and facilitate customization making it easier to extend the solution for particular use cases or to integrate with other products.
+* 移动通信领域的惊人创新速度只有通过开源才能实现。尽管Android是主要例子，但即使是像苹果的 iOS 这样的闭源平台也主要使用了数百个开源软件库和组件构建。
 
-* Healthy open source communities provide ongoing support and encourage input and suggestions for improvements.
+* 像其他互联网部分一样，社交媒体软件平台是从开源软件中产生并通过开源软件发展的。
 
-### How Does Open Source Support Innovation?
+* 科学计算和大规模并行计算几乎完全是开源领域。
 
-Open source software was originally conceived as a way to facilitate development and innovation through collaboration.
+许多开源社区展示了快速演进，通过参与这些社区可以加速您自己的创新。开源的自下而上式优胜者治理机制将所有权和责任重新引导回开发团队。
 
-The open source approach has proven so effective for innovation that many leading edge software technologies are driven by open source communities.  For instance:
+引入新软件理念、测试新功能并发展活跃用户群的最佳方式之一是通过开源社区。
 
-* The Internet has been developed primarily as a large collection of open source projects.
+最后，开源推动的创新不仅仅是技术创新。开源许可中合同限制的缺少为创造新的用途、新的分发方案、灵活和创新的包装和定价方式以及其他形式的商业和市场创新提供了空间。
 
-* Software development tool innovation and integration is largely an open source domain.
+### 开源软件的安全优势是什么？
 
-* The incredible rate of innovation in the mobile communications space is only possible through open source.  Although Android is the primary example, even closed source platforms like Apple’s iOS are largely built using hundreds of open source software libraries and components.
+不幸的是，攻击者正在全球范围内针对和攻击软件系统。开源软件和闭源软件都不一定总是更安全的。安全性取决于许多因素，如软件的设计、实现、验证（包括测试）和部署方式。
 
-* Like the rest of the Internet, social media software platforms have emerged from and grown through open source software.
+然而，开源软件确实带有一种*潜在的*基本安全优势。安全软件设计的一个关键原则是“开放设计”，即安全软件设计应假设每个人都知道其保护机制的工作原理。这样可以通过全球范围的同行评审来发现安全漏洞并在软件部署之前修复它们。
 
-* The arena of scientific computing and massively parallel computing are almost exclusively open source domains.
+当然，潜在的并不总能实现。为了确保安全，开源软件项目必须在开发时考虑安全性，实际进行审查，并在软件部署之前修复这些问题。许多开源软件项目已经采取措施利用这一潜在优势，Linux 基金会也在与各种开源软件项目合作，帮助它们充分利用这一优势。
 
-Many open source communities exhibit rapid evolution that can be harnessed through participation to speed your own innovation. The open source ethos of bottom-up meritocracy directs ownership and accountability back to development teams
+### 开源如何提供商业优势？
 
-One of the best ways to introduce a new software idea, test new capabilities and grow an active user base is through an open source community
+以上所有因素都为您的组织带来了软件竞争优势。
 
-And finally, the innovation that open source enables is not just technical innovation.  The lack of contractual constraints in open source licensing allows for creative new uses, new distribution schemes, flexible and creative packaging and pricing approaches and other forms of business and market innovation.
+* 在当今快速发展的市场中，能够以最低成本最快速地开发出软件解决方案的公司将获得胜利。
 
-### What are the Security Advantages of Open Source Software?
+* 目前，开源软件已成为如此主流的现象，如果**不有效使用**开源，几乎肯定会使您的组织处于不利地位。
 
-Unfortunately attackers are targeting and attacking software systems around the world. Neither open source software nor closed source software is always more secure. Security depends on many factors, such as how the software was designed, implemented, verified (including testing), and deployed.
+研究公司 Gartner 对开源软件的看法是：
 
-However, open source software does come with a *potential* fundamental security advantage over closed source software. One of the key principles of secure software design is "open design", that is, secure software design should presume that everyone knows how its protection mechanism works. Doing this enables mass worldwide peer review to find security vulnerabilities and fix them before the software is deployed.
+“**开源无处不在**，它是不可避免的……反对开源的政策是不可行的，并会使您的组织处于**竞争劣势**。”
 
-Of course, potential is not always realized. To be secure, open source software projects must be developed with security in mind, actually be reviewed, and have those problems fixed before the software is deployed. Many open source software projects already take steps to employ this potential advantage, and the Linux Foundation is working with various open source software projects to help them take advantage of it as well.
+最近的一份 [麦肯锡公司报告](https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/developer-velocity-how-software-excellence-fuels-business-performance)指出，行业中位列前四分之一的公司在创新方面的 “最大区分因素” 是 “开源采用” ，这些公司从用户转变为贡献者。报告数据显示，前四分之一的公司采用开源对创新的影响是其他公司三倍。
 
-### How Does Open Source Provide a Business Advantage?
+### 架起开源和开放标准之间的桥梁
 
-All of the factors above add up to a software competitive advantage for your organization.  
+在过去几年中，标准领域和开源生态系统之间试图找到更好合作方式的趋势日益增长。尽管有时会遇到一些挑战（主要是在两者的执行速度上存在差异），但仍有许多充分的理由继续倡导两者之间的密切合作关系。
 
-* In today’s rapidly evolving markets, the company that consistently produces software solutions the most quickly at lowest cost will win.  
+一些已经或正在起作用的项目是很好的例子：
 
-* At this point, open source software has become such a mainstream phenomenon that **not using** open source effectively will almost certainly place your organization in a disadvantaged position.
+* Linux 基金会的 JDF ([联合开发基金会](https://www.jointdevelopment.org/)) 的努力——如 GraphQL 等项目。
 
-Research firm Gartner had this to say about open source:
+* OASIS Open 的 [开放网络安全联盟](https://opencybersecurityalliance.org/)，该联盟为共享网络威胁数据提供现有开放标准的开源参考实现。
 
-"**Open source is ubiquitous**, it’s unavoidable… having a policy against open source is impractical and places you at a **competitive disadvantage"**
+* [IETF](https://www.ietf.org/)的口号“粗略共识和运行代码”促成了许多开放标准与开源项目的合作，如 OpenDaylight、OPNFV、OpenStack 等。
 
-As a recent [McKinsey & Co. report ](https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/developer-velocity-how-software-excellence-fuels-business-performance)described, the "biggest differentiator" for top-quartile companies in an industry vertical was “open source adoption,” where they shifted from users to contributors. The report’s data shows that top-quartile company adoption of open source has three times the impact on innovation than companies in other quartiles.
+标准和开源的进展速度不同，互操作性的实现方式也不同，但能够构建开放标准的开源实现有助于在传统上主要依赖标准的客户供应链中推动更多的开源使用——例如政府、金融和非政府组织等领域。
 
-### Bridging Open Source and Open Standards
-
-There has been a growing trend in the last several years of both the standards world and the open source ecosystem attempting to find better ways of working together.  While there are sometimes challenges (primarily around the execution speed mismatch of the two groups), there are many good reasons to continue to advocate for a closer relationship between the two.
-
-There are some good examples of projects where this is or already has worked:
-
-* The Linux Foundation's JDF ([Joint Development Foundation](https://www.jointdevelopment.org/)) efforts - GraphQL among others.
-
-* OASIS Open’s [Open Cybersecurity Alliance](https://opencybersecurityalliance.org/), which is providing open source reference implementations of existing open standards for sharing cyber threat data.
-
-* [IETF](https://www.ietf.org/)’s mantra of "rough consensus and running code" has led to many open standards collaborating with open source projects such as OpenDaylight, OPNFV, OpenStack, and others.
-
-Standards and open source move at different paces, and work on interoperability in different ways, but being able to build open source implementations of open standards helps drive more open source usage in customer supply chains that have traditionally relied primarily on standards - areas like government, finance and NGOs, for example.
-
-Additionally, by supporting standards, the open source ecosystem gets the ability to interoperate even with closed source software, which provides businesses with more choices and more flexibility.
+此外，通过支持标准，开源生态系统还能够与闭源软件进行互操作，这为企业提供了更多的选择和更大的灵活性。
 
