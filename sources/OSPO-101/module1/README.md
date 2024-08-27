@@ -1,5 +1,5 @@
 ---
-status: translaed
+status: translated
 title: "OSPO 101 Training Modules - Module 1"
 author: TODO Group
 collector: mudongliang
