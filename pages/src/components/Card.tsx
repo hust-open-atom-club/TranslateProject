@@ -25,7 +25,7 @@ const parseBody = (body: string, href: string) => {
   let lastTagContent = marked_content.substring(lastTag);
   // remove the last tag
   marked_content = marked_content.substring(0, lastTag);
-  let end = "……&nbsp&nbsp<a href={" + href + "}>[阅读更多]</a>" + lastTagContent;
+  let end = "……&nbsp&nbsp<a href=" + href + ">[阅读更多]</a>" + lastTagContent;
   return marked_content + end;
 }
 
