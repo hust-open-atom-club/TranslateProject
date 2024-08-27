@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "OSPO 101 Training Modules - Module 1"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translator: Athanlaich
+translating_date: 20240827
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module1/README.md
 ---
 
