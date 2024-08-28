@@ -11,7 +11,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support
 
 # 添加新的操作系统支持
 
-为了让 syzkaller 支持一个新的操作系统内核，以下是需要编辑的 syzkaller 的常见部分。然而，对于特定的内核，可能还需要一些特定的更改（例如，从给定的内核收集覆盖率信息，或者一些可能弹出并给出调整提示的错误信息）。
+为了让 syzkaller 支持一个新的操作系统内核，以下是需要编辑的 syzkaller 的共同部分。然而，对于特定的内核，可能还需要一些特定的更改（例如，从给定的内核收集覆盖率信息，或者一些可能弹出并给出调整提示的错误信息）。
 
 ## syz-executor
 
