@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Adding new OS support"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: ElizaXiao
+translating_date: 20240828
 link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support.md
 ---
 
