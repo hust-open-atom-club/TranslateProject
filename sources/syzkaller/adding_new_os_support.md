@@ -1,62 +1,62 @@
 ---
-status: translating
+status: translated
 title: "Adding new OS support"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: ElizaXiao
-translating_date: 20240828
+translated_date: 20240828
 link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support.md
 ---
 
-# Adding new OS support
+# 添加新的操作系统支持
 
-Here are the common parts of syzkaller to edit in order to make syzkaller support a new OS kernel. However, there may be some specific changes that will be required for a given kernel (for example, gathering coverage from a given kernel, or some errors that might pop up and give a hint about what to tweak).
+为了让 syzkaller 支持一个新的操作系统内核，以下是需要编辑的 syzkaller 的共同部分。然而，对于特定的内核，可能还需要一些特定的更改（例如，从给定的内核收集覆盖率信息，或者一些可能弹出并给出调整提示的错误信息）。
 
 ## syz-executor
 
-For each OS, there is this file `executor/executor_GOOS.h` where GOOS is the OS name. This file contains two important functions:
+对于每个操作系统，都有一个操作系统名为 GOOS 的文件 `executor/executor_GOOS.h`。这个文件包含两个重要函数：
 
-- `os_init` which is responsible for mapping a virtual address space for the calling process,
-- `execute_syscall` which is responsible for executing system calls for a particular OS kernel.
+- `os_init` 负责为调用进程映射虚拟地址空间，
+- `execute_syscall` 负责为特定操作系统内核执行系统调用。
 
-These two functions, are called in `executor/executor.cc`, which is mainly responsible for executing the syscalls programs, and managing the threads in which the programs run.
+这两个函数在 `executor_GOOS.h` 中被调用，它主要负责执行系统调用程序，并管理程序运行的线程。
 
-`executor_GOOS.h` also contains functions related to that operating system such as functions that allow it to gather coverage information, detect bitness, etc. (Example: [executor_linux.h](/executor/executor_linux.h) ).
+`executor_GOOS.h` 还包含与该操作系统相关的函数，例如允许它收集覆盖率信息、检测位宽等的函数（例如：[executor_linux.h](/executor/executor_linux.h)）。
 
-The intended function will be called according to the target kernel as defined by the macros in the `executor/executor.cc` file.
+目标内核将根据 `executor/executor.cc` 文件中定义的宏调用预期的函数。
 
-## Build files `pkg/`
+## 构建文件 `pkg/`
 
-- The OS name is added to `pkg/build/build.go` along with the supported architecture
-- Creating a file that builds the image for the targeted kernel under `pkg/build/`. This file contains functions for configuring the build of the bootable image, for building it, and for generate SSH keys which will be used by Syzkaller in order to access the VM. There is a file per each of the supported OSes by Syzkaller where the name pattern is `GOOS.go`.
+- 在 `pkg/build/build.go` 中添加操作系统名称及其支持的架构
+- 在 `pkg/build/` 下创建一个构建目标内核镜像的文件。这个文件包含配置可启动镜像构建的函数、构建它以及生成 SSH 密钥的函数，这些密钥将由 Syzkaller 用于访问虚拟机。每个由 Syzkaller 支持的操作系统都有一个名为 `GOOS.go` 的文件。
 
-- Adding the given target to the `s/makefile/Makefile/`.
+- 将给定目标添加到 `s/makefile/Makefile/`。
 
-## Report files `pkg/report/`
+## 报告文件 `pkg/report/`
 
-Creating a file that reports build errors  for the targeted kernel under `pkg/report/`. There is a file per each of the supported OSes by Syzkaller where the name pattern is `GOOS.go`.
+在 `pkg/report/` 下为目标内核创建一个报告构建错误的文件。每个由 Syzkaller 支持的操作系统都有一个名为 `GOOS.go` 的文件。
 
-## Editing `pkg/host/`
+## 编辑 `pkg/host/`
 
-- implement `isSupported` function that returns true for a supported syscall, it is located under `pkg/host/GOOS`.
+- 实现 `isSupported` 函数，该函数对于支持的系统调用返回 true，它位于 `pkg/host/GOOS` 目录下。 
 
-## Creating a file under `sys/GOOS/`
+## 在 `sys/GOOS/` 下创建文件
 
-Creating a file `init.go` for the targeted kernel under `sys/GOOS/`that included the function `initTarget` that initializes the target and the different supported architectures.
+在 `sys/GOOS/` 下为目标内核创建一个 `init.go` 文件，其中包含初始化目标和不同支持架构的 `initTarget` 函数。
 
-## Editing `sys/syz-extract`
+## 编辑 `sys/syz-extract`
 
-Adding the new kernel name with already existing supported kernels to the file `sys/syz-extract/extract.go`.
+将新内核名称添加到已支持的内核列表中，并更新到文件 `sys/syz-extract/extract.go` 中。
 
-## Editing `sys/targets`
+## 编辑 `sys/targets`
 
-Adding the new kernel name with already existing supported kernels to the file `targets.go` which is located under`sys/targets`.
+将新内核名称添加到已支持的内核列表中，并更新到文件 `sys/targets/targets.go` 中。
 
-## Editing `vm/qemu`
+## 编辑 `vm/qemu`
 
-Adding the new kernel name with already existing supported kernels to the file `qemo.go` which is located under `vm/qemu`.
+将新内核名称添加到已支持内核的列表中，并更新到文件 `vm/qemu/qemu.go` 中。
 
-## Syzkaller description & pseudo-syscalls
+## Syzkaller 描述与伪系统调用
 
-Check [descriptions](/docs/syscall_descriptions.md), and [pseudo-syscalls](/docs/pseudo_syscalls.md).
+查看 [描述](/docs/syscall_descriptions.md) 与 [伪系统调用](/docs/pseudo_syscalls.md).
