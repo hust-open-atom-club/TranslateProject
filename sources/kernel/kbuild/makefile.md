@@ -4,6 +4,7 @@ title: "Linux Kernel Makefiles"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
+priority: 10
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/makefiles.rst
 ---
 

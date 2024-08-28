@@ -4,6 +4,7 @@ title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240304
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/setup.md
 ---
 

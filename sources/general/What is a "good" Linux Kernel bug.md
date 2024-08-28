@@ -4,6 +4,7 @@ title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ
 collected_date: 20240827
+priority: 10
 link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 ---
 I found my first Linux kernel vulnerability in 2006, but it wasn't a particularly good one. At the time I was just copying everything that my colleague Ilja van Sprundel was doing, and that was good enough to find something. If you watch Ilja's video from CCC, [Unusual Bugs (2006)](https://media.ccc.de/v/23C3-1456-en-unusual_bugs?ref=blog.isosceles.com), you'll understand why copying Ilja was generally a good thing to do.

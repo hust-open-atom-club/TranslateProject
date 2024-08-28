@@ -4,6 +4,7 @@ title: "The afl-fuzz approach"
 author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
+priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md
 ---
 # The afl-fuzz approach
