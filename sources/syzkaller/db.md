@@ -3,6 +3,7 @@ status: collected
 title: "syz-db"
 author: Syzkaller Community
 collector: mudongliang
+priority: 10
 collected_date: 20240428
 link: https://github.com/google/syzkaller/blob/master/docs/db.md
 ---

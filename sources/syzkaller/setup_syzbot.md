@@ -4,6 +4,7 @@ title: "How to set up syzbot"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/setup_syzbot.md
 ---
 

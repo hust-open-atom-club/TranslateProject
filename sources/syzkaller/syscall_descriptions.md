@@ -4,6 +4,7 @@ title: "Syscall descriptions"
 author: Syzkaller Community
 collector: hai119
 collected_date: 20240301
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syscall_descriptions.md
 ---
 
