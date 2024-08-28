@@ -1,6 +1,6 @@
 ---
 status: proofread
-title: "Introduction"
+title: "Bisecting a bug"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
