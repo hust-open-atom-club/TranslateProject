@@ -1,10 +1,12 @@
 ---
-status: collected
+status: translating
 title: "syz-db"
 author: Syzkaller Community
 collector: mudongliang
-priority: 10
 collected_date: 20240428
+translator: mudongliang
+translating_date: 20240829
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/db.md
 ---
 
