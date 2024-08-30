@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Bisecting a bug"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -8,6 +8,8 @@ translator: Athanlaich
 translated_date: 20240822
 proofreader: mudongliang
 proofread_date: 20240827
+publisher: JasonC10
+published_date: 20240829
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/bug-bisect.rst
 ---
 
