@@ -48,7 +48,8 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
     title,
     status,
     translator,
-    published_date
+    published_date,
+    priority
   } = frontmatter;
 
   const headerProps = {
@@ -67,6 +68,8 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
             id ? (
               <h2 {...headerProps}>
                 <img className="inline-block w-6 h-6 me-2" src={"/assets/logo_" + id.split('/')[0] + ".png"} alt={id.split('/')[0] + " icon"} />
+                {/* 如果有priority属性则增加一个红色感叹号 */}
+                {priority ? <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1372"><path d="M512 768c72.533333 0 128 55.466667 128 128s-55.466667 128-128 128-128-55.466667-128-128 55.466667-128 128-128z m0-768c68.266667 0 119.466667 55.466667 119.466667 119.466667V128l-29.866667 469.333333c-4.266667 46.933333-42.666667 85.333333-89.6 85.333334s-89.6-38.4-89.6-85.333334L392.533333 128c-4.266667-68.266667 46.933333-123.733333 110.933334-128h8.533333z" fill="#E63C28" p-id="1373"></path></svg> : null}
                 {title}
               </h2>
             ) : (

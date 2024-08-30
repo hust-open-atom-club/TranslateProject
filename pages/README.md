@@ -4,6 +4,9 @@
 2. 如果是 `Windows` 系统，请删除 `pages/src/content/posts` 文件，新建 `pages/src/content/posts/` 文件夹，并将 `sources` 文件夹下的所有内容复制到新建的 `pages/src/content/posts/` 文件夹内。【注意，请不要把这处修改推送到远程仓库中】
 3. 打开 `http://localhost:4321/` 网址即可在本地预览网页内容。
 
+## 页面组织介绍（重要的部分）
+1. Card内容的排序逻辑：`pages/src/utils/getSortedPosts.ts`下的`getSortedPosts`函数；
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
