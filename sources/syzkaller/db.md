@@ -1,69 +1,70 @@
 ---
-status: collected
+status: translated
 title: "syz-db"
 author: Syzkaller Community
 collector: mudongliang
-priority: 10
 collected_date: 20240428
+translator: mudongliang
+translated_date: 20240831
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/db.md
 ---
 
 # syz-db
 
-`syz-db` program can be used to manipulate corpus.db databases that are used
-by syz-managers.
+`syz-db` 程序可用于操作由 syz-manager 使用的 corpus.db 数据库。
 
-## Build
+## 构建
 
-Build `syz-db` with `make db` or by changing to `tools/syz-db` and run `go build`.
+使用 `make db` 构建 `syz-db`，或切换到 `tools/syz-db` 目录并运行 `go build`。
 
-## Options
+## 选项
 
-`syz-db` currently overs the following generic arguments:
+`syz-db` 目前支持以下通用参数：
 
 ```shell
   -arch string
-    	target arch
+    	目标架构
   -os string
-    	target OS
+    	目标操作系统
   -version uint
-    	database version
+    	数据库版本
   -vv int
-    	verbosity
+    	详细程度
 ```
 
-That can be used with
+这些参数可用于以下命令：
 
 ```
   syz-db pack dir corpus.db
 ```
 
-to pack a database
+用于打包数据库
 
 ```
   syz-db unpack corpus.db dir
 ```
 
-to unpack a database. A file containing performed syscalls will be returned.
+用于解包数据库。将返回一个包含执行过的系统调用的文件。
 
 ```
   syz-db merge dst-corpus.db add-corpus.db* add-prog*
 ```
 
-to merge databases. No additional file will be created: The first file will be replaced by the merged result.
+用于合并数据库。不会创建额外的文件：第一个文件将被合并结果替换。
 
 ```
   syz-db bench corpus.db
 ```
 
-to run a deserialization benchmark. For example:
+用于运行反序列化基准测试。例如：
 
 ```
 syz-db -os=linux -arch=amd64 bench corpus.db
 ```
 
-could give an output like
+可能会输出类似以下内容：
 
 ```
-allocs 123 MB (123 M), next GC 123 MB, sys heap 123 MB, live allocs 123 MB (123 M), time 324s.
+allocs 123 MB (123 M)，下次GC 123 MB，系统堆 123 MB，活动分配 123 MB (123 M)，时间 324s。
 ```
