@@ -24,6 +24,7 @@ const blog = defineCollection({
     published_date: z.union(
       [z.date(), z.string(), z.number()]
     ).default(""),
+    priority: z.number().default(0),
   }),
 });
 
