@@ -112,7 +112,7 @@ starts with the identifier of the table it belongs to followed by a
 colon ':'.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode1:           ...
 ```
 :::
@@ -125,7 +125,7 @@ same table. A constructor in the root [*instruction*]{.emphasis} table
 is defined by omitting the identifier.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :                ...
 ```
 :::
@@ -183,7 +183,7 @@ identifier replaced with the display meaning of the symbol corresponding
 to that identifier.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode1: ( op1 ),op2 is          ...
 ```
 :::
@@ -222,7 +222,7 @@ instruction and is not considered a local symbol identifier even if it
 is legal.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :and (var1) is                 ...
 ```
 :::
@@ -261,7 +261,7 @@ usually used to attach display characters from a local symbol to the
 literal characters of the mnemonic.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :bra^cc op1,op2 is             ...
 ```
 :::
@@ -330,7 +330,7 @@ require that the field take on a specific value, as in the example
 below.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :halt is opcode=0x15 {         ...
 ```
 :::
@@ -371,7 +371,7 @@ and parentheses for grouping, arbitrarily complicated patterns can be
 constructed.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :nop is (opcode=0 & mode=0) | (opcode=15) { ...
 ```
 :::
@@ -407,7 +407,7 @@ a sequence of constraints but without the operator and right-hand side
 of the constraint.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define token instr(32)
     opcode = (0,5)
     r1 = (6,10)
@@ -508,7 +508,7 @@ subexpressions involve multiple tokens and explicitly indicates an order
 for them.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define token base(8)
     op=(0,3)
     mode=(4,4)
@@ -573,7 +573,7 @@ side of the expression the ellipsis is applied, the expression\'s tokens
 are either right or left justified within the extension.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 addrmode: reg is reg & mode=0    {     ...
 addrmode: #imm16 is mode=1; imm16    {  ...
 
@@ -721,7 +721,7 @@ specific integer depending on the encoding. A constraint is
 equation is true.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :xor r1,r2 is opcode=0xcd & r1 & r2 { r1 = r1 ^ r2; }
 :clr r1    is opcode=0xcd & r1 & r1=r2 { r1 = 0; }
 ```
@@ -793,7 +793,7 @@ the disassembly action section as a function of the current address and
 the relative offset.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 jmpdest: reloc is simm8 [ reloc=inst_next + simm8*4; ] { ...
 ```
 :::
@@ -951,7 +951,7 @@ at the [**with**]{.bold} directive and ends with a closing brace. All
 constructors within the block are affected:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 with op1 : mode=1 [ mode=2; ] {
   :reg   is reg & ind=0 [ mode=1; ] { ... }
   :[reg] is reg & ind=1             { ... }
@@ -975,7 +975,7 @@ noticeable effect. The above example could have been equivalently
 specified:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 op1:reg   is mode=1 & reg & ind=0 [ mode=2; mode=1; ] { ... }
 op1:[ref] is mode=1 & reg & ind=1 [ mode=2; ]         { ... }
 ```
@@ -1034,7 +1034,7 @@ creating temporary storage within the [*unique*]{.emphasis} space when
 it needs to.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :add r1,r2 is opcode=0x26 & r1 & r2 { r1 = r1 + r2; }
 ```
 :::
@@ -1135,7 +1135,7 @@ can be used with or without the address space override. We give an
 example of each kind of override in the example below.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :load  r1,[r2] is opcode=0x99 & r1 & r2 { r1 = * r2; }
 :load2 r1,[r2] is opcode=0x9a & r1 & r2 { r1 = *[other] r2; }
 :load3 r1,[r2] is opcode=0x9b & r1 & r2 { r1 = *:2 r2; }
@@ -1200,7 +1200,7 @@ directly specify the size of the output, which must be inferred from
 context.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :split r1,lo,hi is opcode=0x81 & r1 & lo & hi {
     lo = r1:4;
     hi = r1(4);
@@ -1235,7 +1235,7 @@ size and boundaries of the range do not have to be restricted to byte
 alignment.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :bit3 r1,r2 is op=0x7e & r1 & r2 { r1 = zext(r2[3,1]); }
 ```
 :::
@@ -1261,7 +1261,7 @@ extraction of smaller or unaligned pieces. The "r2\[3,1\]" from the
 example generates the following p-code, for instance.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 u1 = INT_RIGHT r2,#3
 u2 = SUBPIECE u1,0
 u3 = INT_AND u2,#0x1
@@ -1313,7 +1313,7 @@ ampersand can also be followed by a colon ':' and an integer explicitly
 indicating the size of the resulting constant as a varnode.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :copyr r1 is op=0x3b & r1 { tmp:4 = &r1 + 4; r1 = *[register]tmp;}
 ```
 :::
@@ -1361,7 +1361,7 @@ object reference [*regParamC*]{.emphasis} and the encoded constant
 final destination address of an object method.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :invoke_direct METHOD_INDEX,regParamC
                is inst0=0x70 ; N_PARAMS=1 & METHOD_INDEX & regParamC
 {
@@ -1403,7 +1403,7 @@ of course generates the particular p-code operation reserved for the
 identifier.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define pcodeop arctan;
   ...
 :atan r1,r2 is opcode=0xa3 & r1 & r2 { r1 = arctan(r2); }
@@ -1462,7 +1462,7 @@ examples demonstrate the temporary variable [*tmp*]{.emphasis} being
 defined using both forms.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :swap r1,r2 is opcode=0x41 & r1 & r2 {
     local tmp = r1;
     r1 = r2;
@@ -1480,7 +1480,7 @@ temporary varnode, without an assignment statement. This is useful for
 temporaries that are immediately passed into a macro.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :pushflags r1 is opcode=0x43 & r1 {
     local tmp:4;
     packflags(tmp);
@@ -1524,7 +1524,7 @@ syntax of course generates the p-code [*STORE*]{.emphasis} operator as
 the final step of the statement.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :sta [r1],r2 is opcode=0x20 & r1 & r2 { *r1 = r2; }
 :stx [r1],r2 is opcode=0x21 & r1 & r2 { *[other] r1 = r2; }
 :sti [r1],imm is opcode=0x22 & r1 & imm { *:4 r1 = imm; }
@@ -1568,7 +1568,7 @@ final value, and then the varnode containing the value will be exported.
 However, anything can be exported.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode: reg++ is addrmode=0x2 & reg { tmp=reg; reg=reg+1; export tmp; }
 ```
 :::
@@ -1631,7 +1631,7 @@ operation when the symbol associated with the dynamic reference is
 referred to in other constructors.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode: reg[off] is addr=1 & reg & off {
     ea = reg + off;
     export *:4 ea;
@@ -1733,7 +1733,7 @@ another address space in square brackets, if the destination is in
 another address space.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :reset is opcode=0x0 { goto 0x1000; }
 :modeshift is opcode=0x1 { goto 0x0[codespace]; }
 ```
@@ -1749,7 +1749,7 @@ The best way to define varnodes which annotate jump destinations in this
 way is with a dynamic export.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 dest: rel is simm8 [ rel = inst_next + simm8*4; ] {
     export *[ram]:4 rel;
 }
@@ -1766,7 +1766,7 @@ associated with this varnode, [*dest*]{.emphasis}, can now be used in
 branch operations.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :jmp dest is opcode=3 & dest {
     goto dest;
 }
@@ -1789,7 +1789,7 @@ boolean value indicating whether or not the branch should be taken, and
 a destination annotation.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :bcc dest is opcode=5 & dest { if (carryflag==0) goto dest; }
 ```
 :::
@@ -1807,7 +1807,7 @@ The operators [*BRANCHIND*]{.emphasis}, [*CALLIND*]{.emphasis}, and
 same syntax to specify an indirect address.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :b [reg] is opcode=6 & reg {
     goto [reg];
 }
@@ -1863,7 +1863,7 @@ the point where the label was defined. Multiple references to the same
 label are allowed.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :sum r1,r2,r3 is opcode=7 & r1 & r2 & r3 {
      tmp:4 = 0;
      r1 = 0;
@@ -1917,7 +1917,7 @@ over the next instruction based upon some condition. The
 [*inst\_next2*]{.emphasis} symbol has been provided for this purpose.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :skip.eq is opcode=10 {
     if (zeroflag!=0) goto inst_next2;
 }
@@ -1956,7 +1956,7 @@ from evaluating the expression on the right are extracted and spliced
 into the result at the indicated bit offset.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :bitset3 r1 is op=0x7d & r1 { r1[3,1] = 1; }
 ```
 :::
@@ -2048,7 +2048,7 @@ examples of statements that generate a size resolution error, each
 followed by a variation which corrects the error.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :sta [r1],imm is opcode=0x3a & r1 & imm {
     *r1 = imm;                                      #Error
 }
@@ -2098,7 +2098,7 @@ intentionally ignore the error, effectively treating the unimplemented
 portion of the instruction as if it does nothing.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :cache r1 is opcode=0x45 & r1  unimpl
 :nop      is opcode=0x0        { }
 ```
@@ -2156,7 +2156,7 @@ the symbol's semantic meaning comes from the constructor's [*semantic
 section*]{.emphasis}.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode1: (r1) is addrmode=1 & r1 { export r1; }
 ```
 :::
@@ -2170,7 +2170,7 @@ statement, becomes whatever register is matched by the
 [*r1*]{.emphasis}.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 mode1: (r1) is addrmode=1 & r1 { export r1; }
 mode1: [r2] is addrmode=2 & r2 { export r2; }
 ```
@@ -2205,7 +2205,7 @@ does not match but the other more general constructor does, then the
 general constructor is used to define the symbol.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 zA: r1  is addrmode=3 & r1   { export r1; }
 zA: “0” is addrmode=3 & r1=0 { export 0:4; } # Special case
 ```
@@ -2273,7 +2273,7 @@ representing the parsed instruction. We present a small but complete
 SLEIGH specification to illustrate this hierarchy.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define endian=big;
 define space ram type=ram_space size=4 default;
 define space register type=register_space size=4;
@@ -2468,7 +2468,7 @@ identifiers in the macro's parameter list are local in scope. The macro
 can refer to these and any global specific symbol.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 macro resultflags(op) {
   zeroflag = (op == 0);
   signflag = (op1 s< 0);
@@ -2534,7 +2534,7 @@ to treat the condition bit which distinguishes the variants as a special
 operand.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 cc: “c” is condition=1 { if (flag==1) goto inst_next; }
 cc:     is condition=0 { }
 
@@ -2589,7 +2589,7 @@ Typically the value of 1 is used to indicate that there is exactly one
 more instruction in the delay slot.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :beq r1,r2,dest is op=0xbc & r1 & r2 & dest { flag=(r1==r2);
                                               delayslot(1);
                                               if flag goto dest; }

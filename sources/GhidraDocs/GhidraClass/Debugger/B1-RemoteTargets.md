@@ -91,7 +91,7 @@ See the help (press **`F1`** on the **gdb via ssh** menu item for advantages and
    Chances are, GDB embeds the same Python, so they become importable from GDB.
    Test using `gdb` on the target system:
 
-   ```gdb
+   ```
    python import ghidragdb
    ```
 
@@ -147,7 +147,7 @@ ldd $(which gdb)
 
 Or, inside `gdb`:
 
-```gdb
+```
 (gdb) python-interactive
 >>> import sys
 >>> sys.version
@@ -193,7 +193,7 @@ The configuration and result here are similar to using Trace RMI over SSH, but w
 1. Click **Listen**, and then take note of the acceptor's port number in the Connections window, e.g., "12345."
 1. Now, on the remote system, start `gdb` and type:
 
-   ```gdb
+   ```
    python import ghidragdb
    file termmines
    # set args, if you'd like

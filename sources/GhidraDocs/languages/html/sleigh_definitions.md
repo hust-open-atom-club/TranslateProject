@@ -54,7 +54,7 @@ The first definition in any SLEIGH specification must be for endianness.
 Either
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define endian=big;            OR
 define endian=little;
 ```
@@ -88,7 +88,7 @@ registers, otherwise the specification language hides endianness issues.
 An alignment definition looks like
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define alignment=integer;
 ```
 :::
@@ -116,7 +116,7 @@ instruction as an error.
 The definition of an address space looks like
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define space spacename attributes ;
 ```
 :::
@@ -126,7 +126,7 @@ The [*spacename*]{.emphasis} is the name of the new space, and
 lines:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 type=(ram_space|rom_space|register_space)
 size=integer
 default
@@ -187,7 +187,7 @@ The average 32-bit processor requires only the following two space
 definitions.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define space ram type=ram_space size=4 default;
 define space register type=register_space size=4;
 ```
@@ -220,7 +220,7 @@ The general purpose registers of the processors can be named with the
 following define syntax:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define spacename offset=integer size=integer stringlist ;
 ```
 :::
@@ -245,7 +245,7 @@ overlapping varnode definitions.
 Here is a typical example of register definition:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define register offset=0 size=4
     [EAX ECX EDX EBX ESP EBP ESI EDI ];
 define register offset=0 size=2
@@ -290,7 +290,7 @@ greatly increase the complexity of the compiled specification with
 little indication within the specification file itself.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define register offset=0x180 size=4 [ statusreg ];
 define bitrange zf=statusreg[10,1]
                 cf=statusreg[11,1]
@@ -355,7 +355,7 @@ The following example defines a new p-code operation
 [*arctan*]{.emphasis}.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define pcodeop arctan;
 ```
 :::

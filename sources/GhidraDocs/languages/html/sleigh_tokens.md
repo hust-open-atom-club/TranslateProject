@@ -56,7 +56,7 @@ instruction takes up. To define a token and the fields associated with
 it, we use the [**define token**]{.bold} statement.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define token tokenname ( integer )
   fieldname=(integer,integer) attributelist
   ...
@@ -80,7 +80,7 @@ by appending either the qualifier [**endian=little**]{.bold} or
 instance:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
   define token instr ( 32 ) endian=little op0=(0,15) ...
 ```
 :::
@@ -93,7 +93,7 @@ After each field declaration, there can be zero or more of the following
 attribute keywords:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 signed
 hex
 dec
@@ -175,7 +175,7 @@ field is as an encoding of a particular register. In SLEIGH this can be
 done with the [**attach variables**]{.bold} statement:
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 attach variables fieldlist registerlist;
 ```
 :::
@@ -223,7 +223,7 @@ interpretation of the field can be specified with an [**attach
 values**]{.bold} statement.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 attach values fieldlist integerlist;
 ```
 :::
@@ -265,7 +265,7 @@ At any rate we can list the display interpretation of a field directly
 with an [**attach names**]{.bold} statement.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 attach names fieldlist stringlist;
 ```
 :::
@@ -302,7 +302,7 @@ to process instructions. In terms of SLEIGH, a context variable is a
 the instruction encoding (token).
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define context contextreg
   fieldname=(integer,integer) attributelist
   ...

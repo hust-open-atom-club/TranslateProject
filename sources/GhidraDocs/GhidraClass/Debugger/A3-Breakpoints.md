@@ -49,7 +49,7 @@ The breakpoint on `rand` will help us find the algorithm that places the mines.
 
 In the Terminal, type the GDB commands to set breakpoints on `srand` and `rand`:
 
-```gdb
+```
 break srand
 break rand
 ```

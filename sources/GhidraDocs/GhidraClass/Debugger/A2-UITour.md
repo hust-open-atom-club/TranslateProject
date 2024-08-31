@@ -183,7 +183,7 @@ If you are in a system library, e.g., `ld-linux`, then this is the expected beha
 You may optionally import it, as suggested by the Debug Console, but this is covered later.
 You may also try typing into the Terminal, *one command at a time*, checking for errors after each:
 
-```gdb
+```
 break main
 continue
 ```

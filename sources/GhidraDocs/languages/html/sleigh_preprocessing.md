@@ -88,7 +88,7 @@ quotes. The macro can then be expanded with typical "\$(identifier)"
 syntax at any other point in the specification following the definition.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 @define ENDIAN "big"
   ...
 define endian=$(ENDIAN);
@@ -150,7 +150,7 @@ directive is similar except it evaluates to true if the macro identifier
 is [*not*]{.emphasis} defined.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 @ifdef ENDIAN
 define endian=$(ENDIAN);
 @else
@@ -194,7 +194,7 @@ operator only within a preprocessor boolean expression. The
 it evaluates to true if the macro is defined.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 @if defined(X_EXTENSION) || (VERSION == "5")
   ...
 @endif
@@ -230,7 +230,7 @@ directives, but only one [**\@else**]{.bold}, which must occur after all
 the [**\@elif**]{.bold} directives.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 @if PROCESSOR == “mips”
 @ define ENDIAN “big”
 @elif ((PROCESSOR==”x86”)&&(OS!=”win”))

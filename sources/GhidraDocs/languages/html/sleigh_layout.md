@@ -117,7 +117,7 @@ Integers are specified either in a decimal format or in a standard
 prepending the string of \'0\' and \'1\' characters with \"0b\".
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 1006789
 0xF5CC5
 0xf5cc5

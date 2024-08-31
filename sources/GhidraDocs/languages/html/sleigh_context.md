@@ -103,7 +103,7 @@ cleared, then one set of registers is used, and if the bit is set, the
 other registers are used. The instructions otherwise behave identically.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define endian=big;
 define space ram type=ram_space size=4 default;
 define space register type=register_space size=4;
@@ -136,7 +136,7 @@ instead via [*sreg1*]{.emphasis}. The [*addi*]{.emphasis} instruction
 (encoded as 0x0590 for example) can disassemble in one of two ways.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 addi r3,#0x10    OR
 addi s3,#0x10
 ```
@@ -183,7 +183,7 @@ operands. We introduce two more instructions to the example
 specification from the previous section.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :raddi Reg1,#imm is op=2 & Reg1 & imm [ mode=0; ] {
     Reg1 = Reg1 + imm;
 }
@@ -259,7 +259,7 @@ the previous sections, we add two instructions to the specification for
 permanently switching which register set is being used.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 :rmode is op=32 & rreg1=0 & imm=0
        [ mode=0; globalset(inst_next,mode); ]
 {}
@@ -330,7 +330,7 @@ variable so that the branch can be interpreted as a return, rather than
 a generic indirect branch.
 
 ::: {.informalexample}
-``` {.programlisting}
+```
 define context contextreg
   LRset = (1,1) noflow  # 1 if the instruction before was a mov lr,pc
 ;
