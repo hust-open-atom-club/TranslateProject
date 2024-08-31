@@ -20,7 +20,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/db.md
 
 ## 选项
 
-`syz-db` 目前支持以下通用参数：
+`syz-db` 目前提供以下通用参数：
 
 ```shell
   -arch string
@@ -51,7 +51,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/db.md
   syz-db merge dst-corpus.db add-corpus.db* add-prog*
 ```
 
-用于合并数据库。不会创建额外的文件：第一个文件将被合并结果替换。
+用于合并数据库。不会创建额外的文件：第一个文件将被合并后的结果替换。
 
 ```
   syz-db bench corpus.db
