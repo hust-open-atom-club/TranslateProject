@@ -1,36 +1,37 @@
 ---
-status: translated
+status: proofread
 title: "Adding new OS support"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: ElizaXiao
 translated_date: 20240828
+proofreader: mudongliang
+proofread_date: 20240831
 link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support.md
 ---
 
 # 添加新的操作系统支持
 
-为了让 syzkaller 支持一个新的操作系统内核，以下是需要编辑的 syzkaller 的共同部分。然而，对于特定的内核，可能还需要一些特定的更改（例如，从给定的内核收集覆盖率信息，或者一些可能弹出并给出调整提示的错误信息）。
+为了让 syzkaller 支持一个新的操作系统内核，以下是需要编辑的 syzkaller 的共同部分。然而，特定内核可能还需要一些特定的更改（例如，从给定内核收集代码覆盖率，或者一些可能弹出并给出调整提示的错误信息）。
 
 ## syz-executor
 
-对于每个操作系统，都有一个操作系统名为 GOOS 的文件 `executor/executor_GOOS.h`。这个文件包含两个重要函数：
+每个操作系统都有一个 `executor/executor_GOOS.h` 文件，其中 GOOS 为操作系统名字，例如 `executor/executor_linux.h`。该文件包含两个重要函数：
 
 - `os_init` 负责为调用进程映射虚拟地址空间，
 - `execute_syscall` 负责为特定操作系统内核执行系统调用。
 
-这两个函数在 `executor_GOOS.h` 中被调用，它主要负责执行系统调用程序，并管理程序运行的线程。
+这两个函数在 `executor/executor.cc` 中被调用，主要负责执行系统调用程序，并管理程序运行的线程。
 
-`executor_GOOS.h` 还包含与该操作系统相关的函数，例如允许它收集覆盖率信息、检测位宽等的函数（例如：[executor_linux.h](/executor/executor_linux.h)）。
+`executor_GOOS.h` 还包含与该操作系统相关的函数，例如允许它收集覆盖率信息、检测位宽等的函数（例如：[executor_linux.h](https://github.com/google/syzkaller/blob/master/executor/executor_linux.h)）。
 
 目标内核将根据 `executor/executor.cc` 文件中定义的宏调用预期的函数。
 
 ## 构建文件 `pkg/`
 
 - 在 `pkg/build/build.go` 中添加操作系统名称及其支持的架构
-- 在 `pkg/build/` 下创建一个构建目标内核镜像的文件。这个文件包含配置可启动镜像构建的函数、构建它以及生成 SSH 密钥的函数，这些密钥将由 Syzkaller 用于访问虚拟机。每个由 Syzkaller 支持的操作系统都有一个名为 `GOOS.go` 的文件。
-
+- 在 `pkg/build/` 下创建一个构建目标内核镜像的文件。这个文件包含配置和构建可启动镜像构建的函数以及生成 SSH 密钥的函数，这些密钥将由 Syzkaller 用于访问虚拟机。每个由 Syzkaller 支持的操作系统都有一个名为 `GOOS.go` 的文件。
 - 将给定目标添加到 `s/makefile/Makefile/`。
 
 ## 报告文件 `pkg/report/`
@@ -39,7 +40,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support
 
 ## 编辑 `pkg/host/`
 
-- 实现 `isSupported` 函数，该函数对于支持的系统调用返回 true，它位于 `pkg/host/GOOS` 目录下。 
+- 实现 `isSupported` 函数，该函数对于支持的系统调用返回 true，同时它位于 `pkg/host/GOOS` 目录中。
 
 ## 在 `sys/GOOS/` 下创建文件
 
@@ -59,4 +60,4 @@ link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support
 
 ## Syzkaller 描述与伪系统调用
 
-查看 [描述](/docs/syscall_descriptions.md) 与 [伪系统调用](/docs/pseudo_syscalls.md).
+查看 [描述](syscall_descriptions.md) 与 [伪系统调用](pseudo_syscalls.md).
