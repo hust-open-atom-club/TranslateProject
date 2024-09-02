@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "syz-db"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,7 +8,8 @@ translator: mudongliang
 translated_date: 20240831
 proofreader: Athanlaich
 proofread_date: 20240901
-priority: 10
+publisher: mudongliang
+published_date: 20240902
 link: https://github.com/google/syzkaller/blob/master/docs/db.md
 ---
 
