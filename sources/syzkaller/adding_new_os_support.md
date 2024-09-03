@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Adding new OS support"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: ElizaXiao
 translated_date: 20240828
 proofreader: mudongliang
 proofread_date: 20240831
+publisher: mudongliang
+published_date: 20240903
 link: https://github.com/google/syzkaller/blob/master/docs/adding_new_os_support.md
 ---
 
