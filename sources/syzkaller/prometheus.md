@@ -4,6 +4,7 @@ title: "Prometheus metrics"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/prometheus.md
 ---
 
