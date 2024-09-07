@@ -13,11 +13,15 @@ let paginatedPosts = await getCollection("posts", (entry: unknown) => true);
 
 // use all the post data to init the nameRank
 function getRank() {
-  let nameRank = new Map();
+  let nameRank = new Map(); // structure: {"<status>" => Map<name, {count: number, avatar: string}>}
   let rankResult = new Map();
-  // set all nameRank as {"status": Map()}, e.g. {"translator": Map(), "proofreader": Map()}
-  RANK_LIST.forEach(({status}) => {
+  let personRank = new Map(); // structure: {"<name>" => {count: number, avatar: string}}
+  let weightMap: Map<string, number> = new Map(); // structure: {"<status>" => weight}
+  
+    // set all nameRank as {"status": Map()}, e.g. {"translator": Map(), "proofreader": Map()}
+  RANK_LIST.forEach(({status, weight}) => {
     nameRank.set(status, new Map());
+    weightMap.set(status, weight);
   });
   
   // init all the tags rank
@@ -59,7 +63,21 @@ function getRank() {
           oneRank.set(rankPerson, { count: 1, avatar: "https://github.com/" + rankPerson + ".png"});
         }
     }
+    // 计算单人的总分
+    oneRank.forEach((partCount: { count: number; avatar: string; }, personName: string) => {
+      let thisPersonPartCount = partCount.count * (weightMap.get(key) ?? 0);
+      if (personRank.has(personName)) {
+        let thisPerson = personRank.get(personName);
+        thisPerson.count += thisPersonPartCount;
+        personRank.set(personName, thisPerson);
+      } else {
+        personRank.set(personName, { count: thisPersonPartCount, avatar: partCount.avatar});
+      }
+    });
   });
+  // 更新单人的总分
+  nameRank.set("all", personRank);
+  
   // sort all the tags and store the result in "rankResult"
   nameRank.forEach((value, key) => {
     let oneRank = value;
@@ -167,12 +185,12 @@ async function getAllAvatar() {
   </script>
   <div id="content-container">
   <main id="main-content" class="mt-8 grid grid-cols-2 gap-8">
-    {RANK_LIST.map(({ status, text }) => (
+    {RANK_LIST.map(({ status, tabText }) => (
       <section id={status} class="mb-8 max-w-md prose-img:border-0">
         <div class="border rounded-md shadow-md p-4">
-          <h2 class="text-xl font-bold mb-4">{text}</h2>
+          <h2 class="text-xl font-bold mb-4">{tabText}</h2>
           <ol>
-            {
+            {status != "all" ? (
               rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (
                 <li class="flex justify-between items-center py-2">
                   <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name} >
@@ -182,7 +200,43 @@ async function getAllAvatar() {
                   <span>{feature.count}</span>
                 </li>
               ))
-            }
+            ) : (
+              <table class="table-auto w-full">
+                {/* 动态生成表头，过滤掉 status 为 "all" 的项 */}
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2 text-left">ID</th>  {/* ID 左对齐 */}
+                    {
+                      RANK_LIST.filter(({ status }) => status !== "all").map(({ text }, index) => (
+                        <th class="px-4 py-2">{text}</th>
+                      ))
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (
+                      <tr class="text-center">
+                        <td class="px-4 py-2 text-left">  {/* ID 左对齐 */}
+                          <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name}>
+                            <img src={feature.avatar} class="w-8 h-8 rounded-full mr-3 avatar-img" alt={name} onerror="this.src='https://github.com/identicons/github.png'" data-name={name} />
+                            <span>{name}</span>
+                          </a>
+                        </td>
+                        {
+                          RANK_LIST
+                            .filter(({ status }) => status !== "all")
+                            .map(({ status }, index) => (
+                              <td class="px-4 py-2">{rankResult.get(status)?.find(([name_part]: [string]) => name_part === name)?.[1]?.count || 0}</td>
+                            ))
+                        }
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            )
+          }
           </ol>
         </div>
       </section>
