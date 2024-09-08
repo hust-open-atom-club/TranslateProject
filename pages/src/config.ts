@@ -44,11 +44,13 @@ export const RANK_LIST: {
   tabText?: string;
   hideInTab?: boolean;
   color?: string;
+  weight: number;
 }[] = [
-    { status: "translator", text: "翻译王者", tabText: "翻译王者", color: "bg-green-500" },
-    { status: "proofreader", text: "校验大佬", tabText: "校验大佬", color: "bg-purple-500" },
-    { status: "collector", text: "用心选题", tabText: "用心选题", color: "bg-red-500" },
-    { status: "publisher", text: "编辑部业绩", tabText: "编辑部业绩", color: "bg-blue-500" },
+    { status: "all", text: "总榜", tabText: "总榜", color: "bg-yellow-500", weight: 0},
+    { status: "translator", text: "翻译", tabText: "翻译王者", color: "bg-green-500", weight: 1 },
+    { status: "proofreader", text: "校验", tabText: "校验大佬", color: "bg-purple-500" , weight: 1},
+    { status: "collector", text: "选题", tabText: "用心选题", color: "bg-red-500" , weight: 0.5},
+    { status: "publisher", text: "发布", tabText: "编辑部业绩", color: "bg-blue-500" , weight: 0.8},
   ];
 
 export const SOCIALS: SocialObjects = [
