@@ -154,6 +154,28 @@ async function getAllAvatar() {
       flex-grow: 1;
       max-width: 100%;
     }
+
+    .icon-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .description {
+      display: none;
+      position: absolute;
+      top: 25px;
+      left: 0;
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    .icon-container:hover .description,
+    .icon-container.active .description {
+      display: block;
+    }
   </style>
   <script>
     // Get the avatar by Github API 'https://api.github.com/search/users?q='
@@ -185,10 +207,22 @@ async function getAllAvatar() {
   </script>
   <div id="content-container">
   <main id="main-content" class="mt-8 grid grid-cols-2 gap-8">
-    {RANK_LIST.map(({ status, tabText }) => (
+    {RANK_LIST.map(({ status, tabText, description }) => (
       <section id={status} class="mb-8 max-w-md prose-img:border-0">
         <div class="border rounded-md shadow-md p-4">
-          <h2 class="text-xl font-bold mb-4">{tabText}</h2>
+          <h2 class="text-xl font-bold mb-4">{tabText}{
+            description ? (
+              // icon for description (?)
+              // <span class="text-sm text-gray-500"> - {description}</span>
+              // Add icon, show the description when the icon is hovered
+              <div class="icon-container">
+                &nbsp;<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block info-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 100 2 1 1 0 000-2zm0 3a1 1 0 011 1v5a1 1 0 11-2 0V9a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                <div class="description">{description}</div>
+              </div>
+            ) : null
+          }</h2>
           <ol>
             {status != "all" ? (
               rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (

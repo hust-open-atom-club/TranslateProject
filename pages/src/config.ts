@@ -45,8 +45,9 @@ export const RANK_LIST: {
   hideInTab?: boolean;
   color?: string;
   weight: number;
+  description?: string;
 }[] = [
-    { status: "all", text: "总榜", tabText: "总榜", color: "bg-yellow-500", weight: 0},
+    { status: "all", text: "总榜", tabText: "总榜", color: "bg-yellow-500", weight: 0, description: "排序公式：选题数目*0.5 + 翻译数目*1.0+校对数目*1.0+发布数目*0.8" },
     { status: "translator", text: "翻译", tabText: "翻译王者", color: "bg-green-500", weight: 1 },
     { status: "proofreader", text: "校验", tabText: "校验大佬", color: "bg-purple-500" , weight: 1},
     { status: "collector", text: "选题", tabText: "用心选题", color: "bg-red-500" , weight: 0.5},
