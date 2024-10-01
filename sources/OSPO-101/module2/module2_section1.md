@@ -5,7 +5,7 @@ author: TODO Group
 collector: mudongliang
 collected_date: 20240822
 translator: Hao Guo
-translating_date:20210825
+translating_date: 20210825
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
@@ -79,4 +79,4 @@ link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/R
 
 **开放核心**
 
-这种商业模式可以很好地运作，但如果社区认为在开源代码之上提供的闭源扩展理所当然地成为开源核心的一部分，它也会给组织带来不良声誉。这种模式需要一种微妙的平衡，即提供大型企业愿意支付的附加值，同时仍然允许项目的免费社区版本对个人以及中小型企业有用
+这种商业模式可以很好地运作，但如果社区认为在开源代码之上提供的闭源扩展理所当然地成为开源核心的一部分，它也会给组织带来不良声誉。这种模式需要一种微妙的平衡，即提供大型企业愿意支付的附加值，同时仍然允许项目的免费社区版本对个人以及中小型企业有用。
