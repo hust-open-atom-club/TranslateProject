@@ -1,230 +1,209 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
-# Section: Developing an Open Source Strategy
+# 制定开源战略
 
-## Lesson: Introduction
+## 课程：简介
 
-### Section Overview
+在本节中，我们将展示如何创建组织开源战略，讨论这样做的价值和必要性，然后讨论该战略将如何影响开源政策的实施的注意事项。
 
-In this section, we will show how to create an organizational open source strategy, discuss the value and need for doing so, and then discuss considerations for how the strategy will affect the implementation of open source policies.
+## 学习目标：
 
-### Learning Objectives
+在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+- 解释创建组织开源战略的必要性和价值
+- 描述一个组织可能使用的不同类型的策略
+- 阐明分阶段实施计划，以帮助将战略转化为组织政策
 
-- Explain the need and value for creating an organizational open source strategy
+## 开源战略概述
 
-- Describe the different types of strategies an organization might utilize
+### 什么是开源策略？
 
-- Articulate a phased implementation plan to help turn the strategy into organizational policies
+战略是一个非常广泛的术语，我们可以讨论（或争论）几个小时，但当我们谈论开源时，我们的意思是非常具体的：
 
-## Lesson: Overview of an Open Source Strategy
+- 简洁、高级的文档
+- 基于组织的业务目标
+- 将业务目标映射到开源软件使用和管理指令
 
-### What is an Open Source Strategy?
+参与开源相关活动的每个人都必须能够理解该策略。 它成为就未来开源政策和流程达成一致的参考文件。 在持续的基础上，它是制定新决策以及建立计划支持和承诺的重要工具。
 
-Strategy is a very broad term that we could discuss (or argue about) for hours, but we mean something very specific when we talk about Open Source:
+许多组织还使用开源战略作为建立实施开源最佳实践和政策的授权的工具。
 
-- A concise, high level document
+### 要问的主要问题
 
-- Based on the organization’s business objectives
+在创建实用的开源策略时，必须回答三个主要问题。 （前两个问题可以按任一顺序解决。）
 
-- Maps business objectives to open source software use and management directives
+ **- 组织希望在哪里使用开源？** 
 
-The strategy must be understandable to everyone that participates in open source related activities. It becomes the reference document for establishing agreement on future open source policies and processes. On an ongoing basis, it is an important tool for making new decisions, and for establishing program buy-in and commitment.
+这个问题非常重要，因为管理开源的最佳实践对于不同的用例有很大的不同。例如，在内部使用开源工具几乎没有风险，不需要任何许可合规性制度，但在分布式软件中嵌入开源需要更多的考虑和支持元素。
 
-Many organizations also use an Open Source strategy as a vehicle to establish a mandate for implementing open source best practices and policies.
+ **- 使用开源实现了哪些业务目标？** 
 
-### Major Questions to Ask
+我们已经讨论过公司使用开源软件的原因。明确并认可其中哪些是重要的，将极大地促进对下一个细节级别的决策。
 
-In creating a practical open source strategy, three major questions must be answered. (The first two questions can be addressed in either order.)
+ **- 您的组织将如何确保实现开源业务目标？** 
 
-**Where does the organization want to use Open Source?**
+这些决定为开源管理程序创建了任务。理想情况下，它们反映了从开源中获得最大优势同时有效管理伴随风险的行业最佳实践。
 
-This question is critically important because the best practices for managing open source are quite different for various use cases. For instance, using open source tools internally poses little-to-no risk and does not require any license compliance regimen, but embedding open source in software that is distributed requires much more consideration and enabling elements.
+## 开源战略的价值
 
-**What business objectives are met by using Open Source?**
+### 开源阶梯
 
-We’ve already talked about why companies use open source software. Getting clarity and buy-in as to which of these are important will greatly facilitate decision making on the next levels of detail.
+当您将许可、社区动态、人才获取和业务动态等所有因素都考虑在内时，开源可能是一个复杂的话题。 典型组织的开源之旅有几个站点：
 
-**What will your organization do to ensure achieving Open Source business objectives?**
+![Image description](os-ladder.png)
 
-These are the decisions that create a mandate for an open source management program. Ideally they reflect industry best practices for getting the greatest advantage from open source while efficiently managing accompanying risks.
+让我们将其中的每一个都分解开来：
 
-## Lesson: The Value of an Open Source Strategy
+- #### 消费者
 
-### Climbing the Open Source Ladder
+组织最常见的起点是作为其商业产品中的开源软件用户。积极使用开源组件将提高您区分和减少交付商业产品的总体时间和成本的能力。以下是开源消费策略的必要组成部分：
 
-Open Source can be a complex topic, when you factor in everything from licensing to community dynamics, talent acquisition and business dynamics. There are several stops on a typical organization’s journey in open source:
+- 一种战略分类方案，用于指导决定使用哪些开源软件
 
-![Climbing the Open Source Ladder](os-ladder.png)
+- 确保公司履行其使用开源软件的所有义务
 
-Let’s take each of these and break them down:
+- 部署自动化工作流软件以评估/批准开源使用
 
-**Consumer**
+- 建立一个开源审查委员会 (OSRB) 作为所有开源活动的交换所
 
-The most common starting point for organizations is as an open source software user in their commercial products. Aggressively consuming open source components will increase your ability to differentiate and reduce overall time and cost to deliver commercial products. Here are the necessary components of the open source consumption strategy:
+- 增加对工程、产品管理和法律方面的员工人数和基础设施的投资，以管理封闭源代码/开源软件的组合
 
-- A strategic classification scheme to guide decisions on what open source software to consume
+- #### 参与者
 
-- Ensure the company meets all obligations of its use of open source software
+一旦您的公司在产品或服务中成功使用开源软件，您就可以扩展您的策略以参与开源社区。除非您已经从社区聘请了经验丰富的开发人员，否则您首先需要更密切地与社区互动，以提高您的知名度并开始吸引您需要的人才。以下是开源参与策略的必要组成部分：
 
-- Deploy automated workflow software for evaluating/approving open source usage
+- 监控社区交流平台，如聊天服务器、邮件列表、论坛和网站，以随时了解项目进展
 
-- Establish an Open Source Review Board (OSRB) to serve as a clearinghouse for all Open Source activities
+- 参加相关会议和聚会，与社区建立关系
 
-- Create incremental investment in headcount and infrastructure in engineering, product management, and legal to manage a mix of closed source / open source software
+- 赞助项目活动和基金会以提高社区内的知名度
 
-**Participant**
+- 教育开发人员如何参与开源项目并为之做出贡献
 
-Once your company is successfully using open source software in products or services, you can expand your strategy to participate in the open source community. Unless you have already hired experienced developers from the community, you will first need to engage more closely with the community to increase your visibility and to begin attracting the talent you need. Here are the necessary components of the open source participation strategy:
+- #### 贡献者
 
-- Monitor community communication platforms like chat servers, mailing lists, forums, and websites to stay informed about project developments
+随着贵公司参与度的增加以及您开始为开源项目贡献代码，您需要有选择地参与目标项目和社区以推动您的
 
-- Attend relevant conferences and meetups to establish a relationship with the community
+公司的需要。为战略性开源项目做出贡献可以帮助您的组织获得额外的价值，因为代码贡献可以帮助塑造项目中满足公司需求的未来功能。
 
-- Sponsor project events and foundations to improve visibility within the community
+以下是开源贡献策略的必要组成部分：
 
-- Educate developers on how to participate in and contribute to open source projects
+- 聘请一名员工主管来领导开源战略并管理 OSRB
 
-**Contributor**
+- 雇用对您的产品至关重要的关键开源社区的贡献者和提交者
 
-As your company’s participation increases and you begin contributing code to an open source project, you need to selectively engage with targeted projects and communities to drive your company’s needs. Contributing to strategic open source projects can help your organization gain additional value as code contributions can help shape future features in the project that meet a company’s needs.
+- 部署开源协作工具以支持开源使用和贡献
 
-Here are the necessary components of the open source contribution strategy:
+- 添加开源开发者资源
 
-- Hire a staff director to lead open source strategy and manage the OSRB
+- 增加在工程、产品管理和法律方面的投资，以与现有的外部社区互动
 
-- Hire contributors and committers to key open source communities that are critical to your products
+- #### 领导者
 
-- Deploy open source collaboration tools to support open source usage and contributions
+如果一项开源技术对您的业务或产品变得至关重要，您可能希望在该项目的战略和技术方向上拥有发言权。然而，与传统软件不同的是，您不一定能通过金钱“购买”进入或影响领导层。在开源项目中，那些从事工作的人可以帮助确定方向。
 
-- Add open source developer resources
+开源战略阶梯的最后一步是领导力。此方案建立在所有先前方案的基础上，以利用新兴的技术趋势来建立领导地位。
 
-- Incrementally invest in engineering, product management, and legal to engage with existing external communities
+通过与项目成员建立信任并保持对项目的高水平持续贡献，可以获得现有开源社区的领导角色。
 
-**Leader**
+这种情况需要对目标开源社区和联盟进行大量投资
 
-If a piece of open source technology becomes critical to your business or product, you’ll likely want a say in the strategic and technical direction of that project. Unlike traditional software however, you cannot necessarily ‘buy’ your way into or influence the leadership simply with money. In open source projects, those who do the work are the ones who get to help set the direction.
+制定领导议程。以下是开源领导力战略的必要组成部分：
 
-The final step in the open source strategy ladder is leadership. This scenario builds on all of the prior scenarios to capitalize on emerging trends in technology to establish a leadership position.
+- 增加与目标开源社区的互动
+- 有选择地采用开放标准来推动公司的需求
+- 参与开源基金会
+- 建立开源项目、组织或基金会
+- 主要在工程、产品管理和法律方面进行重大投资，以在外部社区和行业联盟中建立领导地位
 
-Leadership roles in existing open source communities are earned by establishing trust with the project members and by maintaining a high level of continuous contribution to the project.
+### 考虑您当前和未来的需求
 
-This scenario requires significant investment in targeted open source communities and consortia to establish a leadership agenda. Here are the necessary components of the open source leadership strategy:
+如您所见，开源战略的自然演变建立在一系列需要随着时间增加投资的步骤之上。重要的是要注意，对于您使用的每个开源项目或代码库，您的组织应该扮演什么角色的决定是不同的。
 
-- Increase engagement with targeted open source communities
+在某些情况下，作为一个小型、可靠维护的开源项目的简单消费者可能是可以接受的，但在其他情况下，如果开源项目成为您的产品或技术的核心元素，您可能需要考虑成为一个积极的参与者和/或贡献者。
 
-- Selectively engage with open standards to drive the company’s needs
+如果开源项目是您的业务和产品的基础，那么努力成为这项工作的领导者是个好主意，特别是如果它是您的组织帮助启动的开源项目。
 
-- Engage with open source foundations
+另一个需要考虑的重要因素是，您的组织在项目中的参与程度会随着时间而改变。制定战略不是“一劳永逸”的事情。准备好定期（6 个月 - 1 年是典型的时间范围）定期审查您的开源策略，以确定您是否需要根据业务或经济状况调整您的参与度。
 
-- Establish an open source project, organization, or foundation
+![Image description](involvement-over-time.png)
 
-- Significant investment primarily in engineering, product management, and legal to establish leadership in external communities and industry consortia
+## 课程：实施注意事项
 
-### Consider Your Current and Future Needs
+### 分阶段实施
 
-As you can see, the natural evolution of an open source strategy is built on a series of steps that require an increased investment over time. It’s important to note that the decision for what role your organization should take is different for every open source project or codebase that you use.
+开源有一个经常被引用的短语“早发布，经常发布”。在编码的上下文中，这意味着许多小的更改随着时间的推移相互构建，允许对所有更改进行完整和轻松的代码审查，以及更多健壮的代码，因为提供的更改更容易测试和调试。
 
-In some cases, it may be acceptable to be a simple consumer of a small, solidly maintained open source project, but in other cases, if the open source project becomes a core element of your product or technology, you may need to consider being an active participant and/or contributor.
+在开发开源策略时可以而且应该使用相同的模型。通过与您的中短期目标相关联的基本战略开始，您可以开始参与开源项目和社区，然后作为您的组织调整您的战略（以及您需要制定的后续政策）对开源方式变得更加自在和自信。
 
-If the open source project is fundamental to your business and products, it’s a good idea to strive to be a leader for that effort, especially if it’s an open source project your organization helped to start.
+一般来说，分阶段方法通常遵循前面显示的阶梯图：
 
-Another important element to consider is that the level of involvement your organization may have in a project will change over time. Building a strategy is not a ‘one and done’ event. Be prepared to periodically review your open source strategy at regular intervals (6 months - 1 year is the typical time frame) to determine if you need to adjust your participation based on business or economic factors.
+- 制定以有效和高效的方式使用开源的策略（和政策）
+- 通过互动/提问、报告错误等开始参与开源项目和社区。
+- 一开始做一些小贡献（即使它们不是代码 - 文档是一个很好的入门方式）
+- 随着你对开源项目越来越熟悉和依赖，增加你的贡献
+- 如果您需要“一席之地”（或者您帮助启动了一个项目），请对开源项目做出持续和有价值的贡献和投资
 
-![Involvement increases over time](involvement-over-time.png)
+### 战略的实施注意事项
 
-## Lesson: Implementation Considerations
+虽然我们将在下一节中介绍开源组织策略的创建，但这是一个很好的机会，可以考虑您的策略对您将要实施的策略的影响。
 
-### Phased Implementation
+您需要考虑的最大因素是时间和金钱。在实施您的策略时，您需要使用多少时间？您准备为实施您选择的战略投入多少资源（资金和人员）？
 
-Open Source has an often quoted phrase ‘release early, release often.’ In the context of coding, this translates to many small changes that build upon each other over time, allowing for complete and easy code review of all changes, as well as more robust code because the changes provided are easier to test and debug.
+#### 时间
 
-The same model can and should be used when developing your open source strategy. By starting with a basic strategy that is tied to your short-to-medium term goals, you can begin to engage with open source projects and communities and then adjust your strategy (and the ensuing policies you’ll need to develop) as your organization becomes more comfortable and confident with the ways of open source.
+与技术中的几乎任何其他事物一样，有效地使用开源需要投入时间——这既涉及人力资源（员工），也涉及有效理解和规划您将使用的开源项目的发布周期.并非每个项目都具有相同的发布节奏，当您制定政策以确定您使用哪些版本的代码以及何时使用时，您需要意识到这一点。
 
-In general, the phased approach usually follows the ladder graphic shown previously:
+虽然我们将在其他模块中介绍安全性和与新的开源版本保持同步，但请注意，您必须考虑在哪些时间范围内就开源项目的消费和员工参与做出决定.
 
-- Build a strategy (and policies) for consuming open source in an effective and efficient way
+#### 钱
 
-- Begin to participate in open source projects and communities by interacting/asking questions, reporting bugs, etc.
+在开源介绍课程中，我们简要介绍了开源可能“免于”许可成本，但这绝不意味着它没有其他相关成本。
 
-- Make small contributions at first (even if they are not code - documentation is a great way to get started)
+有效地参与开源，无论是简单地有效地和战略性地使用它，还是推动特定标准都需要花钱，主要是在人员配备方面。您不需要从庞大的员工开始（稍后会详细介绍），但您应该考虑在开始时在软件工程师和支持人员（法律、业务、项目管理）方面的需求制定政策以帮助管理组织的开源工作。
 
-- As you become more familiar and dependent upon an open source project, increase your contributions
+考虑时间和金钱因素（并随着时间的推移慢慢调整明智的计划）是确保从您的开源战略中获得的政策长期成功的最佳方法。
 
-- If you need a ‘seat at the table’ (or you helped start a project), make sustained and valuable contributions and investments in the open source project
+### 战略目标示例
 
-### Implementation Considerations of Your Strategy
+以下是您在制定战略的过程中可以定义的一些目标示例——这绝不是一个详尽的列表——您的组织可能拥有所有这些，或者可能没有包含在此列表中的其他目标：
 
-While we will cover the creation of open source organizational policies in the next section, this is a good opportunity to consider the ramifications of your strategy on policies you’ll be putting in place to implement your strategy.
+- 通过与技术领导者合作增加创新
+- 使用已经开发和测试过的代码加速部署
+- 通过使用免费的、已经调试过的代码来降低开发成本
+- 通过使用商业工具和组件的免费替代品来降低部署成本
+- 利用社区维护降低代码维护成本
+- 提供与其他开源软件的互操作性
+- 促进合作伙伴或客户创建新功能
 
-The biggest considerations you’ll need to think about are time and money. How much time do you have to use when implementing your strategy? And how much resources (money and staff) are you prepared to put towards implementation of your chosen strategy?
+### 采取行动的例子
 
-**Time**
+虽然我们将在下一节中更详细地介绍如何定义开源策略，但这里有一些示例操作，您可以在构建策略时为支持您定义的目标而采取以下措施：
 
-Like almost anything else in technology, working effectively with open source takes an investment of time - this is both in terms of human resources (staff) as well as effectively understanding and planning for the release cycles of the open source projects you’ll be using. Not every project has the same release cadence, and you’ll need to be cognizant of that as you put policies in place to determine which versions of code you consume, and when.
+- 评估政策和采购流程
+  - 在开源、可用的商业和内部开发选项中进行很好的选择
+  - 确保许可条款与您的使用和 IP 策略兼容
+  - 考虑支持和生命周期成本
+  - 代码跟踪策略和流程，可准确了解在何处使用什么软件
+- 确保您遵循既定政策的审核流程
+- 确保始终满足所有 OSS 许可要求的合规流程
+- 行动是开源策略中“橡胶上路”的地方。针对特定目标创建了开源管理计划的授权并塑造了它。
 
-While we’ll cover security and keeping up-to-date with new open source releases in other modules, be aware that you’ll have to consider what time frames you’ll make decisions in regarding both consumption and staff participation in open source projects.
+上述操作是完整开源管理程序的最基本要素；然而，一些组织可能不需要所有这些元素。例如，从不在其产品中分发开源的组织通常不需要实施许可合规流程。一些组织增加了其他行动，例如：软件支持和维护、确保软件安全的步骤、围绕开源贡献或领导力的目标，或执行人员参与的特定任务。
 
-**Money**
+一些组织会在其战略声明中对行动进行优先级排序，以表明执行的紧迫性或顺序。一些组织发现将所有者分配给各个操作很有用。
 
-In the Open Source Introduction module, we briefly covered that open source may be ‘free’ from a licensing cost, but by no means does that mean that it doesn’t have other costs associated with it.
+随着您的开源管理程序的开发进入下一阶段，这些行动声明将被纳入实施该战略的政策和流程中。
 
-Effectively participating in open source, whether simply consuming it effectively and strategically, or driving a particular standard costs money, primarily in the staffing area. You don’t need to start with a giant staff (more on that later), but you should be considering the needs you’ll have both in terms of software engineers and support staff (legal, business, project management) as you begin to put policies into place to help govern your organization’s open source efforts.
+建立新市场或事实上的标准
 
-Considering time and money elements (and starting slowly with sensible plans to adjust over time) is the best method of making sure that the policies derived from your open source strategy succeed in the long run.
-
-### Strategic Objective Examples
-
-Here are some examples of objectives you may define as you go through the process of building your strategy - this is by no means an exhaustive list - your organization may have all of these, or potentially others not included in this list:
-
-- Increase innovation through collaboration with technology leaders
-
-- Speed deployment by using already developed and tested code
-
-- Lower development costs by using free, already debugged code
-
-- Lower deployment cost by using free alternatives to commercial tools and components
-
-- Lower code maintenance costs by taking advantage of community maintenance
-
-- Offer interoperability with other open source software
-
-- Facilitate the creation of new capabilities by partners or customers
-
-- Establish new markets or de facto standards
-
-- Recruit and retain top technical talent
-
-### Examples of Actions To Take
-
-While we will go into more detail about how to define open source policies in the next section, here are some sample actions you could take in support of the objectives you define while building your strategy:
-
-- An evaluation policy and acquisition process that
-
-  - Chooses well among open source, available commercial and internal development options
-
-  - Insures licensing terms compatible with your use and IP strategy
-
-  - Considers support and lifecycle costs
-
-- A code tracking policy and process that provides accurate knowledge of what software is used where
-
-- An audit process that insures that you follow set policies
-
-- A compliance process that insures that all OSS license requirements are consistently met
-
-Action is where "the rubber hits the road" in an open source strategy. Targeting specific objectives creates the mandate for and shapes the open source management program.
-
-The actions above are the most basic elements of a full open source management program; however, some organizations may not need all of these elements. For instance, an organization that never distributes open source in its products does not usually need to implement a license compliance process. Some organizations add other actions such as: software support and maintenance, steps to insure software security, objectives around open source contributions or leadership, or a specific mandate for executive involvement.
-
-Some organizations will prioritize the actions in their strategy statement to indicate urgency or order of execution. Some organizations find it useful to assign owners to the individual actions.
-
-As the development of your open source management program moves to the next phases, these action statements are driven into the policy and processes that implement this strategy.
+招聘和留住顶尖技术人才

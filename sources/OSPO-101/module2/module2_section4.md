@@ -1,94 +1,82 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
-# Section: Introducing the Open Source Program Office
+# 开源项目办公室介绍
 
-## Lesson: Introduction
+## 课程：简介
 
-### Section Overview
+在本节中，我们将讨论开源项目办公室 (OSPO) 在帮助定义战略、实施相关政策和指导组织参与开源方面的作用。 在本系列的后续课程中，将更详细地介绍如何设置和运行 OSPO。
 
-In this section, we will discuss the role that the Open Source Program Office (OSPO) plays in helping define strategy, implementing associated policies, and guiding an organization's involvement in open source. There will be a more detailed coverage of how to set up and run an OSPO in a later module in this series.
+## 学习目标
 
-### Learning Objectives
+在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+- 定义开源项目办公室的特征
+- 解释开源项目办公室在指导组织开源工作中的作用
+- 阐明开源项目办公室可以帮助定义开源成功指标的一些方法
 
-- Define the characteristics of an Open Source Program office
+## 开源项目办公室 (OSPO) 概述
 
-- Explain the role of an Open Source Program Office in guiding an organization's open source efforts
+### 什么是 OSPO，为什么我的组织需要它？
 
-- Articulate some ways an Open Source Program Office can help define metrics for open source success
+中央开源项目办公室是一个指定的地方，在公司内部支持、培育、共享、解释和发展开源。有了这样的办公室，企业可以明确地制定和执行他们的开源战略，为他们的领导者、开发人员、营销人员和其他员工提供他们需要的工具，使开源在他们的运营中取得成功。
 
-## Lesson: Overview of Open Source Program Office (OSPO)
+传统软件开发和开源开发之间最大的区别之一是开源中使用的高度协作性。对于许多企业来说，在接近开源使用时所需的理念改变并不容易或自然而然地发生。
 
-### What is an OSPO and Why Does My Organization Need One?
+这就是开源程序的创建可以成为主要福音的地方。通过创建开源项目办公室，企业可以启用、简化和组织开源的使用，使其直接与公司的长期业务计划联系起来。开源项目办公室旨在成为公司开源运营和结构的中心，帮助将所有需要的组件整合在一起。
 
-A central open source program office is a designated place where open source is supported, nurtured, shared, explained, and grown inside a company. With such an office in place, businesses can establish and execute on their open source strategies in clear terms, giving their leaders, developers, marketers, and other staff the tools they need to make open source a success within their operations.
+这可以包括设置代码使用、分发、选择、审计和其他政策，以及培训开发人员、确保法律合规性以及促进和建立社区参与。该办公室还可以提供有关公司内外所有开源事物的宣传和交流。
 
-One of the biggest differences between traditional software development and open source development is the highly collaborative nature used in open source. For many businesses, the needed change in philosophy when approaching open source use doesn’t come easily or naturally.
+### OSPO 的角色
 
-That’s where the creation of an open source program can be a major boon. By creating an open source program office, businesses can enable, streamline and organize the use of open source in ways that tie it directly to a company’s long-term business plans. An open source program office is designed to be the center of the universe for a company’s open source operations and structure, helping to bring all the needed components together.
+归根结底，一个组织良好的开源项目办公室很有价值，因为它可以促进公司内部的开源使用、贡献和创建，以获得战略优势。
 
-This can include setting code use, distribution, selection, auditing and other policies, as well as training developers, ensuring legal compliance and promoting and building community engagement. The office can also provide advocacy and communications about all things open source inside and outside the company.
+一个成功的办公室可以通过建立支持开发人员及其团队的流程来极大地受益于企业开源的使用。它鼓励标准编码和组织实践、流程和工具集。同时，项目办公室可以帮助避免或消除不必要的、僵化的流程，创意开发人员可能会规避或忽略这些流程，从而威胁项目的安全性和其他方面。
 
-### The Role of an OSPO
+项目办公室的职责各不相同。这些包括：
 
-Ultimately, a well-organized open source program office is valuable because it can advance open source use, contribution, and creation inside companies for strategic advantage.
+- 清楚地传达公司内外的开源战略
+- 拥有并监督战略的执行
+- 促进开源在商业产品和服务中的有效使用
+- 确保向开源社区高质量和频繁地发布代码
+- 与开发者社区互动并看到公司有效地回馈其他项目
+- 在组织内培养开源文化
+- 维护开源许可证合规性审查和监督
 
-A successful office can greatly benefit corporate open source use by establishing processes that enable developers and their teams. It encourages standard coding and organizational practices, processes, and toolsets. At the same time, a program office can help avoid or remove unneeded, rigid processes which creative developers may circumvent or ignore anyway, threatening security and other aspects of projects.
+对于每家公司，开源项目办公室的角色很可能会根据其业务、产品和目标进行自定义配置。没有广泛的模板可以构建适用于所有行业的开源程序，甚至适用于单个行业的所有公司。这可能会使其创建成为一项挑战，但您可以从其他公司中吸取教训，并将它们组合在一起以满足您自己组织的要求。
 
-The responsibilities of a program office are varied. These include:
+开源项目办公室的另一个关键作用是，当业务部门开始在其计划中考虑开源时，将实质和事实带入对话中，以便充分了解考虑开源的原因、后果和后果。是实现其目标所必需的。这通常是建立对话框架的问题，以便利益相关者在权衡决定时知道从哪里开始以及考虑什么。
 
-- Clearly communicating the open source strategy within and outside the company
+### OSPO 在定义成功指标中的作用
 
-- Owning and overseeing the execution of the strategy
+开源项目经理必须证明其工作的投资回报 (ROI)。让我们来看看 OSPO 如何帮助定义组织评估其开源计划、项目和贡献的一些标准方式。
 
-- Facilitating the effective use of open source in commercial products and services
+学习衡量什么、如何定义成功以及如何最好地利用这些信息来推进您的开源计划目标、证明有效性并获得支持是任何 OSPO 的关键职能。
 
-- Ensuring high-quality and frequent releases of code to open source communities
+您设定的目标和跟踪的指标将根据您投资开源的原因而有所不同——无论是招募开发人员、通过开放式创新引入新想法和技术、加快上市时间、降低开发成本、或无数其他原因。
 
-- Engaging with developer communities and seeing that the company contributes back to other projects effectively
+根据您的独特战略设定目标非常重要——并寻求执行团队的支持，以确保开源战略与整体业务战略保持一致。 OSPO 可以提供一个中立的位置来帮助您的组织战略性地考虑这些项目。
 
-- Fostering an open source culture within an organization
+有经验的 OSPO 员工在构建指标时通常会考虑以下因素：
 
-- Maintaining open source license compliance reviews and oversight
+- 他们的开发人员在外部开源项目中的参与度和影响程度
+- 他们的组织在开源社区中的声誉
+- 他们招募和留住有才华的开发人员的能力
+- 组织自己的开源项目及其开发人员参与的关键业务项目的总体健康状况
+- 他们如何管理开源许可证合规性
 
-For every company, the role of the open source program office will likely be custom-configured based on its business, products, and goals. There is no broad template for building an open source program that applies across all industries — or even across all companies in a single industry. That can make its creation a challenge, but you can learn lessons from other companies and bring them together to fit your own organization’s requirements.
+### 关于 OSPO 创建的最终想法
 
-Another key role for the open source program office is to bring substance and facts to the conversation when business units begin to consider open source in their plans so there is a full understanding of why it is being considered, what the consequences will be, and what is needed to reach its goals. It’s often a matter of framing the conversation so that stakeholders know where to start and what to think about as they weigh their decision.
+构建和运行有效的 OSPO 还有许多其他方面。事实上，我们将在本系列的后续课程模块中有专门的部分和课程。目前，要考虑的最重要的事情是，随着您在开源参与的领导/参与阶梯上继续前进，您最终将需要某种形式的 OSPO。
 
-### The OSPO’s Role in Defining Success Metrics
+与战略和政策定义一样，重要的是要记住前面引用的“尽早发布，经常发布”的格言。您无需立即为拥有数百人的 OSPO 配备人员即可发挥作用。从具有足够经验来帮助指导您的组织的开源领导者开始，以及可以帮助他们的少量员工，对于大多数组织来说通常是一个足够好的开始。
 
-Open source program managers must demonstrate the return on investment (ROI) of their efforts. Let’s take a look at how an OSPO helps define some of the standard ways that organizations evaluate their open source programs, projects, and contributions.
-
-Learning what to measure, how to define success, and how to best use this information to advance your open source program objectives, demonstrate effectiveness, and gain support is a critical function of any OSPO.
-
-The goals you set, and metrics you track, will vary according to the reasons you’re investing in open source – whether it’s to recruit developers, bring in new ideas and technologies through open innovation, achieve faster time to market, lower development costs, or myriad other reasons.
-
-It’s important to set goals according to your unique strategy – and seek buy-in from the executive team to ensure that the open source strategy aligns with the overall business strategy. An OSPO can provide that neutral place to help your organization think about these items strategically.
-
-Experienced OSPO staff generally consider the following when building metrics:
-
-- Their developers’ participation and level of influence in external open source projects
-
-- Their organization’s reputation in open source communities
-
-- Their ability to recruit and retain talented developers
-
-- The general health of the organization’s own open source projects and the business-critical projects its developers contribute to
-
-- How well they manage open source license compliance
-
-### Final Thoughts on OSPO Creation
-
-There are many other aspects to building and running an effective OSPO. So many, in fact, that we will have a dedicated section and lessons on this in later course modules in this series. For now, the most important thing to consider is that as you continue your journey up the leadership/participation ladder of open source engagement, you’ll eventually need some form of an OSPO.
-
-As with strategy and policy definition, it’s important to remember the ‘release early, release often’ adage quoted earlier. You don’t need to staff an OSPO with hundreds of people right away to be effective. Starting with an open source leader with enough experience to help guide your organization, and a small staff that can assist them, is usually a good enough start for most organizations.
-
-What you will find naturally is that well-functioning OSPO’s engage many different stakeholders (engineering, product management, and even executives) in ways that multiply their effectiveness despite their small size. We’ll talk more about finding and building open source leadership for an OSPO in future modules.
+您会自然而然地发现，运作良好的 OSPO 与许多不同的利益相关者（工程、产品管理，甚至高管）互动，尽管规模很小，但它们的效率却成倍增加。我们将在未来的模块中更多地讨论为 OSPO 寻找和建立开源领导力。

@@ -1,177 +1,152 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
-# Section: Developing Open Source Policies
+# 制定开源政策
 
-## Lesson: Introduction
+## 课程：简介
 
-### Section Overview
+在本节中，我们将讨论如何制定开源策略，为执行您选择的开源策略设置框架。 将特别强调影响这些政策的成功和组织采用的关键因素。
 
-In this section, we will discuss how to develop open source policies that set the framework for executing your chosen open source strategy. Special emphasis will be given to key factors that affect the success and organizational adoption of these policies.
+## 学习目标
 
-### Learning Objectives
+在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+- 描述实施开源政策的过程，以推动您选择的策略的执行
+- 了解在定义政策时需要考虑哪些关键因素
+- 解释如何最好地设计鼓励组织广泛采用的策略
+- 阐明行业最佳实践在开源政策制定中的作用
 
-- Describe the process for implementing open source policies that drive the execution of your chosen strategy
+## 课程：开源政策领域概述
 
-- Understand what key considerations you need to consider when defining your policies
+### 开源政策应该关注什么？
 
-- Explain how you can best design policies that encourage widespread adoption in your organization
+开始他们的开源之旅的组织有时会陷入从“FUD”（恐惧、不确定性和怀疑）的角度定义政策的细节中。虽然在未来的模块中将更详细地介绍开源合规性等领域，但我们想从更有效利用的角度对所有组织在制定开源政策时应考虑的领域进行总体概述，不仅仅是规避风险。
 
-- Articulate the role of industry best practices to open source policy development
+我们还将尝试解决您如何考虑应该首先关注哪些政策，以及如何在整个组织中社会化这些政策以获得最大效果。
 
-## Lesson: Overview of Open Source Policy Areas
+为此，我们将首先介绍任何组织开源政策中应包含的要素——请注意，这不一定是一个详尽的列表，根据您的具体业务情况，可能还有其他项目：
 
-### What Should My Open Source Policy Focus On?
+- 发现
+- 审查和批准
+- 商业采购
+- 代码管理与维护
+- 社区互动
+- 合规
+- 高管参与
 
-Organizations starting on their journey of open source sometimes get bogged down in the minutia of defining policies from the perspective of ‘FUD’ (Fear, Uncertainty, and Doubt). While there will be more detailed coverage of areas like open source compliance in future modules, we’d like to give a general overview of the areas that should be considered by all organizations in crafting their open source policies from the perspective of more effective utilization, not just avoidance of risk.
+### 发现
 
-We’ll also try to address how you can consider both which policies you should focus on first, as well as how to socialize these policies across your organization for maximum effect.
+开源发现和评估涵盖了您的团队如何以及在何处找到感兴趣的开源软件，以及该软件被审查以包含在您组织的软件组合中的标准。发现不应该是一次成功或失败的努力。从正确的方向和标准（相对于临时）开始可以简化这个有时困难的过程并避免未来出现问题。
 
-To do this, we’ll first present the elements that should be in any organizations open source policies - note that this isn’t necessarily an exhaustive list, and there could be additional items depending on your specific business situation:
+发现有用的开源很少从从头开始开始。大多数组织至少已经使用了一些开源软件，这些代码可以构成内部（批准的）存储库的基础。在查看现有产品组合之外，工程师很容易发挥创造力，但为了降低风险和提高效率，最佳实践要求通过商业供应商分发（Red Hat、Google 等组织）建立一组可信来源，或通过云原生计算基金会等软件基金会。
 
-- **Discovery**
+此外，还有一系列社区、政府和商业工具可用于查找和选择合适的开源项目代码和版本。例如，OpenHub 提供了数千个流行项目的出色元数据，而 Github 本身提供了有关项目发布的仪表板信息。可以从 NIST 漏洞数据库和开源漏洞数据库项目中收集关键安全信息。
 
-- **Review & Approval**
+让组织的所有级别都参与制定这些发现策略很重要——简单地告诉工程师，他们不能使用开源，除非来自特定的内部存储库，而没有进一步解释，并且没有让他们参与决策过程，很可能会导致“创造性”尝试规避此政策，这使以后更难以遵守。
 
-- **Commercial Procurement**
+### 审查和批准
 
-- **Code Management & Maintenance**
+无论你的发现过程多么小心或勤奋，开源代码面临的真正考验必须来自你的审查和批准过程。 批准和审查是您抵御开源可能带来的安全、法律和运营风险的第一道防线。
 
-- **Community Interaction**
+与发现一样，利用以前审查过的代码可以加快这个过程，所以如果你的开源团队还没有这样做，最佳实践要求创建批准的组件和版本列表、审查和批准的许可证类型以及以前使用的评估原理 和结果。
 
-- **Compliance**
+建立明确的标准（并让从工程师到项目经理的所有利益相关者参与）可以避免发现过程中出现问题并加快审查速度。 此外，重要的是要考虑在此政策中为低风险批准建立捷径，以加快此过程、降低成本并为工程团队遵守这些政策提供更多动力。
 
-- **Executive Engagement**
+### 商业采购
 
-### Discovery
+当您第一次想到发现和集成开源代码时，很自然地首先想到的是通过 Internet 自由获取的代码。但是大量的开源代码通过商业采购进入组织。开源通常伴随着商业应用程序和/或是商业应用程序的一个组成部分，并且也经常通过合同开发进入可交付成果。
 
-Open Source Discovery and Evaluation covers how and where your team finds open source software of interest and by what criteria that software is vetted for inclusion in your organization’s software portfolio. Discovery should not be a hit or miss endeavor. Starting with the right direction and criteria (vs. ad hoc) streamlines this sometimes difficult process and avoids problems down the road.
+商业来源的开源所伴随的风险和合规义务与直接获得的开源所伴随的风险和合规义务没有什么不同。最大的不同在于，您的组织不是直接接触和下载开源代码，而是通过长期存在的传统采购流程隐式，甚至是静默地接收该代码。
 
-Discovering useful open source seldom starts from a blank slate. Most organizations already use at least some open source software and this code can form the basis of an internal (approved) repository. When looking outside the existing portfolio, there is a temptation for engineers to get creative, but to reduce risk and increase efficiency, best practices dictate establishing a set of trusted sources, either through commercial supplier distributions (organizations like Red Hat, Google or others), or through software foundations like Cloud Native Computing Foundation.
+对于商业采购的开源，行业最佳实践要求与您组织的供应链和采购人员合作，以制定和执行以下政策：
 
-Moreover, a range of community, government and commercial tools exist for finding and choosing appropriate open source project code and versions. For example, OpenHub provides excellent metadata on thousands of popular projects, and Github itself offers dashboard info on project releases. Key security info can be gleaned from the NIST vulnerability database and the open source vulnerability database project.
+- 报告第三方代码中存在开源元素
+- 知识产权验证，并在适当的情况下，赔偿
+- 代码扫描和审查供应商治理计划以补充报告（如果有）
+- 与下游组件跟踪、发布审计和其他合规活动的文档和集成
 
-It’s important to engage all levels of the organization in developing these discovery policies - simply telling engineers that they cannot use open source except from specific internal repositories without further explanation, and without involving them in the decision process, will likely lead to ‘creative’ attempts to circumvent this policy, which makes compliance harder later on.
+### 代码管理与维护
 
-### Review & Approval
+“代码所有权”的概念源于过去15年里许多使用开源软件的公司的实践。在最高的层次上，这种做法为开放源代码在您的组织中提供了一个“面孔”，一个与代码以及开发和维护代码的社区关系密切的“可以接触”的人。代码所有权角色通常还包括协调对该代码的支持，直接或通过第三方。
 
-No matter how careful or diligent your discovery process, the real test faced by open source code must come from your review and approval processes. Review and approval are your first lines of defense against security, legal and operational risk that can accompany open source.
+对“所有权”的需求源于开源的“自服务”特性。管理策略应该规定这些组件需要什么样的管理类型，以及代码所有者的角色和职责。
 
-As with discovery, leveraging previously-vetted code can speed up this process, so if your open source team has not already done so, best practices dictate creating lists of approved components and versions, reviewed and approved license types, and previously-employed evaluation rationale and results.
+与代码管理和维护相关的其他任务是
 
-Building clear criteria (and involving all stakeholders from engineers to program managers) avoids issues during discovery and speeds review. Additionally, it’s important to consider building shortcuts in this policy for low risk approvals that can speed up this process, reduce cost, and provide more incentive for engineering teams to adhere to these policies.
+- 归档外部来源的开放源代码
+- 创建当前主副本(包括更新、补丁等)供内部使用，作为共享和重用的基础
+- 通过审计跟踪跟踪所有权、批准和其他决策
 
-### Commercial Procurement
+附带的支持模型必须是灵活的、可伸缩的和可持续的，具有低风险和低开销。选项包括:
 
-When you first think of discovering and integrating open source code, it’s natural to think primarily of code acquired freely over the Internet. But a substantial amount of open source code makes its way into organizations through commercial sourcing. Open source often accompanies and/or is an integral part of commercial applications and also frequently finds its way into deliverables from contracted development.
+- 内部支持(如果有资源，专业技能强且风险低)
+- 商业支持聚合器
+- 有重点的供应商支持关键业务组件和/或技术复杂组件或具有高业务/技术风险的组件的平台
 
-The risks and compliance obligations that accompany commercially-sourced open source are no different from those that come with directly acquired open source. The big difference is that rather than reaching out and downloading open source code directly, your organization receives that code implicitly, even silently, usually through long-standing conventional procurement processes.
+### 社区互动
 
-For commercially-sourced open source, industry best practices dictate working with your organization’s supply chain and sourcing personnel to establish and enforce policies for:
+开源软件通常由志同道合的开发人员社区创建和维护。参与这些社区可为集成和部署其开源软件的组织带来一系列好处，从教育到支持再到错误修复等等。
 
-- Reporting the presence of open source elements in 3rd party code
+社区互动不是二元决策。相反，参与是一个连续体。您和您的同事可以选择参与一系列活动中的各种角色，从作为 OSS 消费者的适度开始到持续参与甚至领导。虽然参与水平可以有机地发展，但最好是社区互动水平与组织业务目标保持一致并基于成本效益分析。
 
-- IP verification, and where appropriate, indemnification
+以下是需要考虑的一些交互级别：
 
-- Code scanning and review of supplier governance programs to supplement reporting (if any)
+- 不参与（不推荐）
+  - 以个人身份参与
+- 不允许与公司有任何联系
+- 代表您的公司参与社区
+  - 无 IP 传输
+  - 贡献需求或错误修复
+  - 传送公司开发的二进制文件、库等。
+- 为社区提供赞助或支持
+- 将公司IP作为OSS发布，建立公司管理的开源项目
 
-- Documentation and integration with downstream component tracking, release audit and other compliance activities
+### 合规
 
-### Code Management & Maintenance
+合规性侧重于遵守开源政策和开源许可条款。对于分发软件的组织而言，许可证合规性是开源管理中最明显的部分，并且通常为建立开源计划办公室提供动力（在下一课程模块中将详细介绍这一点）。
 
-The concept of "code ownership" emanates from the practices of scores of companies working with open source over the last decade and a half. At the highest level, the practice gives open source code “a face” within your organization, a “go to” person who is close to the code and to the community that develops and maintains it. Also typically included under the code ownership role is coordinating support for that code, directly or through third parties.
+然而，合规性并不是良好治理的“全部”或“全部”——没有人主要为了遵守其许可而使用开源软件。合规性应该与开源管理的其他方面同等对待，而不是作为“警察行动”。
 
-The need for "ownership" arises from the “self-service” nature of open source. Management policy should dictate what type of stewardship these components require and the code owner’s roles and responsibilities.
+对于不分发软件的组织，合规性侧重于确保遵循开源政策和流程，以确保软件系统和应用程序的安全性、可靠性和可支持性。
 
-Other tasks associated with code management and maintenance are
+合规政策需要明确和详细，并制定规则以遵守组织政策和开源许可条款。对合规性的需求强调了能够在每个版本中识别和编目第三方代码（包括开源）以及附带条款（例如，源代码披露、归属等）的要求。
 
-- Archiving externally sourced open source
+#### 高管参与
 
-- Creating a current master copy (including updates, patches, etc.) for internal use, as the basis for sharing and reuse
+开源管理不仅仅是真正接触代码的开发人员的领域。它也不是唯一属于与保护知识产权 (IP) 相关的公司律师的职权范围。成功的开源管理是一项协作努力，需要许多角色和学科的参与。
 
-- Tracking ownership, approvals and other decisions with an audit trail
+一组经常被忽视的参与者是组织的高管。高管们最初可能认为开源技术仅仅是技术实现的一个细节，并满足于通过指挥链参与开源管理。开明的高管将意识到开源的风险/收益平衡及其创新和差异化的潜力，从而使高管更多地参与围绕开源管理政策的关键决策。
 
-The accompanying support model must be flexible, scalable and sustainable, with low risk and overhead. Options include:
+对于高管来说，考虑他们在以下政策领域的角色很重要：
 
-- Internal support (if resources are available, expertise is strong and risk is low)
+- 参与整体开源政策的创建和演变
+- 参与开源审批
+  - 通常通过法律和业务线
+- 参与有关开源贡献、项目赞助等的高层决策
+- 接收和审查关于开源活动的定期报告
 
-- Commercial support aggregator
+## 课程：政策实施注意事项
 
-- Focused vendor support for business-critical components and/or platforms for technically complex components or those with high business/technical risk
+### 政策制定中的人为因素
 
-### Community Interaction
+与开源相关的政策创建有一些有趣的人类动态，它们不同于传统的 HR 或您的组织可能习惯创建的其他政策。开源的协作和“社区主导”性质更侧重于完成工作，而不是一系列严格或正式的流程。
 
-Open source software is typically created and maintained by communities of like-minded developers. Participation in those communities confers a range of benefits on organizations that integrate and deploy their open source software, ranging from education to support to bug fixes and beyond.
+协作是这里的关键要素。与其严格地将这些政策视为惩罚或消除风险的方法，还需要将它们视为不同群体的机会，包括工程师、项目经理、法律专家甚至高管，就如何充分利用这些政策进行透明和坦率的讨论组织参与开源的情况。
 
-Community interaction is not a binary decision. Participation is, instead, a continuum. You and your colleagues can choose to participate in a variety of roles across a range of activities, from a modest start as consumers of OSS up through ongoing involvement and even leadership. While the level of participation can evolve organically, it is always best if the level of community interaction is aligned with organization business goals and based upon a cost-benefit analysis.
+确实，在某些情况下，管理层可能不得不做出与其他团队（通常是工程部门）并不总是一致的政策决策，但让每个人都可以就政策的创建方式发表意见，这将使每个人都更容易遵守并查看这些政策对组织的意义。
 
-Here are some levels of interaction to consider:
+### 经济和生产力考虑
 
-1. No Participation (not recommended)
-2. Participate as individuals
-   - No tie to company allowed
-3. Participate in a community on your company’s behalf
+制定开源政策时要考虑的另一个因素是它们的实施将如何影响工作效率，从而间接影响您的组织的经济影响。
 
-   1. No IP conveyance
+构建涵盖所有可能情况并需要大量人力和技术基础设施的完全“防弹”政策似乎是“最安全”的方法，但这些可能会产生意想不到的后果，包括使软件开发变得缓慢、笨拙和令人不快，以至于您运行如果没有这种严格的政策，组织可能会失去关键的软件人才。
 
-   2. Contribute requirements or bug fixes
-
-   3. Convey company-developed binaries, libraries, etc.
-
-4. Provide sponsorship or support to a community
-
-5. Release company IP as OSS and establish a company-managed open source project
-
-### Compliance
-
-Compliance focuses on observance of open source policy and open source license terms. License compliance is the most visible part of Open Source Management for organizations that distribute software, and often provides the impetus for the establishment of open source program offices (more on this in the next lesson module).
-
-However, compliance is not the "be all" or ”end all” of good governance – no one uses open source software primarily for the privilege of complying with its licenses. Compliance should be treated on a par with the other dimensions of open source management, and not as a “police action”.
-
-For organizations that do not distribute software, compliance is focused on ensuring that the open source policy and processes are followed in order to assure the security, reliability and supportability of the software systems and applications.
-
-Compliance policy needs to be explicit and detailed, with rules spelled out for complying both with organizational policy and with the terms of open source licenses. The need for compliance highlights the requirement to be able to identify and catalogue third-party code (including open source) in each release, together with accompanying terms (e.g., source code disclosure, attribution, etc.).
-
-### Executive Engagement
-
-Open Source Management is not solely the province of developers who actually touch the code. Nor is it uniquely under the purview of corporate lawyers concerned with protecting intellectual property (IP). Successful open source management is a collaborative effort, requiring participation from many roles and disciplines.
-
-One often ignored set of participants is the organization’s executives. Executives may initially think of open source technology as merely a detail of technical implementation, and be content to participate in open source management through the chain of command. Enlightened executives will perceive the risk/benefit balance in open source and its potential for innovation and differentiation, resulting in greater executive participation in key decisions around open source management policy.
-
-It’s important for executives to consider their role in the following policy areas:
-
-- Involvement with overall open source policy creation and evolution
-
-- Participation in open source review and approval
-
-  - Typically through legal and lines of business
-
-- Participation in high-level decisions about open source contributions, project sponsorship, etc.
-
-- Receiving and reviewing regular reports on open source activity
-
-## Lesson: Policy Implementation Considerations
-
-### Human Factors in Policy Creation
-
-Policy creation in relation to open source has some interesting human dynamics at play that are different from traditional HR or other policies that your organization might be used to creating. The collaborative and ‘community-led’ nature of open source focuses more on getting work done than it does on a set of rigid or formal processes.
-
-Collaboration is the key element here. Rather than considering these policies strictly as punitive or ways to eliminate risk, they also need to be considered opportunities for different groups, including engineers, program managers, legal experts, and even executives to have transparent and frank discussions about how to get the most out of the organization’s engagement in open source.
-
-It’s true that in some cases, management may have to make decisions about policies that aren’t always in agreement with other groups (usually engineering), but in giving everyone a voice in how policies are created, it will make it easier for everyone to comply and see how the policies make sense for the organization.
-
-### Economic and Productivity Considerations
-
-Another element to consider when crafting your open source policies is how their implementation will affect working productivity, and therefore, indirectly, the economic impact to your organization.
-
-Building completely ‘bulletproof’ policies that cover every possible case, and require a massive human and technological infrastructure can seem like the ‘safest’ approach, but those can have unintended consequences, including making software development slow, unwieldy and so unpleasant that you run the risk of losing critical software talent to organizations without such rigid policies.
-
-Additionally, building out the necessary process infrastructure for such heavyweight policies has economic cost both in tools and in detailed human oversight. The best approach to combat the temptation to build the ‘perfect policies’ is to consider the oft-repeated open source mantra of ‘release early, release often.’ Consider what minimum set of policies you need to implement your open source strategy, and then build on those as both your management team and development organization progress up the ladder of open source engagement.
+此外，为此类重量级政策构建必要的流程基础设施在工具和详细的人工监督方面都具有经济成本。对抗构建“完美策略”诱惑的最佳方法是考虑经常重复的开源口头禅“早发

@@ -1,80 +1,54 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
-# Section: Introducing Open Source Business Models
+# 介绍
 
-## Lesson: Introduction
+## 课程：简介
 
-### Section Overview
+在本节中，我们将提供几个重要的开源商业模式的定义，以及它们之间的比较。 我们还将讨论每种方法的相对优势和劣势，并重点介绍哪些模型可以用于哪些业务场景。
 
-In this section, we will provide definitions of several important open source business models, as well as comparisons between them. We will also discuss the relative strengths and weaknesses of each approach, and highlight which models can be used in which business scenarios.
+## 学习目标
 
-### Learning Objectives
+在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+- 定义最常用的开源商业模式。
+- 解释这些商业模式之间的异同。
+- 了解哪些模型最适合哪些业务场景。
 
-- Define the most often used open source business models.
+## 课程：定义
 
-- Explain the differences and similarities among these business models.
+### 主要的开源商业模式有哪些？
 
-- Understand which models work best with which business scenarios.
+有两种方法可以划分开源商业模式的概念——那些使用开源（大多数组织）的公司，以及那些主要生产开源的公司。 先说消费端。
 
-## Lesson: Definitions
+#### 消费
 
-### What are the Major Open Source Business Models?
+![Image description](strategic-use.png)
 
-There are two ways to slice the notion of open source business models - those companies who consume open source (most organizations), vs. those who primarily produce open source. Let’s tackle the consumption side first.
+上文重点介绍的 Gartner 最近的一项研究表明，一流的软件和技术组织使用其产品中大约 80% 的软件来自开源，然后在该软件堆栈之上构建其余 20% 的附加值为他们的客户提供产品。这样做可以让他们将有限的工程资源集中在差异化价值上，同时与开源生态系统的其余部分分担通用代码的开发成本。
 
-**Consumption**
+那些生产开源代码的公司通常分为以下类型的商业模式（尽管他们也可能战略性地使用开源）：
 
-![Moving to Strategic use of Open Source](strategic-use.png)
+#### 许可
 
-A recent Gartner study, highlighted above, showed that best in class software and technology organizations consume roughly 80% of the software they use in their products from open source, and then build the remaining 20% of their value add on top of that software stack to provide products to their customers. Doing this allows them to focus limited engineering resources on differentiated value while sharing the development costs of common code with the rest of the open source ecosystem.
+这种模式依赖于商业许可和开源许可下的双重许可软件，通常会产生产品的“社区版”和“企业版”，客户可以根据他们可能需要的功能进行选择产品。一个例子是 Oracle MySQL 数据库，它在商业许可证和 GNU 公共许可证下获得许可（后面的模块将更详细地介绍许可证）。
 
-Those companies producing open source code generally fall into the following types of business models (though they also likely strategically consume open source as well):
+#### 托管
 
-**Licensing**
+在此模型中，公司在云托管的 SaaS（软件即服务模型）中提供开源产品。这方面的主要例子是亚马逊（亚马逊网络服务）和谷歌（谷歌云）等公司，它们以强化的、可扩展的、企业级配置托管开源技术。
 
-This model relies on dual-licensing software under both a commercial license as well as an open source license, usually resulting in a ‘community edition’ and an ‘enterprise edition’ of the product that customers can choose depending upon what features they may need in the product. An example is the Oracle MySQL database, licensed under both a commercial license and the GNU Public License (later modules will cover licenses in more detail).
+#### 支持
 
-**Hosting**
+企业往往希望利用开源提供的技术创新，但更关心在开源产品上运行业务。在这种情况下，他们求助于 RedHat 和 IBM 等公司，它们提供支持、技术指导、专业服务和培训，以帮助企业在开源平台上运行业务应用程序。
 
-In this model, companies provide the open source product in a Cloud-hosted SaaS (Software as a Service model). The primary examples of this are companies such as Amazon (Amazon Web Services) and Google (Google Cloud) that host open source technologies in hardened, scalable, enterprise-grade configurations.
+#### 开放核心
 
-**Support**
-
-Enterprises often want to take advantage of the technological innovation provided by open source, but are more concerned with running their business on open source products. In this case, they turn to companies like RedHat and IBM, who offer support, technical guidance, professional services and training to help enterprises run business applications on top of an open source platform.
-
-**Open Core**
-
-This typically involves a capable core product which is free and open source. Around the core, a commercial entity provides closed source software that adds to or extends its capabilities. These add-ons are then sold as commercial software, and they can also be combined with the support model to provide training and technical support of the extensions.
-
-### Comparing Open Source Business Models
-
-In comparing these open source business models, it’s important to note that different businesses have different reasons for choosing a particular model, and as noted above, there are sometimes cases where models are combined (e.g. Open Core & Support). Here are some primary reasons why businesses choose each model:
-
-**Consumption**
-
-When your business has differentiated intellectual property but needs to reduce cost and complexity, strategically consuming open source software and building your product or service on top of that open source base platform gives you access to shared innovation that you can leverage to build compelling products without having to build everything yourself.
-
-**Licensing**
-
-Utilizing a dual-licensing strategy gives you the opportunity to get the value of consumption and shared input for a ‘community’ version of your product, while selling an ‘enterprise’ version of the product to realize revenue and continue to fund work on the ‘community’ version. It also gives you the ability to let customers ‘try before they buy’ and potentially grow their business to require access to your paid enterprise version.
-
-**Hosting**
-
-Providing a hosted solution of an open source project/product allows companies that have built infrastructure to support code for their own benefit to offer that same software as a service for their customers. Similar to the licensing model, this allows organizations to derive revenue for the software, which in terms helps fund their hosting infrastructure and also allows them to continue development of the open source project.
-
-**Support**
-
-If a technology company has in-house expertise and a reputation for contributing to one or more open source projects, providing a ‘hardened’ enterprise version of those projects that is bundled with technical support and training allows them to continue their work in that open source project and lets them provide their customers with a solid base platform that they can then run business software on reliably. Stock markets running on RedHat Enterprise Linux are a great example of this model.
-
-**Open Core**
-
-This business model can work very well, but it also can develop a poor reputation for an organization if the community feels that the closed source extensions provided on top of the open source code should rightfully be part of the open source core. This model requires a delicate balance of providing added value that large enterprises are willing to pay for while still allowing the free community version of a project to be useful to individuals, as well as small to medium businesses.
+这通常涉及一个功能强大的核心产品，它是免费和开源的。围绕核心，商业实体提供闭源软件，以增加或扩展其功能。这些附加组件然后作为商业软件出售，它们也可以与支持模型结合以提供扩展的培训和技术支持。s.

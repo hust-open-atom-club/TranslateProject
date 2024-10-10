@@ -1,557 +1,491 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module2/README.md
 ---
 
-# Section: Introducing Open Source Business Models
+# 1. 介绍
 
-## Lesson: Introduction
+## 1.1 课程：简介
 
-### Section Overview
+在本节中，我们将提供几个重要的开源商业模式的定义，以及它们之间的比较。 我们还将讨论每种方法的相对优势和劣势，并重点介绍哪些模型可以用于哪些业务场景。
 
-In this section, we will provide definitions of several important open source business models, as well as comparisons between them. We will also discuss the relative strengths and weaknesses of each approach, and highlight which models can be used in which business scenarios.
+## 1.2 学习目标
 
-### Learning Objectives
+在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+- 定义最常用的开源商业模式。
+- 解释这些商业模式之间的异同。
+- 了解哪些模型最适合哪些业务场景。
 
-- Define the most often used open source business models.
+## 2. 课程：定义
 
-- Explain the differences and similarities among these business models.
+### 2.1 主要的开源商业模式有哪些？
 
-- Understand which models work best with which business scenarios.
+有两种方法可以划分开源商业模式的概念——那些使用开源（大多数组织）的公司，以及那些主要生产开源的公司。 先说消费端。
 
-## Lesson: Definitions
+#### 消费
 
-### What are the Major Open Source Business Models?
+![Image description](strategic-use.png)
 
-There are two ways to slice the notion of open source business models - those companies who consume open source (most organizations), vs. those who primarily produce open source. Let’s tackle the consumption side first.
+上文重点介绍的 Gartner 最近的一项研究表明，一流的软件和技术组织使用其产品中大约 80% 的软件来自开源，然后在该软件堆栈之上构建其余 20% 的附加值为他们的客户提供产品。这样做可以让他们将有限的工程资源集中在差异化价值上，同时与开源生态系统的其余部分分担通用代码的开发成本。
 
-**Consumption**
+那些生产开源代码的公司通常分为以下类型的商业模式（尽管他们也可能战略性地使用开源）：
 
-![Moving to Strategic use of Open Source](strategic-use.png)
+#### 许可
 
-A recent Gartner study, highlighted above, showed that best in class software and technology organizations consume roughly 80% of the software they use in their products from open source, and then build the remaining 20% of their value add on top of that software stack to provide products to their customers. Doing this allows them to focus limited engineering resources on differentiated value while sharing the development costs of common code with the rest of the open source ecosystem.
+这种模式依赖于商业许可和开源许可下的双重许可软件，通常会产生产品的“社区版”和“企业版”，客户可以根据他们可能需要的功能进行选择产品。一个例子是 Oracle MySQL 数据库，它在商业许可证和 GNU 公共许可证下获得许可（后面的模块将更详细地介绍许可证）。
 
-Those companies producing open source code generally fall into the following types of business models (though they also likely strategically consume open source as well):
+#### 托管
 
-**Licensing**
+在此模型中，公司在云托管的 SaaS（软件即服务模型）中提供开源产品。这方面的主要例子是亚马逊（亚马逊网络服务）和谷歌（谷歌云）等公司，它们以强化的、可扩展的、企业级配置托管开源技术。
 
-This model relies on dual-licensing software under both a commercial license as well as an open source license, usually resulting in a ‘community edition’ and an ‘enterprise edition’ of the product that customers can choose depending upon what features they may need in the product. An example is the Oracle MySQL database, licensed under both a commercial license and the GNU Public License (later modules will cover licenses in more detail).
+#### 支持
 
-**Hosting**
+企业往往希望利用开源提供的技术创新，但更关心在开源产品上运行业务。在这种情况下，他们求助于 RedHat 和 IBM 等公司，它们提供支持、技术指导、专业服务和培训，以帮助企业在开源平台上运行业务应用程序。
 
-In this model, companies provide the open source product in a Cloud-hosted SaaS (Software as a Service model). The primary examples of this are companies such as Amazon (Amazon Web Services) and Google (Google Cloud) that host open source technologies in hardened, scalable, enterprise-grade configurations.
+#### 开放核心
 
-**Support**
+这通常涉及一个功能强大的核心产品，它是免费和开源的。围绕核心，商业实体提供闭源软件，以增加或扩展其功能。这些附加组件然后作为商业软件出售，它们也可以与支持模型结合以提供扩展的培训和技术支持。
 
-Enterprises often want to take advantage of the technological innovation provided by open source, but are more concerned with running their business on open source products. In this case, they turn to companies like RedHat and IBM, who offer support, technical guidance, professional services and training to help enterprises run business applications on top of an open source platform.
+### 2.2 比较开源商业模式
 
-**Open Core**
+在比较这些开源商业模式时，重要的是要注意不同的企业选择特定模式的原因不同，并且如上所述，有时会出现组合模型的情况（例如 Open Core & Support）。以下是企业选择每种模式的一些主要原因：
 
-This typically involves a capable core product which is free and open source. Around the core, a commercial entity provides closed source software that adds to or extends its capabilities. These add-ons are then sold as commercial software, and they can also be combined with the support model to provide training and technical support of the extensions.
+#### 消费
 
-### Comparing Open Source Business Models
+当您的企业拥有差异化的知识产权但需要降低成本和复杂性时，战略性地使用开源软件并在该开源基础平台之上构建您的产品或服务，您可以访问共享创新，您可以利用这些创新来构建引人注目的产品，而无需自己建造一切。
 
-In comparing these open source business models, it’s important to note that different businesses have different reasons for choosing a particular model, and as noted above, there are sometimes cases where models are combined (e.g. Open Core & Support). Here are some primary reasons why businesses choose each model:
+#### 许可
 
-**Consumption**
+利用双重许可策略，您有机会获得产品“社区”版本的消费和共享投入的价值，同时销售产品的“企业”版本以实现收入并继续资助“社区版。它还使您能够让客户“先试后买”，并有可能发展他们的业务以要求访问您的付费企业版。
 
-When your business has differentiated intellectual property but needs to reduce cost and complexity, strategically consuming open source software and building your product or service on top of that open source base platform gives you access to shared innovation that you can leverage to build compelling products without having to build everything yourself.
+#### 托管
 
-**Licensing**
+提供开源项目/产品的托管解决方案允许已构建基础设施以支持代码的公司为自己的利益提供相同的软件作为服务给他们的客户。与许可模式类似，这允许组织从软件中获得收入，这有助于资助他们的托管基础​​设施，并允许他们继续开发开源项目。
 
-Utilizing a dual-licensing strategy gives you the opportunity to get the value of consumption and shared input for a ‘community’ version of your product, while selling an ‘enterprise’ version of the product to realize revenue and continue to fund work on the ‘community’ version. It also gives you the ability to let customers ‘try before they buy’ and potentially grow their business to require access to your paid enterprise version.
+#### 支持
 
-**Hosting**
+如果一家技术公司拥有内部专业知识并因为一个或多个开源项目做出贡献而享有盛誉，则提供这些项目的“强化”企业版本并与技术支持和培训捆绑在一起，使他们能够继续在该开源项目中工作项目，并让他们为客户提供一个坚实的基础平台，然后他们可以在该平台上可靠地运行业务软件。在 RedHat Enterprise Linux 上运行的股票市场就是这种模式的一个很好的例子。
 
-Providing a hosted solution of an open source project/product allows companies that have built infrastructure to support code for their own benefit to offer that same software as a service for their customers. Similar to the licensing model, this allows organizations to derive revenue for the software, which in terms helps fund their hosting infrastructure and also allows them to continue development of the open source project.
+#### 开放核心
 
-**Support**
+这种商业模式可以很好地运作，但如果社区认为在开源代码之上提供的闭源扩展理所当然地成为开源核心的一部分，它也会给组织带来不良声誉。这种模式需要一种微妙的平衡，即提供大型企业愿意支付的附加值，同时仍然允许项目的免费社区版本对个人以及中小型企业有用。
 
-If a technology company has in-house expertise and a reputation for contributing to one or more open source projects, providing a ‘hardened’ enterprise version of those projects that is bundled with technical support and training allows them to continue their work in that open source project and lets them provide their customers with a solid base platform that they can then run business software on reliably. Stock markets running on RedHat Enterprise Linux are a great example of this model.
+# 3. 制定开源战略
 
-**Open Core**
+## 3.1 课程：简介
 
-This business model can work very well, but it also can develop a poor reputation for an organization if the community feels that the closed source extensions provided on top of the open source code should rightfully be part of the open source core. This model requires a delicate balance of providing added value that large enterprises are willing to pay for while still allowing the free community version of a project to be useful to individuals, as well as small to medium businesses.
+在本节中，我们将展示如何创建组织开源战略，讨论这样做的价值和必要性，然后讨论该战略将如何影响开源政策的实施的注意事项。
 
-# Section: Developing an Open Source Strategy
+## 3.2 学习目标：
 
-## Lesson: Introduction
+在本节结束时，您应该能够：
 
-### Section Overview
+- 解释创建组织开源战略的必要性和价值
+- 描述一个组织可能使用的不同类型的策略
+- 阐明分阶段实施计划，以帮助将战略转化为组织政策
 
-In this section, we will show how to create an organizational open source strategy, discuss the value and need for doing so, and then discuss considerations for how the strategy will affect the implementation of open source policies.
+## 3.3 开源战略概述
 
-### Learning Objectives
+### 3.3.1 什么是开源策略？
 
-By the end of this section, you should be able to:
+战略是一个非常广泛的术语，我们可以讨论（或争论）几个小时，但当我们谈论开源时，我们的意思是非常具体的：
 
-- Explain the need and value for creating an organizational open source strategy
+- 简洁、高级的文档
+- 基于组织的业务目标
+- 将业务目标映射到开源软件使用和管理指令
 
-- Describe the different types of strategies an organization might utilize
+参与开源相关活动的每个人都必须能够理解该策略。 它成为就未来开源政策和流程达成一致的参考文件。 在持续的基础上，它是制定新决策以及建立计划支持和承诺的重要工具。
 
-- Articulate a phased implementation plan to help turn the strategy into organizational policies
+许多组织还使用开源战略作为建立实施开源最佳实践和政策的授权的工具。
 
-## Lesson: Overview of an Open Source Strategy
+### 3.3.2 要问的主要问题
 
-### What is an Open Source Strategy?
+在创建实用的开源策略时，必须回答三个主要问题。 （前两个问题可以按任一顺序解决。）
 
-Strategy is a very broad term that we could discuss (or argue about) for hours, but we mean something very specific when we talk about Open Source:
+ **- 组织希望在哪里使用开源？** 
 
-- A concise, high level document
+这个问题非常重要，因为管理开源的最佳实践对于不同的用例有很大的不同。例如，在内部使用开源工具几乎没有风险，不需要任何许可合规性制度，但在分布式软件中嵌入开源需要更多的考虑和支持元素。
 
-- Based on the organization’s business objectives
+ **- 使用开源实现了哪些业务目标？** 
 
-- Maps business objectives to open source software use and management directives
+我们已经讨论过公司使用开源软件的原因。明确并认可其中哪些是重要的，将极大地促进对下一个细节级别的决策。
 
-The strategy must be understandable to everyone that participates in open source related activities. It becomes the reference document for establishing agreement on future open source policies and processes. On an ongoing basis, it is an important tool for making new decisions, and for establishing program buy-in and commitment.
+ **- 您的组织将如何确保实现开源业务目标？** 
 
-Many organizations also use an Open Source strategy as a vehicle to establish a mandate for implementing open source best practices and policies.
+这些决定为开源管理程序创建了任务。理想情况下，它们反映了从开源中获得最大优势同时有效管理伴随风险的行业最佳实践。
 
-### Major Questions to Ask
+## 3.4 开源战略的价值
 
-In creating a practical open source strategy, three major questions must be answered. (The first two questions can be addressed in either order.)
+### 3.4.1 开源阶梯
 
-**Where does the organization want to use Open Source?**
+当您将许可、社区动态、人才获取和业务动态等所有因素都考虑在内时，开源可能是一个复杂的话题。 典型组织的开源之旅有几个站点：
 
-This question is critically important because the best practices for managing open source are quite different for various use cases. For instance, using open source tools internally poses little-to-no risk and does not require any license compliance regimen, but embedding open source in software that is distributed requires much more consideration and enabling elements.
+![Image description](os-ladder.png)
 
-**What business objectives are met by using Open Source?**
+让我们将其中的每一个都分解开来：
 
-We’ve already talked about why companies use open source software. Getting clarity and buy-in as to which of these are important will greatly facilitate decision making on the next levels of detail.
+- #### 消费者
 
-**What will your organization do to ensure achieving Open Source business objectives?**
+组织最常见的起点是作为其商业产品中的开源软件用户。积极使用开源组件将提高您区分和减少交付商业产品的总体时间和成本的能力。以下是开源消费策略的必要组成部分：
 
-These are the decisions that create a mandate for an open source management program. Ideally they reflect industry best practices for getting the greatest advantage from open source while efficiently managing accompanying risks.
+- 一种战略分类方案，用于指导决定使用哪些开源软件
 
-## Lesson: The Value of an Open Source Strategy
+- 确保公司履行其使用开源软件的所有义务
 
-### Climbing the Open Source Ladder
+- 部署自动化工作流软件以评估/批准开源使用
 
-Open Source can be a complex topic, when you factor in everything from licensing to community dynamics, talent acquisition and business dynamics. There are several stops on a typical organization’s journey in open source:
+- 建立一个开源审查委员会 (OSRB) 作为所有开源活动的交换所
 
-![Climbing the Open Source Ladder](os-ladder.png)
+- 增加对工程、产品管理和法律方面的员工人数和基础设施的投资，以管理封闭源代码/开源软件的组合
 
-Let’s take each of these and break them down:
+- #### 参与者
 
-**Consumer**
+一旦您的公司在产品或服务中成功使用开源软件，您就可以扩展您的策略以参与开源社区。除非您已经从社区聘请了经验丰富的开发人员，否则您首先需要更密切地与社区互动，以提高您的知名度并开始吸引您需要的人才。以下是开源参与策略的必要组成部分：
 
-The most common starting point for organizations is as an open source software user in their commercial products. Aggressively consuming open source components will increase your ability to differentiate and reduce overall time and cost to deliver commercial products. Here are the necessary components of the open source consumption strategy:
+- 监控社区交流平台，如聊天服务器、邮件列表、论坛和网站，以随时了解项目进展
 
-- A strategic classification scheme to guide decisions on what open source software to consume
+- 参加相关会议和聚会，与社区建立关系
 
-- Ensure the company meets all obligations of its use of open source software
+- 赞助项目活动和基金会以提高社区内的知名度
 
-- Deploy automated workflow software for evaluating/approving open source usage
+- 教育开发人员如何参与开源项目并为之做出贡献
 
-- Establish an Open Source Review Board (OSRB) to serve as a clearinghouse for all Open Source activities
+- #### 贡献者
 
-- Create incremental investment in headcount and infrastructure in engineering, product management, and legal to manage a mix of closed source / open source software
+随着贵公司参与度的增加以及您开始为开源项目贡献代码，您需要有选择地参与目标项目和社区以推动您的
 
-**Participant**
+公司的需要。为战略性开源项目做出贡献可以帮助您的组织获得额外的价值，因为代码贡献可以帮助塑造项目中满足公司需求的未来功能。
 
-Once your company is successfully using open source software in products or services, you can expand your strategy to participate in the open source community. Unless you have already hired experienced developers from the community, you will first need to engage more closely with the community to increase your visibility and to begin attracting the talent you need. Here are the necessary components of the open source participation strategy:
+以下是开源贡献策略的必要组成部分：
 
-- Monitor community communication platforms like chat servers, mailing lists, forums, and websites to stay informed about project developments
+- 聘请一名员工主管来领导开源战略并管理 OSRB
 
-- Attend relevant conferences and meetups to establish a relationship with the community
+- 雇用对您的产品至关重要的关键开源社区的贡献者和提交者
 
-- Sponsor project events and foundations to improve visibility within the community
+- 部署开源协作工具以支持开源使用和贡献
 
-- Educate developers on how to participate in and contribute to open source projects
+- 添加开源开发者资源
 
-**Contributor**
+- 增加在工程、产品管理和法律方面的投资，以与现有的外部社区互动
 
-As your company’s participation increases and you begin contributing code to an open source project, you need to selectively engage with targeted projects and communities to drive your company’s needs. Contributing to strategic open source projects can help your organization gain additional value as code contributions can help shape future features in the project that meet a company’s needs.
+- #### 领导者
 
-Here are the necessary components of the open source contribution strategy:
+如果一项开源技术对您的业务或产品变得至关重要，您可能希望在该项目的战略和技术方向上拥有发言权。然而，与传统软件不同的是，您不一定能通过金钱“购买”进入或影响领导层。在开源项目中，那些从事工作的人可以帮助确定方向。
 
-- Hire a staff director to lead open source strategy and manage the OSRB
+开源战略阶梯的最后一步是领导力。此方案建立在所有先前方案的基础上，以利用新兴的技术趋势来建立领导地位。
 
-- Hire contributors and committers to key open source communities that are critical to your products
+通过与项目成员建立信任并保持对项目的高水平持续贡献，可以获得现有开源社区的领导角色。
 
-- Deploy open source collaboration tools to support open source usage and contributions
+这种情况需要对目标开源社区和联盟进行大量投资
 
-- Add open source developer resources
+制定领导议程。以下是开源领导力战略的必要组成部分：
 
-- Incrementally invest in engineering, product management, and legal to engage with existing external communities
+- 增加与目标开源社区的互动
+- 有选择地采用开放标准来推动公司的需求
+- 参与开源基金会
+- 建立开源项目、组织或基金会
+- 主要在工程、产品管理和法律方面进行重大投资，以在外部社区和行业联盟中建立领导地位
 
-**Leader**
+### 3.4.2 考虑您当前和未来的需求
 
-If a piece of open source technology becomes critical to your business or product, you’ll likely want a say in the strategic and technical direction of that project. Unlike traditional software however, you cannot necessarily ‘buy’ your way into or influence the leadership simply with money. In open source projects, those who do the work are the ones who get to help set the direction.
+如您所见，开源战略的自然演变建立在一系列需要随着时间增加投资的步骤之上。重要的是要注意，对于您使用的每个开源项目或代码库，您的组织应该扮演什么角色的决定是不同的。
 
-The final step in the open source strategy ladder is leadership. This scenario builds on all of the prior scenarios to capitalize on emerging trends in technology to establish a leadership position.
+在某些情况下，作为一个小型、可靠维护的开源项目的简单消费者可能是可以接受的，但在其他情况下，如果开源项目成为您的产品或技术的核心元素，您可能需要考虑成为一个积极的参与者和/或贡献者。
 
-Leadership roles in existing open source communities are earned by establishing trust with the project members and by maintaining a high level of continuous contribution to the project.
+如果开源项目是您的业务和产品的基础，那么努力成为这项工作的领导者是个好主意，特别是如果它是您的组织帮助启动的开源项目。
 
-This scenario requires significant investment in targeted open source communities and consortia to establish a leadership agenda. Here are the necessary components of the open source leadership strategy:
+另一个需要考虑的重要因素是，您的组织在项目中的参与程度会随着时间而改变。制定战略不是“一劳永逸”的事情。准备好定期（6 个月 - 1 年是典型的时间范围）定期审查您的开源策略，以确定您是否需要根据业务或经济状况调整您的参与度。
 
-- Increase engagement with targeted open source communities
+![Image description](involvement-over-time.png)
 
-- Selectively engage with open standards to drive the company’s needs
+## 3.5 课程：实施注意事项
 
-- Engage with open source foundations
+### 3.5.1 分阶段实施
 
-- Establish an open source project, organization, or foundation
+开源有一个经常被引用的短语“早发布，经常发布”。在编码的上下文中，这意味着许多小的更改随着时间的推移相互构建，允许对所有更改进行完整和轻松的代码审查，以及更多健壮的代码，因为提供的更改更容易测试和调试。
 
-- Significant investment primarily in engineering, product management, and legal to establish leadership in external communities and industry consortia
+在开发开源策略时可以而且应该使用相同的模型。通过与您的中短期目标相关联的基本战略开始，您可以开始参与开源项目和社区，然后作为您的组织调整您的战略（以及您需要制定的后续政策）对开源方式变得更加自在和自信。
 
-### Consider Your Current and Future Needs
+一般来说，分阶段方法通常遵循前面显示的阶梯图：
 
-As you can see, the natural evolution of an open source strategy is built on a series of steps that require an increased investment over time. It’s important to note that the decision for what role your organization should take is different for every open source project or codebase that you use.
+- 制定以有效和高效的方式使用开源的策略（和政策）
+- 通过互动/提问、报告错误等开始参与开源项目和社区。
+- 一开始做一些小贡献（即使它们不是代码 - 文档是一个很好的入门方式）
+- 随着你对开源项目越来越熟悉和依赖，增加你的贡献
+- 如果您需要“一席之地”（或者您帮助启动了一个项目），请对开源项目做出持续和有价值的贡献和投资
 
-In some cases, it may be acceptable to be a simple consumer of a small, solidly maintained open source project, but in other cases, if the open source project becomes a core element of your product or technology, you may need to consider being an active participant and/or contributor.
+### 3.5.2 战略的实施注意事项
 
-If the open source project is fundamental to your business and products, it’s a good idea to strive to be a leader for that effort, especially if it’s an open source project your organization helped to start.
+虽然我们将在下一节中介绍开源组织策略的创建，但这是一个很好的机会，可以考虑您的策略对您将要实施的策略的影响。
 
-Another important element to consider is that the level of involvement your organization may have in a project will change over time. Building a strategy is not a ‘one and done’ event. Be prepared to periodically review your open source strategy at regular intervals (6 months - 1 year is the typical time frame) to determine if you need to adjust your participation based on business or economic factors.
+您需要考虑的最大因素是时间和金钱。在实施您的策略时，您需要使用多少时间？您准备为实施您选择的战略投入多少资源（资金和人员）？
 
-![Involvement increases over time](involvement-over-time.png)
+#### 时间
 
-## Lesson: Implementation Considerations
+与技术中的几乎任何其他事物一样，有效地使用开源需要投入时间——这既涉及人力资源（员工），也涉及有效理解和规划您将使用的开源项目的发布周期.并非每个项目都具有相同的发布节奏，当您制定政策以确定您使用哪些版本的代码以及何时使用时，您需要意识到这一点。
 
-### Phased Implementation
+虽然我们将在其他模块中介绍安全性和与新的开源版本保持同步，但请注意，您必须考虑在哪些时间范围内就开源项目的消费和员工参与做出决定.
 
-Open Source has an often quoted phrase ‘release early, release often.’ In the context of coding, this translates to many small changes that build upon each other over time, allowing for complete and easy code review of all changes, as well as more robust code because the changes provided are easier to test and debug.
+#### 钱
 
-The same model can and should be used when developing your open source strategy. By starting with a basic strategy that is tied to your short-to-medium term goals, you can begin to engage with open source projects and communities and then adjust your strategy (and the ensuing policies you’ll need to develop) as your organization becomes more comfortable and confident with the ways of open source.
+在开源介绍课程中，我们简要介绍了开源可能“免于”许可成本，但这绝不意味着它没有其他相关成本。
 
-In general, the phased approach usually follows the ladder graphic shown previously:
+有效地参与开源，无论是简单地有效地和战略性地使用它，还是推动特定标准都需要花钱，主要是在人员配备方面。您不需要从庞大的员工开始（稍后会详细介绍），但您应该考虑在开始时在软件工程师和支持人员（法律、业务、项目管理）方面的需求制定政策以帮助管理组织的开源工作。
 
-- Build a strategy (and policies) for consuming open source in an effective and efficient way
+考虑时间和金钱因素（并随着时间的推移慢慢调整明智的计划）是确保从您的开源战略中获得的政策长期成功的最佳方法。
 
-- Begin to participate in open source projects and communities by interacting/asking questions, reporting bugs, etc.
+### 3.5.3 战略目标示例
 
-- Make small contributions at first (even if they are not code - documentation is a great way to get started)
+以下是您在制定战略的过程中可以定义的一些目标示例——这绝不是一个详尽的列表——您的组织可能拥有所有这些，或者可能没有包含在此列表中的其他目标：
 
-- As you become more familiar and dependent upon an open source project, increase your contributions
+- 通过与技术领导者合作增加创新
+- 使用已经开发和测试过的代码加速部署
+- 通过使用免费的、已经调试过的代码来降低开发成本
+- 通过使用商业工具和组件的免费替代品来降低部署成本
+- 利用社区维护降低代码维护成本
+- 提供与其他开源软件的互操作性
+- 促进合作伙伴或客户创建新功能
 
-- If you need a ‘seat at the table’ (or you helped start a project), make sustained and valuable contributions and investments in the open source project
+### 3.5.4 采取行动的例子
 
-### Implementation Considerations of Your Strategy
+虽然我们将在下一节中更详细地介绍如何定义开源策略，但这里有一些示例操作，您可以在构建策略时为支持您定义的目标而采取以下措施：
 
-While we will cover the creation of open source organizational policies in the next section, this is a good opportunity to consider the ramifications of your strategy on policies you’ll be putting in place to implement your strategy.
+- 评估政策和采购流程
+  - 在开源、可用的商业和内部开发选项中进行很好的选择
+  - 确保许可条款与您的使用和 IP 策略兼容
+  - 考虑支持和生命周期成本
+  - 代码跟踪策略和流程，可准确了解在何处使用什么软件
+- 确保您遵循既定政策的审核流程
+- 确保始终满足所有 OSS 许可要求的合规流程
+- 行动是开源策略中“橡胶上路”的地方。针对特定目标创建了开源管理计划的授权并塑造了它。
 
-The biggest considerations you’ll need to think about are time and money. How much time do you have to use when implementing your strategy? And how much resources (money and staff) are you prepared to put towards implementation of your chosen strategy?
+上述操作是完整开源管理程序的最基本要素；然而，一些组织可能不需要所有这些元素。例如，从不在其产品中分发开源的组织通常不需要实施许可合规流程。一些组织增加了其他行动，例如：软件支持和维护、确保软件安全的步骤、围绕开源贡献或领导力的目标，或执行人员参与的特定任务。
 
-**Time**
+一些组织会在其战略声明中对行动进行优先级排序，以表明执行的紧迫性或顺序。一些组织发现将所有者分配给各个操作很有用。
 
-Like almost anything else in technology, working effectively with open source takes an investment of time - this is both in terms of human resources (staff) as well as effectively understanding and planning for the release cycles of the open source projects you’ll be using. Not every project has the same release cadence, and you’ll need to be cognizant of that as you put policies in place to determine which versions of code you consume, and when.
+随着您的开源管理程序的开发进入下一阶段，这些行动声明将被纳入实施该战略的政策和流程中。
 
-While we’ll cover security and keeping up-to-date with new open source releases in other modules, be aware that you’ll have to consider what time frames you’ll make decisions in regarding both consumption and staff participation in open source projects.
+建立新市场或事实上的标准
 
-**Money**
+招聘和留住顶尖技术人才
 
-In the Open Source Introduction module, we briefly covered that open source may be ‘free’ from a licensing cost, but by no means does that mean that it doesn’t have other costs associated with it.
+# 4. 制定开源政策
 
-Effectively participating in open source, whether simply consuming it effectively and strategically, or driving a particular standard costs money, primarily in the staffing area. You don’t need to start with a giant staff (more on that later), but you should be considering the needs you’ll have both in terms of software engineers and support staff (legal, business, project management) as you begin to put policies into place to help govern your organization’s open source efforts.
+## 4.1 课程：简介
 
-Considering time and money elements (and starting slowly with sensible plans to adjust over time) is the best method of making sure that the policies derived from your open source strategy succeed in the long run.
+在本节中，我们将讨论如何制定开源策略，为执行您选择的开源策略设置框架。 将特别强调影响这些政策的成功和组织采用的关键因素。
 
-### Strategic Objective Examples
+## 4.2 学习目标
 
-Here are some examples of objectives you may define as you go through the process of building your strategy - this is by no means an exhaustive list - your organization may have all of these, or potentially others not included in this list:
+在本节结束时，您应该能够：
 
-- Increase innovation through collaboration with technology leaders
+- 描述实施开源政策的过程，以推动您选择的策略的执行
+- 了解在定义政策时需要考虑哪些关键因素
+- 解释如何最好地设计鼓励组织广泛采用的策略
+- 阐明行业最佳实践在开源政策制定中的作用
 
-- Speed deployment by using already developed and tested code
+## 4.4 课程：开源政策领域概述
 
-- Lower development costs by using free, already debugged code
+### 4.4.1 开源政策应该关注什么？
 
-- Lower deployment cost by using free alternatives to commercial tools and components
+开始他们的开源之旅的组织有时会陷入从“FUD”（恐惧、不确定性和怀疑）的角度定义政策的细节中。虽然在未来的模块中将更详细地介绍开源合规性等领域，但我们想从更有效利用的角度对所有组织在制定开源政策时应考虑的领域进行总体概述，不仅仅是规避风险。
 
-- Lower code maintenance costs by taking advantage of community maintenance
+我们还将尝试解决您如何考虑应该首先关注哪些政策，以及如何在整个组织中社会化这些政策以获得最大效果。
 
-- Offer interoperability with other open source software
+为此，我们将首先介绍任何组织开源政策中应包含的要素——请注意，这不一定是一个详尽的列表，根据您的具体业务情况，可能还有其他项目：
 
-- Facilitate the creation of new capabilities by partners or customers
+- 发现
+- 审查和批准
+- 商业采购
+- 代码管理与维护
+- 社区互动
+- 合规
+- 高管参与
 
-- Establish new markets or de facto standards
+### 4.4.2 发现
 
-- Recruit and retain top technical talent
+开源发现和评估涵盖了您的团队如何以及在何处找到感兴趣的开源软件，以及该软件被审查以包含在您组织的软件组合中的标准。发现不应该是一次成功或失败的努力。从正确的方向和标准（相对于临时）开始可以简化这个有时困难的过程并避免未来出现问题。
 
-### Examples of Actions To Take
+发现有用的开源很少从从头开始开始。大多数组织至少已经使用了一些开源软件，这些代码可以构成内部（批准的）存储库的基础。在查看现有产品组合之外，工程师很容易发挥创造力，但为了降低风险和提高效率，最佳实践要求通过商业供应商分发（Red Hat、Google 等组织）建立一组可信来源，或通过云原生计算基金会等软件基金会。
 
-While we will go into more detail about how to define open source policies in the next section, here are some sample actions you could take in support of the objectives you define while building your strategy:
+此外，还有一系列社区、政府和商业工具可用于查找和选择合适的开源项目代码和版本。例如，OpenHub 提供了数千个流行项目的出色元数据，而 Github 本身提供了有关项目发布的仪表板信息。可以从 NIST 漏洞数据库和开源漏洞数据库项目中收集关键安全信息。
 
-- An evaluation policy and acquisition process that
+让组织的所有级别都参与制定这些发现策略很重要——简单地告诉工程师，他们不能使用开源，除非来自特定的内部存储库，而没有进一步解释，并且没有让他们参与决策过程，很可能会导致“创造性”尝试规避此政策，这使以后更难以遵守。
 
-  - Chooses well among open source, available commercial and internal development options
+### 4.4.3 审查和批准
 
-  - Insures licensing terms compatible with your use and IP strategy
+无论你的发现过程多么小心或勤奋，开源代码面临的真正考验必须来自你的审查和批准过程。 批准和审查是您抵御开源可能带来的安全、法律和运营风险的第一道防线。
 
-  - Considers support and lifecycle costs
+与发现一样，利用以前审查过的代码可以加快这个过程，所以如果你的开源团队还没有这样做，最佳实践要求创建批准的组件和版本列表、审查和批准的许可证类型以及以前使用的评估原理 和结果。
 
-- A code tracking policy and process that provides accurate knowledge of what software is used where
+建立明确的标准（并让从工程师到项目经理的所有利益相关者参与）可以避免发现过程中出现问题并加快审查速度。 此外，重要的是要考虑在此政策中为低风险批准建立捷径，以加快此过程、降低成本并为工程团队遵守这些政策提供更多动力。
 
-- An audit process that insures that you follow set policies
+### 4.4.4 商业采购
 
-- A compliance process that insures that all OSS license requirements are consistently met
+当您第一次想到发现和集成开源代码时，很自然地首先想到的是通过 Internet 自由获取的代码。但是大量的开源代码通过商业采购进入组织。开源通常伴随着商业应用程序和/或是商业应用程序的一个组成部分，并且也经常通过合同开发进入可交付成果。
 
-Action is where "the rubber hits the road" in an open source strategy. Targeting specific objectives creates the mandate for and shapes the open source management program.
+商业来源的开源所伴随的风险和合规义务与直接获得的开源所伴随的风险和合规义务没有什么不同。最大的不同在于，您的组织不是直接接触和下载开源代码，而是通过长期存在的传统采购流程隐式，甚至是静默地接收该代码。
 
-The actions above are the most basic elements of a full open source management program; however, some organizations may not need all of these elements. For instance, an organization that never distributes open source in its products does not usually need to implement a license compliance process. Some organizations add other actions such as: software support and maintenance, steps to insure software security, objectives around open source contributions or leadership, or a specific mandate for executive involvement.
+对于商业采购的开源，行业最佳实践要求与您组织的供应链和采购人员合作，以制定和执行以下政策：
 
-Some organizations will prioritize the actions in their strategy statement to indicate urgency or order of execution. Some organizations find it useful to assign owners to the individual actions.
+- 报告第三方代码中存在开源元素
+- 知识产权验证，并在适当的情况下，赔偿
+- 代码扫描和审查供应商治理计划以补充报告（如果有）
+- 与下游组件跟踪、发布审计和其他合规活动的文档和集成
 
-As the development of your open source management program moves to the next phases, these action statements are driven into the policy and processes that implement this strategy.
+### 4.4.5 代码管理与维护
 
-# Section: Developing Open Source Policies
+“代码所有权”的概念源于过去15年里许多使用开源软件的公司的实践。在最高的层次上，这种做法为开放源代码在您的组织中提供了一个“面孔”，一个与代码以及开发和维护代码的社区关系密切的“可以接触”的人。代码所有权角色通常还包括协调对该代码的支持，直接或通过第三方。
 
-## Lesson: Introduction
+对“所有权”的需求源于开源的“自服务”特性。管理策略应该规定这些组件需要什么样的管理类型，以及代码所有者的角色和职责。
 
-### Section Overview
+与代码管理和维护相关的其他任务是
 
-In this section, we will discuss how to develop open source policies that set the framework for executing your chosen open source strategy. Special emphasis will be given to key factors that affect the success and organizational adoption of these policies.
+- 归档外部来源的开放源代码
+- 创建当前主副本(包括更新、补丁等)供内部使用，作为共享和重用的基础
+- 通过审计跟踪跟踪所有权、批准和其他决策
 
-### Learning Objectives
+附带的支持模型必须是灵活的、可伸缩的和可持续的，具有低风险和低开销。选项包括:
 
-By the end of this section, you should be able to:
+- 内部支持(如果有资源，专业技能强且风险低)
+- 商业支持聚合器
+- 有重点的供应商支持关键业务组件和/或技术复杂组件或具有高业务/技术风险的组件的平台
 
-- Describe the process for implementing open source policies that drive the execution of your chosen strategy
+### 4.4.6 社区互动
 
-- Understand what key considerations you need to consider when defining your policies
+开源软件通常由志同道合的开发人员社区创建和维护。参与这些社区可为集成和部署其开源软件的组织带来一系列好处，从教育到支持再到错误修复等等。
 
-- Explain how you can best design policies that encourage widespread adoption in your organization
+社区互动不是二元决策。相反，参与是一个连续体。您和您的同事可以选择参与一系列活动中的各种角色，从作为 OSS 消费者的适度开始到持续参与甚至领导。虽然参与水平可以有机地发展，但最好是社区互动水平与组织业务目标保持一致并基于成本效益分析。
 
-- Articulate the role of industry best practices to open source policy development
+以下是需要考虑的一些交互级别：
 
-## Lesson: Overview of Open Source Policy Areas
+- 不参与（不推荐）
+  - 以个人身份参与
+- 不允许与公司有任何联系
+- 代表您的公司参与社区
+  - 无 IP 传输
+  - 贡献需求或错误修复
+  - 传送公司开发的二进制文件、库等。
+- 为社区提供赞助或支持
+- 将公司IP作为OSS发布，建立公司管理的开源项目
 
-### What Should My Open Source Policy Focus On?
+### 4.4.7 合规
 
-Organizations starting on their journey of open source sometimes get bogged down in the minutia of defining policies from the perspective of ‘FUD’ (Fear, Uncertainty, and Doubt). While there will be more detailed coverage of areas like open source compliance in future modules, we’d like to give a general overview of the areas that should be considered by all organizations in crafting their open source policies from the perspective of more effective utilization, not just avoidance of risk.
+合规性侧重于遵守开源政策和开源许可条款。对于分发软件的组织而言，许可证合规性是开源管理中最明显的部分，并且通常为建立开源计划办公室提供动力（在下一课程模块中将详细介绍这一点）。
 
-We’ll also try to address how you can consider both which policies you should focus on first, as well as how to socialize these policies across your organization for maximum effect.
+然而，合规性并不是良好治理的“全部”或“全部”——没有人主要为了遵守其许可而使用开源软件。合规性应该与开源管理的其他方面同等对待，而不是作为“警察行动”。
 
-To do this, we’ll first present the elements that should be in any organizations open source policies - note that this isn’t necessarily an exhaustive list, and there could be additional items depending on your specific business situation:
+对于不分发软件的组织，合规性侧重于确保遵循开源政策和流程，以确保软件系统和应用程序的安全性、可靠性和可支持性。
 
-- **Discovery**
+合规政策需要明确和详细，并制定规则以遵守组织政策和开源许可条款。对合规性的需求强调了能够在每个版本中识别和编目第三方代码（包括开源）以及附带条款（例如，源代码披露、归属等）的要求。
 
-- **Review & Approval**
+#### 4.4.8 高管参与
 
-- **Commercial Procurement**
+开源管理不仅仅是真正接触代码的开发人员的领域。它也不是唯一属于与保护知识产权 (IP) 相关的公司律师的职权范围。成功的开源管理是一项协作努力，需要许多角色和学科的参与。
 
-- **Code Management & Maintenance**
+一组经常被忽视的参与者是组织的高管。高管们最初可能认为开源技术仅仅是技术实现的一个细节，并满足于通过指挥链参与开源管理。开明的高管将意识到开源的风险/收益平衡及其创新和差异化的潜力，从而使高管更多地参与围绕开源管理政策的关键决策。
 
-- **Community Interaction**
+对于高管来说，考虑他们在以下政策领域的角色很重要：
 
-- **Compliance**
+- 参与整体开源政策的创建和演变
+- 参与开源审批
+  - 通常通过法律和业务线
+- 参与有关开源贡献、项目赞助等的高层决策
+- 接收和审查关于开源活动的定期报告
 
-- **Executive Engagement**
+## 4.5 课程：政策实施注意事项
 
-### Discovery
+### 4.5.1 政策制定中的人为因素
 
-Open Source Discovery and Evaluation covers how and where your team finds open source software of interest and by what criteria that software is vetted for inclusion in your organization’s software portfolio. Discovery should not be a hit or miss endeavor. Starting with the right direction and criteria (vs. ad hoc) streamlines this sometimes difficult process and avoids problems down the road.
+与开源相关的政策创建有一些有趣的人类动态，它们不同于传统的 HR 或您的组织可能习惯创建的其他政策。开源的协作和“社区主导”性质更侧重于完成工作，而不是一系列严格或正式的流程。
 
-Discovering useful open source seldom starts from a blank slate. Most organizations already use at least some open source software and this code can form the basis of an internal (approved) repository. When looking outside the existing portfolio, there is a temptation for engineers to get creative, but to reduce risk and increase efficiency, best practices dictate establishing a set of trusted sources, either through commercial supplier distributions (organizations like Red Hat, Google or others), or through software foundations like Cloud Native Computing Foundation.
+协作是这里的关键要素。与其严格地将这些政策视为惩罚或消除风险的方法，还需要将它们视为不同群体的机会，包括工程师、项目经理、法律专家甚至高管，就如何充分利用这些政策进行透明和坦率的讨论组织参与开源的情况。
 
-Moreover, a range of community, government and commercial tools exist for finding and choosing appropriate open source project code and versions. For example, OpenHub provides excellent metadata on thousands of popular projects, and Github itself offers dashboard info on project releases. Key security info can be gleaned from the NIST vulnerability database and the open source vulnerability database project.
+确实，在某些情况下，管理层可能不得不做出与其他团队（通常是工程部门）并不总是一致的政策决策，但让每个人都可以就政策的创建方式发表意见，这将使每个人都更容易遵守并查看这些政策对组织的意义。
 
-It’s important to engage all levels of the organization in developing these discovery policies - simply telling engineers that they cannot use open source except from specific internal repositories without further explanation, and without involving them in the decision process, will likely lead to ‘creative’ attempts to circumvent this policy, which makes compliance harder later on.
+### 4.5.2 经济和生产力考虑
 
-### Review & Approval
+制定开源政策时要考虑的另一个因素是它们的实施将如何影响工作效率，从而间接影响您的组织的经济影响。
 
-No matter how careful or diligent your discovery process, the real test faced by open source code must come from your review and approval processes. Review and approval are your first lines of defense against security, legal and operational risk that can accompany open source.
+构建涵盖所有可能情况并需要大量人力和技术基础设施的完全“防弹”政策似乎是“最安全”的方法，但这些可能会产生意想不到的后果，包括使软件开发变得缓慢、笨拙和令人不快，以至于您运行如果没有这种严格的政策，组织可能会失去关键的软件人才。
 
-As with discovery, leveraging previously-vetted code can speed up this process, so if your open source team has not already done so, best practices dictate creating lists of approved components and versions, reviewed and approved license types, and previously-employed evaluation rationale and results.
+此外，为此类重量级政策构建必要的流程基础设施在工具和详细的人工监督方面都具有经济成本。对抗构建“完美策略”诱惑的最佳方法是考虑经常重复的开源口头禅“早发布，经常发布”。考虑实施开源策略所需的最少策略集，然后随着您的管理团队和开发组织在开源参与的阶梯上进步，以这些为基础。
 
-Building clear criteria (and involving all stakeholders from engineers to program managers) avoids issues during discovery and speeds review. Additionally, it’s important to consider building shortcuts in this policy for low risk approvals that can speed up this process, reduce cost, and provide more incentive for engineering teams to adhere to these policies.
+# 5. 开源项目办公室介绍
 
-### Commercial Procurement
+## 5.1 课程：简介
 
-When you first think of discovering and integrating open source code, it’s natural to think primarily of code acquired freely over the Internet. But a substantial amount of open source code makes its way into organizations through commercial sourcing. Open source often accompanies and/or is an integral part of commercial applications and also frequently finds its way into deliverables from contracted development.
+在本节中，我们将讨论开源项目办公室 (OSPO) 在帮助定义战略、实施相关政策和指导组织参与开源方面的作用。 在本系列的后续课程中，将更详细地介绍如何设置和运行 OSPO。
 
-The risks and compliance obligations that accompany commercially-sourced open source are no different from those that come with directly acquired open source. The big difference is that rather than reaching out and downloading open source code directly, your organization receives that code implicitly, even silently, usually through long-standing conventional procurement processes.
+## 5.2 学习目标
 
-For commercially-sourced open source, industry best practices dictate working with your organization’s supply chain and sourcing personnel to establish and enforce policies for:
+在本节结束时，您应该能够：
 
-- Reporting the presence of open source elements in 3rd party code
+- 定义开源项目办公室的特征
+- 解释开源项目办公室在指导组织开源工作中的作用
+- 阐明开源项目办公室可以帮助定义开源成功指标的一些方法
 
-- IP verification, and where appropriate, indemnification
+## 5.3 开源项目办公室 (OSPO) 概述
 
-- Code scanning and review of supplier governance programs to supplement reporting (if any)
+### 5.3.1 什么是 OSPO，为什么我的组织需要它？
 
-- Documentation and integration with downstream component tracking, release audit and other compliance activities
+中央开源项目办公室是一个指定的地方，在公司内部支持、培育、共享、解释和发展开源。有了这样的办公室，企业可以明确地制定和执行他们的开源战略，为他们的领导者、开发人员、营销人员和其他员工提供他们需要的工具，使开源在他们的运营中取得成功。
 
-### Code Management & Maintenance
+传统软件开发和开源开发之间最大的区别之一是开源中使用的高度协作性。对于许多企业来说，在接近开源使用时所需的理念改变并不容易或自然而然地发生。
 
-The concept of "code ownership" emanates from the practices of scores of companies working with open source over the last decade and a half. At the highest level, the practice gives open source code “a face” within your organization, a “go to” person who is close to the code and to the community that develops and maintains it. Also typically included under the code ownership role is coordinating support for that code, directly or through third parties.
+这就是开源程序的创建可以成为主要福音的地方。通过创建开源项目办公室，企业可以启用、简化和组织开源的使用，使其直接与公司的长期业务计划联系起来。开源项目办公室旨在成为公司开源运营和结构的中心，帮助将所有需要的组件整合在一起。
 
-The need for "ownership" arises from the “self-service” nature of open source. Management policy should dictate what type of stewardship these components require and the code owner’s roles and responsibilities.
+这可以包括设置代码使用、分发、选择、审计和其他政策，以及培训开发人员、确保法律合规性以及促进和建立社区参与。该办公室还可以提供有关公司内外所有开源事物的宣传和交流。
 
-Other tasks associated with code management and maintenance are
+### 5.3.2 OSPO 的角色
 
-- Archiving externally sourced open source
+归根结底，一个组织良好的开源项目办公室很有价值，因为它可以促进公司内部的开源使用、贡献和创建，以获得战略优势。
 
-- Creating a current master copy (including updates, patches, etc.) for internal use, as the basis for sharing and reuse
+一个成功的办公室可以通过建立支持开发人员及其团队的流程来极大地受益于企业开源的使用。它鼓励标准编码和组织实践、流程和工具集。同时，项目办公室可以帮助避免或消除不必要的、僵化的流程，创意开发人员可能会规避或忽略这些流程，从而威胁项目的安全性和其他方面。
 
-- Tracking ownership, approvals and other decisions with an audit trail
+项目办公室的职责各不相同。这些包括：
 
-The accompanying support model must be flexible, scalable and sustainable, with low risk and overhead. Options include:
+- 清楚地传达公司内外的开源战略
+- 拥有并监督战略的执行
+- 促进开源在商业产品和服务中的有效使用
+- 确保向开源社区高质量和频繁地发布代码
+- 与开发者社区互动并看到公司有效地回馈其他项目
+- 在组织内培养开源文化
+- 维护开源许可证合规性审查和监督
 
-- Internal support (if resources are available, expertise is strong and risk is low)
+对于每家公司，开源项目办公室的角色很可能会根据其业务、产品和目标进行自定义配置。没有广泛的模板可以构建适用于所有行业的开源程序，甚至适用于单个行业的所有公司。这可能会使其创建成为一项挑战，但您可以从其他公司中吸取教训，并将它们组合在一起以满足您自己组织的要求。
 
-- Commercial support aggregator
+开源项目办公室的另一个关键作用是，当业务部门开始在其计划中考虑开源时，将实质和事实带入对话中，以便充分了解考虑开源的原因、后果和后果。是实现其目标所必需的。这通常是建立对话框架的问题，以便利益相关者在权衡决定时知道从哪里开始以及考虑什么。
 
-- Focused vendor support for business-critical components and/or platforms for technically complex components or those with high business/technical risk
+### 5.3.2 OSPO 在定义成功指标中的作用
 
-### Community Interaction
+开源项目经理必须证明其工作的投资回报 (ROI)。让我们来看看 OSPO 如何帮助定义组织评估其开源计划、项目和贡献的一些标准方式。
 
-Open source software is typically created and maintained by communities of like-minded developers. Participation in those communities confers a range of benefits on organizations that integrate and deploy their open source software, ranging from education to support to bug fixes and beyond.
+学习衡量什么、如何定义成功以及如何最好地利用这些信息来推进您的开源计划目标、证明有效性并获得支持是任何 OSPO 的关键职能。
 
-Community interaction is not a binary decision. Participation is, instead, a continuum. You and your colleagues can choose to participate in a variety of roles across a range of activities, from a modest start as consumers of OSS up through ongoing involvement and even leadership. While the level of participation can evolve organically, it is always best if the level of community interaction is aligned with organization business goals and based upon a cost-benefit analysis.
+您设定的目标和跟踪的指标将根据您投资开源的原因而有所不同——无论是招募开发人员、通过开放式创新引入新想法和技术、加快上市时间、降低开发成本、或无数其他原因。
 
-Here are some levels of interaction to consider:
+根据您的独特战略设定目标非常重要——并寻求执行团队的支持，以确保开源战略与整体业务战略保持一致。 OSPO 可以提供一个中立的位置来帮助您的组织战略性地考虑这些项目。
 
-1. No Participation (not recommended)
-2. Participate as individuals
-   - No tie to company allowed
-3. Participate in a community on your company’s behalf
+有经验的 OSPO 员工在构建指标时通常会考虑以下因素：
 
-   1. No IP conveyance
+- 他们的开发人员在外部开源项目中的参与度和影响程度
+- 他们的组织在开源社区中的声誉
+- 他们招募和留住有才华的开发人员的能力
+- 组织自己的开源项目及其开发人员参与的关键业务项目的总体健康状况
+- 他们如何管理开源许可证合规性
 
-   2. Contribute requirements or bug fixes
+### 5.3.3 关于 OSPO 创建的最终想法
 
-   3. Convey company-developed binaries, libraries, etc.
+构建和运行有效的 OSPO 还有许多其他方面。事实上，我们将在本系列的后续课程模块中有专门的部分和课程。目前，要考虑的最重要的事情是，随着您在开源参与的领导/参与阶梯上继续前进，您最终将需要某种形式的 OSPO。
 
-4. Provide sponsorship or support to a community
+与战略和政策定义一样，重要的是要记住前面引用的“尽早发布，经常发布”的格言。您无需立即为拥有数百人的 OSPO 配备人员即可发挥作用。从具有足够经验来帮助指导您的组织的开源领导者开始，以及可以帮助他们的少量员工，对于大多数组织来说通常是一个足够好的开始。
 
-5. Release company IP as OSS and establish a company-managed open source project
-
-### Compliance
-
-Compliance focuses on observance of open source policy and open source license terms. License compliance is the most visible part of Open Source Management for organizations that distribute software, and often provides the impetus for the establishment of open source program offices (more on this in the next lesson module).
-
-However, compliance is not the "be all" or ”end all” of good governance – no one uses open source software primarily for the privilege of complying with its licenses. Compliance should be treated on a par with the other dimensions of open source management, and not as a “police action”.
-
-For organizations that do not distribute software, compliance is focused on ensuring that the open source policy and processes are followed in order to assure the security, reliability and supportability of the software systems and applications.
-
-Compliance policy needs to be explicit and detailed, with rules spelled out for complying both with organizational policy and with the terms of open source licenses. The need for compliance highlights the requirement to be able to identify and catalogue third-party code (including open source) in each release, together with accompanying terms (e.g., source code disclosure, attribution, etc.).
-
-### Executive Engagement
-
-Open Source Management is not solely the province of developers who actually touch the code. Nor is it uniquely under the purview of corporate lawyers concerned with protecting intellectual property (IP). Successful open source management is a collaborative effort, requiring participation from many roles and disciplines.
-
-One often ignored set of participants is the organization’s executives. Executives may initially think of open source technology as merely a detail of technical implementation, and be content to participate in open source management through the chain of command. Enlightened executives will perceive the risk/benefit balance in open source and its potential for innovation and differentiation, resulting in greater executive participation in key decisions around open source management policy.
-
-It’s important for executives to consider their role in the following policy areas:
-
-- Involvement with overall open source policy creation and evolution
-
-- Participation in open source review and approval
-
-  - Typically through legal and lines of business
-
-- Participation in high-level decisions about open source contributions, project sponsorship, etc.
-
-- Receiving and reviewing regular reports on open source activity
-
-## Lesson: Policy Implementation Considerations
-
-### Human Factors in Policy Creation
-
-Policy creation in relation to open source has some interesting human dynamics at play that are different from traditional HR or other policies that your organization might be used to creating. The collaborative and ‘community-led’ nature of open source focuses more on getting work done than it does on a set of rigid or formal processes.
-
-Collaboration is the key element here. Rather than considering these policies strictly as punitive or ways to eliminate risk, they also need to be considered opportunities for different groups, including engineers, program managers, legal experts, and even executives to have transparent and frank discussions about how to get the most out of the organization’s engagement in open source.
-
-It’s true that in some cases, management may have to make decisions about policies that aren’t always in agreement with other groups (usually engineering), but in giving everyone a voice in how policies are created, it will make it easier for everyone to comply and see how the policies make sense for the organization.
-
-### Economic and Productivity Considerations
-
-Another element to consider when crafting your open source policies is how their implementation will affect working productivity, and therefore, indirectly, the economic impact to your organization.
-
-Building completely ‘bulletproof’ policies that cover every possible case, and require a massive human and technological infrastructure can seem like the ‘safest’ approach, but those can have unintended consequences, including making software development slow, unwieldy and so unpleasant that you run the risk of losing critical software talent to organizations without such rigid policies.
-
-Additionally, building out the necessary process infrastructure for such heavyweight policies has economic cost both in tools and in detailed human oversight. The best approach to combat the temptation to build the ‘perfect policies’ is to consider the oft-repeated open source mantra of ‘release early, release often.’ Consider what minimum set of policies you need to implement your open source strategy, and then build on those as both your management team and development organization progress up the ladder of open source engagement.
-
-# Section: Introducing the Open Source Program Office
-
-## Lesson: Introduction
-
-### Section Overview
-
-In this section, we will discuss the role that the Open Source Program Office (OSPO) plays in helping define strategy, implementing associated policies, and guiding an organization's involvement in open source. There will be a more detailed coverage of how to set up and run an OSPO in a later module in this series.
-
-### Learning Objectives
-
-By the end of this section, you should be able to:
-
-- Define the characteristics of an Open Source Program office
-
-- Explain the role of an Open Source Program Office in guiding an organization's open source efforts
-
-- Articulate some ways an Open Source Program Office can help define metrics for open source success
-
-## Lesson: Overview of Open Source Program Office (OSPO)
-
-### What is an OSPO and Why Does My Organization Need One?
-
-A central open source program office is a designated place where open source is supported, nurtured, shared, explained, and grown inside a company. With such an office in place, businesses can establish and execute on their open source strategies in clear terms, giving their leaders, developers, marketers, and other staff the tools they need to make open source a success within their operations.
-
-One of the biggest differences between traditional software development and open source development is the highly collaborative nature used in open source. For many businesses, the needed change in philosophy when approaching open source use doesn’t come easily or naturally.
-
-That’s where the creation of an open source program can be a major boon. By creating an open source program office, businesses can enable, streamline and organize the use of open source in ways that tie it directly to a company’s long-term business plans. An open source program office is designed to be the center of the universe for a company’s open source operations and structure, helping to bring all the needed components together.
-
-This can include setting code use, distribution, selection, auditing and other policies, as well as training developers, ensuring legal compliance and promoting and building community engagement. The office can also provide advocacy and communications about all things open source inside and outside the company.
-
-### The Role of an OSPO
-
-Ultimately, a well-organized open source program office is valuable because it can advance open source use, contribution, and creation inside companies for strategic advantage.
-
-A successful office can greatly benefit corporate open source use by establishing processes that enable developers and their teams. It encourages standard coding and organizational practices, processes, and toolsets. At the same time, a program office can help avoid or remove unneeded, rigid processes which creative developers may circumvent or ignore anyway, threatening security and other aspects of projects.
-
-The responsibilities of a program office are varied. These include:
-
-- Clearly communicating the open source strategy within and outside the company
-
-- Owning and overseeing the execution of the strategy
-
-- Facilitating the effective use of open source in commercial products and services
-
-- Ensuring high-quality and frequent releases of code to open source communities
-
-- Engaging with developer communities and seeing that the company contributes back to other projects effectively
-
-- Fostering an open source culture within an organization
-
-- Maintaining open source license compliance reviews and oversight
-
-For every company, the role of the open source program office will likely be custom-configured based on its business, products, and goals. There is no broad template for building an open source program that applies across all industries — or even across all companies in a single industry. That can make its creation a challenge, but you can learn lessons from other companies and bring them together to fit your own organization’s requirements.
-
-Another key role for the open source program office is to bring substance and facts to the conversation when business units begin to consider open source in their plans so there is a full understanding of why it is being considered, what the consequences will be, and what is needed to reach its goals. It’s often a matter of framing the conversation so that stakeholders know where to start and what to think about as they weigh their decision.
-
-### The OSPO’s Role in Defining Success Metrics
-
-Open source program managers must demonstrate the return on investment (ROI) of their efforts. Let’s take a look at how an OSPO helps define some of the standard ways that organizations evaluate their open source programs, projects, and contributions.
-
-Learning what to measure, how to define success, and how to best use this information to advance your open source program objectives, demonstrate effectiveness, and gain support is a critical function of any OSPO.
-
-The goals you set, and metrics you track, will vary according to the reasons you’re investing in open source – whether it’s to recruit developers, bring in new ideas and technologies through open innovation, achieve faster time to market, lower development costs, or myriad other reasons.
-
-It’s important to set goals according to your unique strategy – and seek buy-in from the executive team to ensure that the open source strategy aligns with the overall business strategy. An OSPO can provide that neutral place to help your organization think about these items strategically.
-
-Experienced OSPO staff generally consider the following when building metrics:
-
-- Their developers’ participation and level of influence in external open source projects
-
-- Their organization’s reputation in open source communities
-
-- Their ability to recruit and retain talented developers
-
-- The general health of the organization’s own open source projects and the business-critical projects its developers contribute to
-
-- How well they manage open source license compliance
-
-### Final Thoughts on OSPO Creation
-
-There are many other aspects to building and running an effective OSPO. So many, in fact, that we will have a dedicated section and lessons on this in later course modules in this series. For now, the most important thing to consider is that as you continue your journey up the leadership/participation ladder of open source engagement, you’ll eventually need some form of an OSPO.
-
-As with strategy and policy definition, it’s important to remember the ‘release early, release often’ adage quoted earlier. You don’t need to staff an OSPO with hundreds of people right away to be effective. Starting with an open source leader with enough experience to help guide your organization, and a small staff that can assist them, is usually a good enough start for most organizations.
-
-What you will find naturally is that well-functioning OSPO’s engage many different stakeholders (engineering, product management, and even executives) in ways that multiply their effectiveness despite their small size. We’ll talk more about finding and building open source leadership for an OSPO in future modules.
+您会自然而然地发现，运作良好的 OSPO 与许多不同的利益相关者（工程、产品管理，甚至高管）互动，尽管规模很小，但它们的效率却成倍增加。我们将在未来的模块中更多地讨论为 OSPO 寻找和建立开源领导力。
