@@ -39,7 +39,7 @@ sudo make install
 
 建议您尽可能在您的Linux发行版中安装最新的gcc、clang和llvm-dev。
 
-*注：**make distrib**将会同时构建FRIDA mod，QEMU mod和unicorn mod等。如果您只想要单独的AFL++，可以执行**make all**。如果您还想同时编译一些辅助工具但不需要纯二进制文件，就选择：*
+*注：**make distrib**将会同时构建FRIDA mode，QEMU mode和unicorn mode等。如果您只想要单独的AFL++，可以执行**make all**。如果您还想同时编译一些辅助工具但不需要纯二进制文件，就选择：*
 
 ```shell
 make source-only
@@ -91,7 +91,7 @@ LLVM_CONFIG - 如果您的发行版不使用 llvm-config 的标准名称（如 D
 
 由于平台的特殊性，macOS 存在一些问题。
 
-macOS 支持 AFL++ 仪器<!--instrumentation-->使用的 SYSV 共享内存，但仅使用默认设置并不够。在构建之前，请运行所提供的脚本来完善默认设置：
+macOS 支持 AFL++ 插桩<!--instrumentation-->使用的 SYSV 共享内存，但仅使用默认设置并不够。在构建之前，请运行所提供的脚本来完善默认设置：
 
 ```sh
 sudo afl-system-config
@@ -142,4 +142,4 @@ macOS 默认的崩溃报告守护进程会导致模糊测试<!--fuzzing-->出现
 - 模糊测试<!--fuzzing-->可能会比 Linux 慢。事实上，有报告说，在macOS上使用Linux虚拟机执行上述工作，可以大大提高性能。
 - 一些不可移植的特定平台代码可能与 AFL++ forkserver 不兼容。如果遇到任何问题，请在启动 afl-fuzz 前在环境中设置 **AFL_NO_FORKSRV=1**。
 
-macOS 似乎不支持 QEMU 的用户仿真模式，因此black-box instrumentation mode (-Q) 将无法运行。不过，FRIDA mode (-O) 可在 x86 和 arm64 macOS 上运行。
+macOS 似乎不支持 QEMU 的user mode，因此黑盒插桩模式 (-Q) 将无法运行。不过，FRIDA mode (-O) 可在 x86 和 arm64 macOS 上运行。
