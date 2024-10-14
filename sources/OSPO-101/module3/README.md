@@ -1,444 +1,411 @@
 ---
-status: collected
+status: translated
 title: "OSPO 101 Training Modules - Module 3"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module3/README.md
 ---
 
-# Open Source Program Offices (OSPO) And Your Organization
+* 一、介绍
 
-## Introduction
+  ## 1.1 课程：简介
 
-### Section Overview
+  在本节中，我们将定义和解释 OSPO 的组成，以及有关该构造在帮助大规模有效管理开源方面的作用和价值的信息。
 
-In this section, we will provide a definition and explanation of what an OSPO consists of and information on the role and value of this construct in helping effectively manage open source at scale.
+  ## 1.2 学习目标
 
-### Learning Objectives
+  在本节结束时，您应该能够：
 
-By the end of this section, you should be able to:
+  - 定义什么是开源项目办公室 (OSPO)
+  - 解释 OSPO 在您的组织中扮演的角色
+  - 阐明 OSPO 为企业带来的价值
 
-* Define what an Open Source Program Office (OSPO) is
-* Explain the role an OSPO plays in your organization
-* Articulate the value that an OSPO brings to the enterprise
+  # 二、课程：定义
 
-## Definition
+  ## 2.1 什么是开源项目办公室？
 
-### What is an Open Source Program Office?
+  如上面的介绍性文本中所述，开源计划办公室 (OSPO) 旨在成为贵组织与开源工作的中心纽带。但是，该定义（故意）留下了很大的可变空间。有些人可能会说这会降低价值，但事实上，OSPO 根据不同的组织有不同的定义，这一事实实际上是一种优势，因为它让您可以塑造此结构（并经常更改它）以满足各种需求你可能会在你的开源之旅中。
 
-As mentioned in the introductory text above, an Open Source Program Office (OSPO) is intended to be the central nexus of your organization’s work with open source.  However, that definition leaves (on purpose) a lot of room for variability.  Some might say that diminishes the value, but, in fact, the fact that OSPO’s can and do look different depending upon your organization is actually a strength, as it lets you mold this construct (and change it frequently) to address a variety of needs you’ll likely have on your open source journey.
+  例如，某些组织的大部分上游开源工作在其 OSPO 中由代表组织工作的特定开发人员进行，以便将产品支持所需的更改纳入开源项目。但是，在某些组织中，这些开发人员分散并嵌入产品开发团队中，并由 OSPO 人员提供建议和培训。
 
-For example, some organizations centralize the majority of their upstream open source work inside their OSPO, which authorizes specific developers to work on behalf of the organization and propose upstream project changes required for downstream product enablement.  However, in some organizations, those developers are decentralized and embedded within product development teams and are advised and trained by OSPO personnel.
+  没有“一刀切”的模型，OSPO 可以是任何东西，从拥有大量资源的高度集中到小而分散，依赖于整个组织的资源的影响和培训。可以在 TODO Group 的 github 存储库中的工作中找到有关 OSPO 是什么的很好的概述资源。
 
-There is no ‘one-size-fits-all’ model, and an OSPO can be anything from highly-centralized with a large set of resources, to small and decentralized, relying on influence and training of resources throughout the organization.  A great overview resource for what an OSPO is can be found in the work of the TODO Group in their [github repository](https://github.com/todogroup/ospodefinition.org).
+  ## 2.2 OSPO在企业中的作用
 
-### Functions of an OSPO in the Enterprise
+  开源项目办公室的主要职能是推动企业内部对开源的消费、贡献和创造，以获得战略优势。
 
-An open source program office’s main functions are to advance open source consumption, contribution, and creation inside companies for strategic advantage.
+  项目办公室的职责各不相同。这些包括：
 
-The responsibilities of a program office are varied. These include:
+  - 清楚地传达公司内外的开源战略
+  - 拥有并监督战略的执行
+  - 促进开源在商业产品和服务中的有效使用
+  - 确保向开源社区高质量和频繁地发布代码
+  - 与开发者社区互动并看到公司有效地回馈其他项目
+  - 在组织内培养开源文化
+  - 维护开源许可证合规性审查和监督
 
-* Clearly communicating the open source strategy within and outside the company
-* Owning and overseeing the execution of the strategy 
-* Facilitating the effective use of open source in commercial products and services
-* Ensuring high-quality and frequent releases of code to open source communities
-* Engaging with developer communities and seeing that the company contributes back to other projects effectively
-* Fostering an open source culture within an organization
-* Maintaining open source license compliance reviews and oversight
+  重要的是要重申，并非所有 OSPO 都具有所有这些功能，或者必须均匀分配他们所从事的工作。项目办公室所做的很大一部分取决于组织的业务需求。
 
-It’s important here to reiterate that not all OSPOs have all of these functions, or necessarily have even distribution of what things they work on.  A large part of what the program office does is dependent on what the organization’s business needs are.
+  应该强调的一件事是，OSPO 不仅仅与开发人员合作 - 他们还有许多可以协助的非开发活动，如下所述：
 
-One thing that should be stressed is that OSPOs do more than just work with developers - they have a host of non-development activities that they can assist with, as noted below:
+  图片来源：TODO Group OSPO 指南 (https://todogroup.org/guides/)
 
-Credit: TODO Group OSPO Guides ([https://todogroup.org/guides/](https://todogroup.org/guides/))
+  ![Image description](./ospo-structure.png)
 
-![OSPO Structure](ospo-structure.png)
+  ## 2.3 OSPO 的价值
 
-### The Value of an OSPO
+  一个成功的办公室可以通过建立支持开发人员及其团队的政策、流程和指南来极大地受益于企业的开源使用。它鼓励标准编码和组织实践、流程和工具集。同时，项目办公室可以帮助避免或消除不必要的、僵化的流程，创意开发人员可能会规避或忽略这些流程，从而威胁项目的安全性和其他方面。
 
-A successful office can greatly benefit corporate open source use by establishing policies, processes and guidelines that enable developers and their teams. It encourages standard coding and organizational practices, processes, and toolsets. At the same time, a program office can help avoid or remove unneeded, rigid processes which creative developers may circumvent or ignore anyway, threatening security and other aspects of projects.
+  当业务部门开始在其计划中考虑开源时，开源项目办公室会为对话带来实质内容和事实，以便充分了解考虑开源的原因、后果以及实现其目标所需的条件.通过让开源专家帮助构建对话，利益相关者知道从哪里开始以及在权衡他们的决定时要考虑什么。
 
-An open source program office brings substance and facts to the conversation when business units begin to consider open source in their plans so there is a full understanding of why it is being considered, what the consequences will be, and what is needed to reach its goals. By having specialists in open source help frame the conversation, stakeholders know where to start and what to think about as they weigh their decision.
+  计划办公室还充当内部开发人员和开源用户社区之间的重要联络人，以解决和理解出现的问题或要求。项目办公室可以协助解决法律问题，为开发人员提供支持，并为基于公司开源项目的外部用户发声。项目办公室还可以帮助将这些信息传递给公司内部的其他人，包括产品管理团队，以有利于组织的方式进一步推进产品。
 
-The program office also acts as a critical liaison between internal developers and the open source user communities to resolve and understand issues or requirements that arise. The program office can assist with legal issues, provide developer advocacy, and act as a voice for external users who are building on a company’s open source projects. The program office can also help relay that information to others inside the company, including the product management team, to further advance products in a way that is beneficial to the organization. 
+  # 3. 建立一个有效的开源项目办公室
 
-# Building an Effective Open Source Program Office
+  ## 3.1 简介
 
-## Introduction
+  在本节中，我们将展示如何创建一个有效的开源计划办公室，包括有关角色、治理、流程和结构的信息。
 
-### Section Overview
+  ## 3.2 学习目标
 
-In this section, we will show how to create an effective Open Source Program Office, including information on roles, governance, processes and structure.
+  在本节结束时，您应该能够：
 
-### Learning Objectives
+  - 描述形成新 OSPO 的主要步骤
+  - 描述可能成为 OSPO 一部分的不同角色和结构
+  - 阐明如何将治理和其他流程构建到 OSPO 中
 
-By the end of this section, you should be able to:
+  ## 3.3 创建开源项目办公室
 
-* Describe the main steps in forming a new OSPO
-* Describe the different roles and structure that might be part of an OSPO
-* Articulate how to build governance and other processes into an OSPO
+  ### 3.3.1 从哪里开始？
 
-## Establishing an OSPO
+  每家公司都是不同的，在启动 OSPO 时会有不同的需求。该过程可以自上而下开始，并得到高层管理人员的支持；或者自下而上，一小部分开发人员和开源爱好者一直在使用开源并希望看到它正式化。
 
-### Where to Begin?
+  它可以表现为围绕法律问题和安全制定指导的愿望，或者可以从成熟的草根努力开始并吸引企业领导人的注意。它甚至可以从一位有远见的 CEO 或 CTO 开始，他们支持通过深化对开源的承诺来推动公司向前发展并增加价值的事业。
 
-Every company is different and will have different needs when it comes to starting an OSPO. The process can start from the top down, with buy-in from top management; or from the bottom up, where pockets of developers and open source enthusiasts have been using open source and want to see it formalized. 
+  这种共识和执行支持对于获得牵引力和推动启动 OSPO 的过程至关重要。您的开源计划办公室之旅的起点对您的组织来说是独一无二的。但是，我们将在接下来的页面中介绍您应该考虑的一些关键步骤。
 
-It can manifest itself as a desire to create guidance around legal issues and security, or it can start as a grassroots effort that matures and attracts the attention of corporate leaders. It can even start with a forward-thinking CEO or CTO who champions the cause to drive the company forward and add value by deepening its commitment to open source. 
+  ### 3.3.2 寻找领导者
 
-This kind of consensus and executive support will be essential to gain traction and move the process of starting an OSPO forward. Where you start your open source program office journey will be unique to your organization.  However, we’ll cover some critical steps that you should be thinking about in the following pages.
+  无论您的计划如何开始，重要的是要找到合适的领导者来帮助开发并在公司内部运行刚刚起步的项目办公室。顶级候选人将对开源的工作原理有详细的了解，以及作为现有开源项目的开发人员、贡献者或提交者工作的一些技术印章。
 
-### Find a Leader
+  他们应该对贵公司的业务以及商业敏锐度和管理技能有广泛的了解，以帮助制定跨业务部门的战略和计划。他们需要善于交际，以便向他人传达热情、知识和信息，并帮助他们了解开源计划将如何为公司带来变革、改变和改进。
 
-Regardless of how your planning starts, it’s important to find the right leader to help develop and then run the fledgling program office inside a company. The top candidate will have a detailed understanding about how open source works, along with some technical chops from working as a developer, contributor, or committer on existing open source projects. 
+  项目办公室的负责人需要能够与人们谈论深层技术，但他们不必了解每一项正在发挥作用的技术的来龙去脉，因为他们的主要工作将是帮助制定详细的讨论将发生在多个利益相关者之间。
 
-They should have a broad understanding of your company’s business along with the business acumen and management skills to help inform strategy and plans across business units. And they need to be sociable so they can convey enthusiasm, knowledge, and information to others and help them understand how the open source initiative is going to transform, change, and improve things for the company. 
+  ### 3.3.3 定义您的操作
 
-The head of the program office needs to be able to talk with people about the deep technology, but they don’t have to know the ins and outs of every technology at play, because their main job will be to help frame the detailed discussions that will happen among multiple stakeholders.
+  新项目办公室所需的预算、人员配备、技术工具和系统也是建立其业务需要解决的关键问题。一些公司从兼职经理开始，但了解到他们只能通过这种方法获得这么多。让某人担任全职工作是启动该计划的坚实一步，同时还有少量支持人员以保持其灵活性。
 
-### Define Your Operations
+  一个定义明确的开源项目办公室的一个例子是推动所需的政策、流程和工具，同时还遵循消除摩擦的咒语，使用工具来自动化可以简化的内容，并委派需要的任务来完成。我们将在以后的部分中详细介绍如何设置策略和流程。
 
-The budget, staffing, technology tools and systems needed by a new program office are also key issues to resolve in establishing its operations. Some companies begin with a part-time manager, but learn they will only get so far with that approach. Making the position someone’s full-time job is a solid step to get the program off the ground, along with a small support staff to keep it nimble.
+  项目办公室必须提供结构化的政策和流程，但也要保持灵活性。当开源用户和贡献者需要帮助时，该办公室更像是一家咨询公司，在提供指导的同时仍允许员工做出与其工作相关的个人或团体业务决策。
 
-An example of a well-defined open source program office is one that drives needed policy, processes and tools, while also operating with a mantra of eliminating friction where it is found, using tools to automate what can be streamlined, and delegating tasks which need to be accomplished. We’ll cover more specifics on how to set policies and processes in future sections.
+  ### 3.3.4 寻求反馈和支持
 
-A program office must offer structured policies and processes but also remain flexible. When open source users and contributors need help, the office operates more like a consultancy, providing guidance while still allowing employees to make individual or group business decisions relating to their work. 
+  建立开源项目办公室不是凭空而来的事情。因为它将在您的业务中发挥核心作用，所以成功创建它需要企业内部所有相关方公开、诚实的投入和反馈。确保从高管到开发人员的每个人在其创建过程中都有发言权，这将有助于为这项工作提供广泛的支持。
 
-### Seek Feedback and Buy-in
+  了解您的公司正在使用开源做什么，需要从多个利益相关者的角度思考您的组织真正关心的核心问题。尽早寻求此反馈并确保将其反馈到您的 OSPO 部署计划中，这将对项目帮助定义的流程和策略的接受和成功大有帮助。
 
-Establishing an open source program office isn’t something that should be done in a vacuum. Because it will have a central role in your business, creating it successfully will require open and honest input and feedback from all involved parties inside enterprises. Making sure that everyone from the executives to the developers have a say in its creation will help give the effort broad-based support.
+  ## 3.4 定义OSPO结构
 
-Getting a handle on what your company is doing with open source requires thinking from multiple stakeholders about the core things that your organization really cares about. Seeking this feedback early on and making sure it’s fed into your rollout plans for the OSPO will go a long way toward acceptance and success of the processes and strategies the program helps define.
+  ### 3.4.1 OSPO 应该在哪里？
 
-## Defining an OSPO Program Structure
+  那么开源项目办公室应该如何以及在哪里适合公司的组织结构呢？它应该在工程部门内部吗？还是在法律部门、CTO 办公室或其他特定业务部门？同样，这取决于您公司的主要业务和您的开源战略。
 
-### Where Should the OSPO Reside?
+  让我们在此重申，对于您的 OSPO 应该驻留在何处，并没有“一刀切”的所有答案。在接下来的页面中，我们将讨论一些最常选择的项目办公室位置，但此列表绝不是详尽无遗的。
 
-So how and where should open source program offices fit inside a company’s organizational structure? Should it be inside the engineering department? Or in the legal department, the CTO’s office or in another specific business unit? Again, that depends on your company’s primary business and your open source strategy.
+  ### 3.4.2 OSPO 作为法律团体的一部分
 
-Let’s reiterate here that there isn’t a ‘one-size-fits’ all answer to where your OSPO should reside. In the following pages, we’ll discuss some of the most often chosen locations for the program office, but by no means is this list exhaustive.
+  对于拥有大量知识产权组合的公司，这可能意味着开源项目办公室可能非常适合法律办公室，在那里开发人员可以就出现的问题与法律团队密切合作。这可能非常适合硬件公司，因为它总是担心可能会遇到与 IP 相关的法律问题。
 
-### OSPO as part of a Legal Group
+  然而，这种方法的一个挑战是，法律部门下属的 OSPO 最终可能会将他们的大部分时间集中在合规问题上，从而减少了鼓励开源贡献和与外部开源社区联系的其他机会，这些机会可能有益于从长远来看，该组织。如果您决定将您的 OSPO 托管在法律团队中，您将需要一位强大的领导者，他可以在团队角色的合规性方面与与开源社区互动的更具前瞻性和战略性的政策之间取得平衡。
 
-For companies that have large intellectual property portfolios, that could mean the open source program office might be a perfect fit in the legal office, where developers can work closely with the legal team on issues that arise. That might be a good fit for a hardware company because it’s always concerned about potentially running into IP-related legal issues.
+  ### 3.4.3 工程中的 OSPO
 
-One challenge with this approach however, is that an OSPO under the legal department could end up focusing a significant portion of their time on compliance matters, thereby diminishing other opportunities to encourage open source contributions and outreach to external open source communities that can be beneficial to the organization in the long term.  If you decide to host your OSPO in the legal group, you’ll need a strong leader who can balance the compliance aspects of the group's role with more forward-thinking and strategic policies on engaging with the open source community.
+  更受工程驱动的公司通常选择在其工程部门内维护其开源项目办公室。这使他们能够直接将精力集中在使开发人员在工作中更加有效和高效。
 
-### OSPO in Engineering
+  在许多情况下，这些计划办公室向 CTO 或在某些情况下向 CIO 报告。在拥有强大/关联产品集的组织中，办公室可以向产品开发副总裁或工程副总裁报告。在拥有不同产品组合的公司中，通常最好将 OSPO 安置在 CTO 办公室内，因为这使其在帮助所有工程团队制定政策和教育工作方面拥有最广泛的视野和自由度。
 
-Companies who are more engineering-driven often choose to maintain their open source program offices within their engineering departments. That allows them to focus their efforts directly on making their developers more effective and productive in their work.
+  这种方法的一个缺点可能是不太关注合规活动（与与法律小组一起主持 OSPO 相比），但同样，强大的领导者可以在这里提供必要的平衡，如果做得好，它如果开发人员认为流程轻量级且不繁重，则可以提高开发人员的合规性。
 
-In many cases, these program offices report into the CTO or in some cases the CIO.  In organizations with a strong/connected set of products, the office can report to the VP of Product Development or VP of engineering.  In companies with disparate product portfolios, it’s usually best to house the OSPO within the office of the CTO, as this gives it the widest view and latitude in helping develop policies and education efforts for all of the engineering teams.
+  ### 3.4.4 OSPO 作为开发者关系/营销的一部分
 
-One downside to this approach can potentially be less of a focus on compliance activities (as compared to hosting the OSPO with the legal group), but again, a strong leader can provide the necessary balance here, and, if this is done well, it can lead to increase compliance by developers if they feel that the processes are lightweight and not onerous.
+  对于某些组织，开源办公室位于营销组内部，因为他们使用开源来汇集潜在客户，旨在销售他们使用开源构建的产品。如果一个组织需要与关键的开源开发人员和项目建立密切的联系，那么将 OSPO 托管在像开发人员关系这样的小组中可以提供这种支持。
 
-### OSPO as part of Developer Relations/Marketing
+  当然，OSPO 仍然必须能够根据需要在合规性和教育领域中执行其他所需的角色。
 
-For some organizations, open source offices are located inside the marketing group because they use open source to funnel leads aimed at selling the products they build using open source. If an organization requires a close connection with key open source developers and projects, hosting the OSPO in a group like developer relations can provide this support.
+  ### 3.4.5 实施注意事项
 
-Of course, the OSPO still has to be able to perform other needed roles in the compliance and education domains as necessary.
+  在决定将您的 OSPO 放置在组织中的位置时，另一个需要考虑的重要因素是您计划采用集中式还是分散式方法。
 
-### Implementation Considerations
+  在较小的组织中，拥有一个集中的开源程序办公室，将所有用于消费、协作和创建的工作流都集中在一个中心位置可能会很好地工作。它确保方法和合规性的最大一致性，但随着组织的发展，它也可能变得笨拙。
 
-Another important element to consider when making the decision about where to place your OSPO in the organization revolves around whether you are planning a centralized vs. decentralized approach.
+  中心化组织有时也会接待主要开发人员，他们将代表组织为上游开源项目做出贡献。这些开发人员通常充当产品团队的内部顾问，他们可能缺乏培训和专业知识，无法独自为开源项目做出贡献。
 
-In a smaller organization, having a centralized open source program office with all workflows for consumption, collaboration and creation coming to a central location might work well.  It ensures the greatest consistency of approach and compliance, but as an organization grows, it can also become unwieldy. 
+  但是，一旦您的组织变得足够大，分散的方法通常效果最好，因为您可以专注于教育和为开发人员和管理人员提供咨询资源，以做出与整体组织政策一致的关于开源的产品特定决策。这种方法还可以在整个组织中传播开源知识，并有助于培养更加开放和协作的文化，这是与更大的开源生态系统合作的重要特征。
 
-Centralized organizations sometimes also host the main developers who will contribute to upstream open source projects on behalf of the organization.  These developers often act as internal consultants for product teams who may lack the training and expertise to contribute to open source projects on their own.  
+  在本模块的后面部分，我们将分享案例研究，以举例说明其他组织如何做出这些结构性决策。
 
-Once your organization becomes large enough though, a decentralized approach generally works best, as you can focus on educating and providing consulting resources for developers and managers to make product-specific decisions about open source that are consistent with the overall organizational policies.  This approach also spreads the open source knowledge throughout your organization and helps foster a more open and collaborative culture, which is an important trait for working with the larger open source ecosystem.
+  ## 3.5 OSPO角色
 
-In a later section of this module, we’ll share case studies to give some examples of how other organizations have made these structural decisions.
+  在创建开源项目办公室时，必须确定开源项目经理、公司法律团队以及任何由工程师和高管组成的审查委员会的角色和职责。此外，随着 OSPO 的发展，可能会有其他角色为组织提供价值。在接下来的几页中，我们将更详细地介绍这些角色。
 
-## Lesson: OSPO Roles
+  ### 3.5.1 项目经理
 
-### Management Roles
+  为了获得最大的效率，项目经理应该被授权为行政级别的职位，直接监督和亲自管理公司在开源活动中的利益。这将为他们提供所需的工具，以引领企业内部朝着其开源目标和愿景迈进。
 
-In creating an open source program office, decisions must be made to establish the roles and responsibilities of the open source program manager, the company’s legal team, and any review board made up of engineers and executives.  Additionally, as an OSPO grows, there may be additional roles that provide value to the organization.  In the next few pages we’ll cover these roles in more detail.
+  一些公司选择使用类似于审查委员会的开源执行委员会。这样的小组通常由公司内部所有主要业务部门的高层领导组成，对政策变化和引入提供董事会式的指导，为开源计划设定优先级，并协助推动组织行为的变化。
 
-#### Program Manager
+  ### 3.5.2 法律
 
-For maximum effectiveness, the program manager should be empowered as an executive-level position with direct oversight and hands-on management of the company’s interests in its open source activities. That would give them the tools they need to lead the way inside an enterprise toward its open source goals and vision.
+  与公司内部的所有其他职能一样，法律团队必须在开源项目办公室的运营中拥有发言权，以确保遵守法律、开源许可协议和其他法律细节。具体到开源，法律团队需要负责确保公司可以在内部使用代码并以可接受的条件回馈项目。
 
-Some companies choose to use an Open Source Executive Council, which is similar to a review board. Such a group is usually made up of senior leaders from all major business units inside the company, and provides board of directors-style guidance on policy changes and introductions, sets priorities for the open source program, and assists in driving changes in organizational behavior.
+  较大的组织应考虑聘请或培训专职律师为其开源计划提供建议。但您也可以聘请兼职、知识渊博的工作人员或外部法律顾问。与在开源许可和知识产权方面知识渊博且经验丰富的律师合作通常很有帮助，因为它可能是与商业合同或标准相关的专门的、有时令人困惑的法律领域。
 
-#### Legal
+  ### 3.5.3 合规团队
 
-Like every other function inside a company, legal teams must have a say in the operations of the open source program office to ensure compliance with laws, open source licensing agreements, and other legal details. Specific to open source, the legal team needs to be responsible for ensuring that a company can consume code internally and contribute back to projects with acceptable terms.
+  开源合规团队是一个跨学科的团队，由负责确保开源许可合规性的不同个人组成。核心团队，通常称为开源审查委员会 (OSRB)，由工程和产品团队的代表、一名或多名法律顾问以及合规官（通常是开源项目经理）组成。
 
-Larger organizations should consider hiring or training a dedicated attorney to advise their open source program. But you could also use a part-time, knowledgeable staff member or outside counsel. It is often helpful to work with an attorney who is knowledgeable and experienced with open source licensing and IP as it can be a specialized, and at times baffling, legal domain relative to commercial contracts or standards.
+  扩展团队由多个部门的不同人员组成，他们持续为合规工作做出贡献。这些可能包括文档、供应链、企业发展、IT、本地化和开源执行委员会 (OSEC)。但是，与核心团队不同的是，扩展团队的成员仅根据他们从 OSRB 收到的任务，兼职从事合规工作。
 
-#### Compliance Team
+  ### 3.5.4 开发者关系、宣传和布道者
 
-The open source compliance team is a cross-disciplinary group consisting of various individuals tasked with the mission of ensuring open source license compliance. The core team, often called the Open Source Review Board (OSRB), consists of representatives from engineering and product teams, one or more legal counsel, and the compliance officer (who is often the open source program manager).
+  开源开发人员关系和布道者对于刚刚起步的开源项目办公室很重要，因为他们可以在公司的开发人员社区中为特定项目建立兴趣和热情，这有助于增加工作量并增加工程师之间的团队合作。布道者经常参加会议和技术活动并解释什么是开源，以帮助观众了解如何使用它以及它提供哪些挑战和机遇，同时与开源社区分享他们的企业经验。
 
-The extended team consists of various individuals across multiple departments that contribute on an ongoing basis to the compliance efforts. These may include documentation, supply chain, corporate development, IT, localization and an Open Source Executive Committee (OSEC). However, unlike the core team, members of the extended team only work on compliance on a part-time basis, based on tasks they receive from the OSRB. 
+  ### 3.5.5 其他
 
-#### Developer Relations, Advocacy, and Evangelists
+  此外，创建其他工作角色对于开源项目办公室的成功也很重要，包括工具管理员、培训经理、工具和系统的集成开发人员、部署支持人员和实施项目负责人。例如，工具管理员需要帮助为从事开源项目的工程师选择、提供和集成所需的工具，同时还要确保这些工具满足企业的许可和其他要求。
 
-Open source developer relations and evangelists can be important to a fledgling open source program office because they can work to build interest and enthusiasm within a company’s developer community for specific projects, which can help grow the efforts and increase teamwork among engineers. Evangelists often go to conferences and tech events and explain what open source is to help audiences understand how it can be used and what challenges and opportunities it offers, while sharing their corporate experiences with the open source community.
+  ### 3.6 定义OSPO流程
 
-#### Others
+  ### 3.5.1 概述
 
-In addition, the creation of other job roles is important for the success of the open source program office, including tool administrators, training managers, integration developers for tools and systems, deployment support staffers, and implementation project leads. Tool administrators, for example, are needed to help select, provide and integrate needed tools for engineers working on their open source projects, while also ensuring the tools meet the licensing and other requirements of an enterprise.
+  在解决 OSPO 的结构和人员配备要求后，下一步是制定明确定义的政策和流程，这将使贵公司的开源战略得以一致实施。
 
-## Defining OSPO Processes
+  这些政策应列出在整个公司范围内使用开源的要求和规则，以及记录和可执行的流程，以确保这些规则在日常基础上得到遵守。
 
-### Overview
+  至关重要的是，这些流程应该需要最少的开销，并在审查现有开源政策和流程时努力反复消除、自动化和委派，以便不断质疑和更新规则以简化程序。这意味着要问为什么政策甚至到位以及如何为用户改进它们。
 
-After tackling an OSPO’s structure and staffing requirements, the next step is to develop well-defined policies and processes which will enable consistent implementation of your company’s open source strategy.
+  即使这些规则是为开源项目办公室精心制定的，公司也必须准备好随着时间的推移，随着业务的变化以及开源项目的成熟和发展，根据需要发展和修改规则和程序。
 
-The policies should lay out the requirements and rules for working with open source across the company, as well as documented and executable processes which will ensure the rules are followed on a day-to-day basis.
+  ### 3.6.2 要问的问题
 
-Crucially, these processes should require minimal overhead and strive to repeatedly eliminate, automate and delegate when reviewing existing open source policies and processes so the rules are constantly questioned and updated to streamline procedures. That means asking why policies are even in place and how they can be improved for users.
+  在起草开源政策和流程时，需要讨论的许多主题包括：
 
-Even as those rules are carefully created for open source program offices, companies must be prepared to evolve and modify the rules and procedures as needed over time as their businesses change and as their open source engagements mature and grow.
+  - 贵公司的员工如何为开源项目做出贡献
+  - 贵公司如何开源内部项目
+  - 贵公司如何接受外部对其开源项目的贡献
+  - 如何准备开源版本
+  - 如何获得批准
+  - 开发人员如何使用他们在 GitHub 和其他代码存储库中找到的开源代码
+  - 解释如何将开源代码引入贵公司的程序和规则
+  - 如何对传入的代码进行编目，以便其他人知道它正在被使用
+  - 公司如何围绕其发展志同道合的外部开发人员社区以保持其蓬勃发展
+  - 有助于确定代码何时应作为开源发布或作为知识产权保留的规则
 
-### Questions to Ask
+  这些问题的答案有助于为未来的政策和流程提供信息 - 我们将在以下页面中介绍这些政策的一些示例。
 
-When drafting open source policies & processes, among the many topics that need to be discussed are:
+  ### 3.6.3 代码发布政策
 
-* How employees of your company can contribute to open source projects
-* How your company can open source internal projects
-* How your company accepts external contributions to their open source projects
-* How to prepare for open source releases
-* How approvals are received
-* How developers can use open source code they find on GitHub and other code repositories
-* Procedures and rules explaining how open source code can be brought into your company
-* How the incoming code is catalogued so others know it is being used
-* How a company can grow a community of like-minded external developers around it to keep it thriving
-* Rules that help determine when code should be released as open source or kept as intellectual property
+  OSPO 的一个重要目标是帮助开发人员成功地为开源项目做出贡献并发布他们自己的项目。指南和清单确保开发人员拥有将代码作为开源发布所需的一切，而不会遇到许可或保密问题。特别是对于新的贡献者，在做出贡献之前，将内部审查过程作为一个安全的地方来获得反馈也很有帮助。
 
-The answers to these questions help inform policies and processes going forward - we’ll cover some examples of these policies in the following pages.
+  您的组织还应努力采用“上游优先”的发展政策。通过首先向上游开源项目提交补丁，然后将它们合并到您下游自己的产品中，您将避免在每次发布后花费大量时间和金钱进行重新设计。
 
-### Policies for Releasing Code
+  ### 3.6.4 接受捐款的政策
 
-An important OSPO goal is to help developers be successful in making contributions to open source projects and in releasing their own projects. Guidelines and checklists ensure that developers have everything they need to release their code as open source without running into licensing or confidentiality issues. Especially for new contributors, it can also help to have an internal review process available as a safe place to get feedback before making a contribution.
+  如果您最终创建了自己的开源项目并且它们不是托管在一个中立的基金会，您将需要为您的公司创建程序以接收外部开发人员对这些项目的贡献。
 
-Your organization should also strive to adopt an "upstream first" development policy. By submitting patches to the upstream open source project first, and incorporating them into your own products downstream, you will avoid spending a massive amount of time and money on re-engineering after each release.
+  当然，这是将您公司的开源代码发布到其他社区并邀请其他开发人员对您自己的项目产生兴趣的好处之一。因为在宏伟的计划中，即使他们不是您的正式员工，您也可以让来自世界各地的优秀人才为您公司的代码工作，使其变得更好并扩展其能力。这种协作对公司很重要，也是许多开源项目办公室的共同关注点。
 
-### Policies for Accepting Contributions
+  ### 3.6.5 促进采用的政策
 
-If you eventually create your own open source projects and they are not hosted at a neutral foundation, you’ll want to create procedures for your company to receive contributions to these projects from external developers.
+  您还想鼓励其他人在他们的产品和服务中使用您的代码。这是构建生态系统的关键，而生态系统反过来又有助于发展和维持您的开源项目。开源使用政策可以有多种创新形式。
 
-That is, of course, one of the benefits of putting your company’s open source code out into other communities and inviting other developers to establish an interest in your own projects. Because in the grand scheme of things, even though they are not officially your employees, you can have brilliant people working on your company’s code from around the world, making it better and expanding its capabilities. This kind of collaboration is important for companies and is a common focus for many open source program offices.
+  例如，Red Hat 有一个独特的政策，在大多数情况下，从一开始就默认将其新创建的代码开源。这意味着在公司内部开发每一款软件时，都假设未来它可能注定要作为开源发布。
 
-### Policies to Promote Adoption
+  由于这种审查，开发人员在编写开源代码时倾向于以更好的方式构建事物，从而在他们的工作中创建具有更少或改进的代码依赖性的更清晰的代码。
 
-You also want to encourage others to use your code in their products and services. This is key to building ecosystems that in turn help grow and sustain your open source projects. Policies for open source use can come in a variety of innovative forms.
+  ### 3.6.6 内部消费政策
 
-For example, Red Hat has a unique policy by defaulting to open source with its newly-created code in most cases from the start. That means that when developing each piece of software inside the company, it is assumed that in the future it may be destined to be released as open source.
+  其他需要的政策包括关于您的团队如何以及在何处为开源软件的使用和创建找到可信来源的规则、关于建立代码管理和维护程序的政策，以及为您的项目正规化社区互动的政策。
 
-Due to that scrutiny, developers tend to structure things in better ways when writing open source, creating cleaner code with fewer or improved code dependencies in their work.
+  开源使用政策确保进入产品库的任何软件（专有、第三方或开源）都经过审核、审查和批准。它还确保您的公司在您的产品之前有一个计划来履行因使用各种软件组件而产生的许可义务。
 
-### Policies for Internal Consumption
+  # 4 附加信息和案例研究
 
-Other needed policies include rules about how and where your team finds trusted sources for open source software use and creation, policies about establishing code management and maintenance procedures, and formalizing community interaction for your projects. 
+  ## 4.1 简介
 
-An open source usage policy ensures that any software (proprietary, third-party, or open source) that makes its way into the product base has been audited, reviewed, and approved. It also ensures that your company has a plan to fulfill the license obligations resulting from using the various software components, before your products make it to customers.
+  在本节中，我们将提供一些已建立开源计划办公室的组织的案例研究，并提供一些指向其他信息的提示，这些信息将帮助您开始创建 OSPO 以实现更有效的开源计划管理。
 
-For example, your policy could require engineers to receive approval from your organization’s auditing staff, such as an open source review board (OSRB), before integrating any open source code in a product. It may also state that software received from third parties must be audited to identify any open source code included, which ensures license obligations can be fulfilled before a product ships.
+  ## 4.2 学习目标
 
-### Policies for License Compliance
+  在本节结束时，您应该能够：
 
-Also needed are policies to formalize and establish legal compliance procedures and to assure executive oversight for the program.
+  - 描述几个开源程序办公室实现之间的主要区别
+  - 知道去哪里获取有关构建您自己的 OSPO 的其他信息
 
-You’ll also want to map out how you’ll handle the software tools that will make much of the compliance and code testing work possible by automating it and streamlining procedures for developers and contributors.  More details on compliance tools will be covered in later course modules in this series.
+  ## 4.3 案例研究
 
-Existing open source resources are also potential gold mines for finding other materials needed by your open source projects, including documentation for contributor license agreements (CLAs). CLAs are used to "define the terms under which intellectual property has been contributed to a company/project", typically software under an open source license. Projects that use CLAs require contributors, and often their companies, to sign the CLA before contributions will be accepted by the project.  Determining your company's policies on using and signing CLAs is an important step to consider in building your overall license compliance policy.
+  ### 4.3.1 概述
 
-### Final Words
+  如前所述，每个组织的开源项目办公室可能都不同。 这反映了不同商业模式的现实以及每个组织当前的开源成熟度和意识状态。
 
-There’s a lot of work to do and much to consider when your company decides to create an open source program office, but its value will likely outweigh the efforts taken to accomplish it. Finding just the right leader to drive the program office initiative is a critical step in the process to make it a success.
+  为了给出一个相当广泛的视角，我们选择了三家公司及其 OSPO 创建历程作为案例研究。 这些组织慷慨地捐赠了他们的开源领导者和管理团队的时间来构建这些案例研究，希望它们对开始开源之旅的其他人有用。
 
-It’s also important to remember that the heart of the OSPO is really a culture change endeavor. Obviously software plays a key role, but understanding your company’s current culture, and where you want to go in open source is critically important.  For all of the process and education pieces of an OSPO, the biggest realization that most organizations make is that this program, and it’s leader are really change agents within the organization.
+  我们的案例研究来自：
 
-# Additional Information & Case Studies
+  - 康卡斯特
+  - 微软
+  - Salesforce
 
-## Introduction
+  在这些研究中，您将看到不同的工具、组织甚至指标方法。 这些研究是在 TODO 组（Linux 基金会倡议）的支持下进行的，我们将在本模块后面提供指向其他信息的指针。
 
-### Section Overview
+  ### 4.3.2 康卡斯特
 
-In this section, we will provide some case studies of organizations that have built Open Source Program Offices, as well as give some pointers to additional information that will help you as you begin the journey to creating your OSPO for more effective open source program management.
+  康卡斯特对开源的参与是一个逐渐演变的过程。该公司最终创建了两个开源项目办公室，一个用于 NBC 业务，另一个用于业务的有线电视方面，这是本简介的主题。
 
-### Learning Objectives
+  Comcast 于 2006 年左右开始为开源做出贡献，当时首席软件架构师 Jon Moore 为 Apache HTTP 做出了补丁贡献。他向管理团队展示了将补丁整合到主项目中比单独维护它更具成本效益。
 
-By the end of this section, you should be able to:
+  摩尔与跨学科团队合作，成立了一个开源咨询委员会，该委员会由法律和技术主题专家组成。他们审查了贡献并创建了专注于良好开源实践和社区建设的内部指南。 2013 年，当他们开始跟踪这些贡献时，他们有 13 个。今年，他们计划将其增加近 10 倍。
 
-* Describe the main differences between several open source program office implementations
-* Know where to go for additional information on building your own OSPO
+  “当公司建立开源实践时，他们发出了一个重要信息，即我们对开源是认真的，我们想投资它。” – Nithya Ruff，康卡斯特开源实践高级总监。
 
-## Case Studies
+   **开源程序实践的六个 C** 
 
-### Overview
+  2016 年，康卡斯特聘请 Ruff 领导一项日益重要的开源战略。 这种做法得到了康卡斯特领导团队最高层的支持，他们想要一个能够提出问题、教育员工并提高意识的组织。
 
-As was mentioned earlier, every organization’s Open Source Program Office is likely to be different.  This reflects the realities both of differing business models as well as each organization’s current state of open source maturity and awareness.
+  开源项目实践有 3 名全职人员（截至 2020 年 6 月），同时依靠法律、工程、IT、公关等领域的功能专家来帮助扩展项目。 目标是指导、指导、建议、推荐和作为员工的顾问。 Ruff 用“六个 C”总结了开源实践的功能：消费、贡献、合规、沟通、协作和能力建设。
 
-In order to give a reasonably broad perspective, we’ve picked three companies and their OSPO creation journeys as case studies.  These organizations have graciously donated the time of their open source leaders and management teams to build these case studies in the hopes that they will be of use to others who are starting their journey in open source.
+  ![Image description](./comcast-ospo.png)
 
-Our case studies are from:
+  开源实践有两个主要目标。
 
-* **Comcast**
-* **Microsoft**
-* **Salesforce**
+  - 让公司内部的人更容易在开源中工作。 无论是对开源的消费、对开源的贡献，还是与社区、基金会和组织的合作，目标都是消除法律、流程、工具、沟通和意识障碍。
+  - 在开源和技术社区中对外可见。 许多人不知道 Comcast 是一家拥有数千名开发人员的技术公司，因此他们想提高认识并分享他们正在做的事情。
 
-In these studies, you’ll see different approaches to tooling, organization and even metrics.  These studies were conducted under the auspices of the TODO Group (a Linux Foundation Initiative) and we will have pointers to additional information later on in this module.
+   **开源贡献** 
 
-### Comcast
+  除了对现有的开源社区（如 OpenStack）做出重大贡献之外，康卡斯特还开源了一些项目。 Apache Traffic Control 是在 Comcast 内部启动的，并已贡献给了目前正在孵化的 Apache 软件基金会。
 
-Comcast’s involvement in open source was a gradual process that evolved over time. The company eventually created two open source program offices, one for the NBC business and another for the cable side of the business, which is the subject of this profile.
+  他们还在建立一个名为 RDK 管理项目的独立财团方面发挥了重要作用，该财团专注于围绕机顶盒创建标准。 RDK 软件使用 Yocto 构建系统来创建一个一致的层，这样从半导体供应商到 OEM 和 ISV 的每个人都可以使用一致的系统和结构来构建机顶盒和类似设备的内容。
 
-Comcast began contributing to open source around 2006 when Jon Moore, Chief Software Architect, made a patch contribution to Apache HTTP. He showed the management team that it was more cost effective to have the patch incorporated into the main project than it was to maintain it separately.
+  康卡斯特开源了它的 Speed-TestJS 工具，这是一个测试互联网速度的工具，因为该公司希望在他们如何测量速度方面对世界保持透明。该项目还允许人们自己使用该工具，以确保他们认为康卡斯特正在兑现承诺。这是一个很好的工具示例，它可以通过开放来创建更多信任。
 
-Working with an interdisciplinary team, Moore worked to set up an open source advisory council, which consisted of legal and technical subject matter experts. They reviewed contributions and created internal guidelines focused on good open source practices and community building. In 2013, when they started tracking these contributions, they had 13. They had plans to do almost 10x more of that in 2017.
+  除了为项目做出贡献外，康卡斯特还是多个基金会的成员，包括 Cloud Foundry 基金会、Apache 软件基金会、Linux 基金会、Yocto 项目、Linaro、OpenStack 基金会、开放网络自动化平台 (ONAP) 和 OpenDaylight。
 
-*"When companies establish open source practices they send a big message saying that we’re serious about open source and that we want to invest in it."* – Nithya Ruff, Senior Director Open Source Practice at Comcast.
+  ![Image description](./oss-foundations.png)
 
-#### Six C’s of Open Source Program Practice
+  通过这些贡献，康卡斯特已经从参与开源社区的善意中受益。康卡斯特的贡献还帮助该公司招募了新的开发人员。今天的开发人员希望为那些优秀的开源企业工作，而康卡斯特在各个社区的贡献表明，他们对开源的承诺是认真的。
 
-In 2016, Comcast hired Ruff to lead an increasingly vital open source strategy. The practice has support from the highest levels of the Comcast leadership team who wanted an organization that would field questions, educate employees, and create awareness.
+   **与业务保持一致** 
 
-The open source program practice has three full-time people (as of June 2020) while relying on functional experts in legal, engineering, IT, PR, and more to help scale the programs. The goal is to coach, guide, advise, recommend, and serve as a consultant to employees. Ruff summarizes the function of an open source practice with "the six C’s": consumption, contribution, compliance, communication, collaboration, and competency-building.
+  “作为一家公司，实践的建立、基金会层面的可见参与、增加的贡献、领导支持和工具支持使开源变得容易。” – Nithya Ruff，康卡斯特开源实践高级总监。
 
-![Comcast OSPO](comcast-ospo.png)
+  确保贵公司的开源战略与其业务战略紧密结合非常重要。 开源办公室应该真正了解公司的目标，并在开源战略中启用它们。 这种战略一致性允许开源实践与康卡斯特更广泛的公司目标保持一致，以鼓励实践和整个公司的长期成功。
 
-The open source practice has two main goals.
+  ### 4.3.2 微软
 
-1. Make it easier for people inside the company to work in open source. Whether it’s consumption of open source, contribution to open source, or collaboration with communities, foundations, and organizations, the goal is to remove legal, process, tool, communication, and awareness barriers.
+  微软现在是开源领域公认的大玩家，但就在几年前，对于这家软件巨头来说，这样的角色似乎是不可想象的。 因此，当微软从其市场领先地位中脱颖而出，成为专有软件制造商，大举迈向开源时，许多人感到惊讶。 尽管该公司的故事令人瞩目，但它的开源之旅并不像看起来那么突然或出乎意料。
 
-2. Be visible externally in open source and technology communities. Many people don’t know that Comcast is a technology company with thousands of developers so they want to raise awareness and share what they’re doing.
+  “尽管有这样的看法，微软已经做了很长一段时间的开源。起初，它到处都是实验性的作品，但大约六年前，在 2011 年，我们将其中的大部分内容集中在一个名为 Microsoft Open Technologies 的实体中，” 微软开源项目办公室主任 Jeff McAffer 解释道。
 
-#### Open Source Contributions
+   **真诚的开源** 
 
-Comcast has [open sourced a few projects](https://github.com/Comcast) in addition to contributing significantly to existing open source communities, like OpenStack. [Apache Traffic Control](https://trafficcontrol.incubator.apache.org/) was started within Comcast and has been contributed to the Apache Software Foundation where it is currently in incubation.
+  McAffer说，这就是微软开始认真探索如何利用开源技术的时候。在早期，如果公司中有人对使用开放源码做任何事情感兴趣，他们就会到集中的小组寻求相关开放源码开发人员、贡献者和维护人员的帮助。
 
-They were also instrumental in setting up an independent consortium called the [RDK Management Project](http://rdkcentral.com/) focused on creating a standard around set-top boxes. The RDK software uses the Yocto build system to create a consistent layer such that everyone from the semiconductor vendors right up the chain to OEMs and ISVs can use a consistent system and structure to build the content for set-top boxes and similar devices.
+  大约三年前，情况开始发生变化。微软决定让开源在整个公司普及，并在主要的工程团队中推行开源。
 
-Comcast open sourced its [Speed-TestJS tool](https://github.com/Comcast/Speed-testJS) , which is a test of internet speed, because the company wanted to be transparent to the world in terms of how they measure speed. The project also allows people to use the tool themselves to make sure that they felt that Comcast was delivering what it promised. This is a great example of a tool that could create more trust as a result of being open.
+  “如果这就是我们所做的一切，我们就会在如何进行开源方面留下一个难以维持的真空，”McAffer说。“有人必须考虑政策，以及如何协调所有的开源努力，他们将使用的过程和工具，我们如何跟踪项目，等等。所以，我们创建了现在的开源项目办公室来处理所有这些问题。”
 
-In addition to contributing to projects, Comcast is also a member of a number of foundations, including [Cloud Foundry Foundation](https://www.cloudfoundry.org/membership/) , the [Apache Software Foundation](https://www.apache.org/) , [The Linux Foundation](https://www.linuxfoundation.org/membership/) , [Yocto Project](https://www.yoctoproject.org/) , [Linaro](https://www.linaro.org/) , [OpenStack Foundation](https://www.openstack.org/foundation/) , [Open Network Automation Platform (ONAP)](https://www.onap.org/) , and [OpenDaylight](https://www.opendaylight.org/) .
+  一些来自早期开源小组的技术人员搬到了新成立的项目办公室，而其他人则加入了与他们的工作相关的工程小组。事实证明，微软需要额外的人才，以确保所有项目和流程都得到充分的人手，因此，招聘工作，无论是内部还是外部，很快就开始了。今天，开源是微软全球工作中一个蓬勃发展的部分。
 
-![Comcast OSPO External Collaborations](oss-foundations.png)
+   **业务和规划目标** 
 
-Through these contributions, Comcast has benefited from the goodwill that comes from participating in open source communities. Comcast’s contributions have also helped the company recruit new developers. Developers today want to work for companies that are good open source citizens, and Comcast’s contributions in a variety of communities demonstrate that they are serious about their commitment to open source.
+  微软没有一个中央的开源战略，也没有一个中央的批准机构。相反，开源程序办公室促进了整个公司的讨论和决定。团队仍然需要对他们的开源项目进行评审，但更多的是在本地进行。
 
-#### Aligning with the Business
+  McAffer说:“他们了解自己的业务，他们知道他们希望如何让技术交互起作用，他们希望在生态系统方面推动什么，以及所有需要发生的各种细微差别。”
 
-> "The establishment of the practice, visible engagement at the foundation level, increased contributions, leadership support, and tooling support as a company have made it easy to do open source." – Nithya Ruff, Senior Director Open Source Practice at Comcast.
+  “我们将大部分决策和方向交由当地管理层，但我们给他们一个架构，让他们思考这些决策和方向。我们有关于如何管理IP和如何处理安全问题的核心政策。我们为他们提供体现这些政策的工具和流程，让他们以连贯而具体的方式执行这些政策变得超级简单。”
 
-It’s important to make sure that your company’s open source strategies are closely aligned with its business strategy. The open source office should really understand the goals of the company and enable them in the open source strategy. This strategic alignment allows the open source practice to remain aligned with the broader company goals at Comcast to encourage long-term success for the practice and the company as a whole.
+   **管理工具** 
 
-### Microsoft
+  Microsoft 的政策归结为流程，然后相应地使用工具来处理工作负载。一个例子是开源版本。根据政策，在 GitHub 上发布。
 
-Microsoft is now an accepted big player in the open source space, but just a few years ago such a role for the software giant, seemed inconceivable. Many people were thus surprised when Microsoft emerged from its market lead as a proprietary software maker to make a move towards open source in a big way. Although the company’s story is remarkable, its open source journey has been neither as abrupt or unexpected as it may have appeared.
+  “我们在 GitHub 上拥有大量工具，我们在 GitHub 上管理着大约 100 个组织的 10,000 多个存储库，大约有 12,000 名微软员工在该领域进行交互，”McAffer 说。
 
-> "Despite perception, Microsoft has been doing open source for quite a while. At first, it was experimental pieces here and there but about six years ago, in 2011, we brought much of that into focus in an entity called Microsoft Open Technologies," explained Jeff McAffer, Director of Open Source Programs Office at Microsoft.
+  “这达到了一个规模，你真的需要一个系统来管理多个方面。例如，当人们想要为我们正在运行的项目之一做出贡献时，我们需要工具来帮助管理贡献者许可协议或CLA。对于所有这些事情，我们要么自己构建解决方案，要么转向开源解决方案。”例如，对于 CLA 管理，Microsoft 使用 CLA Assistant，这是 SAP 发起的开源程序。
 
-#### Open Source in Earnest
+  “在 GitHub 管理方面，我们走向了另一个方向，因为没有一套现有的工具来帮助管理 GitHub 上的企业存在，”McAffer 说。 “所以我们最终创建了现在所谓的开源门户，它可以作为开源在 GitHub 上使用。”
 
-That’s when the exploration of what Microsoft could do with open source began in earnest, McAffer said. In the early days, if anyone in the company was interested in doing anything with open source, they came to the centralized group for assistance from the open source developers, contributors, and maintainers involved.
+  在 opensource.microsoft.com 上很容易看到其中的元素，但还有一个内部方面，Microsoft 员工在其中管理存储库和团队。
 
-Around the year 2014, things began to change. Microsoft decided to make open source pervasive throughout the company and rolled open source into the main engineering groups.
+  McAffer 解释说：“我们已经将其开源，其他公司也在内部使用它，因此这是一个双向的事情。”
 
-> "If that’s all we had done, we would have left an untenable vacuum around how we do open source," said McAffer. “Someone has to think about policy and how all the open source efforts would be coordinated, the processes and tools they would use, how would we keep track of projects, etc. So, we created what is now known as the Open Source Programs Office to handle all those issues.”
+  GitHub 是一个非常丰富的环境，可以进行很多交互。与许多公司一样，微软发现很难跟踪正在发生的一切并了解其存储库发生了什么。
 
-Some of the technical people from the earlier open source group moved to the newly formed program office, while the others joined engineering groups pertinent to their work. It turned out that Microsoft needed additional talent to make sure all projects and processes were fully manned, and so recruitment efforts, both internally and externally, were soon under way. Today, open source is a thriving part of Microsoft’s global works.
+  “我们最终参与了 GHTorrent 项目。我们和他们做了很多工作，实际上我们现在正在赞助 GHTorrent 项目，所以我们为他们所有的 Azure 资源付费，你可以在 GHTorrent.org 上看到的一切，”他说.
 
-#### Business and Programmatic Goals
+  GHTorrent 帮助 Microsoft 了解 GitHub 上发生的事情，也了解其内部项目的情况。即便如此，有些事情 GHTorrent 没有设置，包括使用私有存储库和一些关于需要管理员权限的团队的更详细的数据。
 
-Microsoft does not have a central open source strategy or a central approval body. Instead, the Open Source Programs Office facilitates those discussions and decisions throughout the company. Teams still need to have their open source engagement reviewed, but it is done more locally.
+  该公司最终创建了另一个名为 GHCrawler 的系统，它也开源了。此工具可跟踪 GitHub 上的所有内容，直至提交级别、团队和权限更改。然后将这些数据用于指标和跟踪分析，以发现洞察力，例如有多少拉取请求、他们采取行动的速度以及关闭或合并需要多长时间。 “它为我们提供了一种跟踪我们存在的方式，”McAffer 说。
 
-> "They know their business, they understand how they want their technical interactions to work, where they want to drive in terms of ecosystems, and all the various nuances of what needs to happen," McAffer said.
+   **简化开源使用** 
 
-> "We defer most of those decisions and directions to the local management, but we give them a structure in which to think about those decisions and directions. We do have central policies about how we manage IP and what we do about security issues. We give them tools and processes that embody those policies to make it super simple for them to execute in a coherent yet specific way."
+  在微软，开源的消费是完全不同的事情，也是不同的过程。该公司以多种方式使用开源，并且需要大量跟踪它们并管理法律安全方面。
 
-#### The Tools to Manage
+  “我们做了大量的工作来简化开源使用的流程和政策，真正了解成为一个负责任的开源消费者的关键属性，如何正确地做到这一点，并确保我们遵守许可证，”麦卡弗说。
 
-Microsoft’s policies boil down into processes that then are tooled accordingly to handle the workload. One example is open source releases. As a matter of policy, releases are made on GitHub.
+  “为此，我们在内部编写了很多工具来发现、跟踪和监控那里发生的事情并报告开源的使用情况，”他继续道。这些工具也往往有些专有，因为它们与 Microsoft 的工程系统深度集成。
 
-> "We’ve got a bunch of tooling around our presence on GitHub, where we manage something like 10,000+ repos across about 100 organizations with about 12,000 Microsoft people interacting in that space," said McAffer.
+  “我们一直在努力寻找可以梳理出这些问题的方法，并将更多的内容提供给更广泛的开源社区，但这有点困难，因为它在许多方面对我们的业务政策或工程系统非常具体，这不会和其他人一样，”麦卡弗说。
 
-> "That gets up to a scale where you really need a system to manage a multitude of aspects. For example, when people want to contribute to one of the projects that we’re running, we need tools to help manage the contributor license agreements or CLA’s. For all of those things, we’ve either built up solutions ourselves or turned to open source solutions." For example, for CLA management, Microsoft uses [CLA Assistant](https://cla-assistant.io/) , an open source program that SAP originated.
+  多年来，微软的开源之旅一直很有趣，本着真正的开源精神，我们将继续与大家分享我们在这个过程中学到的东西，从工具到代码。
 
-> "On the GitHub management side, we went the other direction, as there wasn’t an existing set of tooling to help manage an enterprise presence on GitHub," said McAffer. “So we ended up creating what’s now called the [open source portal](https://github.com/Microsoft/opensource-portal) , which is available on GitHub as open source.”
+  ### 4.4.4 Salesforce 
 
-Elements of that are easily seen on [opensource.microsoft.com](https://opensource.microsoft.com/) , but then there’s an internal side, too, where Microsoft employees manage repos and teams. 
+  Salesforce 很早就了解到，当开源项目拥有多元化的利益相关者社区时，它们会保持健康，这些利益相关者有兴趣使软件取得成功。
 
-> "We’ve open sourced that and other companies are picking it up and using that internally for themselves, so it’s a bi-directional thing," McAffer explained.
+  Apache Phoenix 在 Salesforce 开始作为其自己的开源 Phoenix 项目。但是直到 Salesforce 外部的人也得到投资并且该项目不再依赖于一家公司的需求和愿望之后，它才取得成功。在真正的社区努力中，来自其他公司的人加入并说，'这对我们很有用，我们希望做出贡献，'”最近在那里领导开源项目的 Salesforce 软件架构师 Ian Varley 说。 ，这个多元化的社区使它成为一个 Apache 项目并整合了公司自己的工程师永远无法想象的新功能。
 
-GitHub is a very rich environment, where lots of interactions are possible. Microsoft, like a lot of companies, was finding it difficult to keep track of everything going on and understanding what was happening with its repos.
+  Salesforce 始终专注于培养不同兴趣以使用和参与其项目的概念。与此同时，它同样专注于将其内部利益相关者——从工程到法律、营销和公关——与其开源工作保持一致。
 
-> "We ended up engaging with the GHTorrent project. We did quite a bit of work with them, and we actually are now sponsoring the GHTorrent project so we pay for all their Azure resources, everything you can see at [GHTorrent.org](http://ghtorrent.org/)," he said.
+   **开源项目目标** 
 
-GHTorrent helps Microsoft understand what’s going on at GitHub but also internally in terms of its own projects. Even so, there are some things that GHTorrent was not set up to do, including work with private repositories and some of the more detailed data concerning teams where admin permissions are required.
+  Salesforce 有许多围绕开源的优先事项。该公司的开源战略让每个人都保持一致。专门的开源项目团队将内部文件分发给公司的工程团队，提供战略指导并鼓励开源的创建和使用。这些文件为开源文化奠定了基础，并让团队毫不含糊地知道公司的领导者完全支持该战略。
 
-The company ended up creating another system called [GHCrawler](https://github.com/microsoft/ghcrawler) , which it also open sourced. This tool tracks everything on GitHub down to the commit level, team, and permissions changes. That data is then used in metrics and tracking analysis to discover insights such as how many pull requests are coming in, how fast they are getting action, and how long they take to close or merge. "It gives us a way of tracking our presence," said McAffer.
+  开源越来越多地成为每家公司中几乎每个软件项目的一部分。按理说，开源可以拥有的每一种可能类型的商业模式都会出现并在市场上尝试。
 
-#### Simplifying Open Source Use
+  Salesforce 是一家软件即服务供应商，不会发布其作为开源销售的面向最终客户的产品。相反，工程团队专注于开源共享基础架构组件、库和其他公司可能认为通常有用的工具，以及对其客户有益的示例和 SDK。
 
-Consumption of open source is an entirely different matter, and a different process, at Microsoft. The company uses open source in myriad ways, and the need to track them all and to manage the legal security aspects is enormous.
+   **衡量开源的成功** 
 
-> "We’ve done a massive amount of work to simplify the processes and the policies around open source use, to really understand the key attributes of being a responsible consumer of open source, how to do it right, and to make sure we adhere to the licenses," McAffer said.
+  该公司开源项目的目标之一是在开发人员中建立声誉。可能不使用Salesforce产品的工程师有时会看着该公司的开源项目说，“嘿，这家公司确实参与了一些很棒的东西，”Varley说。
 
-> "To that end, we’ve written a lot of tools internally to discover, track, and monitor what’s going on there and report on the use of open source," he continued. Those tools also tend to be somewhat proprietary as they are deeply integrated with Microsoft’s engineering systems.
+  “开源为(外部开发者)提供了一个窗口，让他们看到公司内部正在进行的伟大工程，否则他们无法看到。”——Ian Varley, Salesforce的软件架构师。
 
-> "We’ve been trying to see ways we can tease that out and make more of that available to the open source community more broadly, but it’s been a bit hard because it is very specific in many ways to our business policy or our engineering system, which isn’t going to be the same as anybody else’s," McAffer said.
+  开源项目还关注于扩大公司自己的开源项目背后的社区。社区不只是使用他们的软件，他们也为它做出贡献。因此，他们专注于为他们的项目创建“斜坡”，比如一个清晰的补丁审批流程、改进的文档、健康的论坛，以及欢迎和响应的维护人员。
 
-The Microsoft open source journey has been an interesting one over the years and in the true open source spirit, we will continue to share what we learned with everyone in that process, from tools to code.
+  “当我们给人们提供参与我们项目的方法时，我们就成功了，这些方法不需要他们有博士学位，或者在类似领域工作了25年。你需要让他们迅速参与进来，”瓦利说。
 
-### Salesforce
+  Salesforce还将自己的成功与开源行业的成功进行了对比。开源在各个方面取得的进步越多，每个人就越幸福，因为开源越多就意味着整个行业取得的进步越多。如果Salesforce能够提高什么是商品软件，什么是每个人都可以依赖的共享组件的基线，那么整个行业都会受益。
 
-Salesforce learned early on that open source projects stay healthy when they have a diverse community of stakeholders that have an interest in making the software succeed.
+  **Apache Phoenix** 
 
-[Apache Phoenix](https://phoenix.apache.org/) started at Salesforce as its own open source Phoenix project. But it didn’t find success until people from outside Salesforce also got invested and the project no longer depended on the needs and desires of one company. In a true community effort, people from other companies joined in and said, ‘this is useful for us and we want to contribute,’" says Ian Varley, a Software Architect at Salesforce who recently led the open source program there. In the end, this diverse community is what allowed it to become an Apache project and incorporate new features that the company’s own engineers could never have dreamed up.
+  Apache Phoenix是一个开源大数据分析平台，现在是 Apache 软件基金会的一部分。但是当 Phoenix 开始时，它只是几个 Salesforce 工程师为一些特定的内部用例构建的项目。但是，不久之后，这个小团队意识到任何人都可以从该项目中受益，如果全世界都在为它工作，它的速度会提高。因此，他们努力将其开源并将其转变为社区项目。
 
-Salesforce stays focused on this concept of cultivating diverse interests to use and participate in its projects. At the same time, it’s equally focused on aligning its internal stakeholders – from engineering to legal, marketing and PR – with its open source efforts.
+  在创建开源 Phoenix 项目的第一年，Salesforce 工程师开始从发现 Phoenix 并希望加入该项目的两三个大公司那里获得重要的功能贡献。通过将项目开放给外部使用和贡献，Phoenix 项目的进展远远超出了原始工程师自己能够完成的工作。
 
-#### Open Source Program Goals
+   **5个关键经验** 
 
-Salesforce has many priorities around open source. The company’s open source strategy keeps everyone aligned. The dedicated open source program team circulates internal documents to the company’s engineering team that provide strategic guidance and encourage the creation and use of open source. The documents provide the foundation for an open source culture and let the team know in no uncertain terms that the company’s leaders are fully behind the strategy.
+  回顾他在 Salesforce 管理开源的 4 年经验，Varley 为可能刚刚开始使用自己的开源程序的公司提供了五个关键经验：
 
-Open source is increasingly a part of just about every software project in every company that’s out there. It stands to reason that every possible type of business model you can have with open source is going to come into being and try its hand in the market.
+  - 制定公司范围内的政策，强烈鼓励在内部使用和创建开源。
+  - 认识到社区可以推进项目远远超出内部可以实现的目标。
+  - 从许多不同类型的利益相关者那里寻求关于你的开源项目的意见。工程师不应该是唯一的利益相关者——例如，您的法律团队和执行管理层也应该直接参与。
+  - 通过出色的设置文档和健康的论坛，专注于您的开源项目的良好“坡道”。
+  - 认识到开源的成功可以推动整个行业的成功和更好的产品。
 
-Salesforce is a Software-as-a-service vendor, and doesn’t release the end customer-facing products that it sells as open source. Instead, the engineering team focuses on open sourcing shared infrastructure components, libraries, and tools that other companies might find generally useful, as well as samples, and SDKs that are of benefit to their customers.
-
-#### Measuring Open Source Success
-
-One goal of the company’s open source program is building its reputation among developers. Engineers who may not use Salesforce products will sometimes look at the company’s open source projects and say, "Hey, this company is really involved with some great stuff," Varley said.
-
-> "Open source is a window for (external developers) to see the great engineering that’s going on inside of the company that they otherwise wouldn’t be able to." – Ian Varley, Software Architect at Salesforce.
-
-The open source program also focuses on expanding the communities that align behind the company’s own open source projects. The communities don’t just use their software, they also contribute to it. So they focus on creating "on ramps" to their projects such as a clear approval process for patches, improved documentation, healthy forums, and welcoming and responsive maintainers.
-
-> "We’ve succeeded when we have given people ways to get involved with our projects that don’t require them to have a PhD or to have been working in a similar area for 25 years. You need ways for them to get involved quickly," Varley says.
-
-Salesforce also measures its own success against the industry-wide success of open source. The more progress there is in open source, in all of its many dimensions, the better off everyone is because more open source means more progress in the industry as a whole. If Salesforce can raise the baseline of what is commodity software and what constitutes shared components that everybody can depend on, the whole industry benefits.
-
-#### Apache Phoenix
-
-Apache Phoenix is an open source big data analytics platform that’s now part of the Apache Software Foundation. But when Phoenix started, it was just a project a couple of Salesforce engineers built for some specific internal use cases. But, before long, the small team realized that anybody could benefit from the project and its velocity would improve if the whole world was working on it. So they made the pitch to open source it and turn it into a community project.
-
-Within the first year of creating the open source Phoenix project, the Salesforce engineers started getting significant contributions in functionality from two or three big companies that had found Phoenix and wanted to join the project. By opening the project up to outside use and contribution, the Phoenix project progressed far beyond what the original engineers would have been able to do on their own.
-
-#### 5 Key Lessons
-
-Looking back at his 4 years of experience managing open source at Salesforce, Varley has five key lessons for companies that may just be getting started with their own open source programs:
-
-* Create a company-wide policy that strongly encourages the use and creation of open source internally.
-* Recognize that a community can advance a project far beyond what can be achieved internally.
-* Seek input on your open source program from many different types of stakeholders. Engineers should not be the only stakeholders—your legal team and executive management should also be directly involved, for example.
-* Focus on good "on ramps" to your open source projects with great set up documentation and healthy forums.
-* Recognize that open source success can drive industry-wide success and better products everywhere.
-
-### Additional Resources
-
-This module has covered a variety of information related to helping your organization create its own Open Source Program Office, but there is more detail and nuance than can be fully covered in this course.  Therefore, we are including some additional resources that you can use to see case studies and/or get more information about this topic:
-
-* TODO Group: [https://todogroup.org/](https://todogroup.org/)
-
-* What Does An Open Source Program Office Do? (Red Hat Blog): [https://www.redhat.com/en/blog/what-does-open-source-program-office-do](https://www.redhat.com/en/blog/what-does-open-source-program-office-do)
-
-* How Google Created a New Kind of Open Source Program Office (Opensource.com): [https://opensource.com/business/16/9/google-open-source-program-office](https://opensource.com/business/16/9/google-open-source-program-office)
-
-* I’ve Got an Open Source Program Office, Now What? (Bitergia Blog): [https://blog.bitergia.com/2019/03/05/ive-got-an-open-source-program-office-now-what/](https://blog.bitergia.com/2019/03/05/ive-got-an-open-source-program-office-now-what/)
+* https://blog.bitergia.com/2019/03/05/ive-got-an-open-source-program-office-now-what/)

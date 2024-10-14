@@ -1,420 +1,414 @@
 ---
-status: collected
-title: "OSPO 101 Training Modules - Module 7"
+status: translated
+title: "OSPO 101 Training Modules - Module 2"
 author: TODO Group
 collector: mudongliang
 collected_date: 20240822
+translated_date: 20241010
+translator: Hao Guo
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module7/README.md
 ---
 
+# 1. 介绍
 
-# Open Source Project Creation Overview
+## 1.1 课程简介
 
-## Lesson: Introduction
+在本节中，我们将了解创建新开源项目的基本原理和价值主张。 我们将花时间讨论创建新开源项目的好坏理由，以及如何评估新项目的商业潜力。
 
-### Section Overview
+## 1.2 学习目标
 
-In this section, we’ll look at the rationale and value proposition for creating new open source projects.  We’ll spend time discussing good and bad reasons to create new open source projects, as well as how to evaluate the business potential of a new project.
+在本节结束时，您应该能够：
 
-### Learning Objectives
+- 描述开源内部代码或从头开始创建新的开源项目的价值主张
+- 给出一些开源代码理由的好坏例子
+- 解释如何评估一个新的开源项目的商业潜力
 
-By the end of this section, you should be able to:
+# 2. 从哪里开始？
 
-*   Describe the value proposition for open sourcing internal code or creating new open source projects from scratch
-*   Give some good and bad examples of reasons to open source code
-*   Explain how to evaluate the business potential of a new open source project
+## 2.1 提出正确的问题
 
-## Lesson: Where To Begin? 
+在开始创建新的开源项目之前提出正确的问题很重要。 虽然根据贵公司的独特情况，您可能还应该考虑一些其他具体问题，但下图将为您提供一个很好的开端，帮助您弄清楚要问什么。
 
-### Ask The Right Questions
+![Image description](questions-to-ask.png)
 
-It’s important to ask the right questions before you begin the journey of creating a new open source project.  While there may be some additional specific questions you should consider depending on your company’s unique situation, the following picture will give you a great start to help you figure out what to ask.
+此图的第一行真正涉及了解创建开源项目的价值主张是什么的问题。不幸的是，第一个问题并没有被经常问到——你应该认真评估是否需要创建另一个开源项目。存在成千上万个项目——您的代码是否会单独提供差异化​​的价值，还是让一个成熟且成功的开源项目变得更好？
 
-![Questions to Ask Before Open Sourcing Project](questions-to-ask.png)
+如果您的组织了解开源开发模型（在本系列课程的前几节中进行了介绍）并致力于构建具有该结构的项目，那么在决定启动该项目之前，您仍然需要评估成功的要素和衡量标准会用。仅仅为了公共关系的目的而创建一个项目，或者为了改进开源项目启动数量的内部指标，通常会导致一个不成功的项目。
 
-The top line of this graphic really deals with the question of understanding what the value proposition is for you to create an open source project.  The first question is one that, unfortunately, doesn’t get asked often enough - you should seriously evaluate whether or not you need to create another open source project.  There are many thousands of projects in existence - will your code provide differentiated value on its own, or would you be better off making an established and successful open source project even better?
+第二排问题更侧重于您的组织和社区在新的开源项目中创造价值的能力。太多的公司已经尝试（但失败）的策略是简单地将代码扔过防火墙，没有内部财务和工程投资，并希望他们的企业声誉能够吸引外部企业的参与。
 
-If your organization understands the open source development model (covered in previous sections of this course series) and is committed to building a project with that structure, you’ll still need to evaluate **before** deciding to launch the project what constitutes success and what metrics you’ll use.  Just creating a project for the purposes of public relations or to improve internal metrics for the number of open source projects started will usually result in an unsuccessful project.
+花点时间考虑如何让您的潜在新开源项目取得成功。如果您得出的结论是创建开源项目不适合特定代码段，那也没关系——有很多机会参与开源生态系统或将您的技术贡献给其他开源项目。
 
-The second row of questions focuses more on the ability of your organization and the community to build value in the new open source project.  Too many companies have tried (and failed) with the strategy of simply throwing code over their firewall, without internal financial and engineering investment, and hoping that their corporate reputation will attract outside enterprise participation.
+## 2.2 你应该开源什么？
 
-Take the time to consider how to make your potential new open source project successful.  It’s ok if you come to the conclusion that creating an open source project isn’t right for a particular piece of code - there are many opportunities to participate in the open source ecosystem or contribute your technology to other open source projects.
+正如您必须决定向上游开源社区贡献什么（来自本系列之前的课程），决定您最初将在开放中构建什么代码或技术，或者您的专有代码。我发布是一个重要的。以下是一些可以帮助您考虑此选择的标准。
 
-### What Should You Open Source?
+- 确定您的产品的哪些部分是战略优势的来源，以及什么只是支持这些部分
+- 非战略部分通常是创建开源项目的理想选择
+  - 其他公司很有可能也有同样的感觉，并且可能会帮助您维护和推进新项目。
 
-Just as in the decision you must make on what to contribute back to an upstream open source community (from previous coursework in this series), the decision on what code or technology you’ll build initially in the open, or what proprietary code you’ll release is an important one.  Here are some criteria that can help you consider this choice.
+例子：
 
-*   Determine what parts of your product are sources of strategic advantage, and what simply supports those parts
-*   Non-strategic parts are often great candidates for creating open source projects
-    *   Chances are good that other companies feel the same way, and might help you maintain and advance your new project.
+- 行业中广泛使用的文件系统或文件格式
+- 连接物联网设备的网络堆栈
 
-Examples:
+另一个起点包括二次编码项目，在这种项目中，企业不需要成为权威，并且可能有更多的世界各地的技术人员可以帮助您解决问题。如果它不是关键任务代码，那么它很可能是开源的一个很好的候选者。但是，它也应该是贵公司仍在积极使用和维护的代码。对代码的商业依赖使错误修复、补丁和新功能的持续反馈循环成为可能。
 
-*   A filesystem or file format widely used in the industry
-*   The network stack for connected IoT devices
+## 2.3 何时创建开源项目
 
-Another place to start includes secondary coding projects where an enterprise does not need to be an authority, and where there may be a larger group of technologists around the world who can help you solve a problem. If it is not mission-critical code, then it is likely a good candidate to be open sourced. However, it should also be code that your company is still actively using and maintaining. Commercial dependencies on code enable a continuous feedback loop of bug fixes, patches and new features.
+发布或创建新的开源项目的决定取决于您的情况。 您的公司应该首先通过使用开源软件并为现有项目做出贡献来达到一定程度的开源掌握（正如我们在本系列之前的课程中介绍的那样）。
 
+了解如何使用开源可以教会您如何利用外部项目和开发人员来构建您的产品。 参与可以使开源社区的惯例和文化更加流畅。 但是，一旦您实现了开源流畅性，开始启动自己的开源项目的最佳时机就是“早”和“经常”。
 
-### When To Create an Open Source Project
+![Image description](release-early.png)
 
-The decision to release or create a new open source project depends on your circumstances. Your company should first achieve a certain level of open source mastery by using open source software and contributing to existing projects (as we covered in previous coursework in this series). 
+此图提醒我们在本课程系列的开源开发实践部分中涵盖的内容。 这不仅在您回馈开源时很重要，在您考虑第一个新的开源项目时也很重要。
 
-Understanding how to consume open source can teach you how to leverage external projects and developers to build your products. Participation can bring more fluency in the conventions and culture of open source communities. But once you have achieved open source fluency, the best time to start launching your own open source projects is simply “early” and “often.”
+在您创建第一个开源项目之前，并非一切都必须绝对完美。 在流程、法律审查等方面有一些最低要求（我们将很快介绍），但在代码和治理方面建立最低要求以开始使用可以让您获得更早的参与和更早的反馈，以帮助您发展 你的新项目。
 
-![Release Early Release Often](release-early.png)
+不过，在您创建第一个项目之前，我们应该讨论创建开源项目的一些好的（和坏的）原因......
 
-This graphic is a bit of a reminder about what we covered in the _Open Source Development Practices_ portion of this coursework series.  It’s not only important when you’re contributing back to open source, it’s important as you consider your first new open source projects.
+## 2.4 创建开源项目的好理由
 
-Not everything has to be absolutely perfect before you create your first open source project.  There are some minimums in terms of process, legal review, etc. (which we’ll cover shortly), but building out the minimum necessary in both code and governance to get started allows you to get earlier participation and earlier feedback to help you evolve your new project.
+![Image description](good-reasons-to-opensource.png)
 
-Before you create that first project though, we should discuss some good (and bad) reasons for creating an open source project...
+此图显示了您应该启动开源项目的五个充分理由。 虽然他们都回到业务目标，但前两个涉及在市场上获得独特的业务优势。 然而，重要的是要注意，这种“先行者”的业务优势可能是短暂的（6-10 个月），直到社区的其他人精通您开源的技术。
 
-### Good Reasons to Create an Open Source Project
+第三和第四项侧重于吸引客户并帮助您的非开源产品创造价值。 请记住，在开源代码中，您在提供价值的基础上，使您的产品变得更好。
 
-![Good Reasons to Create an Open Source Projects](good-reasons-to-opensource.png)
+最后，如果你所在的行业有技术客户（或开发人员），他们有能力用你的技术自给自足，你可以意识到不必为你选择开源的代码提供额外的技术或支持资源的价值。
 
-This graphic shows five good reasons why you should start an open source project.  While they all come back to business goals, the first two deal with getting a unique business advantage in the market.  It’s important to note, however, that this ‘first-mover’ business advantage can be fleeting (6-10 months) until the rest of the community becomes proficient with the technology you’ve open sourced.
+## 2.5 创建开源项目的错误理由
 
-The third and fourth items focus on engaging customers and helping build value for your non open-source products.  Remember that in open sourcing code you provide value on top of, you’re making your products better as a result.
+与出于正确的原因开源一样重要的是确保您不会出于错误的原因尝试创建开源项目。 开源生态系统充斥着来自组织的失败项目，这些项目本意很好，但根本没有充分考虑为什么他们应该开源代码或创建一个新项目。
 
-Finally, if you are in an industry with technical customers (or developers) who have the ability to self-support themselves with your technology, you can realize value in not having to provide extra technical or support resources for the code you choose to open source.
+![Image description](bad-reasons-to-create-opensource.png)
 
-### Bad Reasons to Create an Open Source Project
+以下是一些创建新开源项目的不良理由示例：
 
-Just as important as open sourcing for the right reasons is making sure you don’t try to create an open source project for the **wrong** reasons.  The open source ecosystem is littered with failed projects from organizations that meant well, but simply didn’t consider fully why they should be open sourcing code or creating a new project.
+- 摆脱过时的软件
+- 当你不愿意投资时，期待开源社区的免费工程
+- 作为终止生命公告的积极营销手段
+- 在无意长期支持项目的情况下获得宣传或营销推广
+- 作为实现内部成功指标的一种手段
 
-![Bad Reasons to Create Open Source Projects](bad-reasons-to-create-opensource.png)
+希望很明显为什么所有这些都是创建开源项目的糟糕理由，但让我们看看它们都有什么共同点 - 内部关注和/或对更大开源社区的支持的期望。
 
-Here’s some examples of bad reasons to create a new open source project:
+在开源中工作经常被描述为（从企业的角度）“开明的利己主义”。在这种情况下这是恰当的，因为每个人都明白企业不一定出于利他的原因使用开源 - 必须有商业价值与开源中发生的事情保持一致。然而，上面显示的原因播下了对开源社区其他人不信任的种子，毕竟开源社区是由合作伙伴和竞争对手组成的。
 
-*   Getting rid of obsolete software
-*   Expecting free engineering from the open source community when you aren’t willing to invest
-*   As a positive marketing spin on an end-of-life announcement
-*   To gain publicity or marketing outreach without the intention to support the project long term
-*   As a means of fulfilling internal success metrics
+## 2.6 评估开源项目的商业潜力
 
-Hopefully it’s obvious why all of these are bad reasons to create an open source project, but let’s look at what they all have in common - an inward focus and/or expectation of support from the larger open source community.
+就像任何业务决策一样，确定应该创建什么、是否以及何时创建开源项目会回到最终交付给业务的价值。在考虑这些问题时，最好从构建业务案例的角度进行思考。
 
-Working in open source has often been described (from the corporate point of view) as ‘enlightened self-interest.’  It’s apropos in this case because everyone understands that corporations don’t work with open source necessarily for altruistic reasons - there has to be business value aligned with what goes on in open source.  However, the reasons shown above sow a seed of mistrust with the rest of the open source community, which is, after all, composed of both partners and competitors.
+首先，您必须决定您的公司是要在保持代码和项目所有权的同时创建或发布代码，还是要将代码捐赠给其他人来维护和管理项目。如果代码已经存在，则存在相关问题，即您是将项目中的所有代码发布还是仅将其中的一部分作为开​​源项目发布。
 
-### Evaluating the Business Potential of an Open Source Project
+要做出这些决定，请考虑退后一步来确定您为代码设定的目标。这段代码是否对您的组织之外有用并且对行业也有变革意义？贵公司是否有可能吸引合作伙伴（和/或竞争对手）使用这项技术来支持贵组织的产品组合？
 
-Just like any business decision, determining what, if, and when you should create an open source project comes back to what value is ultimately delivered to the business. As you consider these questions, it’s best to think in terms of building a business case.
+例如，您可能希望从其他开发人员那里获得关于应用程序中非您工作核心部分的新见解。或者，您可能会寻求其他实际算法来检测系统监控应用程序中的日志。您可以只发布与算法相关的代码，而不是将整个产品作为开源发布。这使您能够获得他人的贡献并帮助需要类似帮助的其他人，而不会影响您的核心业务。
 
-First, you must decide if your company wants to create or release the code while maintaining ownership of it and the project, or if you want to donate the code to others to maintain and administer the project. If the code already exists, then there is the related issue of whether you will release all the code in a project or just some of it as an open source project.
+启动一个项目并保持总体控制可以让您进行监督，并让您能够帮助将其塑造成您需要的东西，同时仍然为贡献的开发人员提供自由和控制来完成他们的工作。
 
-To make these decisions, consider stepping back to determine the objectives you have in mind for the code.  Is this code something that will be useful outside of your organization and also transformative to the industry?  Is your company likely to attract partners (and/or competitors) to work on this technology in support of your organization’s product portfolio?
+# 3. 新项目准备
 
-For example, you might want to attract fresh insights from other developers on a part of an application that isn’t core to your work. Or you might seek additional real-life algorithms to detect logs in a system monitoring application. Rather than releasing the whole product as open source, you could release only the code related to the algorithms. This allows you to gain the contributions of others and help others who are needing similar help, without compromising your core business.
+## 3.1 简介
 
-Starting a project and maintaining overall control lets you have oversight and gives you the ability to help shape it into what you need, while still giving freedom and control to the contributing developers to do their work.
+在本节中，我们将探讨如何为创建新的开源项目做准备，包括讨论法律、商业和社区考虑因素。 我们还将讨论成功所需的流程、工具和人员配备要求。
 
-# Section: New Project Preparations
+## 3.2 学习目标
 
-## Lesson: Introduction
+在本节结束时，您应该能够：
 
-### Section Overview
+- 解释准备创建一个新的开源项目的总体步骤
+- 了解项目创建成功需要哪些流程、注意事项、工具和要求
 
-In this section, we will explore how to prepare for creating a new open source project, including discussion of legal, business and community considerations.  We’ll also discuss required processes, tools and staffing requirements necessary for success.
+## 3.3 内部准备
 
-### Learning Objectives
+### 3.3.1 确定执行保荐人
 
-By the end of this section, you should be able to:
-*   Explain the overall steps for preparing to create a new open source project
-*   Understand what processes, considerations, tools and requirements are needed for success in project creation
+由于创建成功的开源项目需要大量投资，因此获得组织中执行发起人的支持至关重要。 如果您有多个赞助商，这会有所帮助，但至少，您应该瞄准能够提供并承诺以下事项的人：
 
-### Lesson: Internal Preparations
+#### 3.3.1.1 技术和社区
 
-### Identify an Executive Sponsor
+- 继续公开重申对项目的承诺
+- 培养以绩效为基础的认可文化
+- 确保中立
+- 承诺遵循开源方法和流程
 
-Since there will be a lot of required investment to create a successful open source project, it’s **critical** to get the buy in of an executive sponsor in your organization.  It can help if you have more than one sponsor, but at a minimum, you should aim for someone who can provide and commit to the following things:
+#### 3.3.1.2 财务
 
-#### Technical and Community
+内部：提供足够的开发资金以启动项目
+外部：致力于为 IT 资源和系统管理员提供资金
 
-*   Continually reaffirm commitment to the project in public
-*   Foster a culture of merit-based recognition
-*   Ensure neutrality
-*   Commit to following open source methods and processes
+### 3.3.2 分配资源
 
-#### Financial
+您需要让您的执行发起人适当分配资金，如上一页所述，但也需要能够安排适当的员工时间来使项目取得成功。最初开发人员的时间可能与他们花在内部代码工作上的时间相似。但是，您还需要考虑您的开发人员需要提供哪些时间、材料或帮助，以帮助新社区中的其他人快速了解代码库。
 
-*   Internally: Fund enough development to get project going
-*   Externally: Commit to funding IT resources and sysadmins
+法律团队也需要资源，参与创建一个可能涉及竞争对手的开源项目，以及营销投资，以确保项目在启动后获得支持和贡献者。
 
-### Allocate Resources
+您还必须为用于开始和维护项目的基础设施设置预算。这包括项目托管和源代码控制网站，如 GitHub，代码将在其中驻留和维护，以及错误解决方案和其他所需的工具。
 
-You’ll need to get your executive sponsor to appropriately allocate funds, as noted in the previous page, but also be able to direct appropriate staff time to make the project successful. Developer time will likely be similar initially to the amount of time they spend on internal code efforts. However, you’ll also need to consider what time, materials or help your developers will need to provide to help others in the new community get up to speed on the codebase. 
+我们很快就会更详细地介绍工具和基础设施。
 
-There will also be resources needed for the legal team that will be involved in creating an open source project that could involve competitors, as well as marketing investments to ensure that the project gains support and contributors after launch.
+### 3.3.3 培训您的员工
 
-You’ll also have to set budgets for the infrastructure used to begin and maintain the project. This includes a project hosting and source control website like GitHub, where the code will reside and be maintained, as well as bug resolution, and other needed tools.
+即使您的组织已经接受了开源主题的培训（例如本系列课程），提醒工程团队和经理注意可能与他们通常的构建产品或评估工作的方式不同的特定项目也很重要。
 
-We’ll cover tools and infrastructure in more detail shortly.
+ **对于工程师** 
 
-### Educate Your Workforce
+- 回顾开源开发方法和流程
+- 查看贵公司的开源政策和合规性规则
+- 在您的软件开发模型中集成开源软件
+- 如果可能，在内部遵循开源最佳实践
+- 实践并鼓励社区思考，以帮助制定更通用的解决方案
 
-Even if your organization has taken training on open source topics (such as this course series), it’s important to remind engineering teams and managers of particular items that may differ from how they normally approach building products or evaluating work.
+ **对于经理** 
 
-#### For Engineers
+- 传统的绩效指标可能不再适用
+  - 只计算结果，不计算使用谁的代码
+  - 影响结果与编写代码一样有效
+- 管理你的开发者，而不是他们的维护者
+  - 你无法控制开源进程
+- 您的员工和社区都有学习曲线
+- 建立影响力和尊重需要时间（即使这是您公司的项目）
 
-*   Review open source development methods and processes
-*   Review your company's open source policies and compliance rules
-*   Integrate open source software within your software development model
-*   Follow open source best practices internally if possible
-*   Practice and encourage community thinking to help craft more general solutions
+## 3.4 审查
 
-#### For Managers
+### 3.4.1 概述
 
-*   Traditional performance metrics may no longer apply
-    *   Only results count, not whose code is used
-    *   Influencing an outcome is just as valid a solution as writing code
-*   Manage your developers, not their maintainers
-    *   You can’t control the open source process
-*   There is a learning curve for your employees and the community
-*   Building influence and respect takes time (even if it’s your company’s project)
+虽然有些受众在启动新的开源项目等工作之前不一定喜欢冗长的评论，但重要的是要花一些时间来正确规划法律团队、工程团队和营销团队的评论。
 
+这些不一定是痛苦的，因为一组简单的清单来验证最常遗漏的元素不会从裂缝中溜走可能会有所帮助。在创建一个新的开源项目的过程开始时利用这段时间可以在项目完成并获得可见性后省去很多麻烦。
 
-### Lesson: Reviews
+我们将在以下部分介绍如何简化这些审核流程的一些最佳实践。
 
-### Overview
+### 3.4.2 法律审查
 
-While some audiences don’t necessarily appreciate lengthy reviews before launching efforts such as a new open source project, it’s important to take some time to properly plan for reviews from the legal team, the engineering team and also the marketing team.
+新项目可能发生的最糟糕的事情之一是社区对代码库的合法清洁度不信任。确保您发布的代码具有明确的许可和出处非常重要。全面的法律审查通常有助于确保社区中的其他人可以接受所贡献的内容。
 
-These don’t necessarily have to be painful, as a simple set of checklists to verify that the most often missed elements don’t slip through the cracks can be helpful.  Taking this time at the start of the process of creating a new open source project can save a lot of headaches once a project is out and gaining visibility.
+您的法律审查还应包括商标尽职调查和注册。请注意，如果您将项目贡献给基金会（稍后将在治理部分详细介绍），请确保在开源代码库之前与商标策略保持一致。
 
-We’ll cover some best practices in the following sections for how to streamline these review processes.
+您还需要为您的项目选择一个许可证。记录任何许可或知识产权要求很重要。项目通常需要同时考虑出站许可（例如，下游用户接收代码所依据的许可）和入站贡献机制（例如，向项目做出贡献的过程）。许多项目将使用开发商的原产地证书 (DCO) 签核流程作为其入站贡献机制。如果您预计需要明确的公司对专利授权的承诺，或以后重新许可项目的能力，您可能需要查看一些更常见的贡献者许可协议（通常称为 CLA）。并非所有 CLA 都相同，因此请仔细考虑此选项。另请注意，CLA 可能会成为参与的障碍，因为开发人员通常必须通过繁琐的审批流程才能签署。有关许可选项的更多详细信息，请参阅本培训系列的开源合规性计划模块。
 
-### Legal Review
+您的项目也可能产生非软件的可交付成果。如果您的项目正在生成文档，请讨论您是否应该为文档使用特定的许可证。例如，许多开源项目将使用软件的开源许可证和文档的知识共享许可证。此外，一些项目寻求创建可由其他人以各种方式实施的规范。这些项目应该考虑使用规范许可证的选项。
 
-One of the worst things that can happen to a new project is for the community to have distrust in the legal cleanliness of a codebase. It’s important to ensure the code you release has clear licensing and provenance. A full legal review is often helpful in making sure what gets contributed will be acceptable by others in the community.
+每种许可方法都有其优点和缺点，但请注意分散项目的可能性，这对于需要互操作或提供跨各种供应商解决方案可移植性的软件来说是一个特殊问题。如果商业解决方案通过社区创建的测试或一组要求，则通常通过创建允许使用项目商标的一致性程序来解决此问题。预先考虑这一点将有助于为您的法律审查和项目计划提供信息。
 
-Your legal review should also include trademark due diligence and registration. Note that if you are contributing the project into a foundation (more on this later in the governance section), make sure you’re aligned on the trademark strategy before open sourcing your codebase. 
+总之，法律审查过程的步骤包括：
 
-You’ll also need to choose a license for your project. It’s important to document any licensing or intellectual property requirements. Projects will typically need to consider both the outbound license (e.g., the license under which downstream users receive the code) and the inbound contribution mechanism (e.g., the process under which contributions are made into the project). Many projects will use the [Developer’s Certificate of Origin](https://developercertificate.org/) (DCO) sign-off process for their inbound contribution mechanism. If you anticipate needing explicit corporate commitments for patent grants, or the ability to relicense the project later, you may want to look at some of the more common Contributor License Agreements (commonly referred to as CLAs). Not all CLAs are alike, so consider this option carefully. Also be aware that CLAs can be an impediment to participation as developers often have to go through arduous approval processes to get them signed. Refer to the _Open Source Compliance Program_ module of this training series for more detailed information on licensing options.
+- 考虑开源对贵公司知识产权的影响
+- 确保完全符合开源许可证
+- 为要发布的源代码选择一个开源许可，在您的项目中非常清楚地记录所有许可要求
+- 决定您是否需要贡献者协议
+- 考虑来自社区的可能的非软件输出和适当的许可证，例如文档和规范
+- 决定任何与商标相关的考虑因素
+- 确定您的生态系统计划中是否包含其他因素，例如一致性测试
 
-Your project may also produce deliverables that are not software. If your project is producing documentation, discuss whether you should use a specific license for the documentation. For example, many open source projects will use an open source license for the software and a Creative Commons license for the documentation. Additionally, some projects seek to create specifications that may be implemented in various ways by others. Those projects should consider the option to use a specification license. 
+### 3.4.3 技术审查
 
-Each licensing approach has its advantages and disadvantages, but be aware of the potential for fragmenting your project, which is a particular problem for software that needs to be interoperable or provide portability across various vendor solutions. Often this issue is addressed by creating conformance programs that permit usage of the project trademark if the commercial solutions pass a community created test or set of requirements. Thinking about this up front will help inform your legal review and plans for the project.
+技术审查验证源代码可以在不依赖于其他内部代码或开发实践（包括任何自定义内部构建系统）的情况下运行，并且不包含公司无法包含在开源版本中的第三方代码。
 
-In summary, the steps in the legal review process include:
+技术审查应包括对所有许可和版权声明的验证，并应删除任何私人或内部代码注释。 步骤包括：
 
-*   Consider the impact of open sourcing on your company’s intellectual property
-*   Ensure full compliance with open source licenses
-*   Select an open source license for the source code to be released, document all licensing requirements very clearly in your project
-*   Decide if you need a contributor agreement
-*   Consider the possible non-software outputs from the community and the appropriate licenses, such as documentation and specifications
-*   Decide on any trademark related considerations
-*   Decide whether there are additional factors to build into your plans for an ecosystem, such as conformance testing
+- 删除对非公共组件的关键依赖
+- 提供文档和用例示例
+- 删除内部注释、对其他内部代码的引用等。
+- 确保编码风格一致
+- 更新源代码文件中的版权声明
+- 在源代码文件中添加许可声明
+- 确保代码在任何外部目标平台上编译和构建
+- 将许可证文本作为文件添加到根目录中
 
-### Technical Review
+### 3.4.4 营销审核
 
-The technical review verifies that the source code can function without dependencies on other internal code or development practices (including any custom internal build systems), and that it does not include third-party code the company cannot include in the open source release.
+成功的开源项目不能完全依赖于代码和技术的优点——为了让项目继续前进，还有一系列额外的业务和营销步骤需要注意。它们包括推广项目、制定成功的运营战略、提供切合实际的预算和项目品牌，以及建立活跃的社交媒体帐户和有用的域名以支持长期成功。
 
-The technical review should include verification of all license and copyright notices, and any private or internal code comments should be scrubbed. Steps include:
+营销审查为品牌建立了指导方针。这一点尤其重要，因为它有助于确保市场上的信息一致。营销审查的步骤包括：
 
-*   Remove critical dependencies on non-public components
-*   Provide documentation and use case examples
-*   Remove internal comments, references to other internal code, etc.
-*   Ensure coding style is consistent
-*   Update copyright notices in source code files
-*   Add license notice in source code files
-*   Ensure the code compiles and builds on any external target platforms
-*   Add license text as a file in the root directory
+- 设计项目标志、配色方案、网站、宣传材料等。
+- 正式制定品牌指南
+- 为项目注册社交媒体帐户（Twitter、Facebook、LinkedIn 等）
+- 为项目注册域名
 
-### Marketing Review
+通过在项目启动之前执行此营销审查，您可以在任何潜在的品牌问题（例如您的首选名称无法使用域名）威胁到项目成功之前处理它们。确保您尽早与营销团队接触，以便他们可以帮助您解决这些（和其他）问题。
 
-Successful open source projects can’t live strictly on the merits of the code and technology alone - to keep the project moving along, there are a series of additional business and marketing steps that need attention as well. They include promoting the project, laying out a successful operational strategy, providing a realistic budget and project branding, as well as establishing lively social media accounts and useful domain names to bolster long-term success.
+你可能会发现你的营销团队会很兴奋，因为看看你能带动多少人到项目中贡献代码、参与论坛、提供错误修复和报告问题是一个有趣的挑战。
 
-A marketing review establishes guidelines for branding. This is particularly important, as it helps to ensure a consistent message in the market. Steps in the marketing review include:
+### 3.4.5 治理和流程
 
-*   Design a project logo, color scheme, website, collateral, etc.
-*   Formalize branding guidelines
-*   Register social media accounts for the project (Twitter, Facebook, LinkedIn, etc.)
-*   Register domain names for the project
+#### 3.4.5.1 治理模式
 
-By performing this marketing review ahead of the project launch, you can deal with any potential branding issues (like domain names not being available for your preferred name) before they threaten to derail the success of your project.  Make sure that you engage your marketing team early on so that they can help you navigate these (and other) issues.  
+重要的是要考虑新的开源项目的治理模型。 但是我们所说的治理是什么意思？ 很简单，治理是围绕项目的结构，它支持以下方面的决策：
 
-You’ll probably find that your marketing team will be excited, because it’s a fun challenge to see how many people you can drive to the project to contribute code, participate in forums, offer bug fixes and report issues.
+- 参与指南和要求
+- 架构变化
+- 提名维护者
+- 争议的最终仲裁者
+- 暂停参与者
 
-### Lesson: Governance and Processes
+有多种管理项目的方法，具有不同程度的业务和/或技术领导。 我们稍后将介绍领导力，但如果您想了解有关不同类型治理模型的更多详细信息，请参阅本培训系列中的“与开源项目有效协作”课程。
 
-### Governance Models
+#### 3.4.5.2 领导力
 
-It’s important to consider what the governance model will be for your new open source project.  But what do we mean by governance? Quite simply, governance is the structure around a project that enables decisions on:
+在开始之前设定领导角色也很重要。对于不同的项目，这可能意味着不同的事情。如果您正在启动一个有多个企业参与者的多公司项目，该项目可能需要更正式的治理，例如管理委员会或其他管理小组。
 
-*   Participation guidelines and requirements
-*   Architectural changes
-*   Nominating maintainers
-*   Final arbiter on disputes
-*   Suspension of participants
+其他安排可能只需要一个技术委员会，从技术角度监督开源项目的所有方面。该委员会的组成将主要包括技术领导，以及与执行团队的联络人，以提供有关进展和项目需求的最新信息。然后可以在技术成员和高管认为合适的情况下引入法律团队。
 
-There are several ways that projects can be governed, with varying degrees of business and/or technical leadership.  We’ll cover leadership in a moment, but if you want more details on the different types of governance models, please refer to the "Collaborating Effectively with Open Source Projects" course in this training series.
+您的顶级架构头脑当然也会在那里，以及其他了解代码库将如何工作的人。总而言之，委员会成员将对项目的发展方向以及来自开发人员社区的支持有一个愿景。这些人是您希望在桌旁计划流程的人。
 
-### Leadership
+#### 3.4.5.3 基金会或独立
 
-Setting leadership roles is also important before getting underway. That can mean different things for different projects. If you are starting a multi-company project with several enterprise participants, the project may need more formal governance, such as a governing board or other management group. 
+随着社区的发展，您需要能够适应任何新的沟通渠道。确保随着项目的发展，让您的社区参与工具决策——您可能会发现，如果用户和开发人员发现其他工具有用，随着时间的推移，他们自然会倾向于使用其他工具。
+创建新的开源项目时经常出现的另一个问题是，是将您的代码捐赠给与供应商中立的非营利组织，还是通过拥有和运行您自己的项目来保留一些控制权。答案取决于您想要实现的目标——如果您正在与少数合作伙伴合作为该行业构建一项新兴技术，您可能不需要在一开始就考虑成立一个非营利基金会。
 
-Other arrangements could simply require a technical committee that oversees all facets of the open source project from a technical perspective. The composition of the committee would include mostly technical leadership, as well as a liaison back to the executive team to provide updates about progress and project needs. The legal team can then be brought in as the technical members and executives see fit.
+但是，如果您的计划在您的行业中具有广泛的适用性、跨行业，或者已经从小事发展成为大而复杂的事情，那么考虑一个非盈利的开源/开放标准联盟来托管您的项目通常是好的。项目。除了拥有真正的供应商中立场所来托管您的项目的价值之外，这些基金会还提供法律、治理、营销和项目基础设施服务，可以显着简化让您的项目走上成功之路的过程。
 
-Your top architectural minds will also certainly be there, as well as others who know how the code base will work. Altogether, the members of the committee will have a vision for where the project is going as well as support from within the developer community. Those are the people you want there at the table to plan the process.
+您可以选择许多基金会（和子基金会），每个基金会都提供独特的价值主张、定价和服务水平。这些基础的一些例子是：
 
-### Foundation or Independent
+- Apache Foundation
+- Eclipce Foundation 
+- Linux Foundation
+- OASIS Open
 
-Another question that often comes up as new open source projects are created is whether to donate your code to a vendor-neutral, non-profit organization or retain some control by owning and running your own project. The answer depends on what you are trying to achieve - if you are working with a small number of partners on building a nascent technology for the industry, you probably don’t need to consider a non-profit foundation at the beginning.  
+您选择哪个基金会取决于您的项目所在的专业领域，以及成本、治理模型等考虑因素。
 
-However, if what you are planning has wide applicability across your industry, is cross-industry, or has grown from a small effort into something large and complex, it’s often good to consider a non-profit open source/open standards consortium to host your project.  Besides the value of having a truly vendor-neutral place to host your project, these foundations have legal, governance, marketing and project infrastructure services that can dramatically streamline the process of getting your project on the path to success.
+### 3.4.6 技术流程
 
-There are many foundations (and sub-foundations) you can choose from, and each offers unique value propositions, pricing and service levels.  Some examples of these foundations are:
+在发布之前，创建一个标准的发布流程通常很有帮助，以便在项目维护人员进行更改和改进时安排代码的定期发布。应该为开发社区和项目的业务方面制定一个具有明确定义和可见细节的时间表。
 
-*   [Apache Foundation](https://www.apache.org/foundation/)
-*   [Eclipse Foundation](https://www.eclipse.org/org/foundation/)
-*   [Linux Foundation](https://www.linuxfoundation.org/)
-*   [OASIS Open](https://www.oasis-open.org/)
+发布这些版本的频率取决于您社区的期望。如果该项目以企业为中心，并且您正在尝试构建非常坚固的东西，那么您的发布时间表可能是一年两次。如果项目的范围更小、更敏捷，并且您正试图将其中的一部分发布出去，那么您可能会每月或每周发布代码。时间表的关键是社区必须规定时间表并从速度的角度了解其支持项目的能力，同时为用户提供他们需要和期望的东西。如果社区提供的反馈是发布过早或过慢，那么您需要查看流程并进行一些调整。这里最重要的是一致性、可预测性和可见性。
 
-Which foundation you choose depends on what area of speciality your project resides in, as well as considerations like cost, governance models, etc.
+您还应该有明确定义的流程来提交代码、补丁、功能创意、文档或其他项目工件。其中一些可以在项目基础设施/工具中处理（我们将很快介绍一个主题），但技术过程的一部分不仅仅是工具，而是工作流程的期望 - 例如- 代码将如何提交，将遵循什么样的编码标准，新代码何时在发布周期中被接受等。
 
-### Technical Processes
+## 3.5 项目基础设施
 
-Prior to launch it is often helpful to create a standard release process to schedule regular releases of the code as changes and improvements are made by the project maintainers. A schedule should be set up with well-defined and visible details for the development community and the business side of the project. 
+### 3.5.1 开发工具
 
-How often those releases should be made depends on your community’s expectations. If the project is enterprise-focused and you’re trying to build something that is very hardened, your release schedule might be twice a year. If the project is smaller in scope and more agile and you are trying to get pieces of it out there, perhaps you might be releasing the code monthly or weekly. The key to the schedule is that the community must dictate the timeline and understand its ability to support the project from a velocity standpoint, while giving users what they need and expect. If the community provides feedback that the releases are coming too soon or too slowly, then you need to look at the process and make some adjustments. The big thing here is consistency, predictability, and visibility.
+在项目启动之前，您需要为项目准备一个存储库。这本质上是代码存储库的基础设施，项目将始终可供贡献者使用。许多项目使用著名的 GitHub 或 GitLab 存储库，或者使用 Gerrit 等工具托管自己的存储库。
 
-You should also have well defined processes for submitting code, patches, feature ideas, documentation, or other project artifacts.  Some of this can be dealt with in the project infrastructure/tooling (a topic we’ll cover shortly), but part of the technical process is not just the tools, but the expectations of workflow - e.g. - how will code be submitted, what kinds of coding standards will be followed, when will new code be accepted in the release cycle, etc.
+还有许多其他选项可用，但请记住，考虑让开发人员更轻松地参与和参与您的项目通常很有用。选择大多数开发人员熟悉的工具平台将有助于加快项目的贡献和增长。
 
-### Lesson: Project Infrastructure
+错误、问题和功能跟踪也应作为项目基础设施计划的一部分。您希望为贡献者提供一个简单的地方来报告需要修复的问题以及对可能有用的新功能的请求。然后是自动化的构建和测试系统流程，它们可能需要包含在您项目的 GitHub 存储库中，以保持您的系统和项目流畅运行，同时扫描和检查代码以确保其质量。
 
-### Development Tools
+通过查看本系列课程中的开源开发实践模块，您可以获得更多关于自动化测试和持续集成等方面的详细信息。
 
-Before the launch of your project can ever happen, you need to prepare a repository for the project. This is essentially the infrastructure for a code repository where the project will be available to contributors all the time. Many projects use the well-known [GitHub](https://github.com/) or [GitLab](https://about.gitlab.com/) repositories, or host their own repositories with tools such as [Gerrit](https://www.gerritcodereview.com/). 
+### 3.5.2 网站
 
-There are many other options available as well, but remember it’s often useful to consider making it simple for developers to participate and engage in your project. Choosing a tooling platform that is familiar to the greatest number of developers will help accelerate contributions and growth in your project.
+关键的一步是为项目创建一个公司中立的网络形象。不要试图将开源项目网站作为公司网页的子域——即使你有最好的意图，项目中性主页的视觉区别也很重要。该网页为社区提供了一个查找项目信息的地方，包括文档、下载代码的链接等。该网页还可以提供有关项目领导、范围、用户和贡献者、预算、治理和其他详细信息的详细信息。作为中央信息存储库，您的网站还应该有非常明确的号召性用语/地点，供新开发人员加入社区。
 
-Bug, issue, and feature tracking also should be included as part of a project’s infrastructure plans. You want to provide an easy place for contributors to make reports of problems that need to be fixed as well as requests for new features that might be useful added. Then there are automated build and test system processes which may need to be included as part of your project’s GitHub repository to keep your systems and project flowing smoothly, while scanning and checking the code to ensure its quality.  
+### 3.5.3 通讯工具
 
-You can get more detailed information on things like automated testing and continuous integration by reviewing the _Open Source Development Practices_ module in this course series.
+为您的社区提供沟通渠道以寻求帮助至关重要。您需要找到可以集成到整个开发工作流程中的工具（例如，接收支持请求通知、代码签入、错误日志和其他任务）。您还需要为社区成员提供重要的讨论论坛和机制，以便从同时参与项目的其他人那里获得快速答案。所有这些都是重要的沟通方式，有助于实时推进项目。
 
-### Website
+要考虑的一个项目工具是 Slack，这是一个在线团队项目管理和通信平台，用户可以在其中访问和共享消息和文件、组织工作流程、执行信息搜索等。然而，Slack 是一种专有工具，超过一定的使用阈值需要花钱维护。有一些开源选项，例如 IRC、Gitter.im、Mattermost、Rocketchat 等。
 
-A critical step is creating a company-neutral web presence for the project. Don’t try to place the open source project website as a subdomain of a company web page - even if you have the best intentions, the visual distinction of a neutral home of the project is important. The webpage provides a place for the community to find information about the project including documentation, links to download the code, and more. The webpage can also provide details about the project’s leadership, scope, users and contributors, budget, governance, and other details.  As a central information repository, your website should also have very clear calls to action/places for new developers to join the community.
+根据您的开发人员和用户社区，您可能还需要现代论坛工具。 Discourse 是一个很好的选择，它是完全开源的，还提供可选的托管。选择通信系统时，请注意任何形式的锁定、财务成本以及将来迁移到新系统的难易程度。
 
-### Communication Tooling
+随着社区的发展，您需要能够适应任何新的沟通渠道。确保随着项目的发展，让您的社区参与工具决策——您可能会发现，如果用户和开发人员发现其他工具有用，随着时间的推移，他们自然会倾向于使用其他工具。
 
-Offering communication channels for your community to ask questions for help is critical. You’ll want to find tools that can be integrated into the entire development workflow (for example, receiving notifications for support requests, code check-ins, error logs, and other tasks). You’ll also want to provide critical discussion forums and a mechanism for community members to get quick answers from others who are also working on a project. All are important means of communication that help move projects forward in real-time.
+### 3.5.4 文档工具
 
-One project tool to consider is [Slack](https://slack.com/) , an online team project management and communications platform where users can access and share messages and files, organize workflows, perform searches for information, and more. However, Slack is a proprietary tool and can cost money to maintain beyond a certain usage threshold. There are open source options out there such as IRC, [Gitter.im](https://gitter.im/), [Mattermost](https://mattermost.com/), [Rocketchat](https://rocket.chat/) and others. 
+某种形式的文档管理通常对开源项目很有用，特别是如果它使创建文档、操作方法和其他基于文本的项目的过程变得更容易的话。 虽然许多项目都喜欢使用 GitHub 或 GitLab 的内置 Markdown 文本工具功能，但其他项目更喜欢使用 wiki 或其他共享编辑软件。
 
-Depending on your developer and user community, you may also need modern forum tooling. [Discourse](https://www.discourse.org/) is a great option that is fully open source and also provides optional hosting. When choosing a communication system, be mindful about any form of lock-in, financial costs, and how easy it is to migrate to a new system in the future. 
+有关潜在 Wiki 工具选项的列表，您可以查看（毫不奇怪）维基百科。 适用于通信工具的相同警告也适用于此 - 考虑如何避免任何类型的数据或工具锁定，以便当（不是如果）您的用户和开发人员决定迁移到不同的平台时，您可以迁移您的硬件 - 获得文档、常见问题列表和操作方法内容。
 
-As your community grows, you need to be able to adapt to any new communication channels out there. Make sure you involve your community in tooling decisions as your project evolves - you may find that users and developers naturally gravitate to other tools over time if they find them useful.
+# 4. 成功的项目启动和维持
 
-### Documentation Tooling
+## 4.1 简介
 
-Some form of document management is often useful for open source projects, especially if it makes the process of creating documentation, how-tos and other text-based projects easier.   While many projects feel comfortable using the built-in markdown text tool features of GitHub or GitLab, other projects prefer using wikis or other shared-editing software. 
+在本节中，我们将讨论成功启动开源项目所需的最后步骤，并提供一些有关如何维持和鼓励采用和对项目做出贡献的附加信息。
 
-For a list of potential Wiki tooling options, you can check (not surprisingly), [Wikipedia](https://en.wikipedia.org/wiki/List_of_wiki_software).  The same caveats that apply to communications tools also apply here - consider how you can avoid any kind of data or tool lock-in so that when (not if) you users and developers decide to migrate to a different platform, you can migrate your hard-won documentation, Frequently Asked Questions lists and how-to content.
+## 4.2 学习目标
 
-# Section: Successful Project Launch And Sustainment
+在本节结束时，您应该能够：
 
-## Lesson: Introduction
+- 描述成功启动开源项目所需的最后步骤。
+- 解释如何建立强大的社区流程，以提高项目的采用率和强大的贡献渠道。
 
-### Section Overview
+## 4.3 项目启动
 
-In this section, we’ll discuss the final steps required for successful open source project launches, as well as present some additional information on how to sustain and encourage adoption and contribution to the project.
+### 4.3.1 最终代码审查
 
-### Learning Objectives
+在这个过程中的这一点上，最后一遍源代码以准备启动总是一个好主意。如果您一直遵循前面概述的过程，这应该不会是一个很大的负担，但是确保没有忘记任何易于修复的项目会非常有帮助。
 
-By the end of this section, you should be able to:
+具体而言，此最终审查的目标应该是确保完全满足法律、技术和营销审查确定的所有要求。要查找的内容的一些示例是：
 
-*   Describe the last steps required to successfully launch an open source project.
-*   Explain how to build strong community processes that allow for increased project adoption and a strong contribution pipeline.
+- 许可、归属和版权文本都完整且到位
+- 源代码扫描器报告干净的材料清单
+- 每一行代码都获得了适当的发布许可
+- 评论已清除随意或不相关的语言
+- 源代码不会无意中泄露内部项目
+- 源代码足够完整，可以构建
+- 使用公开可用的工具构建源代码
+- 文件和函数名称反映项目的名称（如果它已更改）
+- MAINTAINERS 文件是最新的（如果使用）
 
+### 4.3.2 预发布
 
-## Lesson: Project Launch
+在您的新项目正式上线之前，您可以做一些事情来确保为您的组织和整个社区提供最佳的启动体验。为了确保成功，您可以做的最重要的事情之一是确保在发布之前拥有临界质量。
 
-### Final Code Review
+当您宣布新项目时，您应该已经确定哪些合作伙伴和客户将与您同在。他们应该具有对存储库的预览访问权限，以便他们可以熟悉代码并准备贡献（或已经贡献）。
 
-At this point in the process, it’s always a good idea to take one final pass through the source code in preparation for launching.  If you’ve been following the process outlined earlier, this shouldn’t be a big burden, but it can be very helpful to make sure that no easy-to-fix items haven’t been forgotten.
+如果这是您早期的开源项目之一，那么与您自己的开发人员快速复习一下，以确保他们遵循开源开发方法和流程，以期与开源社区中的其他人进行交互也无妨将为您的项目做出贡献。
 
-Specifically, the goal of this final review should be to ensure that all requirements identified by the legal, technical, and marketing reviews are completely met.  Some examples of what to look for are:
+在您确认所有项目基础设施都已启动并运行后，请确保您的内部开发人员已加入项目的沟通工具并开始监控问题或新贡献。
 
-*   License, attribution, and copyright texts are all complete and in place
-*   Source code scanner reports clean bill of materials
-*   Every line of code is licensed appropriately for release
-*   Comments are sanitized of casual or unrelated language
-*   Source code does not inadvertently reveal internal projects
-*   Source code is sufficiently complete that it will build
-*   Source code builds using publicly available tools
-*   File and function names reflect the project’s name, if it has changed
-*   MAINTAINERS file is up to date, if used
+现在是重要时刻的时候了！您可以上传任何最终剩余的代码并翻转开关以使项目面向世界
 
-### Pre-Launch
+### 4.3.3 良好的开源公民身份
 
-Before you go live officially with your new project, there are some things you can do to ensure the best launch experience for your organization and for the community at large. One of the biggest things you can do to ensure success is making sure that you have critical mass before launching.  
+现在您的项目已经启动，这只是未来工作的开始。您需要确保您的组织继续成为优秀的开源公民，并以鼓励其他人与您并肩并在您的项目上合作的方式运作。这里有一些方法可以做到这一点：
 
-You should have identified which partners and customers are going to be there with you when you announce the new project.  They should have had preview access to the repositories so that they can be familiar with the code and ready to contribute (or have already been contributing).
+- 在公开场合进行对话并做出决定
+  - 这建立了善意，并减少了记录决策的开销
+  - 这简化了新参与者的入职流程
+  - 拥有开放的档案可确保参与者发生变化时的连续性
+- 聆听社区
+  - 他们的经验非常宝贵，尤其是在集成和测试方面
+  - 鼓励扩展您需要的通用实现
+- 分配资源，就好像您将是唯一一家从事这项工作的公司一样
+  - 设定目标，并确保他们有资源来完成
+  - 在杠杆开发模式生效之前，这会形成动力
 
-If this is one of your early open source projects, it also doesn’t hurt to have a quick refresher with your own developers to make sure they are following open source development methods and processes in anticipation of interacting with others in the open source community that will be contributing to your project.
+成为一名优秀的开源公民需要付出努力，而且这不是利他主义——对于您的组织来说，从您为启动开源项目所投入的投资中获得最佳回报是一种良好的商业实践。
 
-After you have verified that all of your project infrastructure is up and running, make sure that your internal developers have joined the project’s communication tools and are beginning to monitor for questions or new contributions.  
+# 5. 项目维护
 
-Now it’s time for the big moment!  You can upload any final remaining code and flip the switch to make the project live to the world.
+## 5.1 建立社区
 
-### Good Open Source Citizenship
+项目启动后，监控外部开发者和用户社区的活力至关重要。社区建设不会自动发生。在项目的早期阶段，可能需要在主要会议上举办开发者活动或赞助聚会以建立动力。管理期望并履行项目治理和透明度的义务也非常重要。
 
-Now that your project has launched, it’s just the beginning of the work ahead.  You’ll need to make sure that your organization continues to be a good open source citizen and operates in a way that encourages others to come alongside you and work together on your project.  Here are some ways you can do that:
+正在进行的活动包括：
 
-*   Have conversations and make decisions in the open
-    *   This builds goodwill, and reduces overhead in documenting decisions
-    *   This streamlines onboarding process for new participants
-    *   Having open archives ensure continuity when participants change
-*   Listen to the community
-    *   Their experience is invaluable, especially in integration and testing
-    *   Encourage generalized implementations that extend what you need
-*   Allocate resources as though you will be the only company doing the work
-    *   Set goals, and make sure they have resources to get accomplished
-    *   This builds momentum until the leveraged development model takes effect
+- 确保明确传达方向或治理的任何变化
+- 遵循其他类似社区的最佳实践
+- 鼓励和提供面对面社区建设的机会
+- 确定适当的活动并让社区提交演讲
+- 考虑举办本地聚会
 
-Being a good open source citizen takes work, and it’s not altruistic - it’s good business practice for your organization to get the best return on the investment you’ve put into launching your open source project.
+通过建立一个多元化的贡献者群体，您可以稍后决定通过与其他认为这项工作有价值的企业和组织进行讨论，以确定他们是否有兴趣投入时间、金钱和其他资源，从而决定将您的项目提升到一个新的水平扩大您的初步努力。通过从其他人那里获得投入和资源，可以扩展和发展项目，以便为其他贡献者做更多事情。
 
-## Lesson: Project Maintenance
+这种增长意味着更多的企业可能希望贡献更多的资金，让他们自己的开发人员加入进来，并通过将他们的力量放在你已经开始的努力上来帮助推进工作。这可能涉及 10,000 美元或 250,0000 美元或更多，具体取决于项目的重要性及其对其他公司的意义。一旦您的项目开始，其他公司可以进来为这项工作提供资金，如果这有助于他们的使命。
 
-### Build the Community
+这在今天经常发生，因为企业和组织意识到他们试图解决的技术问题比他们单独的任何一个都大。那时他们可以开始看到在供应商中立的联合项目中与其他公司联合起来的战略价值，这些项目在解决企业面临的技术问题方面为更大的利益而努力。
 
-After the project has launched, it is essential to monitor the vitality of the external developer and user community. Community building does not happen automatically. In the early stages of the project, it may be necessary to host developer events or sponsor meetups at major conferences to build momentum. It’s also extremely important to manage expectations and fulfill obligations for project governance and transparency.
+# 5.2 指定社区倡导者
 
-Ongoing activities include:
+您可以聘请来帮助新的开源项目取得成功的最重要角色之一是社区倡导者（有时也称为社区经理）。这个人的角色是做任何需要让社区成功的事情。
 
-*   Ensure any changes to direction or governance are clearly communicated
-*   Follow best practices of other similar communities
-*   Encourage and provide opportunities for face-to-face community building
-*   Identify appropriate events and have the community submit talks
-*   Consider doing local meetups
+这是一个执行起来具有挑战性的角色，也可能是一个具有挑战性的角色，因为这个人需要各种各样的技能，包括营销、开发人员宣传、业务发展、危机管理、调解人等。一个开始寻找的好地方担任此角色的人员将考虑您组织中的内部开发或营销资源。此外，不要忽视技术作家、项目经理，甚至社会学、心理学等非传统研究领域的人。
 
-By building up a diverse group of contributors, you can later decide to move your project to the next level by having discussions with other enterprises and organizations that see the work as valuable to determine if they are interested in investing their time, money and other resources to expand your initial efforts. By gaining input and resources from others, the project can be expanded and grown to do more for additional contributors.
+一个好的社区倡导者可以区分一个没有人使用的技术上成功的项目，一个相当好的技术项目，由于社区建设和部署的桥接技能而突飞猛进。 Linux Foundation TODO Group 是一个寻找社区管理资源帮助的好地方。
 
-Such growth means that additional businesses may want to contribute more money to bring their own developers in to join the efforts and help move the work forward by putting their weight behind the efforts you’ve begun. That may involve $10,000 or $250,0000 or more, depending on the importance of the project and what it means to other companies. Once your project begins, other companies can come in to contribute funding toward the work if it will aid their missions.
+# 5.3 评估和适应
 
-This happens regularly today, as enterprises and organizations realize that the technology problems they are trying to solve are larger than any of them individually. That’s when they can begin to see strategic value in joining together with other companies in vendor-neutral joint projects that are working for the greater good in solving technical problems faced by businesses.
+与任何新项目工作一样，如果您没有看到预期的采用和贡献类型，您需要经常评估并准备好调整您的方法。重要的是要记住，贵组织的声誉只是衡量新开源项目成败的一部分。
 
-### Designate a Community Advocate
+当社区提供反馈时保持灵活性和敏捷性让您有机会提高项目作为协作和倾听的好地方的声誉。当您的项目开始时，您应该查看一些关键指标：
 
-One of the most important roles you can hire for to help a new open source project succeed is a community advocate (also sometimes called a community manager).  This person’s role is to do whatever is needed to make the community successful.  
+- 来自初始开发人员群之外的代码提交/拉取请求的数量
+- 关于您部署的任何通信渠道的讨论/主题数量
+- 提交的错误报告或功能请求的数量
 
-It’s a challenging role to execute, and can be a challenging role to hire for, because the person needs a wide variety of skills, including marketing, developer advocacy, business development, crisis management, peacemaker, etc.  A good place to start looking for someone for this role is to consider internal development or marketing resources in your organization.  Also, don’t ignore people like technical writers, program managers, or even non-traditional fields of study like sociology, psychology, etc.  
+同样重要的是要记住，即使是负面反馈也意味着您的社区正在参与您的项目。通过实践透明度和问责制并尝试公平地解决问题，您的项目将获得积极的声誉。
 
-A good community advocate can be the difference between a technically successful project that no one uses, and a reasonably good technical project that grows by leaps and bounds because of the community building and bridging skills deployed.  The Linux Foundation [TODO Group](https://todogroup.org/) is a good place to find help in identifying community management resources.
-
-### Evaluate and Adapt
-
-As with any new project effort, you’ll need to evaluate frequently and be ready to adapt your approach if you aren’t seeing the kind of adoption and contribution you were expecting.  It’s important to remember that your organization’s reputation is only part of the equation in the success or failure of a new open source project.
-
-Remaining flexible and agile when the community provides feedback gives you the opportunity to increase the project’s reputation as a good place to collaborate and be listened to.  You should be looking at a few key metrics as your project gets off the ground:
-
-*   Number of code commits/pull requests from outside your initial developer base
-*   Amount of discussion/topics on whatever communications channels you’ve deployed
-*   Number of bug reports or feature requests submitted
-
-It’s also important to remember that even negative feedback means that your community is engaging with your project.  By practicing transparency and accountability and trying to fairly address concerns, your project will gain a positive reputation.
-
-Remember the adage that has been repeated throughout this training course series - ‘Release Early, Release Often.’  Your new project doesn’t have to be perfect on day one, but by keeping this adage in mind, you’ll be well on your way to building a successful and robust open source effort.
+记住在整个培训课程系列中一直重复的格言——“尽早发布，经常发布。”您的新项目不必在第一天就完美无缺，但通过牢记这句格言，您将在构建成功且强大的开源工作的方法。
