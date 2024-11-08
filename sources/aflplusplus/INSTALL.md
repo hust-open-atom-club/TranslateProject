@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Building and installing AFL++"
 author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
+translator: codefashion007
+translating_date: 20241107
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 ---
