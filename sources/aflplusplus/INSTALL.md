@@ -18,7 +18,7 @@ link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 
 ```shell
 docker pull aflplusplus/aflplusplus:latest
-docker run -ti -v /location/of/your/target:/src aflplusplus/aflplusplus
+docker run -ti -v /location/of/your/target:/src aflplusplus/aflplusplus  
 ```
 
 当向稳定的分支推送时，这个 docker 镜像文件就会自动生成。
@@ -62,14 +62,14 @@ make source-only
 * distrib：所有内容（包括仅二进制和源代码的模糊测试）
 * man：从程序的帮助选项中创建简单的手册页
 * install：安装你用上述构建选项已经编译好的所有内容
-* clean：清理所有已编译的内容，不包括下载内容（除非不在任何一个checkout中）
+* clean：清理所有已编译的内容，不包括下载内容（除非你不在任何一个 checkout 版本中）
 * deepclean：清理包括下载的所有内容
 * code-format：在你提交和发送 PR 之前，请格式化代码！
 * tests：运行测试用例来保证所有的功能都能够正常工作
 * unit：运行单元测试（基于 cmocka）
 * help：展示构建选项
 
-[除非你使用的是 macOS 系统](https://developer.apple.com/library/archive/qa/qa1118/_index.html),否则你还可以通过传递 `PERFORMANCE=1` 参数给 make 来构建 AFL++ 二进制文件的静态链接版本：
+[除非你使用的是 macOS 系统](https://developer.apple.com/library/archive/qa/qa1118/_index.html)，否则你还可以通过传递 `PERFORMANCE=1` 参数给 make 来构建 AFL++ 二进制文件的静态链接版本：
 
 ```shell
 make PERFORMANCE=1
@@ -85,10 +85,10 @@ make PERFORMANCE=1
 * DEBUG - 没有优化，-ggdb3，对所有的警告使用 -Werror
 * LLVM_DEBUG - 显示 llvm 弃用警告
 * PROFILING - 编译 afl-fuzz 并包含性能分析信息
-* INTROSPECTION - 编译 afl-fuzz 并包含变异自省
+* INTROSPECTION - 编译 afl-fuzz 并包含变异自省(mutation introspection)
 * NO_PYTHON - 禁用 python 支持
 * NO_SPLICING - 在 afl-fuzz 中禁用拼接变异，不推荐用于普通的模糊测试
-* NO_UTF - 在状态界面（status screen）中不要使用 UTF-8 来行渲染
+* NO_UTF - 在状态界面(status screen)中不要使用 UTF-8 来行渲染
 * NO_NYX - 禁用构建 nyx 模式依赖
 * NO_CORESIGHT - 禁用构建 coresight（仅限于 arm64 架构）
 * NO_UNICORN_ARM64 - 在 arm64 架构中禁用构建 unicorn
@@ -145,7 +145,7 @@ export CXX=clang++
 which afl-clang-fast
 ```
 
-注意 `afl-clang-lto`，`afl-gcc-fast` 和 `qemu_mode` macOS 上并不能正常工作。
+注意 `afl-clang-lto`，`afl-gcc-fast` 和 `qemu_mode` 在 macOS 上并不能正常工作。
 
 macOS 默认的自带的崩溃报告守护进程会导致模糊测试出现问题。你需要关掉它，你可以用 `afl-system-config` 来完成。
 
