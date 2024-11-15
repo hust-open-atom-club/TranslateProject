@@ -7,30 +7,28 @@ collected_date: 20240827
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 ---
-# Building and installing AFL++
+# 构建与安装AFL++
 
-## Linux on x86
+## 基于x86平台的Linux
 
-An easy way to install AFL++ with everything compiled is available via docker:
-You can use the [Dockerfile](../Dockerfile) or just pull directly from the
-Docker Hub (for x86_64 and arm64):
+### 通过Docker安装：
+
+您可以通过以下[Dockerfile](https://hctt.hust.openatom.club/posts/aflplusplus/Dockerfile)或从Docker Hub上获得AFL++的Docker镜像（适用于x86-64和arm64平台）：
 
 ```shell
 docker pull aflplusplus/aflplusplus:latest
 docker run -ti -v /location/of/your/target:/src aflplusplus/aflplusplus
 ```
 
-This image is automatically generated when a push to the stable branch happens.
-You will find your target source code in `/src` in the container.
+执行上述代码后，镜像的stable分支将会被自动拉取。您可以在容器的/src目录中找到目标源代码。
 
-Note: you can also pull `aflplusplus/aflplusplus:dev` which is the most current
-development state of AFL++.
+*注：您也可以拉取**aflplusplus/aflplusplus:dev**分支（将上述aflplusplus/aflplusplus:latest替换为aflplusplus/aflplusplus:dev），它展示了AFL++的最新开发状态。*
 
-If you want to build AFL++ yourself, you have many options. The easiest choice
-is to build and install everything:
+### 自行构建：
 
-NOTE: depending on your Debian/Ubuntu/Kali/... release, replace `-14` with
-whatever llvm version is available. We recommend llvm 13 or newer.
+如果您想自己构建 AFL++，您有很多选择。最简单的选择是构建并安装所有内容：
+
+*注：根据您的系统（如Debian/Ubuntu/Kali/...）版本，您可以选择任意可用的llvm版本替换“-14”，我们建议使用llvm-13或更新的版本。*
 
 ```shell
 sudo apt-get update
@@ -48,134 +46,109 @@ make distrib
 sudo make install
 ```
 
-It is recommended to install the newest available gcc, clang and llvm-dev
-possible in your distribution!
+建议您尽可能在您的Linux发行版中安装最新的gcc、clang和llvm-dev。
 
-Note that `make distrib` also builds FRIDA mode, QEMU mode, unicorn_mode, and
-more. If you just want plain AFL++, then do `make all`. If you want some
-assisting tooling compiled but are not interested in binary-only targets, then
-instead choose:
+*注：**make distrib**将会同时构建FRIDA mode，QEMU mode和unicorn mode等。如果您只想要单独的AFL++，可以执行**make all**。如果您还想同时编译一些辅助工具但不需要纯二进制文件，就选择：*
 
 ```shell
 make source-only
 ```
 
-These build targets exist:
+以下是可选的构建目标：
 
-* all: the main AFL++ binaries and llvm/gcc instrumentation
-* binary-only: everything for binary-only fuzzing: frida_mode, nyx_mode,
-  qemu_mode, frida_mode, unicorn_mode, coresight_mode, libdislocator,
-  libtokencap
-* source-only: everything for source code fuzzing: nyx_mode, libdislocator,
-  libtokencap
-* distrib: everything (for both binary-only and source code fuzzing)
-* man: creates simple man pages from the help option of the programs
-* install: installs everything you have compiled with the build options above
-* clean: cleans everything compiled, not downloads (unless not on a checkout)
-* deepclean: cleans everything including downloads
-* code-format: format the code, do this before you commit and send a PR please!
-* tests: runs test cases to ensure that all features are still working as they
-  should
-* unit: perform unit tests (based on cmocka)
-* help: shows these build options
+all：主要 AFL++ 二进制文件和 llvm/gcc 工具
+binary-only: 仅二进制文件：frida_mode、nyx_mode、qemu_mode、frida_mode、unicorn_mode、coresight_mode、libdislocator、libtokencap
+source-only：仅源码：nyx_mode、libdislocator、libtokencap
+distrib：所有内容（包括二进制文件和源码）
+man：通过程序的帮助选项创建简单的 man 页面
+install：安装使用上述构建选项编译的所有内容
+clean：清除所有已编译内容，不包括下载内容（除非未通过检验）
+deepclean：清除所有内容，包括下载内容
+code-format：格式化代码，当您准备提交和发送 PR 之前，请执行该操作！
+tests：运行测试用例，确保所有功能都能正常运行
+unit：执行单元测试（基于 cmocka）
+help：显示以上这些构建选项
 
-[Unless you are on macOS](https://developer.apple.com/library/archive/qa/qa1118/_index.html),
-you can also build statically linked versions of the AFL++ binaries by passing
-the `PERFORMANCE=1` argument to make:
+*[如果您使用的不是macOS](https://developer.apple.com/library/archive/qa/qa1118/_index.html)，您也可以通过**PERFORMANCE=1**参数来构建静态链接版本的AFL++二进制文件：*
 
 ```shell
 make PERFORMANCE=1
 ```
 
-These build options exist:
+以下是可选的构建选项：
 
-* PERFORMANCE - compile with performance options that make the binary not transferable to other systems. Recommended (except on macOS)!
-* STATIC - compile AFL++ static (does not work on macOS)
-* CODE_COVERAGE - compile the target for code coverage (see [README.llvm.md](../instrumentation/README.llvm.md))
-* ASAN_BUILD - compiles AFL++ with address sanitizer for debug purposes
-* UBSAN_BUILD - compiles AFL++ tools with undefined behaviour sanitizer for debug purposes
-* DEBUG - no optimization, -ggdb3, all warnings and -Werror
-* LLVM_DEBUG - shows llvm deprecation warnings
-* PROFILING - compile afl-fuzz with profiling information
-* INTROSPECTION - compile afl-fuzz with mutation introspection
-* NO_PYTHON - disable python support
-* NO_SPLICING - disables splicing mutation in afl-fuzz, not recommended for normal fuzzing
-* NO_UTF - do not use UTF-8 for line rendering in status screen (fallback to G1 box drawing, of vanilla AFL)
-* NO_NYX - disable building nyx mode dependencies
-* NO_CORESIGHT - disable building coresight (arm64 only)
-* NO_UNICORN_ARM64 - disable building unicorn on arm64
-* AFL_NO_X86 - if compiling on non-Intel/AMD platforms
-* LLVM_CONFIG - if your distro doesn't use the standard name for llvm-config (e.g., Debian)
+PERFORMANCE - 使用性能选项编译，使二进制文件无法转移到其他系统。建议使用（macOS 除外）！
+STATIC - 静态编译 AFL++（在 macOS 上无效）
+CODE_COVERAGE - 编译目标，并给出代码覆盖率（请参阅 [README.llvm.md](https://hctt.hust.openatom.club/posts/aflplusplus/instrumentation/README.llvm.md)）<!-- 原文为compile the target for code coverage  -->
+ASAN_BUILD - 编译AFL++，并用address sanitizer（ASan，一种动态内存错误检测器）进行调试<!--未找到address sanitizer的合适翻译-->
+UBSAN_BUILD - 编译AFL++工具，并用undefined behavior sanitizer（UBSan，用于检测C/C++中的未定义行为）进行调试
+DEBUG - 无优化、-ggdb3、给出所有警告和 -Werror
+LLVM_DEBUG - 显示 llvm 过时警告
+PROFILING - 编译 afl-fuzz，同时进行分析<!-- 原文为compile afl-fuzz with profiling information -->
+INTROSPECTION - 使用突变自省（mutation introspection）编译 afl-fuzz
+NO_PYTHON - 禁用 python 支持
+NO_SPLICING - 禁用afl-fuzz中的拼接突变（splicing mutation），不建议用于普通模糊测试
+NO_UTF - 状态屏幕中的行渲染不使用 UTF-8（回退到原始AFL版本中的G1框绘制）。
+NO_NYX - 禁用构建 nyx 模式依赖项
+NO_CORESIGHT - 禁用构建 coreight（仅限 arm64）
+NO_UNICORN_ARM64 - 禁用在 arm64 上构建 unicorn
+AFL_NO_X86 - 在非 Intel/AMD 平台上编译
+LLVM_CONFIG - 如果您的发行版不使用 llvm-config 的标准名称（如 Debian）。
+例如：**make LLVM_CONFIG=llvm-config-14**
 
-e.g.: `make LLVM_CONFIG=llvm-config-14`
+## 基于X86-64或arm64平台的macOS
 
-## macOS on x86_64 and arm64
+由于平台的特殊性，macOS 存在一些问题。
 
-macOS has some gotchas due to the idiosyncrasies of the platform.
+macOS 支持 AFL++ 插桩<!--instrumentation-->使用的 SYSV 共享内存，但仅使用默认设置并不够。在构建之前，请运行所提供的脚本来完善默认设置：
 
-macOS supports SYSV shared memory used by AFL++'s instrumentation, but the
-default settings aren't sufficient. Before even building, increase
-them by running the provided script:
-
-```shell
+```sh
 sudo afl-system-config
 ```
 
-See
-[https://www.spy-hill.com/help/apple/SharedMemory.html](https://www.spy-hill.com/help/apple/SharedMemory.html)
-for documentation for the shared memory settings and how to make them permanent.
+有关共享内存设置以及如何将其永久化的文档，请参见 https://www.spy-hill.com/help/apple/SharedMemory.html。
 
-Next, to build AFL++, install the following packages from brew:
+接下来，要构建 AFL++，请从 brew 安装以下软件包：
 
-```shell
+```sh
 brew install wget git make cmake llvm gdb coreutils
 ```
 
-Depending on your macOS system + brew version, brew may be installed in different places.
-You can check with `brew info llvm` to know where, then create a variable for it:
+根据 macOS 系统和 brew 版本的不同，brew 可能安装在不同的位置。您可以使用 **brew info llvm** 查看安装位置，然后为其创建一个变量：
 
-```shell
+```sh
 export HOMEBREW_BASE="/opt/homebrew/opt"
 ```
 
-or
+或
 
-```shell
+```sh
 export HOMEBREW_BASE="/usr/local/opt"
 ```
 
-Set `PATH` to point to the brew clang, clang++, llvm-config, gmake and coreutils.
-Also use the brew clang compiler; the Xcode clang compiler must not be used.
+设置 PATH 以指向 brew clang、clang++、llvm-config、gmake 和 coreutils。同时使用 **brew clang** 编译器；**请勿使用 Xcode clang 编译器**。
 
-```shell
+```sh
 export PATH="$HOMEBREW_BASE/coreutils/libexec/gnubin:/usr/local/bin:$HOMEBREW_BASE/llvm/bin:$PATH"
 export CC=clang
 export CXX=clang++
 ```
 
-Then build following the general Linux instructions.
+然后按照一般的 Linux 说明进行构建。
 
-If everything worked, you should then have `afl-clang-fast` installed, which you can check with:
+如果一切正常，你应该已经安装了 afl-clang-fast，你可以用以下命令来检查：
 
-```shell
+```sh
 which afl-clang-fast
 ```
 
-Note that `afl-clang-lto`, `afl-gcc-fast` and `qemu_mode` are not working on macOS.
+请注意，**afl-clang-lto**、**afl-gcc-fast** 和 **qemu_mode** 无法在 macOS 上运行。
 
-The crash reporting daemon that comes by default with macOS will cause
-problems with fuzzing. You need to turn it off, which you can do with `afl-system-config`.
+macOS 默认的崩溃报告守护进程会导致模糊测试<!--fuzzing-->出现问题。你需要关闭它，可以通过 afl-system-config 关闭。
 
-The `fork()` semantics on macOS are a bit unusual compared to other unix systems
-and definitely don't look POSIX-compliant. This means two things:
+与其他 unix 系统相比，macOS 上的 **fork()** 语义有些许不同，这绝对不符合 POSIX 标准。这意味着两件事:
 
-  - Fuzzing will be probably slower than on Linux. In fact, some folks report
-    considerable performance gains by running the jobs inside a Linux VM on
-    macOS.
-  - Some non-portable, platform-specific code may be incompatible with the AFL++
-    forkserver. If you run into any problems, set `AFL_NO_FORKSRV=1` in the
-    environment before starting afl-fuzz.
+- 模糊测试<!--fuzzing-->可能会比 Linux 慢。事实上，有报告说，在macOS上使用Linux虚拟机执行上述工作，可以大大提高性能。
+- 一些不可移植的特定平台代码可能与 AFL++ forkserver 不兼容。如果遇到任何问题，请在启动 afl-fuzz 前在环境中设置 **AFL_NO_FORKSRV=1**。
 
-User emulation mode of QEMU does not appear to be supported on macOS, so
-black-box instrumentation mode (`-Q`) will not work. However, FRIDA mode (`-O`)
-works on both x86 and arm64 macOS boxes.
+macOS 似乎不支持 QEMU 的user mode，因此黑盒插桩模式 (-Q) 将无法运行。不过，FRIDA mode (-O) 可在 x86 和 arm64 macOS 上运行。
