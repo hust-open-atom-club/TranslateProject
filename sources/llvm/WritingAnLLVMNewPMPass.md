@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Writing an LLVM Pass"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240807
+translator: JadeSnow7
+translating_date: 20241115
 link: https://github.com/llvm/llvm-project/blob/main/llvm/docs/WritingAnLLVMNewPMPass.rst
 ---
 # 编写LLVM Pass
@@ -12,13 +14,13 @@ link: https://github.com/llvm/llvm-project/blob/main/llvm/docs/WritingAnLLVMNewP
 
 
 本文介绍了新的pass管理机制（New Pass Manager，NPM）。LLVM对代码生成管道使用的是传统的pass管理机制（Legacy Pass Manager）。详情参阅
-`WritingAnLLVMPass`和
+`WritingAnLLVMPass` 和
 `NewPassManager`.
 
 LLVM pass框架是LLVM系统中一个非常重要的组成部分，因为大多数编译器最值得关注的部分都在LLVM pass上。Pass执行着编译器的各种转换和优化工作，它们提供这些转换工作所需要的分析结果，并且最重要的是，它们为编译器代码提供了一种组织技术。
 
-与传统pass管理器下的pass不同，传统pass管理器通过继承定义pass接口，而新pass管理器下的pass则依赖于基于概念的多态性，这意味着没有显式的接口（有关详细信息，请参见PassManager.h中的注释）。所有LLVM pass都继承自CRTP混入PassInfoMixin<PassT>。pass应该有一个run()方法，该方法返回一个PreservedAnalyses，并接受某些IR单元以及一个分析管理器作为输入。例如，函数pass将具有如下方法：
-PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM);
+与传统pass管理器下的pass不同，传统pass管理器通过继承定义pass接口，而新pass管理器下的pass则依赖于基于概念的多态性，这意味着没有显式的接口（有关详细信息，请参见 `PassManager.h` 中的注释）。所有LLVM pass都继承自CRTP混入 `PassInfoMixin<PassT>` 。pass应该有一个run()方法，该方法返回一个 `PreservedAnalyses` ，并接受某些IR单元以及一个分析管理器作为输入。例如，函数pass将具有如下方法：
+ `PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM)` ;
 
 我们将向您展示如何构建一个pass，包括设置构建、创建pass，到执行和测试它。查看现有的pass总是学习细节的一个好方法。
 
@@ -35,7 +37,7 @@ PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM);
 
 首先，按照《入门指南》中所述配置和构建 LLVM。
 
-接下来，我们将重用一个已有的目录（创建一个新的目录会涉及比我们想要的更多的 CMake 文件操作）。在这个例子中，我们将使用 llvm/lib/Transforms/Utils/HelloWorld.cpp，这个文件已经被创建好了。如果你想创建自己的 Pass，可以在 llvm/lib/Transforms/Utils/CMakeLists.txt 中添加一个新的源文件（假设你想把你的 Pass 放在 Transforms/Utils 目录下）。
+接下来，我们将重用一个已有的目录（创建一个新的目录会涉及比我们想要的更多的 CMake 文件操作）。在这个例子中，我们将使用 `llvm/lib/Transforms/Utils/HelloWorld.cpp` ，这个文件已经被创建好了。如果你想创建自己的 Pass，可以在 `llvm/lib/Transforms/Utils/CMakeLists.txt` 中添加一个新的源文件（假设你想把你的 Pass 放在 `Transforms/Utils` 目录下）。
 
 现在我们已经为新的 Pass 设置好了构建环境，接下来我们需要编写 Pass 本身的代码。
 
@@ -43,7 +45,7 @@ PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM);
 
 既然已经为新的 Pass 设置好了构建环境，我们现在只需要编写 Pass 的代码。
 
-首先，我们需要在一个头文件中定义这个 Pass。我们将创建 llvm/include/llvm/Transforms/Utils/HelloWorld.h 文件。该文件应包含以下样板代码：
+首先，我们需要在一个头文件中定义这个 Pass。我们将创建 `llvm/include/llvm/Transforms/Utils/HelloWorld.h` 文件。该文件应包含以下样板代码：
 
 ``` c++
 #ifndef LLVM_TRANSFORMS_HELLONEW_HELLOWORLD_H
@@ -64,7 +66,7 @@ public:
 ```
 
 
-这段描述说明了如何创建一个 Pass 类，并声明 run() 方法，该方法实际执行 Pass 的功能。通过继承 PassInfoMixin<PassT>，我们可以避免亲自编写一些样板代码。我们的类位于 llvm 命名空间中，以避免污染全局命名空间。
+这段描述说明了如何创建一个 Pass 类，并声明 run() 方法，该方法实际执行 Pass 的功能。通过继承 `PassInfoMixin<PassT>` ，我们可以避免亲自编写一些样板代码。我们的类位于 llvm 命名空间中，以避免污染全局命名空间。
 
 接下来，我们将创建 llvm/lib/Transforms/Utils/HelloWorld.cpp 文件，并从以下内容开始：
 
@@ -80,27 +82,27 @@ PreservedAnalyses HelloWorldPass::run(Function &F, FunctionAnalysisManager &AM) 
 }
 ```
 
-该代码简单地将函数的名称打印到标准错误输出（stderr）。pass manager将确保这个pass会在模块中的每个函数上运行。PreservedAnalyses 的返回值表示所有分析（例如支配树）在此pass之后仍然有效，因为我们没有修改任何函数。
+该代码简单地将函数的名称打印到标准错误输出（stderr）。pass manager将确保这个pass会在模块中的每个函数上运行。`PreservedAnalyses` 的返回值表示所有分析（例如支配树）在此pass之后仍然有效，因为我们没有修改任何函数。
 
 这就是该pass本身的内容。现在，为了“注册”这个 Pass，我们需要在几个地方添加一些代码。
-在 llvm/lib/Passes/PassRegistry.def 中添加 Pass
-在 llvm/lib/Passes/PassRegistry.def 文件的 FUNCTION_PASS 部分添加以下内容：
+在 `llvm/lib/Passes/PassRegistry.def` 中添加 Pass
+在 `llvm/lib/Passes/PassRegistry.def` 文件的 FUNCTION_PASS 部分添加以下内容：
 
 ``` c++
 FUNCTION_PASS("helloworld", HelloWorldPass())
 ```
 
-这将 Pass 注册为名为 "helloworld" 的函数级 Pass。
+这将 Pass 注册为名为 `"helloworld"` 的函数级 Pass。
 
-在 llvm/lib/Passes/PassBuilder.cpp 中包含头文件
-由于 llvm/lib/Passes/PassRegistry.def 被多次包含在 llvm/lib/Passes/PassBuilder.cpp 中，我们需要在 PassBuilder.cpp 中添加正确的 #include 语句：
+在 `llvm/lib/Passes/PassBuilder.cpp` 中包含头文件
+由于 `llvm/lib/Passes/PassRegistry.def` 被多次包含在 `llvm/lib/Passes/PassBuilder.cpp` 中，我们需要在 `PassBuilder.cpp` 中添加正确的 `#include` 语句：
 
 ``` c++
 #include "llvm/Transforms/Utils/HelloWorld.h"
 ```
 
 现在我们已经完成了 Pass 的所有必要代码，接下来是编译和运行它。
-### 使用`opt`运行pass 
+### 使用 `opt` 运行pass 
 
 现在你已经有了一个全新的pass，我们可以构建 `opt`并使用它将一些 LLVM IR 代码通过该pass处理。
 
@@ -145,14 +147,14 @@ define void @bar() {
 }
 
 $ ninja -C build check-llvm
-# 运行我们的新测试以及其他所有的 LLVM lit 测试
+# 运行我们的新测试以及其他所有的 `LLVM lit` 测试
 ```
 
 ## 常见问题解答 (FAQs)
 
 ### 必需的 Pass
 
-一个定义了静态 isRequired() 方法并返回 true 的 Pass 被认为是必需的 Pass。例如：
+一个定义了静态 `isRequired()` 方法并返回 `true` 的 Pass 被认为是必需的 Pass。例如：
 
 ``` c++
 class HelloWorldPass : public PassInfoMixin<HelloWorldPass> {
