@@ -1,11 +1,11 @@
 ---
-status: translating
+status: translated
 title: "Writing an LLVM Pass"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240807
 translator: JadeSnow7
-translating_date: 20241115
+translated_date: 20241116
 link: https://github.com/llvm/llvm-project/blob/main/llvm/docs/WritingAnLLVMNewPMPass.rst
 ---
 # 编写LLVM Pass
