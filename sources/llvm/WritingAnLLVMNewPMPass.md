@@ -12,7 +12,6 @@ link: https://github.com/llvm/llvm-project/blob/main/llvm/docs/WritingAnLLVMNewP
 
 ## 简介 \-\-- 什么是LLVM Pass?
 
-
 本文介绍了新的pass管理机制（New Pass Manager，NPM）。LLVM对代码生成管道使用的是传统的pass管理机制（Legacy Pass Manager）。详情参阅
 `WritingAnLLVMPass` 和
 `NewPassManager`.
