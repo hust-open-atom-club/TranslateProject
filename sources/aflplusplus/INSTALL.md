@@ -6,10 +6,10 @@ collector: Souls-R
 collected_date: 20240827
 translator: codefashion007
 translated_date: 20241108
-proofreader: shandianchengzi  
-proofread_date: 20241111  
+proofreader: shandianchengzi
+proofread_date: 20241111
 priority: 10
-link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md  
+link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 ---
 # 构建并安装 AFL++
 
