@@ -16,7 +16,7 @@ link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md 
 ## 在 x86 架构的 Linux 上
 
 通过 docker 来安装已经预编译好的 AFL++ 是一个非常简便的方法：
-你可以使用 [Dockerfile](../Dockerfile) ，或者直接从 Docker Hub 拉取（适用于 x86_64 和 arm64 架构）：
+你可以使用 [Dockerfile](https://github.com/AFLplusplus/AFLplusplus/blob/stable/Dockerfile) ，或者直接从 Docker Hub 拉取（适用于 x86_64 和 arm64 架构）：
 
 ```shell
 docker pull aflplusplus/aflplusplus:latest
@@ -81,7 +81,7 @@ make PERFORMANCE=1
 
 * PERFORMANCE - 编译带有性能选项可以使二进制文件不会迁移到其它系统。推荐（除了在 macOS 上）！
 * STATIC - 编译 AFL++ 的静态链接（不要在 macOS 上进行）
-* CODE_COVERAGE - 编译目标以测试代码覆盖率(详见 [README.llvm.md](../instrumentation/README.llvm.md))
+* CODE_COVERAGE - 编译目标以测试代码覆盖率(详见 [README.llvm.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.llvm.md))
 * ASAN_BUILD - 编译并启用地址 sanitizer，用于调试
 * UBSAN_BUILD - 编译 AFL++ 工具，并启用未定义行为的 sanitizer，用于调试
 * DEBUG - 没有优化，-ggdb3，对所有的警告使用 -Werror
