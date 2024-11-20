@@ -5,11 +5,11 @@ author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
 translator: Hornos3
-translating_date: 20241120
+translated_date: 20241120
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md
 ---
-# afl-fuzz 使用方法
+# afl-fuzz 使用方法ed
 
 AFL++ 是一种结合了极其简单但非常可靠的基于插桩的遗传算法的暴力模糊测试工具。它使用一种改进的边覆盖率形式，能够轻松捕捉到程序控制流中的细微的、局部性的变化。
 
