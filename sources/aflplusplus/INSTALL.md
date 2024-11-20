@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Building and installing AFL++"
 author: AFLplusplus Community
 collector: Souls-R
@@ -8,6 +8,8 @@ translator: codefashion007
 translated_date: 20241108
 proofreader: shandianchengzi
 proofread_date: 20241111
+publisher: gitveg
+published_date: 20241118
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md
 ---
