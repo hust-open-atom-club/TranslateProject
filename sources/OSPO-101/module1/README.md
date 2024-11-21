@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "OSPO 101 Training Modules - Module 1"
 author: TODO Group
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: Athanlaich
 translated_date: 20240828
 proofreader: mudongliang
 proofread_date: 20241109
+publisher: gitveg
+published_date: 20241120
 link: https://github.com/todogroup/ospo-career-path/blob/main/OSPO-101/module1/README.md
 ---
 
