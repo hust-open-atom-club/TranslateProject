@@ -1,247 +1,176 @@
 ---
-status: translating
+status: translated
 title: "Fuzzing binary-only targets"
 author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
 priority: 10
 translator: YunLongHaoYing
-translating_date: 20241121
+translated_date: 20241125
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_binary-only_targets.md
 ---
-# Fuzzing binary-only targets
+# 对纯二进制目标进行模糊测试
 
-AFL++, libfuzzer, and other fuzzers are great if you have the source code of the
-target. This allows for very fast and coverage guided fuzzing.
+AFL++、libFuzzer 及其他模糊测试工具在拥有目标源代码的情况下非常出色。这些工具能够提供快速且基于覆盖率指导的模糊测试。
 
-However, if there is only the binary program and no source code available, then
-standard `afl-fuzz -n` (non-instrumented mode) is not effective.
+但对于只有二进制程序而没有源代码的情况，标准的 `afl-fuzz -n`（非插桩模式）并不高效。
 
-For fast, on-the-fly instrumentation of black-box binaries, AFL++ still offers
-various support. The following is a description of how these binaries can be
-fuzzed with AFL++.
+为了快速对黑盒二进制程序进行动态插桩，AFL++ 仍然提供了多种支持。下面将介绍如何使用 AFL++ 对这些二进制文件进行模糊测试。
 
-## TL;DR:
+## 简要说明：
 
-FRIDA mode and QEMU mode in persistent mode are the fastest - if persistent mode
-is possible and the stability is high enough.
+如果可以使用 persistent mode，且稳定性足够高，那么 persistent mode 下的 FRIDA mode 和 QEMU mode 速度最快。
 
-Otherwise, try Zafl, RetroWrite, Dyninst, and if these fail, too, then try
-standard FRIDA/QEMU mode with `AFL_ENTRYPOINT` to where you need it.
+否则，可以尝试 Zafl、RetroWrite、Dyninst；如果这些方法也失败，可以使用标准 FRIDA/QEMU mode，并设置 AFL_ENTRYPOINT 到所需位置。
 
-If your target is non-linux, then use unicorn_mode.
+对于非 Linux 平台的目标，请使用 unicorn_mode。
 
-## Fuzzing binary-only targets with AFL++
+## 使用 AFL++ 对纯二进制目标进行模糊测试
 
 ### QEMU mode
 
-QEMU mode is the "native" solution to the program. It is available in the
-./qemu_mode/ directory and, once compiled, it can be accessed by the afl-fuzz -Q
-command line option. It is the easiest to use alternative and even works for
-cross-platform binaries.
+QEMU mode 是针对程序的“原生“解决方案。它位于 `./qemu_mode/` 目录中， 编译后可以通过 `afl-fuzz -Q` 命令选项访问。这是最简单的替代方案，即使是跨平台二进制文件也适用。
 
-For linux programs and its libraries, this is accomplished with a version of
-QEMU running in the lesser-known "user space emulation" mode. QEMU is a project
-separate from AFL++, but you can conveniently build the feature by doing:
+对于 Linux 程序及其库，这通过一个运行在鲜为人知的 “user space emulation” mode 下的 QEMU 版本来实现的。QEMU 是一个独立于 AFL++ 的项目，但可以通过以下方式轻松构建此功能：
 
 ```shell
 cd qemu_mode
 ./build_qemu_support.sh
 ```
 
-The following setup to use QEMU mode is recommended:
+推荐的 QEMU mode 设置如下：
 
-* run 1 afl-fuzz -Q instance with CMPLOG (`-c 0` + `AFL_COMPCOV_LEVEL=2`)
-* run 1 afl-fuzz -Q instance with QASAN (`AFL_USE_QASAN=1`)
-* run 1 afl-fuzz -Q instance with LAF (`AFL_PRELOAD=libcmpcov.so` +
-  `AFL_COMPCOV_LEVEL=2`), alternatively you can use FRIDA mode, just switch `-Q`
-  with `-O` and remove the LAF instance
+* 运行一个带 CMPLOG（`-c 0` + `AFL_COMPCOV_LEVEL=2`）的 `afl-fuzz -Q` 实例。
+* 运行一个带 QASAN（`AFL_USE_QASAN=1`）的 `afl-fuzz -Q` 实例。
+* 运行一个带 LAF（`AFL_PRELOAD=libcmpcov.so` + `AFL_COMPCOV_LEVEL=2`）的 `afl-fuzz -Q` 实例，或者改用 FRIDA mode，替换 `-Q` 为 `-O` 并移除 LAF 实例。
 
-Then run as many instances as you have cores left with either -Q mode or - even
-better - use a binary rewriter like Dyninst, RetroWrite, ZAFL, etc.
-The binary rewriters all have their own advantages and caveats.
-ZAFL is the best but cannot be used in a business/commercial context.
+然后根据剩余核心数量运行尽可能多的 `-Q` 模式实例，或者使用二进制重写器（如 Dyninst、RetroWrite、ZAFL 等）。二进制重写器都有各自的优势和注意事项。ZAFL 是最好的，但不能用于商务/商业环境。
 
-If a binary rewriter works for your target then you can use afl-fuzz normally
-and it will have twice the speed compared to QEMU mode (but slower than QEMU
-persistent mode).
+如果二进制重写器适用于你的目标，那么就可以正常使用 afl-fuzz，其速度将是 QEMU mode 的两倍（但比 QEMU persistent mode 慢）。
 
-The speed decrease of QEMU mode is at about 50%. However, various options exist
-to increase the speed:
-- using AFL_ENTRYPOINT to move the forkserver entry to a later basic block in
-  the binary (+5-10% speed)
-- using persistent mode
-  [qemu_mode/README.persistent.md](../qemu_mode/README.persistent.md) this will
-  result in a 150-300% overall speed increase - so 3-8x the original QEMU mode
-  speed!
-- using AFL_CODE_START/AFL_CODE_END to only instrument specific parts
+QEMU mode 的速度降低了约 50%。不过，有多种方法可以提高速度：
+- 使用 AFL_ENTRYPOINT 将 forkserver 的入口点移动到二进制文件中的更后一个基本块（提高 5-10% 速度）。
+- 使用 persistent mode 
+  [qemu_mode/README.persistent.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.persistent.md) ，可提升 150-300% 的总体速度（即原始 QEMU 模式的 3-8 倍）。
+- 使用 AFL_CODE_START/AFL_CODE_END 仅插桩特定部分。
 
-For additional instructions and caveats, see
-[qemu_mode/README.md](../qemu_mode/README.md). If possible, you should use the
-persistent mode, see
-[qemu_mode/README.persistent.md](../qemu_mode/README.persistent.md). The mode is
-approximately 2-5x slower than compile-time instrumentation, and is less
-conducive to parallelization.
+有关其他说明和注意事项，请参考 
+[qemu_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.md)。如果可以，应使用持久模式，参见 
+[qemu_mode/README.persistent.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.persistent.md)。 该模式比编译时插桩慢约 2 至 5 倍，而且不利于并行化。
 
-Note that there is also honggfuzz:
-[https://github.com/google/honggfuzz](https://github.com/google/honggfuzz) which
-now has a QEMU mode, but its performance is just 1.5% ...
+请注意，还有 honggfuzz：
+[https://github.com/google/honggfuzz](https://github.com/google/honggfuzz)，它现在也有 QEMU mode，但性能仅为 1.5%。
 
-If you like to code a customized fuzzer without much work, we highly recommend
-to check out our sister project libafl which supports QEMU, too:
+如果您想不费精力地编写一个自定义的模糊器，我们强烈推荐您查看我们同样支持 QEMU 的姊妹项目 libafl：
 [https://github.com/AFLplusplus/LibAFL](https://github.com/AFLplusplus/LibAFL)
 
 ### WINE+QEMU
 
-Wine mode can run Win32 PE binaries with the QEMU instrumentation. It needs
-Wine, python3, and the pefile python package installed.
+Wine mode 可以通过 QEMU 插桩运行二进制文件。它需要安装 Wine、Python3 和 pefile Python 包。
 
-It is included in AFL++.
+该模式已经包含在 AFL++ 中。
 
-For more information, see
-[qemu_mode/README.wine.md](../qemu_mode/README.wine.md).
+更多信息请参考：
+[qemu_mode/README.wine.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.wine.md).
 
 ### FRIDA mode
 
-In FRIDA mode, you can fuzz binary-only targets as easily as with QEMU mode.
-FRIDA mode is most of the times slightly faster than QEMU mode. It is also
-newer, and has the advantage that it works on MacOS (both intel and M1).
+在 FRIDA mode 下，可以像使用 QEMU mode 一样轻松地对纯二进制目标进行模糊测试。大多数情况下，FRIDA mode 比 QEMU mode 稍快。此外，FRIDA mode 较新，并且支持 MacOS（包括 Intel 和 M1 芯片）。
 
-To build FRIDA mode:
+构建 FRIDA mode 的方法：
 
 ```shell
 cd frida_mode
 gmake
 ```
 
-For additional instructions and caveats, see
-[frida_mode/README.md](../frida_mode/README.md).
+更多说明和注意事项请参考：
+[frida_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/frida_mode/README.md).
 
-If possible, you should use the persistent mode, see
-[instrumentation/README.persistent_mode.md](../instrumentation/README.persistent_mode.md).
-The mode is approximately 2-5x slower than compile-time instrumentation, and is
-less conducive to parallelization. But for binary-only fuzzing, it gives a huge
-speed improvement if it is possible to use.
+如果可能，使用 persistent mode，参见
+[instrumentation/README.persistent_mode.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md)。尽管其速度比编译时插桩慢 2-5 倍，并且不利于并行化，但对于纯二进制模糊测试来说，如果可以使用，它能够显著提高速度。
 
-You can also perform remote fuzzing with frida, e.g., if you want to fuzz on
-iPhone or Android devices, for this you can use
-[https://github.com/ttdennis/fpicker/](https://github.com/ttdennis/fpicker/) as
-an intermediate that uses AFL++ for fuzzing.
+此外，还可以通过 FRIDA 进行远程模糊测试，例如，如果您希望在 iPhone 或 Android 设备上进行模糊测试，可以使用 
+[https://github.com/ttdennis/fpicker/](https://github.com/ttdennis/fpicker/) 作为中间工具，它利用 AFL++ 进行模糊测试。
 
-If you like to code a customized fuzzer without much work, we highly recommend
-to check out our sister project libafl which supports Frida, too:
-[https://github.com/AFLplusplus/LibAFL](https://github.com/AFLplusplus/LibAFL).
-Working examples already exist :-)
+如果您想不费精力地编写一个自定义的模糊器，我们强烈推荐您查看我们同样支持 Frida 并且已经有现成的工作示例的姊妹项目 libafl：
+[https://github.com/AFLplusplus/LibAFL](https://github.com/AFLplusplus/LibAFL)。
 
 ### Nyx mode
+Nyx 是一个基于 KVM 和 QEMU 构建的全系统仿真模糊测试环境，支持快照功能。它仅适用于 Linux，目前仅支持 x86_x64 架构。
 
-Nyx is a full system emulation fuzzing environment with snapshot support that is
-built upon KVM and QEMU. It is only available on Linux and currently restricted
-to x86_x64.
+对于纯二进制模糊测试，需要一个特殊的 5.10 内核。
 
-For binary-only fuzzing a special 5.10 kernel is required.
-
-See [nyx_mode/README.md](../nyx_mode/README.md).
+更多信息请参考：[nyx_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/nyx_mode/README.md).
 
 ### Unicorn
 
-Unicorn is a fork of QEMU. The instrumentation is, therefore, very similar. In
-contrast to QEMU, Unicorn does not offer a full system or even userland
-emulation. Runtime environment and/or loaders have to be written from scratch,
-if needed. On top, block chaining has been removed. This means the speed boost
-introduced in the patched QEMU Mode of AFL++ cannot be ported over to Unicorn.
+Unicorn 是 QEMU 的一个分支，因此其插桩方式非常相似。但与 QEMU 不同的是，Unicorn 不提供全系统甚至用户态的仿真。如果需要，运行时环境和/或加载器必须从零开始编写。此外，Unicorn 移除了块链接功能，这意味着 AFL++ 的 QEMU mode 中的速度提升无法移植到 Unicorn。
 
-For non-Linux binaries, you can use AFL++'s unicorn_mode which can emulate
-anything you want - for the price of speed and user written scripts.
+对于非 Linux 二进制文件，可以使用 AFL++ 的 unicorn_mode，该模式可以模拟任意内容，但代价是较低的速度以及需要用户编写脚本。
 
-To build unicorn_mode:
+构建 Unicorn 模式的方法：
 
 ```shell
 cd unicorn_mode
 ./build_unicorn_support.sh
 ```
 
-For further information, check out
-[unicorn_mode/README.md](../unicorn_mode/README.md).
+更多信息请参考：
+[unicorn_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/unicorn_mode/README.md).
 
-### Shared libraries
+### 共享库
 
-If the goal is to fuzz a dynamic library, then there are two options available.
-For both, you need to write a small harness that loads and calls the library.
-Then you fuzz this with either FRIDA mode or QEMU mode and either use
-`AFL_INST_LIBS=1` or `AFL_QEMU/FRIDA_INST_RANGES`.
+如果目标是对共享库进行模糊测试，有两种方法可以选择。
+对于这两种方法，都需要编写一个小型测试程序（harness）来加载并调用该库。
+然后使用 FRIDA mode 或 QEMU mode 进行模糊测试，同时设置 `AFL_INST_LIBS=1` 或 `AFL_QEMU/FRIDA_INST_RANGES`。
 
-Another, less precise and slower option is to fuzz it with utils/afl_untracer/
-and use afl-untracer.c as a template. It is slower than FRIDA mode.
+另一种精确度较低且速度较慢的选择是使用 `utils/afl_untracer/` 进行模糊测试，并以 `afl-untracer.c` 为模板。这种方法比 FRIDA 模式慢。
 
-For more information, see
-[utils/afl_untracer/README.md](../utils/afl_untracer/README.md).
+更多信息请参考：
+[utils/afl_untracer/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/utils/afl_untracer/README.md).
 
 ### Coresight
 
-Coresight is ARM's answer to Intel's PT. With AFL++ v3.15, there is a coresight
-tracer implementation available in `coresight_mode/` which is faster than QEMU,
-however, cannot run in parallel. Currently, only one process can be traced, it
-is WIP.
+Coresight 是 ARM 针对 Intel PT 的解决方案。从 AFL++ v3.15 开始，Coresight 提供了一种追踪器实现，位于 `coresight_mode/` 中，速度比 QEMU 更快，但无法并行运行。目前只能追踪一个进程（开发中）。
 
-Fore more information, see
-[coresight_mode/README.md](../coresight_mode/README.md).
+更多信息请参考：
+[coresight_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/coresight_mode/README.md).
 
-## Binary rewriters
+## 二进制重写器
 
-An alternative solution are binary rewriters. They are faster than the solutions
-native to AFL++ but don't always work.
+二进制重写器是一种替代方案。与 AFL++ 提供的解决方案相比，重写器速度更快，但并非总能成功运行。
 
 ### ZAFL
 
-ZAFL is a static rewriting platform supporting x86-64 C/C++,
-stripped/unstripped, and PIE/non-PIE binaries. Beyond conventional
-instrumentation, ZAFL's API enables transformation passes (e.g., laf-Intel,
-context sensitivity, InsTrim, etc.).
+ZAFL 是一个静态重写平台，支持 x86-64 的 C/C++ 二进制文件，无论是去符号表的还是未去符号表的，PIE（位置无关可执行文件）与非 PIE 文件都可支持。除了常规的插桩，ZAFL 的 API 还支持一些转换过程（例如，laf-Intel、上下文敏感性、InsTrim 等）。
 
-Its baseline instrumentation speed typically averages 90-95% of
-afl-clang-fast's.
+ZAFL 的基准插桩速度通常达到 afl-clang-fast 的 90-95%。
 
 [https://git.zephyr-software.com/opensrc/zafl](https://git.zephyr-software.com/opensrc/zafl)
 
 ### RetroWrite
 
-RetroWrite is a static binary rewriter that can be combined with AFL++. If you
-have an x86_64 or arm64 binary that does not contain C++ exceptions and - if
-x86_64 - still has it's symbols and compiled with position independent code
-(PIC/PIE), then the RetroWrite solution might be for you.
-It decompiles to ASM files which can then be instrumented with afl-gcc.
+RetroWrite 是一种可以与 AFL++ 结合使用的静态二进制重写工具。如果您有一个 x86_64 或 arm64 的二进制文件，且该文件不包含 C++ 异常处理机制，并且对于 x86_64 文件仍保留符号表并编译为位置无关代码（PIC/PIE），RetroWrite 可能是一个适合的解决方案。它会将二进制文件反编译为 ASM 文件，然后用 afl-gcc 对其进行插桩。
 
-Binaries that are statically instrumented for fuzzing using RetroWrite are close
-in performance to compiler-instrumented binaries and outperform the QEMU-based
-instrumentation.
+通过 RetroWrite 进行静态插桩的二进制文件，在性能上接近编译器插桩的文件，并优于基于 QEMU 的插桩方式。
 
 [https://github.com/HexHive/retrowrite](https://github.com/HexHive/retrowrite)
 
 ### Dyninst
 
-Dyninst is a binary instrumentation framework similar to Pintool and DynamoRIO.
-However, whereas Pintool and DynamoRIO work at runtime, Dyninst instruments the
-target at load time and then let it run - or save the binary with the changes.
-This is great for some things, e.g., fuzzing, and not so effective for others,
-e.g., malware analysis.
+Dyninst 是一个二进制插桩框架，与 Pintool 和 DynamoRIO 类似。不过，Pintool 和 DynamoRIO 在运行时插桩，而 Dyninst 则是在加载时插桩目标，并在插桩后运行或将更改保存到二进制文件中。这对某些场景非常有用，例如模糊测试，但对其他场景（例如恶意软件分析）效果不佳。
 
-So, what you can do with Dyninst is taking every basic block and putting AFL++'s
-instrumentation code in there - and then save the binary. Afterwards, just fuzz
-the newly saved target binary with afl-fuzz. Sounds great? It is. The issue
-though - it is a non-trivial problem to insert instructions, which change
-addresses in the process space, so that everything is still working afterwards.
-Hence, more often than not binaries crash when they are run.
+使用 Dyninst，可以在每个基本块中插入 AFL++ 的插桩代码，然后将修改后的二进制文件保存下来。之后，使用 afl-fuzz 对保存后的目标文件进行模糊测试。
+听起来很不错？确实如此。不过，插入指令后可能会改变进程空间中的地址，因此保证一切正常运行是一个非同小可的问题。因此，修改后的二进制文件经常会在运行时崩溃。
 
-The speed decrease is about 15-35%, depending on the optimization options used
-with afl-dyninst.
+该方法的速度损失大约在 15%-35%，具体取决于使用 afl-dyninst 时的优化选项。
 
 [https://github.com/vanhauser-thc/afl-dyninst](https://github.com/vanhauser-thc/afl-dyninst)
 
 ### Mcsema
 
-Theoretically, you can also decompile to llvm IR with mcsema, and then use
-llvm_mode to instrument the binary. Good luck with that.
+从理论上讲，您可以使用 Mcsema 将二进制文件反编译为 LLVM IR，然后利用 llvm_mode 对其进行插桩处理。
 
 [https://github.com/lifting-bits/mcsema](https://github.com/lifting-bits/mcsema)
 
@@ -249,55 +178,43 @@ llvm_mode to instrument the binary. Good luck with that.
 
 ### Pintool & DynamoRIO
 
-Pintool and DynamoRIO are dynamic instrumentation engines. They can be used for
-getting basic block information at runtime. Pintool is only available for Intel
-x32/x64 on Linux, Mac OS, and Windows, whereas DynamoRIO is additionally
-available for ARM and AARCH64. DynamoRIO is also 10x faster than Pintool.
+Pintool 和 DynamoRIO 是动态插桩引擎，可用于运行时获取基本块信息。Pintool 仅适用于 Intel x32/x64 架构的 Linux、Mac OS 和 Windows 系统。
+DynamoRIO 除此之外还支持 ARM 和 AARCH64 架构，并且速度比 Pintool 快 10 倍。
 
-The big issue with DynamoRIO (and therefore Pintool, too) is speed. DynamoRIO
-has a speed decrease of 98-99%, Pintool has a speed decrease of 99.5%.
+DynamoRIO的最大问题是速度（因此也包括 Pintool）。 DynamoRIO 的速度降低了 98-99%，而 Pintool 的速度降低了 99.5%。
 
-Hence, DynamoRIO is the option to go for if everything else fails and Pintool
-only if DynamoRIO fails, too.
+因此，只有在其他方法都失败时，才推荐使用 DynamoRIO。而 Pintool 应仅在 DynamoRIO 不可用时作为备选。
 
-DynamoRIO solutions:
+DynamoRIO 解决方案：
 * [https://github.com/vanhauser-thc/afl-dynamorio](https://github.com/vanhauser-thc/afl-dynamorio)
 * [https://github.com/mxmssh/drAFL](https://github.com/mxmssh/drAFL)
 * [https://github.com/googleprojectzero/winafl/](https://github.com/googleprojectzero/winafl/)
-  <= very good but windows only
+  <= 效果很好，仅支持 Windows
 
-Pintool solutions:
+Pintool 解决方案
 * [https://github.com/vanhauser-thc/afl-pin](https://github.com/vanhauser-thc/afl-pin)
 * [https://github.com/mothran/aflpin](https://github.com/mothran/aflpin)
 * [https://github.com/spinpx/afl_pin_mode](https://github.com/spinpx/afl_pin_mode)
-  <= only old Pintool version supported
+  <= 仅支持旧版 Pintool
 
 ### Intel PT
 
-If you have a newer Intel CPU, you can make use of Intel's processor trace. The
-big issue with Intel's PT is the small buffer size and the complex encoding of
-the debug information collected through PT. This makes the decoding very CPU
-intensive and hence slow. As a result, the overall speed decrease is about
-70-90% (depending on the implementation and other factors).
+如果您拥有较新的 Intel CPU，可以利用 Intel 的处理器追踪（PT）功能进行插桩分析。Intel PT 的最大问题是缓冲区较小，而且通过 PT 收集的调试信息编码复杂。 这使得解码非常耗费 CPU，因此速度很慢。 导致总体速度下降了约 70-90%（取决于实现方式和其他因素）。
 
-There are two AFL intel-pt implementations:
+AFL 的两种 Intel-PT 实现：
 
 1. [https://github.com/junxzm1990/afl-pt](https://github.com/junxzm1990/afl-pt)
-    => This needs Ubuntu 14.04.05 without any updates and the 4.4 kernel.
+    => 需要 Ubuntu 14.04.05（不含更新）和 4.4 内核
 
 2. [https://github.com/hunter-ht-2018/ptfuzzer](https://github.com/hunter-ht-2018/ptfuzzer)
-    => This needs a 4.14 or 4.15 kernel. The "nopti" kernel boot option must be
-    used. This one is faster than the other.
+    => 需要 Ubuntu 14.04.05（不含更新）和 4.4 内核。需要在内核引导选项中启用 "nopti"。此实现比 afl-pt 更快。
 
-Note that there is also honggfuzz:
-[https://github.com/google/honggfuzz](https://github.com/google/honggfuzz). But
-its IPT performance is just 6%!
+另一种工具 honggfuzz 
+[https://github.com/google/honggfuzz](https://github.com/google/honggfuzz) 的 IPT 性能仅为 6%。
 
-## Non-AFL++ solutions
+## 非 AFL++ 解决方案
 
-There are many binary-only fuzzing frameworks. Some are great for CTFs but don't
-work with large binaries, others are very slow but have good path discovery,
-some are very hard to set up...
+还有很多二进制模糊框架。有些非常适合 CTF，但不支持大型二进制文件；有些非常慢，但有很好的路径发现能力；有些工具设置复杂。
 
 * Jackalope:
   [https://github.com/googleprojectzero/Jackalope](https://github.com/googleprojectzero/Jackalope)
@@ -308,8 +225,8 @@ some are very hard to set up...
 * S2E: [https://github.com/S2E](https://github.com/S2E)
 * TinyInst:
   [https://github.com/googleprojectzero/TinyInst](https://github.com/googleprojectzero/TinyInst)
-*  ... please send me any missing that are good
+*  ... 如果您知道其他优秀工具，欢迎推荐！
 
-## Closing words
+## 结束语
 
-That's it! News, corrections, updates? Send an email to vh@thc.org.
+以上就是全部内容！如果您有最新消息、纠正或更新，欢迎发送邮件至 vh@thc.org.
