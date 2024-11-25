@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ
 collected_date: 20240827
+translator: QGrain
+translating_date: 20241125
 priority: 10
 link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 ---
