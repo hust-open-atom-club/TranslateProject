@@ -5,11 +5,11 @@ author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
 translator: Hornos3
-translated_date: 20241120
+translated_date: 20241202
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md
 ---
-# afl-fuzz 使用方法ed
+# afl-fuzz 使用方法
 
 AFL++ 是一种结合了极其简单但非常可靠的基于插桩的遗传算法的暴力模糊测试工具。它使用一种改进的边覆盖率形式，能够轻松捕捉到程序控制流中的细微的、局部性的变化。
 
@@ -39,13 +39,13 @@ afl-fuzz 这个模糊测试工具已经经过了完全测试，能够以远超�
 
 本节提供了状态界面的概述，以及针对用户界面（UI）中显示的任何警告和错误信息的故障排除提示。
 
-如需要一般使用手册，请参阅 [README.md](README.md)。
+如需要通用使用手册，请参阅 [README.md](README.md)。
 
 ### 一个与颜色有关的注意事项
 
-状态屏幕和错误消息使用颜色来保持可读性，并吸引您对最重要细节的注意。例如，红色几乎总是意味着“请参阅本文档”:-)
+状态屏幕和错误消息使用颜色来保持可读性，并吸引您对最重要细节的关注。例如，红色几乎总是意味着“请参阅本文档”:-)
 
-但不幸的是，只有当您的终端使用传统的Unix颜色处理（黑底白字）或类似设置时，用户界面才会正确显示。
+但不幸的是，只有当您的终端使用传统的 Unix 颜色处理（黑底白字）或类似设置时，用户界面才会正确显示。
 
 如果您正在使用反色显示，您可能需要更改设置，例如：
 
@@ -63,7 +63,7 @@ afl-fuzz 这个模糊测试工具已经经过了完全测试，能够以远超�
 american fuzzy lop ++3.01a (default) [fast] {0}
 ```
 
-第一行显示 afl-fuzz 正在运行的模式（正常模式为“ american fuzzy lop ”，崩溃探索模式为“ peruvian rabbit mode ”）以及 AFL++ 的版本号。版本号旁边是横幅标志，如果没有使用 `-T` 手动设置，则会显示正在进行模糊测试的二进制文件的名称，或者用于并行模糊测试的`-M/-S`（主/次）名称。倒数第二项是正在运行的功耗调度模式（默认为“ fast ”）。最后一项是 CPU ID。
+第一行显示 afl-fuzz 正在运行的模式（正常模式为 “american fuzzy lop”，崩溃探索模式为 “peruvian rabbit mode”）以及 AFL++ 的版本号。版本号旁边是横幅标志，如果没有使用 `-T` 手动设置，则会显示正在进行模糊测试的二进制文件的名称，或者用于并行模糊测试的`-M/-S`（主/次）名称。倒数第二项是正在运行的功耗调度模式（默认为“ fast ”）。最后一项是 CPU ID。
 
 ### 进程计时
 
