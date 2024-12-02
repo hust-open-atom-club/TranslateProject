@@ -243,7 +243,7 @@ american fuzzy lop ++3.01a (default) [fast] {0}
 
 - 多个线程同时以半随机的顺序执行。当“稳定性”指标保持在 90% 左右或以上时，这是无害的，但如果不保持，就可能成为问题。可以尝试以下方法：
   
-  - 使用来自 [instrumentation](../instrumentation/) 的 afl-clang-fast - 它使用了一个线程本地跟踪模型，较少受到并发问题的影响。
+  - 使用来自 instrumentation 目录的 afl-clang-fast - 它使用了一个线程本地跟踪模型，较少受到并发问题的影响。
 
   - 查看目标是否可以在没有多线程的情况下编译或运行。常见的 `./configure` 选项包括 `--without-threads`、`--disable-pthreads` 或 `--disable-openmp`。
     
@@ -303,7 +303,7 @@ cd ../../
 sudo make install
 ```
 
-如果想要了解更多有关使用 StatsD 进行远程控制和测度可视化的内容，参见 [rpc_statsd.md](rpc_statsd.md)。
+如果想要了解更多有关使用 StatsD 进行远程控制和测度可视化的内容，参见 [rpc_statsd.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md)。
 
 ### 附录：状态和图表文件
 
