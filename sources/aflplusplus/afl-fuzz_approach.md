@@ -1,99 +1,71 @@
 ---
-status: collected
+status: translated
 title: "The afl-fuzz approach"
 author: AFLplusplus Community
 collector: Souls-R
 collected_date: 20240827
+translator: Hornos3
+translated_date: 20241202
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md
 ---
-# The afl-fuzz approach
+# afl-fuzz 使用方法
 
-AFL++ is a brute-force fuzzer coupled with an exceedingly simple but rock-solid
-instrumentation-guided genetic algorithm. It uses a modified form of edge
-coverage to effortlessly pick up subtle, local-scale changes to program control
-flow.
+AFL++ 是一种结合了极其简单但非常可靠的基于插桩的遗传算法的暴力模糊测试工具。它使用一种改进的边覆盖率形式，能够轻松捕捉到程序控制流中的细微的、局部性的变化。
 
-Note: If you are interested in a more current up-to-date deep dive how AFL++
-works then we commend this blog post:
-[https://blog.ritsec.club/posts/afl-under-hood/](https://blog.ritsec.club/posts/afl-under-hood/)
+注：如果您对 AFL++ 如何运作的最新深入分析感兴趣，我们推荐您阅读这篇博客文章：[https://blog.ritsec.club/posts/afl-under-hood/](https://blog.ritsec.club/posts/afl-under-hood/)
 
-Simplifying a bit, the overall algorithm can be summed up as:
+简而言之，afl-fuzz 使用的算法总体可以概括为：
 
-1) Load user-supplied initial test cases into the queue.
+1. 将用户提供的初始测试用例加载到队列中。
 
-2) Take the next input file from the queue.
+2. 从队列中取出下一个输入文件。
 
-3) Attempt to trim the test case to the smallest size that doesn't alter the
-   measured behavior of the program.
+3. 尝试将测试用例缩减到最小，在这个尺寸下，测试用例的输入不会改变所观测到的程序行为
 
-4) Repeatedly mutate the file using a balanced and well-researched variety of
-   traditional fuzzing strategies.
+4. 使用经过平衡且深入研究过的多种传统模糊测试策略，对输入文件进行反复变异。
 
-5) If any of the generated mutations resulted in a new state transition recorded
-   by the instrumentation, add mutated output as a new entry in the queue.
+5. 如果生成的任何变异导致插桩记录到了新的状态转换，则将变异后的输出作为新条目添加到队列中。
 
-6) Go to 2.
+6. 返回到步骤2。
 
-The discovered test cases are also periodically culled to eliminate ones that
-have been obsoleted by newer, higher-coverage finds; and undergo several other
-instrumentation-driven effort minimization steps.
+发现的测试用例还会定期进行筛选，以淘汰那些应被更新、覆盖率更高的测试用例所取代的用例；并且还会通过一些由插桩所驱动的操作以减少工作量。
 
-As a side result of the fuzzing process, the tool creates a small,
-self-contained corpus of interesting test cases. These are extremely useful for
-seeding other, labor- or resource-intensive testing regimes - for example, for
-stress-testing browsers, office applications, graphics suites, or closed-source
-tools.
+作为模糊测试过程的一个附带结果，该工具会创建一个小的、自包含的值得关注的测试用例集合。这些测试用例对于为其他需要大量人力或资源投入的测试方案（例如，用于浏览器、办公软件、图形套件或闭源工具的压力测试）提供测试种子非常有用。
 
-The fuzzer is thoroughly tested to deliver out-of-the-box performance far
-superior to blind fuzzing or coverage-only tools.
+afl-fuzz 这个模糊测试工具已经经过了完全测试，能够以远超盲目模糊测试或仅关注覆盖率的测试工具的性能运作。
 
-## Understanding the status screen
+## 理解状态界面
 
-This section provides an overview of the status screen - plus tips for
-troubleshooting any warnings and red text shown in the UI.
+本节提供了状态界面的概述，以及针对用户界面（UI）中显示的任何警告和错误信息的故障排除提示。
 
-For the general instruction manual, see [README.md](README.md).
+如需要通用使用手册，请参阅 [README.md](README.md)。
 
-### A note about colors
+### 一个与颜色有关的注意事项
 
-The status screen and error messages use colors to keep things readable and
-attract your attention to the most important details. For example, red almost
-always means "consult this doc" :-)
+状态屏幕和错误消息使用颜色来保持可读性，并吸引您对最重要细节的关注。例如，红色几乎总是意味着“请参阅本文档”:-)
 
-Unfortunately, the UI will only render correctly if your terminal is using
-traditional un*x palette (white text on black background) or something close to
-that.
+但不幸的是，只有当您的终端使用传统的 Unix 颜色处理（黑底白字）或类似设置时，用户界面才会正确显示。
 
-If you are using inverse video, you may want to change your settings, say:
+如果您正在使用反色显示，您可能需要更改设置，例如：
 
-- For GNOME Terminal, go to `Edit > Profile` preferences, select the "colors"
-  tab, and from the list of built-in schemes, choose "white on black".
-- For the MacOS X Terminal app, open a new window using the "Pro" scheme via the
-  `Shell > New Window` menu (or make "Pro" your default).
+对于 GNOME 终端，请转到`“编辑”>“配置文件”`偏好设置，选择“颜色”选项卡，然后从内置方案列表中选择“白底黑字”。
+对于 MacOS X 的终端应用，通过`“Shell”>“新建窗口”`菜单使用“ Pro ”方案打开一个新窗口（或将“ Pro ”设置为默认方案）。
+或者，如果您确实喜欢当前的颜色设置，您可以编辑 config.h 文件，将 `USE_COLORS` 注释掉，然后执行 `make clean all`。
 
-Alternatively, if you really like your current colors, you can edit config.h to
-comment out USE_COLORS, then do `make clean all`.
+我们不知道是否还有其他任何简单的方法可以在不引起其他副作用的情况下实现这一点，对此我们深表歉意。
 
-We are not aware of any other simple way to make this work without causing other
-side effects - sorry about that.
+言归正传，让我们来谈谈屏幕上实际显示的内容……
 
-With that out of the way, let's talk about what's actually on the screen...
-
-### The status bar
+### 状态栏
 
 ```
 american fuzzy lop ++3.01a (default) [fast] {0}
 ```
 
-The top line shows you which mode afl-fuzz is running in (normal: "american
-fuzzy lop", crash exploration mode: "peruvian rabbit mode") and the version of
-AFL++. Next to the version is the banner, which, if not set with -T by hand,
-will either show the binary name being fuzzed, or the -M/-S main/secondary name
-for parallel fuzzing. Second to last is the power schedule mode being run
-(default: fast). Finally, the last item is the CPU id.
+第一行显示 afl-fuzz 正在运行的模式（正常模式为 “american fuzzy lop”，崩溃探索模式为 “peruvian rabbit mode”）以及 AFL++ 的版本号。版本号旁边是横幅标志，如果没有使用 `-T` 手动设置，则会显示正在进行模糊测试的二进制文件的名称，或者用于并行模糊测试的`-M/-S`（主/次）名称。倒数第二项是正在运行的功耗调度模式（默认为“ fast ”）。最后一项是 CPU ID。
 
-### Process timing
+### 进程计时
 
 ```
   +----------------------------------------------------+
@@ -104,28 +76,15 @@ for parallel fuzzing. Second to last is the power schedule mode being run
   +----------------------------------------------------+
 ```
 
-This section is fairly self-explanatory: it tells you how long the fuzzer has
-been running and how much time has elapsed since its most recent finds. This is
-broken down into "paths" (a shorthand for test cases that trigger new execution
-patterns), crashes, and hangs.
+这一部分相当直观：它告诉您模糊测试工具已经运行了多长时间，以及自最新发现以来已经过去了多长时间。这被细分为“路径”（触发新执行模式的测试用例的别称）、崩溃和挂起。
 
-When it comes to timing: there is no hard rule, but most fuzzing jobs should be
-expected to run for days or weeks; in fact, for a moderately complex project,
-the first pass will probably take a day or so. Every now and then, some jobs
-will be allowed to run for months.
+在时间上，没有硬性规定，但大多数模糊测试任务预计会运行数天或数周；事实上，对于一个中等复杂度的项目，第一轮测试可能就需要大约一天的时间。有时有些任务可能会允许运行数月。
 
-There's one important thing to watch out for: if the tool is not finding new
-paths within several minutes of starting, you're probably not invoking the
-target binary correctly and it never gets to parse the input files that are
-thrown at it; other possible explanations are that the default memory limit
-(`-m`) is too restrictive and the program exits after failing to allocate a
-buffer very early on; or that the input files are patently invalid and always
-fail a basic header check.
+这里有一点很重要，需要注意：如果工具在启动后的几分钟内没有找到新的路径，那么您可能没有正确启动目标二进制文件，它根本无法解析模糊测试工具输入的测试用例文件；其他可能的解释是默认内存限制（`-m`）过于严格，程序在非常早期就因无法分配缓冲区而退出；或者输入的测试文件明显无效，总是无法通过基本头部检查。
 
-If there are no new paths showing up for a while, you will eventually see a big
-red warning in this section, too :-)
+如果一段时间内没有新的路径出现，您最终也会在这一部分看到一个大红色的警告。:-)
 
-### Overall results
+### 汇总结果
 
 ```
   +-----------------------+
@@ -136,28 +95,15 @@ red warning in this section, too :-)
   +-----------------------+
 ```
 
-The first field in this section gives you the count of queue passes done so far
-- that is, the number of times the fuzzer went over all the interesting test
-  cases discovered so far, fuzzed them, and looped back to the very beginning.
-  Every fuzzing session should be allowed to complete at least one cycle; and
-  ideally, should run much longer than that.
+这一部分的第一个字段给出了到目前为止已经完成的队列遍历次数，即模糊测试工具遍历迄今为止发现的所有值得关注的测试用例、使用它们进行模糊测试并返回到最初位置的次数。每个模糊测试过程都应该允许至少完成一个周期；并在理想情况下应该运行更长的时间。
 
-As noted earlier, the first pass can take a day or longer, so sit back and
-relax.
+如前所述，第一轮测试可能需要一天或更长的时间，所以请耐心等待。
 
-To help make the call on when to hit `Ctrl-C`, the cycle counter is color-coded.
-It is shown in magenta during the first pass, progresses to yellow if new finds
-are still being made in subsequent rounds, then blue when that ends - and
-finally, turns green after the fuzzer hasn't been seeing any action for a longer
-while.
+为了帮助判断何时按下`Ctrl-C`（中断测试），周期计数器采用了颜色编码。在第一轮测试期间，它显示为洋红色；如果在后续轮次中仍然有新发现，则变为黄色；当结束新发现时变为蓝色；最后，在模糊测试工具长时间没有任何发现后变为绿色。
 
-The remaining fields in this part of the screen should be pretty obvious:
-there's the number of test cases ("paths") discovered so far, and the number of
-unique faults. The test cases, crashes, and hangs can be explored in real-time
-by browsing the output directory, see
-[#interpreting-output](#interpreting-output).
+屏幕这一部分的其余字段应该相当明显：有迄今为止发现的测试用例（“路径”）的数量和去重故障的数量。可以通过浏览输出目录来实时获知这些测试用例、崩溃和挂起情况，请参阅 [#理解输出](#理解输出)。
 
-### Cycle progress
+### 轮次内过程
 
 ```
   +-------------------------------------+
@@ -166,14 +112,11 @@ by browsing the output directory, see
   +-------------------------------------+
 ```
 
-This box tells you how far along the fuzzer is with the current queue cycle: it
-shows the ID of the test case it is currently working on, plus the number of
-inputs it decided to ditch because they were persistently timing out.
+这个框告诉您模糊测试工具在当前队列周期中的进度：它显示了当前正在处理的测试用例的 ID ，以及因一直超时而被丢弃的输入数量。
 
-The "*" suffix sometimes shown in the first line means that the currently
-processed path is not "favored" (a property discussed later on).
+第一行有时会显示的“*”后缀意味着当前处理的路径不是“受青睐的”（这是一个稍后会讨论的属性）。
 
-### Map coverage
+### 图覆盖率
 
 ```
   +--------------------------------------+
@@ -182,39 +125,21 @@ processed path is not "favored" (a property discussed later on).
   +--------------------------------------+
 ```
 
-The section provides some trivia about the coverage observed by the
-instrumentation embedded in the target binary.
+这一部分介绍一些关于目标二进制文件中嵌入的插桩所观察到的覆盖率的内容。
 
-The first line in the box tells you how many branch tuples already were hit, in
-proportion to how much the bitmap can hold. The number on the left describes the
-current input; the one on the right is the value for the entire input corpus.
+框中的第一行告诉您已经执行到了多少分支元组，以及位图可以容纳的总量。左边的数字描述了当前输入的情况；右边的数字是整个输入测试用例集的值。
 
-Be wary of extremes:
+要注意极端情况：
 
-- Absolute numbers below 200 or so suggest one of three things: that the program
-  is extremely simple; that it is not instrumented properly (e.g., due to being
-  linked against a non-instrumented copy of the target library); or that it is
-  bailing out prematurely on your input test cases. The fuzzer will try to mark
-  this in pink, just to make you aware.
-- Percentages over 70% may very rarely happen with very complex programs that
-  make heavy use of template-generated code. Because high bitmap density makes
-  it harder for the fuzzer to reliably discern new program states, we recommend
-  recompiling the binary with `AFL_INST_RATIO=10` or so and trying again (see
-  [env_variables.md](env_variables.md)). The fuzzer will flag high percentages
-  in red. Chances are, you will never see that unless you're fuzzing extremely
-  hairy software (say, v8, perl, ffmpeg).
+- 绝对数字低于200左右可能意味着以下三种情况之一：程序非常简单；它没有正确插桩（例如链接到了目标库的非插桩副本）；或者它在您的输入测试用例上过早地失败了。模糊测试工具会尝试用粉红色标记这一点，以便让您知道。
 
-The other line deals with the variability in tuple hit counts seen in the
-binary. In essence, if every taken branch is always taken a fixed number of
-times for all the inputs that were tried, this will read `1.00`. As we manage to
-trigger other hit counts for every branch, the needle will start to move toward
-`8.00` (every bit in the 8-bit map hit), but will probably never reach that
-extreme.
+- 百分比超过70%在极少数情况下可能发生在大量使用模板生成代码的非常复杂的程序中。因为高位图密度使得模糊测试工具更难可靠地辨别新的程序状态，所以我们建议使用`AFL_INST_RATIO=10`或类似的设置重新编译二进制文件并再次尝试（参见 [env_variables.md](env_variables.md) ）。模糊测试工具会用红色标记高百分比。除非您在模糊测试极其复杂的软件（如 v8、perl、ffmpeg ），否则您很可能永远看不到这种情况。
 
-Together, the values can be useful for comparing the coverage of several
-different fuzzing jobs that rely on the same instrumented binary.
+另一行处理的是在二进制文件中发现的元组命中次数的可变性。本质上，如果对于所有的输入尝试，每个被执行的分支总是被固定次数地执行，那么这将显示为`1.00`。随着我们能够为每个分支触发其他命中次数，指针将开始向`8.00`移动（8位位图中的每个位都被命中），但可能永远不会达到这个极端。
 
-### Stage progress
+总的来说，这些值在比较依赖相同插桩二进制文件的几个不同模糊测试作业的覆盖率上很有用。
+
+### 阶段性进展
 
 ```
   +-------------------------------------+
@@ -225,53 +150,31 @@ different fuzzing jobs that rely on the same instrumented binary.
   +-------------------------------------+
 ```
 
-This part gives you an in-depth peek at what the fuzzer is actually doing right
-now. It tells you about the current stage, which can be any of:
+这一部分深入展示了模糊测试工具当前正在做什么。它告诉您当前阶段的状态，可能是以下任何一个：
 
-- calibration - a pre-fuzzing stage where the execution path is examined to
-  detect anomalies, establish baseline execution speed, and so on. Executed very
-  briefly whenever a new find is being made.
-- trim L/S - another pre-fuzzing stage where the test case is trimmed to the
-  shortest form that still produces the same execution path. The length (L) and
-  stepover (S) are chosen in general relationship to file size.
-- bitflip L/S - deterministic bit flips. There are L bits toggled at any given
-  time, walking the input file with S-bit increments. The current L/S variants
-  are: `1/1`, `2/1`, `4/1`, `8/8`, `16/8`, `32/8`.
-- arith L/8 - deterministic arithmetics. The fuzzer tries to subtract or add
-  small integers to 8-, 16-, and 32-bit values. The stepover is always 8 bits.
-- interest L/8 - deterministic value overwrite. The fuzzer has a list of known
-  "interesting" 8-, 16-, and 32-bit values to try. The stepover is 8 bits.
-- extras - deterministic injection of dictionary terms. This can be shown as
-  "user" or "auto", depending on whether the fuzzer is using a user-supplied
-  dictionary (`-x`) or an auto-created one. You will also see "over" or
-  "insert", depending on whether the dictionary words overwrite existing data or
-  are inserted by offsetting the remaining data to accommodate their length.
-- havoc - a sort-of-fixed-length cycle with stacked random tweaks. The
-  operations attempted during this stage include bit flips, overwrites with
-  random and "interesting" integers, block deletion, block duplication, plus
-  assorted dictionary-related operations (if a dictionary is supplied in the
-  first place).
-- splice - a last-resort strategy that kicks in after the first full queue cycle
-  with no new paths. It is equivalent to 'havoc', except that it first splices
-  together two random inputs from the queue at some arbitrarily selected
-  midpoint.
-- sync - a stage used only when `-M` or `-S` is set (see
-  [fuzzing_in_depth.md:3c) Using multiple cores](fuzzing_in_depth.md#c-using-multiple-cores)).
-  No real fuzzing is involved, but the tool scans the output from other fuzzers
-  and imports test cases as necessary. The first time this is done, it may take
-  several minutes or so.
+- 校准（ calibration ）- 一个预模糊测试阶段，用于检查执行路径以检测异常、建立基线执行速度等。每当有新发现时，都会非常短暂地执行。
 
-The remaining fields should be fairly self-evident: there's the exec count
-progress indicator for the current stage, a global exec counter, and a benchmark
-for the current program execution speed. This may fluctuate from one test case
-to another, but the benchmark should be ideally over 500 execs/sec most of the
-time - and if it stays below 100, the job will probably take very long.
+- 修剪 L/S（ trim L/S ）- 另一个预模糊测试阶段，其中测试用例被修剪为仍然产生相同执行路径的最短部分。长度（ L ）和步进（ S ）通常与文件大小有关。
 
-The fuzzer will explicitly warn you about slow targets, too. If this happens,
-see the [best_practices.md#improving-speed](best_practices.md#improving-speed)
-for ideas on how to speed things up.
+- 位翻转 L/S（ bitflip L/S ）- 确定性位翻转。在任何给定时间，有 L 个位被切换，以 S 位为增量遍历输入文件。当前的 L/S 变体是：`1/1`、`2/1`、`4/1`、`8/8`、`16/8`、`32/8`。
 
-### Findings in depth
+- 算术 L/8（ arith L/8 ）- 确定性算术。模糊测试工具尝试向 8 位、16 位和 32 位的值中添加或减去小整数。步进始终是8位。
+
+- 应关注值 L/8（ interest L/8 ）- 确定性值覆盖。模糊测试工具有一个已知的“值得关注的”8 位、 16 位和 32 位值的列表来尝试。步进是 8 位。
+
+- 额外项（ extras ）- 确定性注入字典术语。这可以显示为“ user ”或“ auto ”，取决于模糊测试工具是使用用户提供的字典（`-x`）还是自动创建的字典。您还会看到“ over ”或“ insert ”，取决于字典单词是覆盖现有数据还是通过偏移剩余数据来插入以适应其长度。
+
+- 混乱（ havoc ）- 一种带有堆叠随机调整的近似固定长度周期。此阶段尝试的操作包括位翻转、用随机和“值得关注的”整数进行覆盖、块删除、块复制，以及各种与字典相关的操作（如果首先提供了字典）。
+
+- 拼接（ splice ）- 在第一个完整队列周期中没有新路径发现后采取的最后一招策略。它相当于“混乱”，但首先会将队列中两个随机输入在某个任意选择的中间点拼接在一起。
+
+- 同步（ sync ）- 仅在使用`-M`或`-S`设置时使用的一个阶段（参见 [fuzzing_in_depth.md:3c) Using multiple cores](fuzzing_in_depth.md#c-using-multiple-cores) )。不涉及实际的模糊测试，但工具会扫描其他模糊测试工具的输出，并根据需要导入测试用例。首次执行时，可能需要几分钟左右。
+
+剩余字段应该相当直观：有当前阶段的执行计数进度指示、全局执行计数器和当前程序执行速度的基准。这可能会因测试用例的不同而有所波动，但理想情况下，基准在大部分时间应该超过500次执行/秒——如果它保持在100以下，那么测试工作可能会花费非常长的时间。
+
+模糊测试工具也会明确警告你关于慢速测试目标的问题。如果发生这种情况，请参阅 [best_practices.md#improving-speed](best_practices.md#improving-speed) 以获取如何加速的建议。
+
+### 深入发现
 
 ```
   +--------------------------------------+
@@ -282,18 +185,11 @@ for ideas on how to speed things up.
   +--------------------------------------+
 ```
 
-This gives you several metrics that are of interest mostly to complete nerds.
-The section includes the number of paths that the fuzzer likes the most based on
-a minimization algorithm baked into the code (these will get considerably more
-air time), and the number of test cases that actually resulted in better edge
-coverage (versus just pushing the branch hit counters up). There are also
-additional, more detailed counters for crashes and timeouts.
+这为你提供了几个主要对技术极客来说值得关注的指标。该部分包括模糊测试工具根据内置的最小化算法认为最值得关注的路径数量（这些路径将获得更多的处理时间），以及实际上导致更好边覆盖率（与仅仅提高分支命中计数器相比）的测试用例数量。此外，还有关于崩溃和超时的更详细、更具体的计数器。
 
-Note that the timeout counter is somewhat different from the hang counter; this
-one includes all test cases that exceeded the timeout, even if they did not
-exceed it by a margin sufficient to be classified as hangs.
+请注意，超时计数器与挂起计数器有所不同；这个计数器包括了所有超时的测试用例，即使它们没有超时到足以被归类为挂起的程度。
 
-### Fuzzing strategy yields
+### 不同模糊测试策略所产生的效果
 
 ```
   +-----------------------------------------------------+
@@ -308,25 +204,15 @@ exceed it by a margin sufficient to be classified as hangs.
   +-----------------------------------------------------+
 ```
 
-This is just another nerd-targeted section keeping track of how many paths were
-netted, in proportion to the number of execs attempted, for each of the fuzzing
-strategies discussed earlier on. This serves to convincingly validate
-assumptions about the usefulness of the various approaches taken by afl-fuzz.
+这只是另一个针对技术极客的部分，用于追踪之前讨论的每种模糊测试策略所捕获的路径数量与尝试执行次数的比例。这有助于有力地验证关于 afl-fuzz 所采取的各种方法实用性的假设。
 
-The trim strategy stats in this section are a bit different than the rest. The
-first number in this line shows the ratio of bytes removed from the input files;
-the second one corresponds to the number of execs needed to achieve this goal.
-Finally, the third number shows the proportion of bytes that, although not
-possible to remove, were deemed to have no effect and were excluded from some of
-the more expensive deterministic fuzzing steps.
+本部分中的修剪策略统计数据与其他部分略有不同。这一行的第一个数字显示了从输入测试用例文件中移除的字节比例；第二个数字则对应达到这一目标所需的执行次数。最后，第三个数字显示了虽然无法移除但被认为没有影响，并且从一些成本更高的确定性模糊测试步骤中排除的字节比例。
 
-Note that when deterministic mutation mode is off (which is the default because
-it is not very efficient) the first five lines display "disabled (default,
-enable with -D)".
+请注意，当确定性变异模式关闭时（这是默认设置，因为它效率不高），前五行会显示“ disabled (default, enable with -D )”，即“已禁用（默认，使用`-D`启用）”。
 
-Only what is activated will have counter shown.
+只有激活的部分才会显示计数器。
 
-### Path geometry
+### 路径几何关系
 
 ```
   +---------------------+
@@ -339,139 +225,75 @@ Only what is activated will have counter shown.
   +---------------------+
 ```
 
-The first field in this section tracks the path depth reached through the guided
-fuzzing process. In essence: the initial test cases supplied by the user are
-considered "level 1". The test cases that can be derived from that through
-traditional fuzzing are considered "level 2"; the ones derived by using these as
-inputs to subsequent fuzzing rounds are "level 3"; and so forth. The maximum
-depth is therefore a rough proxy for how much value you're getting out of the
-instrumentation-guided approach taken by afl-fuzz.
+本部分的第一个字段追踪了通过引导式模糊测试过程所达到的路径深度。简而言之：用户提供的初始测试用例被视为“第 1 级”。通过传统模糊测试从这些初始测试用例中派生出的测试用例被视为“第 2 级”；将这些派生出的测试用例作为后续模糊测试轮次的输入所得到的测试用例则是“第 3 级”；以此类推。因此，最大深度是 afl-fuzz 所采用的基于插桩引导方法所提供的价值的一个粗略指标。
 
-The next field shows you the number of inputs that have not gone through any
-fuzzing yet. The same stat is also given for "favored" entries that the fuzzer
-really wants to get to in this queue cycle (the non-favored entries may have to
-wait a couple of cycles to get their chance).
+下一个字段显示了尚未经过任何模糊测试的输入数量。对于模糊测试工具在当前队列周期中真正想要处理的“受青睐”条目，也给出了相同的统计数据（不受青睐的条目可能需要等待几个周期才能获得机会进行测试）。
 
-Next is the number of new paths found during this fuzzing section and imported
-from other fuzzer instances when doing parallelized fuzzing; and the extent to
-which identical inputs appear to sometimes produce variable behavior in the
-tested binary.
+接下来是在本模糊测试部分中发现的新路径数量，以及在进行并行模糊测试时从其他模糊测试工具实例中导入的路径数量；以及相同输入在测试二进制文件中有时似乎会产生不同行为的程度。
 
-That last bit is actually fairly interesting: it measures the consistency of
-observed traces. If a program always behaves the same for the same input data,
-it will earn a score of 100%. When the value is lower but still shown in purple,
-the fuzzing process is unlikely to be negatively affected. If it goes into red,
-you may be in trouble, since AFL++ will have difficulty discerning between
-meaningful and "phantom" effects of tweaking the input file.
+最后一项其实相当有趣：它衡量的是观测到的跟踪记录的一致性。如果程序对于相同的输入数据总是表现出相同的行为，那么它将获得 100% 的评分。当评分较低但仍显示为紫色时，模糊测试过程不太可能受到负面影响。如果评分进入红色区域，你可能就遇到麻烦了，因为 AFL++ 将难以区分输入文件调整所产生的有意义效果和“幻影”效果（即不受输入影响而是程序自身产生的可能是随机的效果）。
 
-Now, most targets will just get a 100% score, but when you see lower figures,
-there are several things to look at:
+目前，大多数测试目标都会获得 100% 的评分，但当你看到较低的评分时，有几点需要注意：
 
-- The use of uninitialized memory in conjunction with some intrinsic sources of
-  entropy in the tested binary. Harmless to AFL, but could be indicative of a
-  security bug.
-- Attempts to manipulate persistent resources, such as left over temporary files
-  or shared memory objects. This is usually harmless, but you may want to
-  double-check to make sure the program isn't bailing out prematurely. Running
-  out of disk space, SHM handles, or other global resources can trigger this,
-  too.
-- Hitting some functionality that is actually designed to behave randomly.
-  Generally harmless. For example, when fuzzing sqlite, an input like `select
-  random();` will trigger a variable execution path.
-- Multiple threads executing at once in semi-random order. This is harmless when
-  the 'stability' metric stays over 90% or so, but can become an issue if not.
-  Here's what to try:
-  * Use afl-clang-fast from [instrumentation](../instrumentation/) - it uses a
-    thread-local tracking model that is less prone to concurrency issues,
-  * See if the target can be compiled or run without threads. Common
-    `./configure` options include `--without-threads`, `--disable-pthreads`, or
-    `--disable-openmp`.
-  * Replace pthreads with GNU Pth (https://www.gnu.org/software/pth/), which
-    allows you to use a deterministic scheduler.
-- In persistent mode, minor drops in the "stability" metric can be normal,
-  because not all the code behaves identically when re-entered; but major dips
-  may signify that the code within `__AFL_LOOP()` is not behaving correctly on
-  subsequent iterations (e.g., due to incomplete clean-up or reinitialization of
-  the state) and that most of the fuzzing effort goes to waste.
+- 在被测二进制文件中，未初始化内存的使用与某些固有的熵源相结合。这对 AFL 无害，但可能是安全漏洞的迹象。
 
-The paths where variable behavior is detected are marked with a matching entry
-in the `<out_dir>/queue/.state/variable_behavior/` directory, so you can look
-them up easily.
+- 尝试操纵持久性资源，如遗留的临时文件或共享内存对象。这通常是无害的，但你可能想要再次检查以确保程序没有过早退出。磁盘空间不足、SHM 句柄耗尽或其他全局资源不足也可能触发这种情况。
 
-### CPU load
+- 触发了实际设计为随机行为的功能。这通常是无害的。例如，在模糊测试 sqlite 时，像`select random();`这样的输入将触发可变的执行路径。
+
+- 多个线程同时以半随机的顺序执行。当“稳定性”指标保持在 90% 左右或以上时，这是无害的，但如果不保持，就可能成为问题。可以尝试以下方法：
+  
+  - 使用来自 instrumentation 目录的 afl-clang-fast - 它使用了一个线程本地跟踪模型，较少受到并发问题的影响。
+
+  - 查看目标是否可以在没有多线程的情况下编译或运行。常见的 `./configure` 选项包括 `--without-threads`、`--disable-pthreads` 或 `--disable-openmp`。
+    
+  - 用 GNU Pth ( https://www.gnu.org/software/pth/ ) 替换 pthreads，这将允许您使用确定性调度器。
+
+- 在持久模式下，“稳定性”指标的轻微下降是正常的，因为并不是所有代码在重新进入时行为相同；但大幅度下降可能意味着 `__AFL_LOOP()` 内的代码在后续迭代中没有正确执行（例如，由于状态的清理或重新初始化不完全），并且大部分模糊测试的努力可能白费。
+
+检测到变量行为的路径在 `<out_dir>/queue/.state/variable_behavior/` 目录中标记有相应的条目，因此您可以轻松查找。
+
+### CPU 负载
 
 ```
   [cpu: 25%]
 ```
 
-This tiny widget shows the apparent CPU utilization on the local system. It is
-calculated by taking the number of processes in the "runnable" state, and then
-comparing it to the number of logical cores on the system.
+这个小界面显示了本地系统的显式 CPU 利用率。它通过计算处于“可运行”状态的进程数量，并将其与系统上的逻辑 CPU 数量进行比较来得出。
 
-If the value is shown in green, you are using fewer CPU cores than available on
-your system and can probably parallelize to improve performance; for tips on how
-to do that, see
-[fuzzing_in_depth.md:3c) Using multiple cores](fuzzing_in_depth.md#c-using-multiple-cores).
+如果值显示为绿色，说明您使用的 CPU 核心少于系统可用的核心，可能可以通过并行化来提高性能；有关如何实现这一点的提示，请参见 [fuzzing_in_depth.md:3c) Using multiple cores](fuzzing_in_depth.md#c-using-multiple-cores)。
 
-If the value is shown in red, your CPU is *possibly* oversubscribed, and running
-additional fuzzers may not give you any benefits.
+如果值显示为红色，说明您的 CPU 可能超额分配，运行额外的模糊测试工具可能不会带来任何好处。
 
-Of course, this benchmark is very simplistic; it tells you how many processes
-are ready to run, but not how resource-hungry they may be. It also doesn't
-distinguish between physical cores, logical cores, and virtualized CPUs; the
-performance characteristics of each of these will differ quite a bit.
+当然，这个基准测试非常简单；它告诉您有多少进程准备运行，但并没有说明它们可能需要多少资源。它也没有区分物理核心、逻辑核心和虚拟 CPU；这些的性能特征可能会有很大不同。
 
-If you want a more accurate measurement, you can run the `afl-gotcpu` utility
-from the command line.
+如果您想要更准确的测量，可以从命令行运行 `afl-gotcpu` 工具。
 
-## Interpreting output
+## 理解输出
 
-See [#understanding-the-status-screen](#understanding-the-status-screen) for
-information on how to interpret the displayed stats and monitor the health of
-the process. Be sure to consult this file especially if any UI elements are
-highlighted in red.
+请参见 [#理解状态界面](#理解状态界面) 以获取有关如何解读显示的统计信息和监控进程正常状况的信息。如果任何 UI 元素以红色突出显示，请务必查阅此文件。
 
-The fuzzing process will continue until you press Ctrl-C. At a minimum, you want
-to allow the fuzzer to at least one queue cycle without any new finds, which may
-take anywhere from a couple of hours to a week or so.
+模糊测试过程将持续进行，直到您按下 Ctrl-C。至少，您希望模糊测试工具在没有任何新发现的情况下至少允许一次队列循环，这可能需要几个小时到一周左右的时间。
 
-There are three subdirectories created within the output directory and updated
-in real-time:
+在输出目录中会创建三个子目录，并实时更新：
 
-- queue/   - test cases for every distinctive execution path, plus all the
-             starting files given by the user. This is the synthesized corpus.
+- queue/ - 每个独特执行路径的测试用例，以及用户提供的所有起始文件。这是合成的测试集。
 
-             Before using this corpus for any other purposes, you can shrink
-             it to a smaller size using the afl-cmin tool. The tool will find
-             a smaller subset of files offering equivalent edge coverage.
+      在将此语料库用于其他目的之前，您可以使用 afl-cmin 工具将其缩小到更小的大小。该工具将找到提供等效边缘覆盖的小文件子集。
 
-- crashes/ - unique test cases that cause the tested program to receive a fatal
-             signal (e.g., SIGSEGV, SIGILL, SIGABRT). The entries are grouped by
-             the received signal.
+- crashes/ - 导致被测试程序收到致命信号的唯一测试用例（例如，SIGSEGV、SIGILL、SIGABRT ）。条目按收到的崩溃信号分组。
 
-- hangs/   - unique test cases that cause the tested program to time out. The
-             default time limit before something is classified as a hang is the
-             larger of 1 second and the value of the -t parameter. The value can
-             be fine-tuned by setting AFL_HANG_TMOUT, but this is rarely
-             necessary.
+- hangs/ - 导致被测试程序超时的去重测试用例。将某些情况分类为挂起的默认时间限制是 1 秒和 `-t` 参数值中的较大者。可以通过设置 `AFL_HANG_TMOUT` 对该值进行微调，但这通常不需要。
 
-Crashes and hangs are considered "unique" if the associated execution paths
-involve any state transitions not seen in previously-recorded faults. If a
-single bug can be reached in multiple ways, there will be some count inflation
-early in the process, but this should quickly taper off.
+如果相关的执行路径涉及未在先前记录的故障中出现的任何状态转换，则崩溃和挂起被视为“独特的”。如果一个单一的错误可以通过多种方式触发，早期过程中的计数可能会膨胀，但这应该很快会减小。
 
-The file names for crashes and hangs are correlated with the parent,
-non-faulting queue entries. This should help with debugging.
+崩溃和挂起的文件名与父级、非故障的队列条目相关联。这将有助于调试。
 
-## Visualizing
+## 可视化
 
-If you have gnuplot installed, you can also generate some pretty graphs for any
-active fuzzing task using afl-plot. For an example of how this looks like, see
-[https://lcamtuf.coredump.cx/afl/plot/](https://lcamtuf.coredump.cx/afl/plot/).
+如果您安装了 gnuplot，您还可以使用 afl-plot 为任何活跃的模糊测试任务生成一些漂亮的图表。有关这方面的示例，请参见 [https://lcamtuf.coredump.cx/afl/plot/](https://lcamtuf.coredump.cx/afl/plot/)。
 
-You can also manually build and install afl-plot-ui, which is a helper utility
-for showing the graphs generated by afl-plot in a graphical window using GTK.
-You can build and install it as follows:
+您还可以手动构建和安装 afl-plot-ui，这是一个辅助工具，用于在图形窗口中使用 GTK 显示由 afl-plot 生成的图表。您可以按照以下步骤进行构建和安装：
 
 ```shell
 sudo apt install libgtk-3-0 libgtk-3-dev pkg-config
@@ -481,77 +303,56 @@ cd ../../
 sudo make install
 ```
 
-To learn more about remote monitoring and metrics visualization with StatsD, see
-[rpc_statsd.md](rpc_statsd.md).
+如果想要了解更多有关使用 StatsD 进行远程控制和测度可视化的内容，参见 [rpc_statsd.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md)。
 
-### Addendum: status and plot files
+### 附录：状态和图表文件
 
-For unattended operation, some of the key status screen information can be also
-found in a machine-readable format in the fuzzer_stats file in the output
-directory. This includes:
+对于无人值守操作，某些关键状态屏幕信息也可以在输出目录中的 fuzzer_stats 文件中以机器可读格式找到。包括：
 
-- `start_time`        - unix time indicating the start time of afl-fuzz
-- `last_update`       - unix time corresponding to the last update of this file
-- `run_time`          - run time in seconds to the last update of this file
-- `fuzzer_pid`        - PID of the fuzzer process
-- `cycles_done`       - queue cycles completed so far
-- `cycles_wo_finds`   - number of cycles without any new paths found
-- `time_wo_finds`     - longest time in seconds no new path was found
-- `execs_done`        - number of execve() calls attempted
-- `execs_per_sec`     - overall number of execs per second
-- `corpus_count`      - total number of entries in the queue
-- `corpus_favored`    - number of queue entries that are favored
-- `corpus_found`      - number of entries discovered through local fuzzing
-- `corpus_imported`   - number of entries imported from other instances
-- `max_depth`         - number of levels in the generated data set
-- `cur_item`          - currently processed entry number
-- `pending_favs`      - number of favored entries still waiting to be fuzzed
-- `pending_total`     - number of all entries waiting to be fuzzed
-- `corpus_variable`   - number of test cases showing variable behavior
-- `stability`         - percentage of bitmap bytes that behave consistently
-- `bitmap_cvg`        - percentage of edge coverage found in the map so far
-- `saved_crashes`     - number of unique crashes recorded
-- `saved_hangs`       - number of unique hangs encountered
-- `last_find`         - seconds since the last find was found
-- `last_crash`        - seconds since the last crash was found
-- `last_hang`         - seconds since the last hang was found
-- `execs_since_crash` - execs since the last crash was found
-- `exec_timeout`      - the -t command line value
-- `slowest_exec_ms`   - real time of the slowest execution in ms
-- `peak_rss_mb`       - max rss usage reached during fuzzing in MB
-- `edges_found`       - how many edges have been found
-- `var_byte_count`    - how many edges are non-deterministic
-- `afl_banner`        - banner text (e.g., the target name)
-- `afl_version`       - the version of AFL++ used
-- `target_mode`       - default, persistent, qemu, unicorn, non-instrumented
-- `command_line`      - full command line used for the fuzzing session
+- start_time        - 表示 afl-fuzz 启动时间的 Unix 时间
+- last_update       - 与此文件最后更新相对应的 Unix 时间
+- run_time          - 到此文件最后更新为止的运行时间（以秒为单位）
+- fuzzer_pid        - 模糊测试进程的 PID
+- cycles_done       - 到目前为止完成的队列循环次数
+- cycles_wo_finds   - 没有发现新路径的循环次数
+- time_wo_finds     - 最长未发现新路径的时间（以秒为单位）
+- execs_done        - 尝试的 execve() 调用次数
+- execs_per_sec     - 每秒的整体执行次数
+- corpus_count      - 队列中条目的总数
+- corpus_favored    - 被优先考虑的队列条目数量
+- corpus_found      - 通过本地模糊测试发现的条目数量
+- corpus_imported   - 从其他实例导入的条目数量
+- max_depth         - 生成的数据集中的层级数量
+- cur_item          - 当前处理的条目编号
+- pending_favs      - 仍然等待模糊测试的优先条目数量
+- pending_total     - 等待模糊测试的所有条目数量
+- corpus_variable   - 显示变量行为的测试用例数量
+- stability         - 一致性位图字节的百分比
+- bitmap_cvg        - 到目前为止在映射中找到的边缘覆盖的百分比
+- saved_crashes     - 记录的唯一崩溃数量
+- saved_hangs       - 遇到的唯一挂起数量
+- last_find         - 自上次发现以来的秒数
+- last_crash        - 自上次崩溃以来的秒数
+- last_hang         - 自上次挂起以来的秒数
+- execs_since_crash - 自上次崩溃以来的执行次数
+- exec_timeout      - -t 命令行值
+- slowest_exec_ms   - 最慢执行的实际时间（以毫秒为单位）
+- peak_rss_mb       - 模糊测试期间达到的最大 RSS 使用量（以 MB 为单位）
+- edges_found       - 找到的边缘数量
+- var_byte_count    - 非确定性边缘的数量
+- afl_banner        - 横幅文本（例如，目标名称）
+- afl_version       - 使用的 AFL++ 版本
+- target_mode       - 默认模式、持久模式、qemu 模式、unicorn 模式、未插桩模式
+- command_line      - 用于模糊测试会话的完整命令行
 
-Most of these map directly to the UI elements discussed earlier on.
+大多数这些信息直接对应于之前讨论的 UI 元素。
 
-On top of that, you can also find an entry called `plot_data`, containing a
-plottable history for most of these fields. If you have gnuplot installed, you
-can turn this into a nice progress report with the included `afl-plot` tool.
+此外，您还可以找到一个名为 `plot_data` 的条目，其中包含大多数字段的可绘制历史记录。如果您安装了 `gnuplot`，可以使用随附的 `afl-plot` 工具将其转化为一个漂亮的进度报告。
 
-### Addendum: automatically sending metrics with StatsD
+### 附录：使用 StatsD 自动发送指标
 
-In a CI environment or when running multiple fuzzers, it can be tedious to log
-into each of them or deploy scripts to read the fuzzer statistics. Using
-`AFL_STATSD` (and the other related environment variables `AFL_STATSD_HOST`,
-`AFL_STATSD_PORT`, `AFL_STATSD_TAGS_FLAVOR`) you can automatically send metrics
-to your favorite StatsD server. Depending on your StatsD server, you will be
-able to monitor, trigger alerts, or perform actions based on these metrics
-(e.g.: alert on slow exec/s for a new build, threshold of crashes, time since
-last crash > X, etc.).
+在 CI 环境中或运行多个模糊测试工具时，加载每个实例或部署脚本以读取模糊测试统计信息可能很繁琐。使用 `AFL_STATSD`（以及其他相关环境变量 `AFL_STATSD_HOST`、`AFL_STATSD_PORT`、`AFL_STATSD_TAGS_FLAVOR`），您可以自动将指标发送到您喜欢的 StatsD 服务器。根据您的 StatsD 服务器，您将能够基于这些指标进行监控、触发警报或执行操作（例如：对新构建的慢执行次数进行警报、崩溃阈值、上次崩溃发现以来的时间 > X 等）。
 
-The selected metrics are a subset of all the metrics found in the status and in
-the plot file. The list is the following: `cycle_done`, `cycles_wo_finds`,
-`execs_done`,`execs_per_sec`, `corpus_count`, `corpus_favored`, `corpus_found`,
-`corpus_imported`, `max_depth`, `cur_item`, `pending_favs`, `pending_total`,
-`corpus_variable`, `saved_crashes`, `saved_hangs`, `total_crashes`,
-`slowest_exec_ms`, `edges_found`, `var_byte_count`, `havoc_expansion`. Their
-definitions can be found in the addendum above.
+所选的指标是状态和绘图文件中所有指标的一个子集。列表如下：`cycle_done`、`cycles_wo_finds`、`execs_done`、`execs_per_sec`、`corpus_count`、`corpus_favored`、`corpus_found`、`corpus_imported`、`max_depth`、`cur_item`、`pending_favs`、`pending_total`、`corpus_variable`、`saved_crashes`、`saved_hangs`、`total_crashes`、`slowest_exec_ms`、`edges_found`、`var_byte_count`、`havoc_expansion`。它们的定义可以在上面的附录中找到。
 
-When using multiple fuzzer instances with StatsD, it is *strongly* recommended
-to setup the flavor (`AFL_STATSD_TAGS_FLAVOR`) to match your StatsD server. This
-will allow you to see individual fuzzer performance, detect bad ones, see the
-progress of each strategy...
+在使用带有 StatsD 的多个模糊测试实例时，强烈建议设置个性化配置（`AFL_STATSD_TAGS_FLAVOR`）以匹配您的 StatsD 服务器。这将允许您查看单个模糊测试工具的性能、检测不良实例、查看每种策略的进展等。
