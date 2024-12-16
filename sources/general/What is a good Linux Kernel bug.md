@@ -1,111 +1,111 @@
 ---
-status: translating
+status: translated
 title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ
 collected_date: 20240827
 translator: QGrain
-translating_date: 20241125
+translated_date: 20241215
 priority: 10
 link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 ---
-I found my first Linux kernel vulnerability in 2006, but it wasn't a particularly good one. At the time I was just copying everything that my colleague Ilja van Sprundel was doing, and that was good enough to find something. If you watch Ilja's video from CCC, [Unusual Bugs (2006)](https://media.ccc.de/v/23C3-1456-en-unusual_bugs?ref=blog.isosceles.com), you'll understand why copying Ilja was generally a good thing to do.
+我在 2006 年发现了我的第一个 Linux 内核漏洞，但它并不是一个特别好的漏洞。当时我只是复制我的同事 Ilja van Sprundel 正在做的一切，这足以找到一些东西。如果你看 Ilja 在 CCC 的视频，[不寻常的漏洞（2006）](https://media.ccc.de/v/23C3-1456-en-unusual_bugs?ref=blog.isosceles.com)，你会明白为什么模仿 Ilja 通常是一件好事。
 
-The bug I found was in a feature that wasn't enabled by default on Debian, SuSE, or Red Hat, and that was pretty much all you needed to know that the bug wasn't good in 2006. What good is a bug if it can't be used anywhere? Linux kernel bugs were for precisely one style of hacking: use a remote exploit to pop a shell as "nobody" or "sshd" or some other unprivileged account on a public facing server, use the kernel exploit to get root, steal some SSH creds, use the kernel exploit on all of those machines, and so on. Such elegant hacking!
+我发现的 bug 存在于 Debian、SuSE 或 Red Hat 在默认情况下未启用的一个功能中，这几乎就是你需要知道的在 2006 年这个漏洞并不好的地方。如果漏洞不能在任何地方使用，那它有什么好处呢？Linux 内核漏洞都是为了一种黑客行为而服务：使用远程漏洞在面向公众的服务器上以 "nobody"、"sshd"或其他一些无特权帐户弹出一个 shell，使用内核漏洞获取 root 权限，窃取一些 SSH 凭据，在所有这些机器上利用该内核漏洞，等等。如此优雅的黑客行为！
 
-I'll stop right there and note a little quirk of language. In the world of vulnerability research, we like to call bugs "good" if they're bad, and "bad" if they're either boring or completely catastrophic. So when I say a bug is "good", it doesn't mean good for society -- usually the opposite. A good bug has properties that are intrinsically interesting for an attacker, like if the bug is in code that's used everywhere, or if it looks like it will be easy to [exploit reliably](https://blog.isosceles.com/an-introduction-to-exploit-reliability/).
+我就讲到这里，注意一点语言上的小怪癖。在漏洞研究领域，我们喜欢把坏的漏洞称为"好"漏洞，而把无聊或完全灾难性的漏洞称为"坏"漏洞。因此，当我说一个漏洞是"好"的时候，它并不意味着对社会有益 -- 通常恰恰相反。一个好的漏洞具有让攻击者感兴趣的本质属性，比如这个漏洞出现在被广泛使用的代码中，或者它看起来很容易被 [可靠地利用](https://blog.isosceles.com/an-introduction-to-exploit-reliability/)。
 
-In 2006 it was easy to tell if any given Linux kernel exploit was "good". Usually it was as simple as running the exploit on your machine and seeing if it worked. Today the story is not quite as simple. So what is a "good" Linux kernel bug today?
+在 2006 年，很容易判断任何给定的 Linux 内核漏洞是否"好"。通常，这就像在你的机器上运行漏洞并查看它是否有效一样简单。今天的故事并不那么简单。那么，今天什么是"好"的 Linux 内核漏洞呢？
 
-## A Brief Detour
-We'll get to that question soon. While we're here on the topic of Linux kernel security, I thought I'd do a brief detour through some of the Linux-related presentations at BlackHat. I went to BlackHat this year, but apparently I'm at the stage of life where I just have meetings instead of attending presentations, so I always try and go back to check out what I've missed. There's some good stuff.
+## 一个简单的绕道
+我们很快就会回答这个问题。当我们在这里讨论 Linux 内核安全的话题时，我想我会简要地绕过 BlackHat 的一些与 Linux 相关的报告。我今年去了 BlackHat，但显然我正处于只参加会议而不是参加报告的人生阶段，所以我总是试着回去看看我错过了什么。的确有一些好东西。
 
-- ["Bad io_uring: A New Era of Rooting for Android"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Lin-bad_io_uring.pdf?ref=blog.isosceles.com) by Zhenpeng Lin, Xinyu Xing, Zhaofeng Chen, and Kang Li. The new io_uring subsystem has been the gift that keeps on giving (i.e. tons of serious vulnerabilities), but most of the work on io_uring exploits has been on server systems. This presentation shows that you can write an exploit for Android's Linux kernel as well, albeit with local access to an unlocked device (aka "rooting"). Bonus points for bypassing Samsung's KNOX protections on the S22. Fortunately Google recently [disabled the io_uring feature](https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html?ref=blog.isosceles.com) in certain key areas, and you can't use io_uring bugs to break out of the Android app sandbox.
-- ["Lost Control: Breaking Hardware-Assisted Kernel Control-Flow Integrity with Page-Oriented Programming"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Han-Lost-Control-Breaking-Hardware-Assisted-Kernel.pdf?ref=blog.isosceles.com) by Seunghun Han. Control-flow integrity is hard to get right at the best of times, and even harder still in kernel-space. This presentation shows that kCFI (even when hardware-assisted) doesn't work when code pages can be rearranged with an arbitrary read/write vulnerability. It's a little bit theoretical in terms of impact because the kCFI they use is "FineIBT", which I don't think is widely used yet.
+- ["坏的 io_uring: 安卓提权的新时代"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Lin-bad_io_uring.pdf?ref=blog.isosceles.com) 来自 Zhenpeng Lin, Xinyu Xing, Zhaofeng Chen, and Kang Li。 新的 io_uring 子系统一直是不断提供的礼物（即大量严重漏洞），但大部分关于 io_uring 漏洞利用的工作都是在服务器系统上进行的。该报告显示，您也可以为安卓的 Linux 内核编写漏洞利用程序，尽管可以本地访问解锁的设备（也称为 "rooting"）。在 S22 上绕过三星 KNOX 保护的额外积分。幸运的是，谷歌最近 [禁用了io_uring功能](https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html?ref=blog.isosceles.com) 在某些关键领域，你不能使用 io_uring bug 来突破安卓应用沙盒。
+- ["失控: 用面向页面的编程破坏硬件辅助内核控制流的完整性"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Han-Lost-Control-Breaking-Hardware-Assisted-Kernel.pdf?ref=blog.isosceles.com) 来自 Seunghun Han。即使在最好的情况下，也很难保证控制流的完整性，在内核空间中更是如此。该报告显示，当代码页可以被任意读/写漏洞重新排列时，kCFI（即使在硬件辅助的情况下）也不起作用。就影响而言，这有点理论化，因为他们使用的 kCFI 是 "FineIBT"，我认为它还没有被广泛使用。
 
-Anyway, this kind of thing is exactly why Apple has spent a lot of time building KTRR/CTRR (ed: not PPL like this post originally included) for iOS, which is the most robust approach to preventing this stuff that I know of. Windows currently has Kernel Data Protection ([KDP](https://www.microsoft.com/en-us/security/blog/2020/07/08/introducing-kernel-data-protection-a-new-platform-security-technology-for-preventing-data-corruption/?ref=blog.isosceles.com)) and they seem to be early adopters of Intel's [HLAT](https://edc.intel.com/content/www/jp/ja/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/12th-generation-intel-core-processors-datasheet-volume-1-of-2/001/hypervisor-managed-linear-address-translation/?ref=blog.isosceles.com), so they should be OK once that's available on more devices and they enable it by default. The Android situation is a bit more concerning, but at least Samsung's Knox is trying.
-- ["Make KSMA Great Again: The Art of Rooting Android Devices by GPU MMU Features"](https://i.blackhat.com/BH-US-23/Presentations/US-23-WANG-The-Art-of-Rooting-Android-devices-by-GPU-MMU-features.pdf?ref=blog.isosceles.com) by Yong Wang. A deep dive into the MMU internals of ARM's Mali GPU, and a detailed discussion of one of the many recent vulnerabilities in the Mali driver (although I can't find the CVE for the issue, it was fixed [here](https://android.googlesource.com/kernel/google-modules/gpu/+/422aa1fad7e63f16000ffb9303e816b54ef3d8ca?ref=blog.isosceles.com)). Their observation is that with a sufficiently powerful vulnerability you can use a similar exploit technique to Kernel Space Mirroring Attacks (KSMA)/ret2dir, but using the GPU's MMU instead. Essentially you end up with a GPU memory mapping that is aliased to the CPU for arbitrary physical pages.
-- A special mention goes to ["Core Escalation: Unleashing the Power of Cross-Core Attacks on Heterogeneous System"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Wen-Core-Escalation.pdf?ref=blog.isosceles.com) by Guanxing Wen of the Pangu Team. This presentation follows the current trend of using coprocessors in modern attack chains, specifically on a Huawei Mate40 device. I'm not 100% sure what the final effect was -- "Screen Passcode Bypass" is the demo, but with their level of access I think they could basically do anything on the device in both the secure world and normal world since they have access to physical memory. Regardless, it's nice that they were able to achieve this from EL0 (e.g. theoretically no Linux kernel exploit was needed, although it's not clear what SELinux context has access to the character device they targeted).
+无论如何，这种事情正是苹果花了很多时间为 iOS 构建 KTRR/CTRR（不是像这篇文章最初包含的 PPL）的原因，这是我所知道的防止这种事情的最稳健的方法。Windows 当前具有内核数据保护（[KDP](https://www.microsoft.com/en-us/security/blog/2020/07/08/introducing-kernel-data-protection-a-new-platform-security-technology-for-preventing-data-corruption/?ref=blog.isosceles.com)），并且他们似乎是英特尔 [HLAT](https://edc.intel.com/content/www/jp/ja/design/ipla/software-development-platforms/client/platforms/alder-lake-desktop/12th-generation-intel-core-processors-datasheet-volume-1-of-2/001/hypervisor-managed-linear-address-translation/?ref=blog.isosceles.com) 的早期采用者，所以一旦它在更多设备上可用，它们应该就可以工作了，并且是默认启用的。安卓系统的情况更令人担忧，但至少三星的 Knox 正在努力。
+- ["让 KSMA 再次伟大: 通过 GPU MMU 功能为安卓设备生根的艺术"](https://i.blackhat.com/BH-US-23/Presentations/US-23-WANG-The-Art-of-Rooting-Android-devices-by-GPU-MMU-features.pdf?ref=blog.isosceles.com) 来自 Yong Wang。深入了解 ARM Mali GPU 的 MMU 内部机理，并详细讨论最新 Mali 驱动程序中许多漏洞中的一个（尽管我找不到该问题的 CVE，但它已被修复 [此处](https://android.googlesource.com/kernel/google-modules/gpu/+/422aa1fad7e63f16000ffb9303e816b54ef3d8ca?ref=blog.isosceles.com)）。他们的观察是，如果存在足够强大的漏洞，您可以使用与内核空间镜像攻击（KSMA）/ret2dir 类似的漏洞利用技术，但使用的是 GPU 的 MMU。从本质上讲，你最终会得到一个 GPU 内存映射，该映射被混叠到 CPU，用于任意物理页面。
+- 特别值得一提的是 ["核心升级: 释放跨核心攻击对异构系统的威力"](https://i.blackhat.com/BH-US-23/Presentations/US-23-Wen-Core-Escalation.pdf?ref=blog.isosceles.com) 来自盘古队的 Guanxing Wen。本报告遵循了在现代攻击链中使用协处理器的当前趋势，特别是在华为 Mate40 设备上。我不是 100% 确定最终的效果是什么 —— "屏幕密码绕过"是一个 demo 演示，但凭借他们的访问级别，我认为他们基本上可以在安全世界和正常世界的设备上做任何事情，因为他们可以访问物理内存。无论如何，他们能够从 EL0 实现这一点是件好事（例如，理论上不需要 Linux 内核漏洞利用，尽管目前尚不清楚是什么样的 SELinux 上下文访问了他们目标的字符设备）。
 
-To recap though, I think the BlackHat review board did a great job of choosing presentations that touch on some important themes in kernel security right now. Here's my take:
+不过总结一下，我认为 BlackHat 审查委员会在选择涉及内核安全中一些重要主题的报告方面做得很好。以下是我的看法：
 
-1. The era of io_uring is probably coming to an end, but it's been a very popular area of research recently. It reminds me of the gold rush around unprivileged user namespaces. Basically these complex new kernel features are consistently more bug-prone than we'd like, and this pattern seems to repeat itself every few years.
-2. In a world where it's increasingly difficult (and arguably unnecessary) to launch control-flow based attacks (e.g. ROP), data-only attacks are becoming more common. In the kernel, the obvious routes for this are credential structures and page tables. A cat-and-mouse game has emerged between attackers (finding creative bypasses and new data structures to target) and defenders (installing increasingly complex integrity measures) -- and attackers are currently winning, except arguably on iOS.
-3. There's a huge amount of interesting attack surface on coprocessors (display coprocessors, DSPs, NPUs, GPUs, etc) and their related drivers, and attackers are finding some easy wins in these areas right now. They're often easier to exploit than a traditional kernel memory corruption issue. On Android, the GPU is one of the most important attack surfaces -- it's widely accessible to apps, and the GPU drivers (mainly Mali, Adreno, and PowerVR) have had a string of highly exploitable issues. There's probably more to come.
+1. io_uring 的时代可能即将结束，但它最近是一个非常受欢迎的研究领域。这让我想起了围绕无特权用户命名空间的淘金热。基本上，这些复杂的新内核特性总是比我们想象的更容易出错，而且这种模式似乎每隔几年就会重复一次。
+2. 在一个越来越难以（也可以说是不必要的）发起基于控制流的攻击（如 ROP）的世界里，纯数据攻击变得越来越普遍。在内核中，实现这一点的明显途径是凭证结构和页表。攻击者（寻找创造性的旁路和新的数据结构作为目标）和防御者（安装越来越复杂的完整性措施）之间出现了一场猫捉老鼠的游戏，并且攻击者目前正在获胜，除了在 iOS 上以外。
+3. 协处理器（显示协处理器、DSP、NPU、GPU 等）及其相关驱动程序上存在大量有趣的攻击面，攻击者现在在这些领域找到了一些容易的胜利。它们通常比传统的内核内存损坏问题更容易被利用。在安卓上，GPU 是最重要的攻击面之一 —— 应用程序可以广泛访问 GPU，GPU 驱动程序（主要是 Mali、Adreno 和 PowerVR）存在一系列可被高度利用的问题。可能还会有更多这样的问题出现。
 
-## Everywhere or Nowhere?
+## 无处不在还是无处可去？
 
-So let's take CVE-2022-20409, the io_uring bug that was exploited in the first BlackHat presentation above. Is this a good bug? We know that they exploited it on Android (Pixel 6 and S22), but from the perspective of a local attacker with unlocked access to the device. And we know that Google's [Container-Optimized OS](https://cloud.google.com/container-optimized-os/docs?ref=blog.isosceles.com) was affected. But it's not enabled by default for apps on Android, and Google is looking to restrict io_uring across most of its other platforms too -- does that mean a bug like this isn't good anymore, even if it's highly exploitable?
+那么，让我们以 CVE-2022-20409 为例，这是上面第一个 BlackHat 报告中利用的 io_uring 漏洞。这是一个好 bug 吗？我们知道他们在 安卓（Pixel 6 和 S22）上利用了它，但从解锁设备的本地攻击者的角度来看。我们知道谷歌的 [容器优化操作系统](https://cloud.google.com/container-optimized-os/docs?ref=blog.isosceles.com) 受到影响。但默认情况下，安卓 上的应用程序不会启用它，谷歌也在寻求限制其大多数其他平台上的 io_uring —— 这是否意味着这样的 bug 不再好，即使它很容易被利用？
 
-The problem is that the Linux kernel is absolutely everywhere, but at the same time, there is no such thing as "*the* Linux kernel". Each Linux-based platform ships a slightly different version and configuration, and that makes it very challenging to work out the global exposure for any particular kernel CVE.
+问题是 Linux 内核绝对无处不在，但与此同时，没有"Linux 内核"这样的东西。每个基于 Linux 的平台都提供了略有不同的版本和配置，这使得计算任何特定内核 CVE 的全局暴露非常具有挑战性。
 
-And beyond that, just because a bug is present in a particular kernel configuration doesn't mean that it's useful. If the bug is only accessible to a root user, or if a bug is only accessible to the most privileged SELinux context, or if a bug is only accessible from outside of a seccomp-bpf sandbox... all of these details can have a significant impact on how "good" a bug is.
+除此之外，仅仅因为特定内核配置中存在 bug 并不意味着它有用。如果 bug 只能由 root 用户访问，或者 bug 只能由最特权的 SELinux 上下文访问，或者如果 bug 只能从 seccomp-bpf 沙箱外部访问。。。所有这些细节都会对 bug 的"好"的程度产生重大影响。
 
-Of course we have CVSSv3 to score the criticality of each individual bug, but CVSS doesn't do a great job of capturing these nuances of the Linux kernel ecosystem. It's hard to capture the fact that a bug can be super serious in one type of deployment, somewhat important in another, or no big deal at all -- and that the bug can be all of this at the same time. Vulnerability remediation is hard.
+当然，我们有 CVSSv3 来评估每个 bug 的关键性，但 CVSS 在捕捉 Linux 内核生态系统的这些细微差别方面做得不好。很难捕捉到这样一个事实，即一个 bug 在一种类型的部署中可能非常严重，在另一种部署中可能有点重要，或者根本没什么大不了的 —— 而且这个 bug 可能同时存在。漏洞修复很难。
 
-The added dimension is that there isn't an objective way to compare different platforms. One person may care a lot about whether the bug affects Amazon Linux 2, but not care much at all if it affects Azure Sphere OS. Another person may care a lot if a bug affects Galaxy S23 Ultra, but not at all if it affects Debian.
+增加的维度是，没有一种客观的方法来比较不同的平台。一个人可能非常关心该漏洞是否会影响 Amazon Linux 2，但根本不关心它是否会影响 Azure Sphere OS。如果一个 bug 影响到 Galaxy S23 Ultra，另一个人可能会非常关心，但如果它影响到 Debian，那就完全不关心了。
 
-## Subjectively Good
+## 主观上好的
 
-So with that major caveat in mind, I can share an approach for assessing whether a kernel bug is good or not. There's a few ways to look at this.
+因此，考虑到这一主要警告，我可以分享一种评估内核 bug 是否好的方法。有几种方法可以看待这个问题。
 
-Most people who spend time thinking about this type of thing will necessarily prioritize bugs based on the systems that they're responsible for securing, and filter out everything else that isn't relevant. That's fine, but it doesn't tell you much about which bugs are good or not *globally*, i.e. considering all potentially affected systems. Similarly, if you're a security researcher then you might favor bugs that fit into an existing area of expertise, or perhaps you'll focus on platforms that have the best bug bounties -- and both of these approaches have their own biases.
+大多数花时间思考这类事情的人必然会根据他们负责保护的系统来优先考虑漏洞，并过滤掉所有不相关的东西。这很好，但它并不能告诉你全局上哪些 bug 是好的或不好的，即考虑所有可能受影响的系统。同样，如果你是一名安全研究人员，那么你可能会青睐适合现有专业领域的漏洞，或者你可能会专注于具有最佳漏洞赏金的平台 —— 这两种方法都有自己的偏见。
 
-Personally, since I don't have the responsibility for securing a specific set of systems, and since I'm not super interested in bug bounties, I usually look at where the most real-world exploitation is occurring and then weight bugs that affect those areas more highly.
+就我个人而言，由于我没有责任保护一组特定的系统，而且我对漏洞赏金也不太感兴趣，我通常会看看现实世界中最容易被利用的地方，然后对影响这些领域的漏洞进行加权。
 
-Obviously it's an imperfect science, but after many years of tracking public research on exploits, studying exploits that are detected in-the-wild, talking to experts in offensive security, and keeping an "ear to the ground" for any rumors about exploitation, you can build up a general sense for where exploitation is most likely to occur.
+显然，这是一门不完美的科学，但经过多年跟踪公众对漏洞利用的研究，研究在野外发现的漏洞利用，与攻击性安全专家交谈，并对任何关于漏洞利用的谣言保持"关注"，你可以对漏洞利用最可能发生的地方有一个大致的了解。
 
-So if you assume that a bug is reliably exploitable (it's really hard to be a good bug if it's not reliably exploitable), then we just have to look at whether the bug affects a lot of platforms that are regularly targeted for exploitation.
+因此，如果你假设一个 bug 是可可靠利用的（如果它不可可靠利用，就很难成为一个好的 bug），那么我们只需要看看这个 bug 是否影响了许多经常被利用的平台。
 
-## How, specifically?
+## 具体如何？
 
-The first heuristic is to look at the lifetime of the bug. If the bug was only introduced recently and hasn't even made it into a stable kernel release, then it's not a good bug. Don't get me wrong -- it might be a cool bug in the sense that it's interesting and exploitable, but just like in 2006, it's not important if nobody uses it. On the other hand, if the bug is in every longterm release since 4.4, then you're looking at something that shows some promise. A lot of bugs these days are somewhere in-between -- for example they might affect all 5.x/6.x releases in the last 18 months, but nothing further back.
+第一个启发式方法是查看 bug 的生存期。如果这个 bug 是最近才引入的，甚至还没有进入稳定的内核版本，那么它就不是一个好 bug。不要误解我的意思 —— 从某种意义上说，这可能是一个很酷的 bug，因为它很有趣且可以被利用，但就像 2006 年一样，如果没有人使用它，这并不重要。另一方面，如果这个 bug 出现在 4.4 之后的每一个长期版本中，那么你看到的是一些有前景的东西。现在很多 bug 都介于两者之间 —— 例如，它们可能会影响过去 18 个月内的所有 5.x/6.x 版本，但不会影响更早的版本。
 
-The second thing that you need to understand is whether the bug is in a ubiquitous area of the kernel that will be enabled everywhere, or not. If the bug is in a core area, something like the core of the memory management subsystem (CVE-2016-5195) or futex system call (CVE-2014-3153), then it's almost certainly going to be a good bug.
+您需要了解的第二件事是，该 bug 是否存在于内核的无处不在的区域，该区域是否会在任何地方启用。如果该漏洞位于核心区域，例如内存管理子系统的核心（CVE-2016-5195）或 futex 系统调用（CVE-2014-3153），那么几乎可以肯定这将是一个很好的漏洞。
 
-Most kernel bugs are not ubiquitous though, for a number of different reasons. They might be in a feature that is only enabled in certain kernel configurations, or in a specific branch or custom patchset that's only used on certain platforms, or in driver code that requires a specific hardware configuration. Of course these can potentially be good bugs, but the details matter.
+然而，由于多种不同的原因，大多数内核 bug 并不普遍。它们可能位于仅在某些内核配置中启用的功能中，或者位于仅在特定平台上使用的特定分支或自定义补丁集中，或者位于需要特定硬件配置的驱动程序代码中。当然，这些可能是好的 bug，但细节很重要。
 
-Concretely, my thought process starts with assessing the risk of the bug to the Android ecosystem:
+具体来说，我的思考过程始于评估该漏洞对安卓生态系统的风险：
 
-1. Can the bug be used from the Chrome sandbox on all Android devices (i.e. is it triggerable despite the [isolated_app](https://cs.android.com/android/platform/superproject/main/+/main:system/sepolicy/private/isolated_app_all.te?ref=blog.isosceles.com) and Chrome's [seccomp-bpf policy](https://source.chromium.org/chromium/chromium/src/+/main:sandbox/linux/seccomp-bpf-helpers/baseline_policy_android.cc;l=135;drc=f2732aef3e95dca51f5d70c1242f0c7614a0b9aa;bpv=0;bpt=1?ref=blog.isosceles.com) for Android)?
-2. Can the bug be used from a normal Android application on all Android devices (i.e. is it triggerable despite the [untrusted_app](https://cs.android.com/android/platform/superproject/main/+/main:system/sepolicy/private/untrusted_app_all.te?ref=blog.isosceles.com) SELinux context and Android's default [seccomp-bpf policy](https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/SECCOMP_BLOCKLIST_APP.TXT?ref=blog.isosceles.com) for apps)?
-3. Or does the bug affect a large subset of all Android devices (e.g. a bug in the ARM Mali GPU driver, or Qualcomm's NPU driver)?
-4. ... or a major Android OEM vendor (e.g. all Samsung devices, or all Xiaomi devices)?
-5. ... or a small subset of important Android devices (e.g. a bug that specifically affects Samsung S22 and S23, but not any other Samsung devices or any non-Samsung devices)?
+1. 该漏洞可以在所有安卓设备上的 Chrome 沙箱中使用吗（即，尽管有 [隔离应用](https://cs.android.com/android/platform/superproject/main/+/main:system/sepolicy/private/isolated_app_all.te?ref=blog.isosceles.com) 和 Chrome 用于安卓的 [seccomp-bpf 政策](https://source.chromium.org/chromium/chromium/src/+/main:sandbox/linux/seccomp-bpf-helpers/baseline_policy_android.cc;l=135;drc=f2732aef3e95dca51f5d70c1242f0c7614a0b9aa;bpv=0;bpt=1?ref=blog.isosceles.com)，它是否仍然可以触发）？
+2. 该漏洞可以在所有安卓设备上的普通安卓应用程序中使用吗（即，尽管有 [不可信应用](https://cs.android.com/android/platform/superproject/main/+/main:system/sepolicy/private/untrusted_app_all.te?ref=blog.isosceles.com) 的 SELinux 上下文和安卓用于应用的的默认 [seccomp-bpf 策略](https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/SECCOMP_BLOCKLIST_APP.TXT?ref=blog.isosceles.com)，它是否仍然可以触发）？
+3. 还是该漏洞会影响所有安卓设备的大部分子集（例如 ARM Mali GPU 驱动程序或高通公司的 NPU 驱动程序中的漏洞）？
+4. 还是会影响主要的安卓 OEM 供应商（例如所有三星设备或所有小米设备）？
+5. 还是会影响重要安卓设备的一小部分（例如，专门影响三星 S22 和 S23 的错误，但不影响任何其他三星设备或任何非三星设备）？
 
-If the answer is "yes" to any of these questions, then the bug is important. In fact if you answer "yes" to point 1, you basically have the holy grail of Linux kernel bugs right now. There's a sliding scale from there, and these days it's more common to see the types of bugs described in points 3, 4, and 5.
+如果这些问题的答案都是"是"，那么这个 bug 很重要。事实上，如果你对第 1 点回答"是"，那么你现在基本上已经拥有了 Linux 内核 bug 的圣杯。从那里开始有一个滑动尺度，现在更常见的是看到第 3、4 和 5 点中描述的 bug 类型。
 
-I tend to put the Android ecosystem first in this kind of assessment because we have a pretty good sense for the high level of demand for Android privilege escalation exploits, particularly where they can be chained with a browser-based exploit. We also have a good sense that there is a steady supply of relevant issues being discovered, exploited, and sold to fulfill this demand. And we have some degree of insight into the societal impact that Android exploits can achieve.
+在这种评估中，我倾向于将安卓生态系统放在首位，因为我们对安卓特权升级漏洞的高需求有很好的认识，特别是在它们可以与基于浏览器的漏洞链接的情况下。我们也很清楚，有稳定的相关问题正在被发现、利用和销售，以满足这一需求。我们对安卓漏洞所能带来的社会影响有一定程度的了解。
 
-If a bug doesn't affect Android however, it can still be a very good bug. Things get a bit murkier the further down the priority list you go, because reliable information on real-world attacks becomes more sparse, but there's still plenty of interesting stuff to attack out there. Particularly the idea of using kernel exploits to enable lateral movement and supply-chain attacks seems popular right now.
+然而，如果一个 bug 不影响 安卓，它仍然可能是一个非常好的 bug。事情会变得有点模糊，因为关于现实世界攻击的可靠信息变得更加稀疏，但仍然有很多有趣的东西可以攻击。特别是使用内核漏洞来实现横向移动和供应链攻击的想法现在似乎很流行。
 
-Based on that, my attempt at a roughly ordered priority list would probably go something like this:
+基于此，我尝试大致排序的优先级列表可能会是这样的：
 
-1. Does the bug affect common server distributions like Ubuntu Server, Debian, and CentOS, or enterprise-focused distributions like RHEL or Oracle Linux?
-2. Is the bug a hypervisor escape or does it otherwise cross virtual machine (VM) trust boundaries, and does it affect cloud systems that are in widespread usage?
-3. Does the bug affect major desktop distributions like Ubuntu, Fedora, and Arch? Or does the bug affect ChromeOS?
-4. Does the bug affect major cloud production environments (i.e. LPE on the prod kernel for the VM host, or the managed kernel for any hosted services)?
-5. Or does the bug affect container-optimized host OS like Bottlerocket, Azure Linux, and Container Optimized OS?
-6. Does the bug affect a significant number of IoT devices, particularly those with sensors for audio/video?
-7. Does the bug affect common networking or enterprise security equipment like routers or next-gen firewalls?
-8. Does the bug affect industrial control systems or other safety-critical systems?
+1. 该漏洞是否影响常见的服务器发行版，如 Ubuntu server、Debian和CentOS，或以企业为中心的发行版，例如 RHEL 或 Oracle Linux？
+2. 该漏洞是管理程序逃逸还是以其他方式跨越虚拟机（VM）信任边界，它是否影响广泛使用的云系统？
+3. 这个 bug 会影响 Ubuntu、Fedora 和 Arch 等主要桌面发行版吗？这个 bug 会影响 ChromeOS 吗？
+4. 该 bug 是否影响主要的云生产环境（即 VM 主机的prod内核上的 LPE，或任何托管服务的托管内核上的 LPCE）？
+5. 或者这个 bug 会影响容器优化的主机操作系统，如 Bottlerocket、Azure Linux 和容器优化操作系统吗？
+6. 该漏洞是否影响大量物联网设备，特别是那些带有音频/视频传感器的设备？
+7. 该漏洞是否影响常见的网络或企业安全设备，如路由器或下一代防火墙？
+8. 该漏洞是否影响工业控制系统或其他安全关键系统？
 
-The specific ordering I've chosen here is definitely up for debate, but hopefully the general intent is clear: I try to assess how good any given Linux kernel vulnerability is based on its reach against important systems, and I define "important" to mean "likely to be of interest to real-world attackers".
+我在这里选择的具体顺序肯定存在争议，但希望总体意图是明确的：我试图根据其对重要系统的影响来评估任何给定的 Linux 内核漏洞有多好，我将"重要"定义为"可能对现实世界的攻击者感兴趣"。
 
-Further down the list, and particularly for 6/7/8, you start to have many non-kernel options to perform privilege escalation (like symlink attacks on scripts running as root), the kernel tends to be updated less, and also the need for a privilege escalation is often lessened (for example, the thing you're exploiting is already running as root).
+再往下看，特别是在 6/7/8，你开始有许多非内核选项来执行权限升级（比如对以 root 身份运行的脚本进行符号链接攻击），内核的更新往往较少，对权限升级的需求也往往减少（例如，你正在利用的东西已经以 root 身份在运行）。
 
-I also haven't even included remote kernel bugs (like the issues in SCTP or IPv6 that have been seen in the past), as they're so rare that it's quite hard to reason about -- but if you have one that's enabled by default somewhere, it's probably a good bug.
+我甚至还没有包括远程内核 bug（比如过去看到的 SCTP 或 IPv6 中的问题），因为它们非常罕见，很难解释 —— 但如果你在某个地方默认启用了一个 bug，这可能是一个很好的 bug。
 
-## Final Thoughts
+## 最后的想法
 
-From an attacker's perspective, a good bug is one that is highly exploitable, and one that affects a lot of platforms that attackers actually care about. But from a defender's perspective, it's really hard to know for sure which platforms attackers care about. It's their job not to tell you!
+从攻击者的角度来看，一个好的 bug 是一个高度可利用的 bug，它会影响攻击者真正关心的许多平台。但从防御者的角度来看，很难确定攻击者关心哪些平台。他们的工作就是不告诉你！
 
-In saying that, even if you have a specific set of systems that you're responsible for securing, I'd suggest going deeper than "does this bug affect my systems".  Real-world risk is a bit more nuanced, and trying to build up a sense for where attackers are likely to use kernel exploits (and why) is an important part of assessing that risk accurately.
+这么说，即使你有一组特定的系统需要你负责保护，我建议你深入探讨"这个 bug 会影响我的系统吗"。现实世界的风险更为微妙，试图建立一种攻击者可能在哪里使用内核漏洞（以及为什么）的感觉是准确评估风险的重要组成部分。
 
-I've tried to share my view on this, and the end result skews toward prioritizing Android and common server distributions pretty highly. I'd be very interested to hear from anyone who has a different (or complimentary) approach though, since we're all working with imperfect knowledge.
+我试图分享我对此的看法，最终结果倾向于高度优先考虑安卓和通用服务器发行版。不过，我很想听听任何有不同（或互补）方法的人的意见，因为我们都在用不完美的知识工作。
 
-One thing is clear though: figuring out which bugs are good takes quite a bit more work than it used to, and I think security researchers are often in a good position to do this.
+但有一点是清楚的：找出哪些 bug 是好的需要比以前做更多的工作，我认为安全研究人员通常在这方面处于有利地位。
 
-When we find a new bug, we ideally should be doing some preliminary analysis to work out the industry-wide impact, and sharing our understanding of this will help the bug get fixed faster. Being clear about whether the issue affects Android, whether it affects common server distributions, and how likely it is to affect the long tail of Linux-based devices can make a big difference. This means doing a quick analysis of how common the affected feature is, any prerequisites for triggering the bug, and the length of time the bug has been around.
+当我们发现一个新的 bug 时，我们最好做一些初步分析，以确定整个行业的影响，分享我们对这一点的理解将有助于更快地修复 bug。明确该问题是否影响 安卓，是否影响常见的服务器发行版，以及它影响基于 Linux 的设备长尾的可能性有多大，可以产生很大的影响。这意味着要快速分析受影响的功能有多常见，触发 bug 的任何先决条件，以及 bug 存在的时间长度。
 
-Stay tuned, I'll update this post in 2040 after another 17 years of "good" Linux kernel bugs... or perhaps with the story of how we fixed stuff once and for all!
+请继续关注，在经历了 17 年的"好" Linux 内核 bug 之后，我将在 2040 年更新这篇文章。。。或者，也许是关于我们如何一劳永逸地解决问题的故事！
