@@ -1,5 +1,5 @@
 ---
-status: collected
+status: translating
 title: "Coverage"
 author: Syzkaller Community
 collector: mudongliang
