@@ -22,7 +22,7 @@ is subject to change with future releases.
 -   [Installation Notes](#InstallationNotes)
 -   [Java Notes](#JavaNotes)
 
-[Ghidra Installation Directory Layout](#Layout)
+[Ghidra Installation Directory Layout](#Layout) 
 
 [Building Native Components](#Build)
 
