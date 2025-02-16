@@ -3,6 +3,7 @@ status: translated
 title: "Prometheus metrics"
 author: Syzkaller Community
 collector: jxlpzqc
+translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250217
 priority: 10
