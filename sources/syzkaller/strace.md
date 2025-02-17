@@ -14,8 +14,8 @@ link: https://github.com/google/syzkaller/blob/master/docs/strace.md
 
 Syzkaller 可以配置为在 [strace](https://strace.io/) 下执行程序并捕获输出。
 
-若将 `strace_bin` 设置为某个 `strace` 二进制文件，syzkaller 将自动使用该`strace` 二进制文件运行所有成功获取的复现器。
-* 若 syz-manager 已关联至某个「信息中心」，当生成的复现器仍能触发相同崩溃时，syzkaller 会将 strace 输出作为普通日志文件上传。
+若将 `strace_bin` 设置为某个 `strace` 二进制文件，syzkaller 将自动使用该 `strace` 二进制文件运行所有成功获取的重现用例。
+* 若 syz-manager 已关联至某个「信息中心」，当生成的重现用例仍能触发相同崩溃时，syzkaller 会将 strace 输出作为普通日志文件上传。
 * 若未关联信息中心，strace 的输出将被保存至独立文件，并可通过 syz-manager 的网页界面访问。
 
 ## 如何编译 strace 二进制文件
@@ -34,10 +34,10 @@ make -j`nproc`
 
 ## syz-crush
 
-可配置 `syz-crush` 在 strace 下运行关联的复现器。具体操作时，
+可配置 `syz-crush` 在 strace 下运行关联的重现用例。具体操作时，
 请确保 syz-manager 配置文件中已指定 `strace_bin` 参数，并在命令行参数中额外添加 `-strace` 参数。
 
 ## syz-repro
 
-若在 `syz-repro` 的参数后追加 `-strace file-name.log`，该工具将在 strace 下运行生成的复现器（若成功生成），并保存其输出。
+若在 `syz-repro` 的参数后追加 `-strace file-name.log`，该工具将在 strace 下运行生成的重现用例（若成功生成），并保存其输出。
 
