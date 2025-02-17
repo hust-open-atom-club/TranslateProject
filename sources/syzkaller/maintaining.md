@@ -1,56 +1,47 @@
 ---
-status: collected
+status: translated
 title: "Maintainer's Guide"
 author: Syzkaller Community
 collector: jxlpzqc
+translator: CAICAIIs
 collected_date: 20240314
+translated_date: 20250217
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/maintaining.md
 ---
 
-# Maintainer's Guide
+# 维护者指南
 
-## Linear history
+## 线性历史
 
-We preserve linear history and have merge commits disabled in repository settings.
-Pull requests (PR) have only 2 options:
-- **Rebase and merge**\
-  This is preferred if all commits in the PR are properly squashed/fixed already,
-  as it preserves commits in the PR (takes all commits in the PR as is and adds them
-  on top of the master HEAD).
-- **Squash and merge**\
-  This is preferred if the PR contains fix ups as separate commits and/or other clutter
-  in commit organization (squashes all commits in the PR into one commit and adds it
-  on top of the master HEAD, also allows to edit commit subject/description).
+我们保持线性历史记录，并在仓库设置中禁用合并提交（merge commit）。  
+拉取请求（PR）仅有两个选项：
+- **变基合并（Rebase and merge）**\
+  若 PR 中的所有提交已妥善整理/修复，优先选择此方式，
+  因其保留 PR 中的提交记录（将 PR 中的所有提交直接添加至 master 分支的最新提交之上）。
+- **压缩合并（Squash and merge）**\
+  若 PR 包含分散的修正提交或提交组织混乱时优先选择此方式
+  （将 PR 中的所有提交压缩为单个提交并添加至 master 分支的最新提交之上，同时允许编辑提交主题/描述）。
 
-## PR checks (CI)
+## PR 检查 (CI)
 
-`cla/google` check needs to pass before merging.
+合并前需通过 `cla/google` 检查。
 
-CI testing generally needs to pass before merging.\
-Exceptions may be infrastrcture flakes (especially in external services: `codecov`, `ci/fuzzit`);
-one-off timeouts/OOMs (but not if this PR itself makes them much more frequent).
-All static checking warnings and testing errors are considered hard errors.
+合并前通常需通过所有 CI 测试。\
+例外情况包括基础设施偶发问题（尤其是外部服务：`codecov`、`ci/fuzzit`）
+以及偶现的超时/内存溢出（但若 PR 本身显著增加此类问题频率则不可豁免）。所有静态检查警告和测试错误均视为严重问题。
 
-## Tests
+## 测试
 
-Adding tests for new code and bug fixes is generally encouraged. Ask contributors to add tests.
+原则上鼓励为新代码和错误修复添加测试。应要求贡献者补充测试。
 
-However, some code is easier to test, while some is harder. Some examples of cases where
-it's easier to add tests (should be added): abstract functionalities without external dependencies
-(e.g. parsers, data transformations, calculations); code with established testing infrastrcture
-(adding new tests is just adding one more of the same). Examples of cases where it's harder
-to add tests (may be not added, but still welcome if one wants to go above and beyond):
-code with external dependancies that are not easy to fake out (qemu, kernel, image, etc);
-code without established testing infrastrcture where adding one test would require building
-the whole infrastrcture first.
+但不同代码的测试难度存在差异。
+以下情况更易添加测试（建议补充）：无外部依赖的抽象功能（如解析器、数据转换、计算逻辑）；已有成熟测试基础设施的代码（添加新测试仅需遵循现有模式）。
+以下情况测试难度较高（可不强制要求，但仍欢迎补充）：存在难以模拟的外部依赖（qemu、内核、镜像等）；缺乏现成测试基础设施，需先构建整套框架才能添加测试的代码。
 
-## Use your judgement
+## 善用判断力
 
-There are no strict rules for reviews/ownership at the moment. Use your judgement.
+当前暂无严格的审查/所有权规则，请灵活运用判断力。
 
-If you are maintaining a particular area of the project (e.g. support for one OS),
-it is OK to merge your own changes without further review (especially smaller and
-if CI gives green light). It's also OK to review and merge changes to other parts
-of the project. But loop in other maintainers if you don't feel confident or need
-additional feedback/review.
+若您负责项目的特定领域（如某操作系统的支持），可自行合并变更而无需额外审查（尤其小型变更且 CI 通过时）。
+亦可审查并合并项目其他部分的变更。若信心不足或需要额外意见，请与其他维护者协同处理。
