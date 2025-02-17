@@ -8,11 +8,11 @@ priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/setup.md
 ---
 
-# How to set up syzkaller
+# 如何设置 syzkaller
 
-Generic setup instructions for fuzzing Linux kernel are outlined [here](linux/setup.md).
+针对 Linux 内核进行模糊测试的通用设置说明概述于[此处](linux/setup.md).
 
-For other kernels see:
+其他内核的配置方法请参见：
 [Akaros](akaros/README.md),
 [FreeBSD](freebsd/README.md),
 [Darwin/XNU](darwin/README.md),
@@ -21,8 +21,7 @@ For other kernels see:
 [OpenBSD](openbsd/setup.md),
 [Windows](windows/README.md).
 
-After following these instructions you should be able to run `syz-manager`, see it executing programs, and be able to access statistics exposed at `http://127.0.0.1:56741` (or whatever address you've specified in the manager config).
-If everything is working properly, a typical execution log would look like:
+按照说明完成设置后，您应该能够运行 `syz-manager`，看到它执行测试程序，并能够访问 `http://127.0.0.1:56741`（或您在管理配置中指定的其他地址）提供的统计数据。若一切运行正常，典型的执行日志如下所示：
 
 ```
 $ ./bin/syz-manager -config=my.cfg
@@ -39,10 +38,8 @@ $ ./bin/syz-manager -config=my.cfg
 2017/06/14 16:40:35 executed 15504, cover 132403, crashes 0, repro 0
 ```
 
-At this point it's important to ensure that syzkaller is able to collect code coverage of the executed programs
-(unless you specified `"cover": false` in the config or coverage is not yet supported for the kernel you're fuzzing).
-The `cover` counter on the web page should be non zero.
+此时需确保 syzkaller 能够收集已执行程序的代码覆盖率（除非您在配置中指定了 `"cover": false` 或您测试的内核尚未支持覆盖率收集）。网页上的 `cover` 计数器应显示非零值。
 
-More information on the configuration file format is available [here](configuration.md).
+配置文件格式的更多信息请参见[此处](configuration.md).
 
-See [this page](troubleshooting.md) for troubleshooting tips.
+故障排查技巧请参阅[此文档](troubleshooting.md)。
