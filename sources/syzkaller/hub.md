@@ -1,19 +1,20 @@
 ---
-status: collected
+status: translated
 title: "Connecting several managers via Hub"
 author: Syzkaller Community
 collector: jxlpzqc
+translator: CAICAIIs
 collected_date: 20240314
+translated_date: 20250217
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/hub.md
 ---
 
-# Connecting several managers via Hub
+# 通过 Hub 连接多个管理器
 
-`syz-hub` program can be used to connect several `syz-manager`'s together and
-allow them to exchange programs.
+`syz-hub` 程序可用于将多个 `syz-manager`连接在一起，并允许它们交换测试程序。
 
-Build `syz-hub` with `make hub`. Then create a config file along the lines of:
+使用 `make hub` 编译 `syz-hub`。然后按以下格式创建配置文件：
 
 ```
 {
@@ -28,8 +29,7 @@ Build `syz-hub` with `make hub`. Then create a config file along the lines of:
 }
 ```
 
-And start it with `bin/syz-hub -config hub.cfg`. Then add the following
-additional parameters to `syz-manager` config files of each manager:
+使用 `bin/syz-hub -config hub.cfg`启动 hub。然后在每个管理器的 `syz-manager` 配置文件中添加以下额外参数：
 
 ```
 	"name": "manager1",
@@ -38,6 +38,5 @@ additional parameters to `syz-manager` config files of each manager:
 	"hub_key": "6sCFsJVfyFQVhWVKJpKhHcHxpCH0gAxL",
 ```
 
-And start managers. Once they triage local corpus, they will connect to the hub
-and start exchanging inputs. Both hub and manager web pages will show how many
-inputs they send/receive from the hub.
+启动管理器后，当它们完成本地语料库的分类整理，便会连接到 hub 并开始交换测试输入。
+hub 和管理器的网页界面都会显示它们从 hub 发送/接收的测试输入数量。
