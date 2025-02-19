@@ -12,7 +12,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/setup.md
 
 # 如何设置 syzkaller
 
-针对 Linux 内核进行模糊测试的通用设置说明概述于[此处](linux/setup.md).
+针对 Linux 内核进行模糊测试的通用设置说明概述于[此处](linux/setup.md)。
 
 其他内核的配置方法请参见：
 [Akaros](akaros/README.md),
@@ -42,6 +42,6 @@ $ ./bin/syz-manager -config=my.cfg
 
 此时需确保 syzkaller 能够收集已执行程序的代码覆盖率（除非您在配置中指定了 `"cover": false` 或您测试的内核尚未支持覆盖率收集）。网页上的 `cover` 计数器应显示非零值。
 
-配置文件格式的更多信息请参见[此处](configuration.md).
+配置文件格式的更多信息请参见[此处](configuration.md)。
 
 故障排查技巧请参阅[此文档](troubleshooting.md)。
