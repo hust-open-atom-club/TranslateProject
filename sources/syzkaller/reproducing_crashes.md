@@ -12,16 +12,16 @@ link: https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.m
 
 # 如何复现崩溃
 
-为 syzkaller 错误创建重现用例的过程是自动化的，但并非完美无缺，因此 syzkaller 提供了若干用于手动执行和复现程序的工具。
+syzkaller 创建复现用例的过程是自动化的，但并非完美无缺，因此 syzkaller 提供了若干用于手动执行和复现程序的工具。
 
 管理器 `workdir/crashes` 目录中创建的崩溃日志包含崩溃前执行的程序。 
-在并行执行模式下（当管理器配置中的 `procs` 参数设置为大于 1 的值时），导致崩溃的程序不一定会立即触发崩溃；
+在并行执行模式下（管理器配置中的 `procs` 参数值大于 1），导致崩溃的程序不一定会立即触发崩溃；
 真正的故障程序可能出现在更早的位置。
 有两个工具可以帮助您识别并最小化导致崩溃的程序：`tools/syz-execprog` 和 `tools/syz-prog2c`。
 
 
 `tools/syz-execprog` 能以多种模式执行单个 syzkaller 程序或程序集
-（单次执行或无限循环；线程模式/冲突模式（见下文）；带或不带覆盖率收集）。 
+（单次执行或无限循环；线程模式/冲突模式（见下文）；是否收集覆盖率）。 
 您可以通过循环执行崩溃日志中的所有程序来确认至少有一个程序确实会导致内核崩溃：
 `./syz-execprog -executor=./syz-executor -repeat=0 -procs=16 -cover=0 crash-log`。
 然后尝试识别导致崩溃的单个程序，您可以通过以下命令测试程序：
@@ -40,7 +40,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.m
 若不可复现，则后续需要执行额外步骤。
 
 
-现在，对程序运行 `syz-prog2c` 工具。该工具将生成可执行的 C 源码。
+现在，对程序运行 `syz-prog2c` 工具。该工具将生成可执行的 C 程序。
 若使用 `-threaded/collide=0` 参数时崩溃可复现，则此 C 程序也应能引发崩溃。
 
 若使用 `-threaded/collide=0` 参数时崩溃不可复现，则需要执行最后一步操作。
