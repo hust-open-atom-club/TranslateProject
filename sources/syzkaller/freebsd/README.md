@@ -1,78 +1,82 @@
 ---
-status: collected
+status: translated
 title: "FreeBSD"
 author: Syzkaller Community
 collector: jxlpzqc
+translator: CAICAIIs
 collected_date: 20240314
+translated_date: 20250219
 link: https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md
 ---
 
 # FreeBSD
 
-This page contains instructions to set up syzkaller to run on a FreeBSD or Linux host and fuzz an amd64 FreeBSD kernel running in a virtual machine.
+本页面包含在 FressBSD 或 Linux 主机上设置 syzkaller 并对运行于虚拟机中的 amd64 FreeBSD 内核进行模糊测试的说明。
 
-Currently, syzkaller can fuzz FreeBSD running under bhyve, QEMU or GCE (Google Compute Engine).  Regardless of the mode of operation, some common steps must be followed.
+目前，syzkaller 可对运行在 bhyve、QEMU 或 GCE（Google Compute Engine）下的 FreeBSD 进行模糊测试。无论采用何种操作模式，均需遵循一些通用步骤。
 
-## Setting up a host
 
-`syz-manager` is the component of syzkaller that manages target VMs.  It runs on a host system and automatically creates, runs and destroys VMs which share a user-specified image file.
+## 设置主机
 
-### Setting up a FreeBSD host
+`syz-manager` 是 syzkaller 中用于管理目标虚拟机的组件。它运行在主机系统上，自动创建、运行和销毁共享用户指定镜像文件的虚拟机。
 
-To build syzkaller out of the box, a recent version of FreeBSD 13.0-CURRENT must be used for the host.  Older versions of FreeBSD can be used but will require manual tweaking.
 
-The required dependencies can be installed by running:
+### 设置 FreeBSD 主机
+
+要开箱即用地构建 syzkaller，主机必须使用较新的 FreeBSD 13.0-CURRENT 版本。旧版 FreeBSD 亦可使用，但需手动调整。
+
+运行以下命令安装所需依赖：
 ```console
 # pkg install bash gcc git gmake go golangci-lint llvm
 ```
-When using bhyve as the VM backend, a DHCP server must also be installed:
+使用 bhyve 作为虚拟机后端时，还需安装 DHCP 服务器：
 ```console
 # pkg install dnsmasq
 ```
-To checkout the syzkaller sources, run:
+要获取 syzkaller 源代码副本，请运行：
 ```console
 $ git clone https://github.com/google/syzkaller
 ```
-and the binaries can be built by running:
+并通过以下命令构建二进制文件：
 ```console
 $ cd syzkaller
 $ gmake
 ```
 
-Once this completes, a `syz-manager` executable should be available under `bin/`.
+完成后，`bin/` 目录下应生成 `syz-manager` 可执行文件。
 
-### Setting up a Linux host
+### 设置 Linux 主机
 
-To build Go binaries do:
+构建 Go 二进制文件请执行：
 ```
 make manager fuzzer execprog TARGETOS=freebsd
 ```
-To build C `syz-executor` binary, copy `executor/*` files to a FreeBSD machine and build there with:
+要构建 C 语言 `syz-executor` 二进制文件，需将 `executor/*` 文件复制到 FreeBSD 机器上并执行以下构建命令：
 ```
 c++ executor/executor.cc -o syz-executor -O1 -lpthread -DGOOS_freebsd=1 -DGOARCH_amd64=1 -DGIT_REVISION=\"CURRENT_GIT_REVISION\"
 ```
-Then, copy out the binary back to host into `bin/freebsd_amd64` dir.
+随后将生成的二进制文件复制回主机的 `bin/freebsd_amd64` 目录。
 
-## Setting up the FreeBSD VM
+## 设置 FreeBSD 虚拟机
 
-It is easiest to start with a [snapshot image](https://ftp.freebsd.org/pub/FreeBSD/snapshots/VM-IMAGES/14.0-CURRENT/amd64/Latest/) of FreeBSD.  Fetch a QCOW2 disk image for QEMU or a raw image for GCE or bhyve.
-Fetch a copy of the FreeBSD kernel sources and place them in `/usr/src`. You will likely need to expand the disk of the VM. Before booting the VM, run:
+建议从 FreeBSD 的[快照镜像](https://ftp.freebsd.org/pub/FreeBSD/snapshots/VM-IMAGES/14.0-CURRENT/amd64/Latest/)开始操作。根据需求获取适用于 QEMU 的 QCOW2 磁盘镜像，或适用于 GCE、bhyve 的 raw 镜像。
+获取 FreeBSD 内核源码副本并放置于 `/usr/src`。通常需扩展虚拟机磁盘空间。启动虚拟机前执行：
 ```console
 # truncate -s 15G $IMAGEFILE
 ```
-To enable KCOV on FreeBSD, a custom kernel must be compiled. It is easiest to do this on the host.<br>
-Before booting the VM, compile a custom kernel on the host and install it on the VM. On the host:
+要在 FreeBSD 上启用 KCOV，必须编译自定义内核。此操作最适合在主机完成。<br>
+启动虚拟机前，在主机上编译自定义内核并安装至虚拟机。主机端操作：
 ```console
 # mdconfig -a -f $IMAGEFILE
 # mount /dev/md0p4 /mnt
 ```
-This will create a memory device for the VM file and allow host to install the custom kernel source on the VM. <br>
-To get a copy of the current development sources:
+该操作将为虚拟机文件创建内存设备，并允许主机在虚拟机上安装自定义内核源码。 <br>
+获取当前开发源码副本：
 ```console
 # pkg install git
 # git clone --depth=1 --branch=main https://github.com/freebsd/freebsd-src /usr/src
 ```
-To create a custom kernel configuration file for syzkaller and build a new kernel, run:
+创建 syzkaller 专用内核配置文件并构建新内核：
 
 ```console
 # cd /usr/src/sys/amd64/conf
@@ -88,20 +92,20 @@ __EOF__
 # make -j $(sysctl -n hw.ncpu) KERNCONF=SYZKALLER buildkernel
 # make KERNCONF=SYZKALLER installkernel DESTDIR=/mnt
 ```
-Before booting the VM, make sure to run:
+启动虚拟机前务必执行：
 ```console
 # umount /mnt
 ```
-The md device will linger and you can use it again later if you want. Otherwise destroy it:
+md 设备将保持挂载状态，后续可重复使用。若不再需要可销毁：
 ```console
 # mdconfig -d -u 0
 ```
-Use QEMU to start a VM using the downloaded image:
+使用 QEMU 启动基于下载镜像的虚拟机：
 
 ```console
 $ qemu-system-x86_64 -hda $IMAGEFILE -nographic -net user,host=10.0.2.10,hostfwd=tcp::10022-:22 -net nic,model=e1000
 ```
-When the boot loader menu is printed, escape to the loader prompt and enter the commands `set console="comconsole"` and `boot`.  Once you reach a login prompt, log in as root and add a couple of configuration parameters to `/boot/loader.conf`:
+当出现引导加载菜单时，当出现引导加载菜单时，按 Esc 键进入加载程序提示符，依次执行 `set console="comconsole"` 和 `boot` 命令。进入登录提示后，以 root 身份登录并将以下配置参数添加至 `/boot/loader.conf`：
 
 ```console
 # cat <<__EOF__ >>/boot/loader.conf
@@ -109,29 +113,29 @@ autoboot_delay="-1"
 console="comconsole"
 __EOF__
 ```
-After VM is booted, /etc/rc.d/growfs should haven grown its file system automatically. Otherwise run:
+虚拟机启动后，/etc/rc.d/growfs 应已自动扩展文件系统。否则请运行：
 ```console
 # /etc/rc.d/growfs onestart
 ```
-Verify that `uname -i` prints `SYZKALLER` to confirm that your newly built kernel is running.
+验证 `uname -i` 输出是否为 `SYZKALLER` ，以确认新构建的内核正在运行。
 
-Then, to permit remote access to the VM, you must configure DHCP and enable `sshd`:
+为允许远程访问虚拟机，需配置 DHCP 并启用 `sshd`：
 
 ```console
 # sysrc sshd_enable=YES
 # sysrc ifconfig_DEFAULT=DHCP
 ```
 
-If you plan to run the syscall executor as root, ensure that root SSH logins are permitted by adding `PermitRootLogin without-password` to `/etc/ssh/sshd_config`.  Otherwise, create a new user with `adduser`.  Install an ssh key for the user and verify that you can SSH into the VM from the host.  Note that bhyve requires the use of the root user for the time being.
+若计划以 root 身份运行系统调用执行器，需在 `/etc/ssh/sshd_config` 中添加 `PermitRootLogin without-password` 以允许 root SSH 登录。 否则请使用 `adduser` 创建新用户。为该用户安装 SSH 密钥并验证能否从主机 SSH 连接至虚拟机。注意当前 bhyve 仍需使用 root 用户。
 
-### Running Under bhyve
+### 在 bhyve 下运行
 
-Some additional steps are required on the host in order to use bhyve.  First, ensure that the host system is at r346550 or later.  Second, since bhyve currently does not support disk image snapshots, ZFS must be used to provide equivalent functionality.  Create a ZFS data set and copy the VM image there.  The data set can also be used to store the syzkaller workdir.  For example, with a zpool named `data` mounted at `/data`, write:
+主机端需执行额外步骤以使用 bhyve。首先，确保主机系统版本不低于 r346550。其次，因 bhyve 当前不支持磁盘镜像快照，必须使用 ZFS 提供等效功能。创建 ZFS 数据集并复制虚拟机镜像至其中。该数据集亦可存储 syzkaller 工作目录。例如，在名为 `data` 的存储池挂载于 `/data` 时执行：
 ```console
 # zfs create data/syzkaller
 # cp FreeBSD-13.0-CURRENT-amd64.raw /data/syzkaller
 ```
-Third, configure networking and DHCP for the VM instances:
+第三，为虚拟机实例配置网络和 DHCP：
 
 ```console
 # ifconfig bridge create
@@ -144,20 +148,20 @@ bridge0
 # echo 'net.link.tap.up_on_open=1' >> /etc/sysctl.conf
 # sysctl net.link.tap.up_on_open=1
 ```
-To enable automatic configuration of bridged network every time the system boots, add the following to /etc/rc.conf:
+为实现每次系统启动时自动配置桥接网络，将以下内容添加至 /etc/rc.conf：
 ```console
 # cloned_interfaces="bridge0 tap0"
 # ifconfig_bridge0="inet 169.254.0.1 addm tap0 up"
 # ifconfig_tap0="up"
 ```
-Finally, ensure that the bhyve kernel module is loaded:
+最后确保加载 bhyve 内核模块：
 ```console
 # kldload vmm
 ```
 
-### Putting It All Together
+### 整合所有配置
 
-If all of the above worked, create a `freebsd.cfg` configuration file with the following contents (alter paths as necessary):
+若上述步骤均成功，请创建包含以下内容的 `freebsd.cfg` 配置文件（按需修改路径）：
 
 ```
 {
@@ -171,7 +175,7 @@ If all of the above worked, create a `freebsd.cfg` configuration file with the f
 	"procs": 8,
 }
 ```
-If running the fuzzer under QEMU, add:
+在 QEMU 下运行模糊测试时添加：
 
 ```
 	"image": "/FreeBSD-13.0-CURRENT-amd64.qcow2",
@@ -182,7 +186,7 @@ If running the fuzzer under QEMU, add:
 		"mem": 2048
 	}
 ```
-For GCE, add the following instead (alter the storage bucket path as necessary):
+使用 GCE 时改为添加以下内容（按需修改存储桶路径）：
 
 ```
 	"image": "/FreeBSD-13.0-CURRENT-amd64.raw",
@@ -193,7 +197,7 @@ For GCE, add the following instead (alter the storage bucket path as necessary):
 		"gcs_path": "syzkaller"
 	}
 ```
-For bhyve, we need to specify the VM image snapshot name and networking info (alter the dataset name and paths as necessary):
+使用 bhyve 时需指定虚拟机镜像快照名称及网络信息（按需修改数据集名称和路径）：
 ```
 	"image": "/data/syzkaller/FreeBSD-13.0-CURRENT-amd64.raw",
 	"type": "bhyve",
@@ -205,11 +209,11 @@ For bhyve, we need to specify the VM image snapshot name and networking info (al
 	}
 ```
 
-Then, start `syz-manager` with:
+随后通过以下命令启动 `syz-manager` ：
 ```console
 $ bin/syz-manager -config freebsd.cfg
 ```
-It should start printing output along the lines of:
+正常输出应类似：
 ```
 booting test machines...
 wait for the connection from test machine...
@@ -219,13 +223,13 @@ executed 7921, cover 1239, crashes 0, repro 0
 executed 32807, cover 1244, crashes 0, repro 0
 executed 35803, cover 1248, crashes 0, repro 0
 ```
-If something does not work, try adding the `-debug` flag to `syz-manager`.
+若运行异常，可尝试为 `syz-manager` 添加 `-debug` 标志。
 
-## Missing things
+## 缺失功能
 
-- System call descriptions.  The initial list of FreeBSD system calls was a copy-and-paste of Linux's, and while they have been cleaned up over time they should be audited more carefully.  We are also still missing many system call descriptions.
-- We should support fuzzing the Linux compatibility subsystem.
-- We should provide instructions for fuzzing a FreeBSD system on ZFS
-- `pkg/host` needs to be taught how to detect supported syscalls/devices.
-- KASAN and KCSAN for FreeBSD would be useful.
-- On Linux we have emission of exernal networking/USB traffic into kernel using tun/gadgetfs. Implementing these for FreeBSD could uncover a number of high-profile bugs.
+- 系统调用描述。FreeBSD 系统调用的初始列表复制自 Linux，虽经多次清理仍需仔细审核。目前仍缺少许多系统调用描述。
+- 需支持对 Linux 兼容性子系统进行模糊测试。
+- 应提供针对 ZFS 文件系统的 FreeBSD 模糊测试指南。
+- 需完善 `pkg/host` 对支持的系统调用/设备的检测功能。
+- 为 FreeBSD 实现 KASAN 和 KCSAN 将非常有益。
+- Linux 上我们通过 tun/gadgetfs 实现外部网络/USB 流量注入内核。为 FreeBSD 实现类似功能可发现多个高危漏洞。
