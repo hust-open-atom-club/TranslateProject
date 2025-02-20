@@ -1,73 +1,73 @@
 ---
-status: collected
+status: translated
 title: "Darwin/XNU"
 author: Syzkaller Community
 collector: jxlpzqc
+translator: CAICAIIs
 collected_date: 20240314
+translated_date: 20250221
 link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 ---
 
 # Darwin/XNU
 
-It turned out to be unreasonably hard to bootstrap a VM image usable for fuzzing from the XNU source drops without using any of the proprietary kernel extensions shipped with macOS. This guide is therefore based on a normal macOS installation. Unfortunately Apples macOS EULA makes this unsuitable for fuzzing XNU on Google Cloud Platform.
+事实证明，在不使用 macOS 附带的任何专有内核扩展的情况下，从 XNU 源代码构建可用于模糊测试的虚拟机镜像异常困难。因此，本指南基于标准的 macOS 安装。不幸的是，苹果的 macOS 最终用户许可协议（EULA）使得此方法不适合在 Google Cloud Platform 上对 XNU 进行模糊测试。
 
-## Prepare a macOS installation disk image
+## 准备 macOS 安装磁盘镜像
 
-Nowadays Apple mainly distributes macOS updates via the Mac App Store. This will however only give us the latest builds. Luckily the Munki people are kind enough to maintain a script, allowing us to fetch a macOS build of our choice from the shell.
+如今，苹果主要通过 Mac App Store 分发 macOS 更新。但这只能获取最新版本。幸运的是，Munki 社区维护了一个脚本，允许我们从命令行下载指定版本的 macOS 构建。
 
-We'll need a macOS build that has a kernel version close to the one we will be building. You can [see Apples most recent source drops on this page](https://opensource.apple.com/). At the time of writing the most recent version is macOS 11.5 containing kernel xnu-7195.141.2. The Munki download script can only tell the macOS version and build number, but not the XNU version. Unfortunately you might occasionally download a matching macOS release, but the kernel you build won't boot anyway. Among many other reasons this can be caused by this mismatch in kernel and bootloader versions. Some trial and error can be involved in getting the correct build. Sometimes the correct build might no longer be available. At the time of writing 11.5 build 20G71 was available and worked with the 11.5 xnu source drop.
+我们需要选择与目标内核版本相近的 macOS 构建。您可以在[此页面查看苹果最新的源代码发布](https://opensource.apple.com/)。撰写本文时，最新版本是包含内核 xnu-7195.141.2 的 macOS 11.5。Munki 下载脚本仅能识别 macOS 版本和构建号，而无法识别 XNU 版本。有时您可能下载了匹配的 macOS 版本，但构建的内核仍无法启动。其中一个常见原因是内核与引导加载程序版本不匹配。获取正确的构建可能需要反复尝试。有时正确的构建可能已不可用。撰写本文时，可用的 11.5 构建 20G71 可与 11.5 的 xnu 源代码配合使用。
 
-In the instructions below I will assume you have VMware Fusion installed on your host macOS for creating the VM disk image. This is for convenience sake as Fusion allows us to simply drag and drop in the macOS installer App we downloaded. If you want to use another tool like Qemu for this, [take note of Apples own process for creating a bootable install media](https://support.apple.com/en-us/HT201372). I had trouble generating bootable ISOs from certain macOS builds using Apples method, hence I just always let Fusion create the installation medium for me.
+以下说明假设您已在宿主机 macOS 上安装 VMware Fusion 用于创建虚拟机磁盘镜像。选择 Fusion 的原因是它允许我们直接拖放下载的 macOS 安装器应用程序。如果您想使用 Qemu 等其他工具，请参考[苹果官方创建可引导安装介质的方法](https://support.apple.com/en-us/HT201372)。在使用苹果方法生成可引导 ISO 时遇到问题的情况下，我通常会使用 Fusion 创建安装介质。
 
-Additionally the below instructions ask you to disable System Integrity Protection and Authenticated Root inside the VM. We need to do this in order to run the DIY kernel we will build in a bit. Executive Summary on these features:
-- In OS X 10.11 Apple introduced System Integrity Protection, a feature that (among other things) limits even root from writing to certain critical system directories during normal operations. We need to disable it to write our kernel to disk
-- In macOS 11 Apple introduced Authenticated Root. Starting with this version only a cryptographically signed read only snapshot of the root filesystem is mounted during boot. We need to disable it in order to remount a writable version and take a new snapshot to boot from later
+此外，以下说明要求您在虚拟机中禁用系统完整性保护（System Integrity Protection）和认证根（Authenticated Root）。我们需要禁用这些功能以运行稍后构建的自定义内核。这些功能的简要说明：
+- 在 OS X 10.11 中，苹果引入了系统完整性保护（SIP），该功能（除其他作用外）限制 root 用户在正常操作期间对某些关键系统目录的写入。我们需要禁用它以将内核写入磁盘
+- 在 macOS 11 中，苹果引入了认证根。从该版本开始，系统仅挂载经过加密签名的只读根文件系统快照。我们需要禁用它以重新挂载可写版本并创建新的可引导快照
 
-**Tl;Dr: To create the VM image:**
-- [Clone Munkis macadmin-script repo](https://github.com/munki/macadmin-scripts)
-- Run `installinstallmacos.py` and choose a version matching the last kernel source drop
-- Mount and open the downloaded `Install_macOS_<version>-<build>.dmg`
-- Open VMware Fusion and create a new VM via the File menu
-- Drag and Drop the `Install macOS <name>` App from the mounted disk image into the `Select the Installation Method` Fusion dialog
-- I suggest cranking up the VMs CPU and Memory at this point
-- After picking your language in the macOS installer open `Utilities -> Terminal`
-- Enter `csrutil disable` to disable System Integrity Protection
-- Enter `csrutil authenticated-root disable` to disable Authenticated Root
-- Quit the Terminal app via Cmd+Q
-- Follow through with the macOS installation, creating a user called `user`. If you don’t have any disk available to install to, you might need to use the Disk Utility to format the virtual disk first
-- Go to `System Preferences -> Software Update -> Advanced…` and uncheck `Check for updates`
-- Go to `System Preferences -> Energy Saver` and check `Prevent computer from sleeping automatically when the display is off`
-- Go to `System Preferences -> Sharing` and check `Remote Login` to enable sshd
-- Add your ssh pubkey to both your users and roots authorized_keys files
-- Optionally disable WindowServer and other non-essential services via launchd. Note that you will obviously loose the GUI: `sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.WindowServer.plist`
+**快速操作指南：创建虚拟机镜像**
+- [克隆 Munkis 的 macadmin-script 仓库](https://github.com/munki/macadmin-scripts)
+- 运行 `installinstallmacos.py` 并选择与最新内核源代码匹配的版本
+- 挂载下载的 `Install_macOS_<版本>-<构建号>.dmg`
+- 打开 VMware Fusion 并通过文件菜单创建新虚拟机
+- 将已挂载磁盘镜像中的 `Install macOS <名称>` 应用程序拖放至「选择安装方式」对话框
+- 建议此时提升虚拟机的 CPU 和内存配置
+- 在 macOS 安装器中选择语言后，打开「实用工具 -> 终端」
+- 输入 `csrutil disable` 禁用系统完整性保护
+- 输入 `csrutil authenticated-root disable` 禁用认证根
+- 使用 Cmd+Q 退出终端应用
+- 完成 macOS 安装，创建名为 `user` 的用户。如果无可用磁盘安装，可能需要先使用磁盘工具格式化虚拟磁盘
+- 进入「系统偏好设置 -> 软件更新 -> 高级…」取消勾选「检查更新」
+- 进入「系统偏好设置 -> 节能」勾选「防止显示器关闭时自动进入睡眠」
+- 进入「系统偏好设置 -> 共享」勾选「远程登录」以启用 sshd
+- 将 SSH 公钥添加到用户和 root 的 authorized_keys 文件
+- 可选：通过 launchd 禁用 WindowServer 等非必要服务（注意将失去 GUI）：`sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.WindowServer.plist`
 
+检查各项配置是否正确：
+![显示干净 macOS 11.5 构建 20G71 安装的截图，包含 xnu-7195.141.2~5/RELEASE_X86_64 内核、已禁用系统完整性保护和认证根](https://i.imgur.com/xYJ7XgF.png)
 
-Check that everything looks alright:
-![screenshot showing clean macos 11.5 build 20G71 installation with xnu-7195.141.2~5/RELEASE_X86_64 and disabled System Integrity Protection, as well as disabled Authenticated Root](https://i.imgur.com/xYJ7XgF.png)
+## 准备适用于模糊测试的优化内核
 
+您可能会疑惑为何不使用苹果内核开发套件（KDK）中的预编译内核。因为这些内核未启用 KSANCOV 功能标志。KSANCOV 是苹果提供的 API，允许用户空间请求内核追踪指定线程访问的内核代码，并将这些信息暴露给用户空间。Syzkaller 需要这些信息才能有效进行模糊测试。
 
-## Prepare a Kernel optimized for fuzzing
+幸运的是，[afrojer@](https://twitter.com/afrojer) 定期在其博客更新从源代码构建 XNU 并在 macOS 上安装的指南。撰写本文时，他的指南落后三个次要版本。[最新指南适用于 macOS 11.2](https://web.archive.org/web/20210524205524/https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html)。本文将介绍一些必要的额外修改。
 
-You might be wondering why we aren’t using one of the precompiled kernels available in Apples Kernel Development Kits. However those don’t include any kernel built with the KSANCOV feature flag. KSANCOV is Apples take on an API that allows userspace to request the kernel to start tracing which kernel code a given thread touched and exposing that information to userspace. This information is required by Syzkaller to be really effective at fuzzing.
+构建和测试适用于模糊测试的 XNU：
+- 从[苹果 Xcode 版本存档（需 Apple ID 登录）](https://developer.apple.com/download/all/?q=xcode)下载较新的 Xcode 至虚拟机。本文使用 Xcode 12.5（12.5.1 和 13 beta 4 存在问题）
+- 解压 `Xcode_<版本>.xip`，此过程较耗时，建议喝杯咖啡 ⏳
+- 将解压的 Xcode 应用程序拖放至虚拟机的应用程序文件夹
+- 启动 Xcode，同意许可协议并在安装完成后退出
+- 在用户主目录创建并进入 `kernel` 目录
+- 下载 afrojer@ 的 Makefile：`curl https://jeremya.com/sw/Makefile.xnudeps > Makefile.xnudeps`（注意该文件未版本化，始终原地更新）[本文撰写时的存档链接](https://web.archive.org/web/20210210224511/https://jeremya.com/sw/Makefile.xnudeps)
+- `make -f Makefile.xnudeps macos_version=11.5 xnudeps` 将获取构建 11.5 XNU 的依赖项。[参考原始博客文章获取特定版本依赖项的详细信息](https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html)
+- 进入 `~/kernel/xnu-<版本>/`
+- 手动或通过 `git am` 应用[必要的 XNU 补丁](0001-fuzzing.patch)。使用 git 应用需要先初始化仓库并提交所有文件（建议操作以便跟踪后续修改）
+    - `MakeInc.def` 和 `kasan.c` 的补丁是构建 KASAN 内核所必需的。KASAN（KernelAddressSANitizer）是用于在运行时检测内核内存安全问题的功能
+    - `ksancov.h` 的补丁是构建 syzkaller executor 所必需的。由于 executor 使用 C++，需避免 void 指针转换
+    - `cpuid.c` 和 `cpu_threads.c` 的补丁是使内核在 Qemu 上启动所必需的
 
-Luckily [afrojer@](https://twitter.com/afrojer) is releasing semi-regularly updated instructions on building XNU from source and installing it on macOS on his blog. At the time of writing he is lagging three minor source drop versions behind. The [most recent instructions are for macOS 11.2](https://web.archive.org/web/20210524205524/https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html). We’ll cover some additional required changes in this text.
-
-Building and testing a XNU useful for fuzzing:
-- Download a somewhat recent Xcode from [Apples Xcode versions archive (Apple ID login required)](https://developer.apple.com/download/all/?q=xcode) to your VM. I’m using Xcode 12.5. I had issues with 12.5.1 and 13 beta 4
-- Open the `Xcode_<version>.xip` to extract. Make a coffee ⏳
-- Drag and Drop the extracted Xcode app into your VMs Applications folder
-- Start Xcode, agree to the license and quit it after it finishes installation
-- Create and join a directory named `kernel` in the users home dir and cd into it
-- Downloading afrojer@s Makefile: `curl https://jeremya.com/sw/Makefile.xnudeps > Makefile.xnudeps` Note this file is not versioned, but always updated in place. [Here is an archive link to the version at the time of writing.](https://web.archive.org/web/20210210224511/https://jeremya.com/sw/Makefile.xnudeps)
-- `make -f Makefile.xnudeps macos_version=11.5 xnudeps` This will get the dependencies for building the 11.5 XNU. [Check out the original blog post for details on how to fetch dependencies for a specific version](https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html)
-- cd into `~/kernel/xnu-<version>/`
-- Apply [required XNU patches](0001-fuzzing.patch) manually or via `git am`. Applying via git requires you to init the repo and commit all files first. That's probably a good idea anyway to track further changes you might make
-    - The patches for `MakeInc.def` and `kasan.c` are required for the KASAN kernel to build. KASAN is short for KernelAddressSANitizer - a feature to detect a bunch of memory safety issues inside the kernel during runtime
-    - The `ksancov.h` patch is required for building syzkallers executor. Executor is C++ and hence doesn't like the void pointer casting
-    - Finally the `cpuid.c` and `cpu_threads.c` patches are required for our kernel to boot on Qemu
-
-- Run `mount` and look for the roots mount device. On my VM it looks like this `/dev/disk2s5s1 on / (apfs, sealed, local, read-only, journaled)`. Now remember the devices name, ignoring the last sN part. So I note down `/dev/disk2s5`
-- Cd into `~/kernel/xnu-<version>/` and run the following, replacing `<your_disk>` to build and install your kernel
+- 运行 `mount` 查看根挂载设备。示例输出：`/dev/disk2s5s1 on / (apfs, sealed, local, read-only, journaled)`。记录设备名（忽略最后 sN 部分），本例为 `/dev/disk2s5`
+- 进入 `~/kernel/xnu-<版本>/` 并运行以下命令（替换 `<your_disk>`）以构建和安装内核：
 
 ```
 mkdir -p BUILD/mnt
@@ -89,10 +89,9 @@ sudo bless --folder $PWD/BUILD/mnt/System/Library/CoreServices --bootefi --creat
 sudo nvram boot-args="-v kcsuffix=kasan wlan.skywalk.enable=0"
 ```
 
-After rebooting you should see your shiny new kernel when running `uname -a`: `Darwin users-Mac.local 20.6.0 Darwin Kernel Version 20.6.0: Mon Aug  9 16:12:43 PDT 2021; user:xnu-7195.141.2/BUILD/obj/KASAN_X86_64 x86_64`
+重启后运行 `uname -a` 应显示新内核：`Darwin users-Mac.local 20.6.0 Darwin Kernel Version 20.6.0: Mon Aug  9 16:12:43 PDT 2021; user:xnu-7195.141.2/BUILD/obj/KASAN_X86_64 x86_64`
 
-
-For effective fuzzing we'll need the kernels binary, symbols and source on the host. Copy them like this:
+为高效进行模糊测试，需要在宿主机准备内核二进制文件、符号表和源代码。执行以下复制操作：
 
 ```
 mkdir -p ~/115/src/Users/user/kernel/ ~/115/obj
@@ -101,15 +100,17 @@ mv ~/115/src/Users/user/kernel/xnu-7195.141.2/BUILD/obj/KASAN_X86_64/kernel.kasa
 mv ~/115/src/Users/user/kernel/xnu-7195.141.2/BUILD/obj/KASAN_X86_64/kernel.kasan.dSYM/ ~/115/obj/
 ```
 
-## Preparing VM for Qemu
 
-Even though Macs are AMD64 machines with EFIs (at least the once we care about here), they aren't exactly IBM PC compatible. So far VMWare Fusion did all the trickery necessary to virtualize macOS for us, but qemu-system-x86_64 does not.
+## 为 Qemu 准备虚拟机
 
-To make macOS boot we'll first start Qemu with OVMF (tianocore based UEFI for qemu). Next we boot OpenCore, which will do some trickery making it possible to chainload Apples stock AMD64 EFI bootloader. It also does some binary kernel patching, making it possible to load the RELEASE kernel shipped with macOS, should we want that.
+尽管 Mac 是支持 EFI 的 AMD64 设备（至少本文涉及的机型），但它们并非完全兼容 IBM PC。VMware Fusion 已为我们处理了虚拟化 macOS 的必要魔法，但 qemu-system-x86_64 则不然。
 
-OpenCore is rather configurable, but we don't care about real hardware. [I'm using this version prebuild and configured to work inside Qemu](https://github.com/thenickdude/KVM-Opencore/releases). We can simply overwrite the EFI partition on our VMs disk with the EFI partition from one of the images from this repo.
+为使 macOS 启动，我们首先使用 OVMF（基于 tianocore 的 Qemu UEFI）启动 Qemu。接着引导 OpenCore，后者将执行某些技巧使得链式加载苹果原生 AMD64 EFI 引导加载程序成为可能。它还会进行二进制内核补丁，以便在需要时加载 macOS 附带的 RELEASE 内核。
 
-Let's first find out which partition we will overwrite in a minute. From the following output from within the macOS VM (still booted via Fusion for now) we can see that in my case the EFI partition is at `/dev/disk0s1`:
+OpenCore 具有较高可配置性，但我们不关心真实硬件。[本文使用此预构建版本，已配置为在 Qemu 中工作](https://github.com/thenickdude/KVM-Opencore/releases)。我们可以直接用该仓库镜像中的 EFI 分区覆盖虚拟机的 EFI 分区。
+
+首先确定要覆盖的分区。在 macOS 虚拟机中（当前仍通过 Fusion 启动）执行以下命令，可见 EFI 分区位于 `/dev/disk0s1`：
+
 
 ```
 user@users-Mac ~ % diskutil list
@@ -131,7 +132,9 @@ user@users-Mac ~ % diskutil list
    6:              APFS Snapshot com.apple.bless.4099... 16.0 GB    disk1s5s1
 ```
 
-Now download [OpenCore-v13.iso.gz](https://github.com/thenickdude/KVM-Opencore/releases/download/v13/OpenCore-v13.iso.gz) and extract the image via `gzip -d OpenCore-v13.iso.gz`. Display the partition map to find out the images blocksize and the EFI partitions offset and size.
+
+下载 [OpenCore-v13.iso.gz](https://github.com/thenickdude/KVM-Opencore/releases/download/v13/OpenCore-v13.iso.gz) 并通过 `gzip -d OpenCore-v13.iso.gz` 解压。查看分区映射以确定镜像块大小及 EFI 分区偏移量和大小：
+
 
 
 ```
@@ -145,11 +148,12 @@ ID Type                 Offset       Size         Name                      (1)
  1 EFI                            40       307120 disk image
 ```
 
-Now put all those values together in a dd command like so: `sudo dd if=./OpenCore-v13.iso of=/dev/disk0s1 bs=512 iseek=40 count=307120`
 
-Now let's mount the EFI disk via `sudo mount -t msdos /dev/disk0s1 ~/mnt/`. We have to edit OpenCores config file a tiny bit. We disable the boot device selector, as that will prevent us from starting the VMs during fuzzing completely automatically. Additionally note how we set boot-args here. In VMware Fusion we were able to use the normal macOS tools like nvram and csrutil. In OpenCore we need to set these settings in the config.plist instead.
+组合这些值执行 dd 命令：`sudo dd if=./OpenCore-v13.iso of=/dev/disk0s1 bs=512 iseek=40 count=307120`
 
-Edit `~/mnt/EFI/OC/config.plist` like so:
+挂载 EFI 磁盘：`sudo mount -t msdos /dev/disk0s1 ~/mnt/`。需微调 OpenCore 配置文件：禁用引导设备选择器（以便全自动启动虚拟机），并在此处设置引导参数（在 OpenCore 中需通过 config.plist 设置，而非 VMware Fusion 中的 nvram 等工具）。
+
+编辑 `~/mnt/EFI/OC/config.plist`：
 
 ```diff
 index 8537ca8..a46de97 100755
@@ -176,26 +180,26 @@ index 8537ca8..a46de97 100755
 
 ```
 
-At this point you should still be able to (re)boot the VM in Fusion. It will just ignore OpenCore however. That's fine.
+此时仍可通过 Fusion 启动虚拟机，但 OpenCore 将被忽略，这属正常现象。
 
-## Prepare isa-applesmc
+## 准备 isa-applesmc
 
-On boot macOS checks whether it is booted on a proper Mac by reading a value from its System Management Controller and comparing it with the value it expects. We'll retrieve this value now and pass it to qemu later. To retrieve the value:
-- [Download the smc_read.c source from this site.](https://web.archive.org/web/20200603015401/http://www.osxbook.com/book/bonus/chapter7/tpmdrmmyth/)
-- `gcc -Wall -o smc_read smc_read.c -framework IOKit`
-`./smc_read`
+macOS 启动时会通过读取系统管理控制器（SMC）的值验证是否运行在正版 Mac 上。我们需要获取该值并在后续 Qemu 启动时传递。获取方法：
+- [从此站点下载 smc_read.c 源代码](https://web.archive.org/web/20200603015401/http://www.osxbook.com/book/bonus/chapter7/tpmdrmmyth/)
+- 编译：`gcc -Wall -o smc_read smc_read.c -framework IOKit`
+- 运行：`./smc_read`
 
-That will produce a single line of text which you will later have to substitute in for a place marked `<YOUR_APPLE_SMC_HERE>`.
+输出结果将作为 `<YOUR_APPLE_SMC_HERE>` 的替代值用于后续步骤。
 
 
-## Booting macOS via Qemu
+## 通过 Qemu 启动 macOS
 
-- Setup [Homebrew](https://brew.sh/) on your host macOS
-- Install `qemu` via homebrew
-- Your VMs disk should be somewhere like this on your host `~/Virtual\ Machines.localized/macOS-11.5-20G71.vmwarevm/Virtual\ Disk.vmdk`. Convert it to qcow2 via something like this `qemu-img convert -U ./Virtual\ Disk.vmdk -O qcow2 ~/115/mac_hdd.qcow`
-- Unfortunately OVMF is currently not packaged in Homebrew. Download the [`ovmf` package from ubuntu](https://packages.ubuntu.com/hirsute/ovmf). Extract it via `ar -xv ./ovmf_2020.11-4_all.deb` and `tar -xvf ./data.tar.xz`. Finally `mv ./usr/share/OVMF /usr/local/share/OVMF`
+- 在宿主机 macOS 上安装 [Homebrew](https://brew.sh/)
+- 在宿主机 macOS 上安装 `qemu`
+- 转换虚拟机磁盘为 qcow2 格式（宿主机的磁盘路径类似 `~/Virtual\ Machines.localized/macOS-11.5-20G71.vmwarevm/Virtual\ Disk.vmdk`）：`qemu-img convert -U ./Virtual\ Disk.vmdk -O qcow2 ~/115/mac_hdd.qcow`
+- 由于 Homebrew 未提供 OVMF，需[从 Ubuntu 下载 `ovmf` 包](https://packages.ubuntu.com/hirsute/ovmf)。解压：`ar -xv ./ovmf_2020.11-4_all.deb` 和 `tar -xvf ./data.tar.xz`，最后移动：`mv ./usr/share/OVMF /usr/local/share/OVMF`
 
-That's pretty much all you should need in order to boot the VM image we build. Start Qemu like so. Remember to substitute `<YOUR_APPLE_SMC_HERE>` and the username in the disk image path:
+启动 Qemu（替换 `<YOUR_APPLE_SMC_HERE>` 和磁盘路径中的用户名）：
 ```
 qemu-system-x86_64 \
   -device isa-applesmc,osk="<YOUR_APPLE_SMC_HERE>" \
@@ -211,36 +215,39 @@ qemu-system-x86_64 \
   -monitor stdio -vga vmware
 ```
 
-You should both see the macOS UI and be able to `ssh user@localhost -p 1042`. Confirm we are booted into your KASAN kernel:
+
+您应该既能看到 macOS 界面，也能通过 `ssh user@localhost -p 1042` 连接。确认已启动至 KASAN 内核：
+
 
 ```
 user@users-Mac ~ % uname -a
 Darwin users-Mac.local 20.6.0 Darwin Kernel Version 20.6.0: Mon Aug  9 16:12:43 PDT 2021; user:xnu-7195.141.2/BUILD/obj/KASAN_X86_64 x86_64
 ```
 
-Shut down your VM now. We'll let syzkaller boot it back up soon.
+现在关闭虚拟机。我们很快会让 syzkaller 重新启动它。
 
-## Building Syzkaller
+## 构建 Syzkaller
 
-- Install `go` via homebrew
-- Add something like this to your .zshrc:
+- 通过 homebrew 安装 `go`
+- 在 .zshrc 中添加如下内容：
 ```
 export GOPATH=/Users/user/go
 export PATH=$GOPATH/bin:$PATH
 ```
-- Relogin and build syzkaller like this:
+- 重新登录并按如下方式构建 syzkaller：
 ```
 git clone https://github.com/google/syzkaller
 cd syzkaller
 make HOSTOS=darwin HOSTARCH=amd64 TARGETOS=darwin TARGETARCH=amd64 SOURCEDIR=/Users/user/115/src/Users/user/kernel/xnu-7195.141.2
 ```
 
-## Fuzzing with Syzkaller
 
-- We need g++ to make C reproducers work. Install `gcc@11` via homebrew
-- We need addr2line from binutils to make the `/cover` endpoint work. Install `binutils` via homebrew
-- Add something like this to your .zshrc `export PATH="/usr/local/opt/binutils/bin:$PATH"`. Restart your shell
-- Save the following to `~/115/syzkaller.cfg`. Remember to substitute `<YOUR_APPLE_SMC_HERE>`:
+## 使用 Syzkaller 进行模糊测试
+
+- 需要 g++ 来支持 C 重现用例的编译。通过 homebrew 安装 `gcc@11`
+- 需要 binutils 中的 addr2line 来支持 `/cover` 端点。通过 homebrew 安装 `binutils`
+- 在 .zshrc 中添加 `export PATH="/usr/local/opt/binutils/bin:$PATH"`。重启 shell
+- 将以下内容保存为 `~/115/syzkaller.cfg`。记得替换 `<YOUR_APPLE_SMC_HERE>`：
 ```
 {
     "target": "darwin/amd64",
@@ -265,4 +272,4 @@ make HOSTOS=darwin HOSTARCH=amd64 TARGETOS=darwin TARGETARCH=amd64 SOURCEDIR=/Us
 }
 ```
 
-Start syzkaller via `~/115/bin/syz-manager -config=/root/115/syzkaller.cfg` and open http://localhost:56741 in your browser.
+通过 `~/115/bin/syz-manager -config=/root/115/syzkaller.cfg` 启动 syzkaller，并在浏览器中打开 http://localhost:56741。
