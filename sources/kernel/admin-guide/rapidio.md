@@ -1,9 +1,10 @@
 ---
-status: collected
+status: translating
 title: "RapidIO Subsystem Guide"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: Kozmosa
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/rapidio.rst
 ---
 
