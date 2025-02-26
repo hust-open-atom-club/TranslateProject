@@ -1,7 +1,7 @@
 name: 'Close stale PR'
 on:
   schedule:
-    - cron: '0 4 * * *' 
+    - cron: '0 20 * * *' 
 jobs:
   stale:
     runs-on: ubuntu-latest
