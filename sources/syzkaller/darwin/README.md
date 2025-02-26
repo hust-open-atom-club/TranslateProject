@@ -17,9 +17,9 @@ link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 
 如今，苹果主要通过 Mac App Store 分发 macOS 更新。但这只能获取最新版本。幸运的是，Munki 社区维护了一个脚本，允许我们从命令行下载指定版本的 macOS 构建。
 
-我们需要选择与目标内核版本相近的 macOS 构建。您可以在[此页面查看苹果最新的源代码发布](https://opensource.apple.com/)。撰写本文时，最新版本是包含内核 xnu-7195.141.2 的 macOS 11.5。Munki 下载脚本仅能识别 macOS 版本和构建号，而无法识别 XNU 版本。有时您可能下载了匹配的 macOS 版本，但构建的内核仍无法启动。其中一个常见原因是内核与引导加载程序版本不匹配。获取正确的构建可能需要反复尝试。有时正确的构建可能已不可用。撰写本文时，可用的 11.5 构建 20G71 可与 11.5 的 xnu 源代码配合使用。
+我们需要选择与目标内核版本相近的 macOS 构建。您可以在[此页面查看苹果最新的源代码发布](https://opensource.apple.com/)。在撰写本文时，20G71 版本的 11.5 可用，并且与 11.5 的 xnu 源代码发布兼容。Munki 下载脚本仅能识别 macOS 版本和构建号，而无法识别 XNU 版本。有时您可能下载了匹配的 macOS 版本，但构建的内核仍无法启动。其中一个常见原因是内核与引导加载程序版本不匹配。获取正确的构建可能需要反复尝试。有时正确的构建可能已不可用。撰写本文时，可用的 11.5 构建 20G71 可与 11.5 的 xnu 源代码配合使用。
 
-以下说明假设您已在宿主机 macOS 上安装 VMware Fusion 用于创建虚拟机磁盘镜像。选择 Fusion 的原因是它允许我们直接拖放下载的 macOS 安装器应用程序。如果您想使用 Qemu 等其他工具，请参考[苹果官方创建可引导安装介质的方法](https://support.apple.com/en-us/HT201372)。在使用苹果方法生成可引导 ISO 时遇到问题的情况下，我通常会使用 Fusion 创建安装介质。
+在下面的说明中，我将假定您已在主机 macOS 上安装了 VMware Fusion 以创建虚拟机磁盘映像。选择 Fusion 的原因是它允许我们直接拖放下载的 macOS 安装器应用程序。如果您想使用 Qemu 等其他工具，请参考[苹果官方创建可引导安装介质的方法](https://support.apple.com/en-us/HT201372)。在使用苹果方法生成可引导 ISO 时遇到问题的情况下，我通常会使用 Fusion 创建安装介质。
 
 此外，以下说明要求您在虚拟机中禁用系统完整性保护（System Integrity Protection）和认证根（Authenticated Root）。我们需要禁用这些功能以运行稍后构建的自定义内核。这些功能的简要说明：
 - 在 OS X 10.11 中，苹果引入了系统完整性保护（SIP），该功能（除其他作用外）限制 root 用户在正常操作期间对某些关键系统目录的写入。我们需要禁用它以将内核写入磁盘
@@ -103,7 +103,7 @@ mv ~/115/src/Users/user/kernel/xnu-7195.141.2/BUILD/obj/KASAN_X86_64/kernel.kasa
 
 ## 为 Qemu 准备虚拟机
 
-尽管 Mac 是支持 EFI 的 AMD64 设备（至少本文涉及的机型），但它们并非完全兼容 IBM PC。VMware Fusion 已为我们处理了虚拟化 macOS 的必要魔法，但 qemu-system-x86_64 则不然。
+尽管Mac电脑是带有EFI的AMD64架构机器（至少本文涉及的机型是），但它们并不是完全兼容IBM PC的。到目前为止，VMware Fusion为我们完成了虚拟化macOS所需的所有复杂操作，但qemu-system-x86_64却没有。
 
 为使 macOS 启动，我们首先使用 OVMF（基于 tianocore 的 Qemu UEFI）启动 Qemu。接着引导 OpenCore，后者将执行某些技巧使得链式加载苹果原生 AMD64 EFI 引导加载程序成为可能。它还会进行二进制内核补丁，以便在需要时加载 macOS 附带的 RELEASE 内核。
 
