@@ -1,5 +1,5 @@
 ---
-status: translating
+status: translated
 title: "Kbuild"
 author: Linux Kernel Community
 collector: tttturtle-russ
