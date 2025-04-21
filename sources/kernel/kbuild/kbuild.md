@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Kbuild"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
+translator: estelledc
+translating_date: 20250421
 priority: 10
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/kbuild.rst
 ---
