@@ -48,7 +48,7 @@ cd qemu_mode
 
 在完成上述基础配置后，可利用剩余 CPU 核心运行更多实例：
 * 继续使用 -Q 模式的 QEMU 实例。
-* 或采用静态二进制重写器（如 Dyninst/RetroWrite/ZAFL 等）。这些重写器各有优劣，其中 ZAFL 通常是综合表现最佳的选择
+* 或采用静态二进制重写工具（如 Dyninst/RetroWrite/ZAFL 等）。这些重写工具各有优劣，其中 ZAFL 通常是综合表现最佳的选择
 
 若目标程序兼容二进制重写工具，您可直接使用标准 afl-fuzz 命令——其运行速度可达 QEMU 模式的​​2倍​​（但仍低于 QEMU `persistent mode` 的速度）。
 
@@ -59,7 +59,7 @@ QEMU 模式存在约 ​​50% 的性能损耗​​，但可通过以下优化�
 - **限定插桩范围​​**：使用 `AFL_CODE_START`/`AFL_CODE_END` 环境变量仅对特定代码段进行插桩。
 
 更多使用说明及注意事项请参考[qemu_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.md)。如果可以，建议启用 `persistent mode`，详见 
-[qemu_mode/README.persistent.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.persistent.md)。需要注意的是，QEMU 模式的运行速度约为​​编译期插桩（compile-time instrumentation）的 1/5 至 1/2​​，且不利于并行化。
+[qemu_mode/README.persistent.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.persistent.md)。需要注意的是，QEMU 模式的运行速度约为​​编译时插桩（compile-time instrumentation）的 1/5 至 1/2​​，且不利于并行化。
 
 其他替代方案包括：
 - honggfuzz：[https://github.com/google/honggfuzz](https://github.com/google/honggfuzz)，现已支持 QEMU 模式，但其性能仅比原生 QEMU 提升约 ​​1.5%​​。
@@ -89,7 +89,7 @@ gmake
 更多说明和注意事项请参考：[frida_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/frida_mode/README.md).
 
 若条件允许，强烈建议您启用​​ `persistent mode`，具体配置详见
-[instrumentation/README.persistent_mode.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md)。虽然该模式速度约为编译期插桩的 1/5 至 1/2，且并行化效率较低，但对于​​二进制目标程序​​的模糊测试场景，只要可用就能带来​​显著的速度提升​​。
+[instrumentation/README.persistent_mode.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md)。虽然该模式速度约为编译时插桩的 1/5 至 1/2，且并行化效率较低，但对于​​二进制目标程序​​的模糊测试场景，只要可用就能带来​​显著的速度提升​​。
 
 FRIDA 模式还支持远程设备测试——例如针对iOS或Android设备的模糊测试，此时可借助[https://github.com/ttdennis/fpicker/](https://github.com/ttdennis/fpicker/) 作为中间层（该工具底层仍调用 AFL++ 进行模糊测试）。
 
@@ -137,7 +137,7 @@ Coresight 是 ARM 针对 Intel PT 的解决方案。从 AFL++ v3.15 开始，Cor
 更多信息请参考：
 [coresight_mode/README.md](https://github.com/AFLplusplus/AFLplusplus/blob/stable/coresight_mode/README.md).
 
-## 二进制重写器 Binary rewriters
+## 二进制重写工具 Binary rewriters
 
 作为替代方案，二进制重写工具比 AFL++ 原生方案速度更快，但兼容性存在局限。
 
@@ -179,7 +179,7 @@ Dyninst 是与 Pintool 和 DynamoRIO 类似的二进制插桩框架，其核心�
 
 项目地址：[https://github.com/lifting-bits/mcsema](https://github.com/lifting-bits/mcsema)
 
-## 二进制追踪器 Binary tracers
+## 二进制追踪工具 Binary tracers
 
 ### Pintool & DynamoRIO
 
