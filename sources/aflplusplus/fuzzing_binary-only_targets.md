@@ -42,9 +42,9 @@ cd qemu_mode
 
 推荐的 QEMU 模式配置方案如下：
 
-* 运行 1 个`afl-fuzz -Q` 实例并启用 CMPLOG（`-c 0` + `AFL_COMPCOV_LEVEL=2`）
-* 运行 1 个`afl-fuzz -Q` 实例并启用 QASAN（`AFL_USE_QASAN=1`）
-* 运行 1 个`afl-fuzz -Q` 实例并启用 LAF（`AFL_PRELOAD=libcmpcov.so` + `AFL_COMPCOV_LEVEL=2`），也可以改用 FRIDA 模式，只需把 -Q 替换为 -O，并移除 LAF 实例
+* 运行 1 个 `afl-fuzz -Q` 实例并启用 CMPLOG（`-c 0` + `AFL_COMPCOV_LEVEL=2`）
+* 运行 1 个 `afl-fuzz -Q` 实例并启用 QASAN（`AFL_USE_QASAN=1`）
+* 运行 1 个 `afl-fuzz -Q` 实例并启用 LAF（`AFL_PRELOAD=libcmpcov.so` + `AFL_COMPCOV_LEVEL=2`），也可以改用 FRIDA 模式，只需把 -Q 替换为 -O，并移除 LAF 实例
 
 在完成上述基础配置后，可利用剩余 CPU 核心运行更多实例：
 * 继续使用 -Q 模式的 QEMU 实例。
