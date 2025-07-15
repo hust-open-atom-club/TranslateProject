@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "RapidIO Subsystem Guide"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
 translator: Kozmosa
 translated_date: 20250715
+proofreader: mudongliang
+proofread_date: 20250715
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/rapidio.rst
 ---
 
@@ -17,24 +19,24 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 ## 引言
 
-RapidIO 是一种高速的交换式互联结构，其特性主要面向嵌入式市场。RapidIO 支持通过交换网络进行内存映射 I/O ，以及基于消息的事务。 RapidIO 拥有一个标准化的发现机制，与 PCI 总线标准类似，允许在网络中简单地检测设备。 
+RapidIO 是一种高速的交换式互联结构，其特性主要面向嵌入式市场。RapidIO 支持通过交换网络进行内存映射 I/O，以及基于消息的事务。 RapidIO 拥有一个标准化的发现机制，与 PCI 总线标准类似，允许在网络中简单地检测设备。 
 
-本文档为希望在新架构上支持 RapidIO 、编写新驱动程序或理解该子系统内部机制的开发人员提供。
+本文档提供给在新架构上支持 RapidIO，编写新驱动程序，或理解该子系统内部机制的开发人员。
 
 ## 已知的 Bug 和局限性
 
 ### Bugs
 
-没有。 ;)
+没有。;)
 
 ### 局限性
 
-1. 对 RapidIO 内存区域的访问/管理尚未被支持。
-2. 多主机枚举尚未被支持。
+1. 对 RapidIO 内存区域的访问/管理尚未支持。
+2. 多主机枚举尚未支持。
 
 ## RapidIO 驱动接口
 
-为了与子系统交互以收集设备信息、请求/映射内存区域资源以及管理邮箱/门铃，我们为驱动程序提供了一组调用。
+我们为驱动程序提供了一组调用与子系统进行交互，收集设备信息、请求或映射内存区域资源以及管理邮箱/门铃。
 
 ### 函数
 
