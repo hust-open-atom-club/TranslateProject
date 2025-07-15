@@ -1,0 +1,16 @@
+name: 'Close stale PR'
+on:
+  schedule:
+    - cron: '0 20 * * *' 
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9.1.0
+        with:
+          days-before-stale: -1 # only close prs
+          days-before-close: -1 # only close prs
+          days-before-pr-stale: 90 
+          days-before-pr-close: 7 
+          stale-pr-message: 'This PR is stale because it has been open 90 days with no activity. Remove the "Stale" label or add a comment, or this PR will be closed in 7 days.'
+          close-pr-message: 'This PR was closed because it was stale for 7 days with no activity.'
