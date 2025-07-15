@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Tech talks"
 author: Syzkaller Community
 collector: jxlpzqc
 translator: CAICAIIs
+proofreader: mudongliang
 collected_date: 20240314
 translated_date: 20250217
+proofread_date: 20250715
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/talks.md
 ---
