@@ -1,5 +1,5 @@
 ---
-status: collected
+status: translating
 title: "Credentials in Linux"
 author: Linux Kernel Community
 collector: tttturtle-russ
