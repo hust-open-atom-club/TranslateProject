@@ -14,8 +14,6 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 作者：David Howells \<dhowells@redhat.com\>
 
-
-
 ## 概述
 
 当一个对象对另一个对象进行操作时，Linux 会执行包含多个部分的安全检查：
@@ -85,8 +83,6 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 >     >     整个系统可能有一个或多个规则集，这些规则集适用于所有主体和对象，无论其来源如何。SELinux 和 Smack 就是这方面的例子。
 >     >
 >     >     在 SELinux 和 Smack 的情况下，每个对象都会在其凭证中获得一个标签。当请求一个操作时，它们会获取主体标签、对象标签和操作，然后查找一条规则，该规则说明此操作是被允许还是被拒绝。
-
----
 
 ## 凭证类型
 
