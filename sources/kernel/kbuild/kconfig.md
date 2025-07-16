@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Configuration targets and editors"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
 translator: mudongliang
 translated_date: 20250716
+proofreader: mudongliang
+proofread_date: 20250716
 priority: 10
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/kconfig.rst
 ---
