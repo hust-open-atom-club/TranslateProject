@@ -1,126 +1,79 @@
 ---
-status: collected
+status: proofread
 title: "Reproducible builds"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240425
+translator: mudongliang
+translated_date: 20250716
+proofreader: mudongliang
+proofread_date: 20250716
 priority: 10
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/reproducible-builds.rst
 ---
 
-# Reproducible builds
+# 可重现的构建
 
-It is generally desirable that building the same source code with the
-same set of tools is reproducible, i.e. the output is always exactly the
-same. This makes it possible to verify that the build infrastructure for
-a binary distribution or embedded system has not been subverted. This
-can also make it easier to verify that a source or tool change does not
-make any difference to the resulting binaries.
+通常希望使用相同工具集构建相同源代码是可重现的，即，输出始终完全相同。这使得能够验证二进制分发或嵌入式系统的构建基础设施未被篡改。这样也更容易验证源代码或工具的更改不会影响最终生成的二进制文件。
 
-The [Reproducible Builds project](https://reproducible-builds.org/) has
-more information about this general topic. This document covers the
-various reasons why building the kernel may be unreproducible, and how
-to avoid them.
+[可重现构建项目](https://reproducible-builds.org/)
+提供了有关该主题的更多信息。本文档涵盖了构建内核可能不可重现的各种原因，以及如何避免这些问题。
 
-## Timestamps
+## 时间戳
 
-The kernel embeds timestamps in three places:
+内核在三个地方嵌入时间戳：
 
--   The version string exposed by `uname()` and included in
-    `/proc/version`
--   File timestamps in the embedded initramfs
--   If enabled via `CONFIG_IKHEADERS`, file timestamps of kernel headers
-    embedded in the kernel or respective module, exposed via
-    `/sys/kernel/kheaders.tar.xz`
+-   通过 `uname()` 显示与包含在 `/proc/version` 中的版本字符串
+-   initramfs 中的文件时间戳
+-   如果启动 `CONFIG_IKHEADERS`，内核或相应模块中嵌入的内核头文件的时间戳， 通过 `/sys/kernel/kheaders.tar.xz` 显示
 
-By default the timestamp is the current time and in the case of
-`kheaders` the various files\' modification times. This must be
-overridden using the
-[KBUILD_BUILD_TIMESTAMP](kbuild.html#kbuild-build-timestamp) variable.
-If you are building from a git commit, you could use its commit date.
+默认情况下，时间戳为当前时间或内核头文件的修改时间。这个内容必须使用 [KBUILD_BUILD_TIMESTAMP](kbuild.html#kbuild-build-timestamp) 变量进行覆盖。如果你从某个 git 提交进行构建， 可以使用其提交日期。
 
-The kernel does *not* use the `__DATE__` and `__TIME__` macros, and
-enables warnings if they are used. If you incorporate external code that
-does use these, you must override the timestamp they correspond to by
-setting the
-[SOURCE_DATE_EPOCH](https://reproducible-builds.org/docs/source-date-epoch/)
-environment variable.
+内核 *不* 使用 `__DATE__` 和 `__TIME__` 宏，并在使用这些宏时启用警告。
+如果你合并的外部代码使用这些宏，则必须通过设置 [SOURCE_DATE_EPOCH](https://reproducible-builds.org/docs/source-date-epoch/) 环境变量来覆盖它们对应的时间戳。
 
-## User, host
+## 用户，主机
 
-The kernel embeds the building user and host names in `/proc/version`.
-These must be overridden using the [KBUILD_BUILD_USER and
-KBUILD_BUILD_HOST](kbuild.html#kbuild-build-user-kbuild-build-host)
-variables. If you are building from a git commit, you could use its
-committer address.
+内核在 `/proc/version` 中嵌入构建用户和主机名。必须使用 [KBUILD_BUILD_USER 和 KBUILD_BUILD_HOST](kbuild.html#kbuild-build-user-kbuild-build-host) 变量来覆盖这些设置。如果 您从某个 git 提交进行构建，可以使用其提交者地址。
 
-## Absolute filenames
+## 绝对文件名
 
-When the kernel is built out-of-tree, debug information may include
-absolute filenames for the source files. This must be overridden by
-including the `-fdebug-prefix-map` option in the
-[KCFLAGS](kbuild.html#kcflags) variable.
+当内核在树外构建时，调试信息可能包括源文件的绝对文件名。这些信息必须通过在 [KCFLAGS](kbuild.html#kcflags) 变量中包含 `-fdebug-prefix-map` 选项来覆盖。
 
-Depending on the compiler used, the `__FILE__` macro may also expand to
-an absolute filename in an out-of-tree build. Kbuild automatically uses
-the `-fmacro-prefix-map` option to prevent this, if it is supported.
+根据使用的编译器，`__FILE__` 宏在树外构建中也可能扩展为绝对文件名。Kbuild 自动使用 `-fmacro-prefix-map` 选项来防止这种情况，前提是它被支持。
 
-The Reproducible Builds web site has more information about these
-[prefix-map options](https://reproducible-builds.org/docs/build-path/).
+可重现构建网站提供了有关这些 [prefix-map 选项](https://reproducible-builds.org/docs/build-path/) 的更多信息。
 
-## Generated files in source packages
+## 在源包中的生成文件
 
-The build processes for some programs under the `tools/` subdirectory do
-not completely support out-of-tree builds. This may cause a later source
-package build using e.g. `make rpm-pkg` to include generated files. You
-should ensure the source tree is pristine by running `make mrproper` or
-`git clean -d -f -x` before building a source package.
+在 `tools/` 子目录下，一些程序的构建过程并不完全支持树外构建。这可能导致后续使用如 `make rpm-pkg` 构建的源码包包含生成的文件。在构建源码包之前，您应该通过运行 `make mrproper` 或 `git clean -d -f -x` 来确保源码树是干净的。
 
-## Module signing
+## 模块签名
 
-If you enable `CONFIG_MODULE_SIG_ALL`, the default behaviour is to
-generate a different temporary key for each build, resulting in the
-modules being unreproducible. However, including a signing key with your
-source would presumably defeat the purpose of signing modules.
+如果你启用 `CONFIG_MODULE_SIG_ALL`，默认行为是为每次构建生成不同的临时密钥，从而导致模块不可重现。然而，将签名密钥包含在源代码中显然会违背签名模块的目的。
 
-One approach to this is to divide up the build process so that the
-unreproducible parts can be treated as sources:
+一种方法是将构建过程分为几个部分，以便不可重现的部分可以作为源处理：
 
-1.  Generate a persistent signing key. Add the certificate for the key
-    to the kernel source.
-2.  Set the `CONFIG_SYSTEM_TRUSTED_KEYS` symbol to include the signing
-    key\'s certificate, set `CONFIG_MODULE_SIG_KEY` to an empty string,
-    and disable `CONFIG_MODULE_SIG_ALL`. Build the kernel and modules.
-3.  Create detached signatures for the modules, and publish them as
-    sources.
-4.  Perform a second build that attaches the module signatures. It can
-    either rebuild the modules or use the output of step 2.
+1.  生成一个持久的签名密钥。将该密钥的证书添加到内核源代码中。
 
-## Structure randomisation
+2.  将 `CONFIG_SYSTEM_TRUSTED_KEYS` 符号设置为包括签名密钥的证书，将 `CONFIG_MODULE_SIG_KEY` 设置为空字符串，并禁用 `CONFIG_MODULE_SIG_ALL`。最后，构建内核和模块。
 
-If you enable `CONFIG_RANDSTRUCT`, you will need to pre-generate the
-random seed in `scripts/basic/randstruct.seed` so the same value is used
-by each build. See `scripts/gen-randstruct-seed.sh` for details.
+3.  为模块创建分离的签名，并将它们作为源发布。
 
-## Debug info conflicts
+4.  附加模块签名并进行第二次构建。这可以重建模块，或使用步骤 2 的输出。
 
-This is not a problem of unreproducibility, but of generated files being
-*too* reproducible.
+## 结构随机化
 
-Once you set all the necessary variables for a reproducible build, a
-vDSO\'s debug information may be identical even for different kernel
-versions. This can result in file conflicts between debug information
-packages for the different kernel versions.
+如果你启用 `CONFIG_RANDSTRUCT`，则需要在 `scripts/basic/randstruct.seed` 中预生成随机种子，以便每次构建都使用相同的值。有关详细信息，请参见 `scripts/gen-randstruct-seed.sh`。
 
-To avoid this, you can make the vDSO different for different kernel
-versions by including an arbitrary string of \"salt\" in it. This is
-specified by the Kconfig symbol `CONFIG_BUILD_SALT`.
+## 调试信息冲突
+
+这并非是个不可重现性的问题，而是生成的文件 *过于* 可重现的问题。
+
+一旦你设置了所有必要的变量来开展可重现构建，vDSO 的调试信息可能即使对于不同的内核版本也是相同的。这会导致不同内核版本的调试信息软件包之间发生文件冲突。
+
+为了避免这种情况，你可以通过在 vDSO 中包含一个任意的 salt 字符串，使其对于不同的 内核版本是不同的。这种机制由 Kconfig 符号 `CONFIG_BUILD_SALT` 指定。
 
 ## Git
 
-Uncommitted changes or different commit ids in git can also lead to
-different compilation results. For example, after executing
-`git reset HEAD^`, even if the code is the same, the
-`include/config/kernel.release` generated during compilation will be
-different, which will eventually lead to binary differences. See
-`scripts/setlocalversion` for details.
+未提交的更改或 Git 中的不同提交 ID 也可能导致不同的编译结果。例如，在执行 `git reset HEAD^` 后，即使代码相同，编译期间生成的 `include/config/kernel.release` 也会不同，导致最终生成的二进制文件也不尽相同。 有关详细信息，请参见 `scripts/setlocalversion`。
