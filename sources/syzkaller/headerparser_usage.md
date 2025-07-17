@@ -1,37 +1,33 @@
 ---
-status: translating
+status: translated
 title: "Headerparser"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240304
 translator: Kozmosa
-translating_date: 20250717
+translated_date: 20250717
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/headerparser_usage.md
 ---
 
 # Headerparser
 
-headerparser is a tool that assists in writing device system call descriptions for syzkaller.
+headerparser 是一个为 syzkaller 编写设备系统调用描述的辅助工具。
 
-In order to make syzkaller smarter when it comes to fuzzing a device node, you can provide it with
-information about the ioctl argument struct types it expects.
+为了让 syzkaller 在对设备节点进行模糊测试时更加智能，你可以向它提供其预期的 ioctl 参数结构体类型信息。
 
-However, in certain cases the number of argument struct types might be high, increasing the amount of manual
-effort that goes into writing the description files for the struct types.
+然而，在某些情况下，参数结构体类型的数量可能很多，这增加了编写结构体类型描述文件所需的人工工作量。
 
-In order to ease the effort of writing ioctl argument type description files, headerlib does a best-effort job at
-generating them for you. You will still need to manually select the appropriate syzkaller data type from the list
-of types [here](/docs/syscall_descriptions_syntax.md).
+为了减轻编写 ioctl 参数类型描述文件的工作量，headerlib 会尽力为你生成这些文件。你仍然需要从[此处](/docs/syscall_descriptions_syntax.md)的类型列表中手动选择合适的 syzkaller 数据类型。
 
-## Dependencies
-Headerlib uses pycparser. You can install pycparser using pip.
+## 依赖项
+Headerlib 使用 pycparser。你可以使用 pip 来安装 pycparser。
 
 ```shell
 $ pip install pycparser
 ```
 
-## Using headerparser
+## 使用 Headerparser
 ```shell
 $ python headerparser.py --filenames=./test_headers/th_b.h
 B {
@@ -45,10 +41,11 @@ struct_containing_union {
 }
 ```
 
-You can copy paste the content underneath the `Structure Metadata` over to your syzkaller device description.
+你可以将 `Structure Metadata` 下方的内容复制粘贴到你的 syzkaller 设备描述中。
 
-## Something breaks
-Let us try parsing `test_headers/th_a.h` header file to generate argument structs.
+## 出现问题时
+
+让我们尝试解析 `test_headers/th_a.h` 头文件来生成参数结构体。
 
 ```shell
 $ python headerparser.py --filenames=./test_headers/th_a.h
@@ -62,7 +59,7 @@ DEBUG:HeaderFilePreprocessor:HeaderFilePreprocessor.execute: gcc -I. -E -P -c /t
 ERROR:root:HeaderFilePreprocessorException: /tmp/tmpbBQYhR/source.o:36:2: before: some_type
 ```
 
-From the error message, we can see that the error occurs as pycparser is not aware of the type `some_type`. We can resolve this by making pycparser aware of the unknown type. In order to do this, we supply headerparser with a include file that contains C declarations and includes that can fix the parse error.
+从错误信息中，我们可以看到错误的发生是因为 pycparser 无法识别 `some_type` 这个类型。我们可以通过让 pycparser 识别这个未知类型来解决此问题。为此，我们向 headerparser 提供一个包含文件，其中含有能够修复该解析错误的 C 语言声明和包含指令。
 
 ```shell
 $ cat > include_file
