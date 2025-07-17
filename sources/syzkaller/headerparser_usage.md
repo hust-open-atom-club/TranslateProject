@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Headerparser"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240304
+translator: Kozmosa
+translating_date: 20250717
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/headerparser_usage.md
 ---
