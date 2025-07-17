@@ -59,7 +59,7 @@ DEBUG:HeaderFilePreprocessor:HeaderFilePreprocessor.execute: gcc -I. -E -P -c /t
 ERROR:root:HeaderFilePreprocessorException: /tmp/tmpbBQYhR/source.o:36:2: before: some_type
 ```
 
-从错误信息中，我们可以看到错误的发生是因为 pycparser 无法识别 `some_type` 这个类型。我们可以通过让 pycparser 识别这个未知类型来解决此问题。为此，我们向 headerparser 提供一个包含文件，其中含有能够修复该解析错误的 C 语言声明和包含指令。
+我们可以从错误信息中看到错误的发生是因为 pycparser 无法识别 some_type 这个类型。我们可以通过让 pycparser 识别这个未知类型来解决此问题。为此，我们向 headerparser 提供一个包含文件，其中含有能够修复该解析错误的 C 语言声明和包含指令。
 
 ```shell
 $ cat > include_file
