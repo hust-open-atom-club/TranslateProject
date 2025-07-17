@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Reproduce a bug with syzbot's downloadable assets"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: Kozmosa
+translating_date: 20250717
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syzbot_assets.md
 ---
