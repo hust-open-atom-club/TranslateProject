@@ -1,11 +1,9 @@
 ---
-status: translating
+status: collected
 title: "Coverage"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240229
-translator: jingfelix
-translating_date: 20250208
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/coverage.md
 ---
