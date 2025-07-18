@@ -86,10 +86,14 @@ check_translating() {
   TRANSLATING_DATE=$(yq -f extract '.translating_date' $TRANSLATING_ARTICLE)
   if [ "$TRANSLATOR" == "null" ]; then
     ERROR=$ERROR"Missing metadata in translator; "
-  else
+  fi
+  if [ "$TRANSLATING_DATE" == "null" ]; then
+    ERROR=$ERROR"Missing metadata in translating_date; "
+  fi
+  if [ "$TRANSLATOR" != "null" ] && [ "$TRANSLATING_DATE" != "null" ]; then
     if [ "$STATUS" == "translating" ] || [ "$STATUS" == "translated" ]; then
       COLLECTED_DATE=$(yq -f extract '.collected_date' $TRANSLATING_ARTICLE)
-      if [ ! $TRANSLATING_DATE == "null" ] && [ $TRANSLATING_DATE -lt $COLLECTED_DATE ]; then
+      if [ $TRANSLATING_DATE -lt $COLLECTED_DATE ]; then
         ERROR=$ERROR"Translating date is earlier than collected date;"
       elif [ "$TRANSLATOR" != "$ACTOR_ID" ]; then
         ERROR=$ERROR"Translator is not the same as the PR opener; "

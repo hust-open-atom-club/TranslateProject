@@ -109,12 +109,22 @@ check_translated() {
 # and check if translator is a valid GitHub user in translating/translated stage
 check_translating() {
   TRANSLATING_ARTICLE=$1
-  TRANSLATOR=$(yq -f extract '.translator' "$TRANSLATING_ARTICLE")
+  TRANSLATOR=$(yq -f extract '.translator' $TRANSLATING_ARTICLE)
+  TRANSLATING_DATE=$(yq -f extract '.translating_date' $TRANSLATING_ARTICLE)
   if [ "$TRANSLATOR" == "null" ]; then
-    update_report "Missing metadata in translator; "
-  else
-    if [ $(check_github_user $TRANSLATOR) -eq 1 ]; then
-      update_report "Translator is not a valid GitHub user; "
+    ERROR=$ERROR"Missing metadata in translator; "
+  fi
+  if [ "$TRANSLATING_DATE" == "null" ]; then
+    ERROR=$ERROR"Missing metadata in translating_date; "
+  fi
+  if [ "$TRANSLATOR" != "null" ] && [ "$TRANSLATING_DATE" != "null" ]; then
+    if [ "$STATUS" == "translating" ] || [ "$STATUS" == "translated" ]; then
+      COLLECTED_DATE=$(yq -f extract '.collected_date' $TRANSLATING_ARTICLE)
+      if [ $TRANSLATING_DATE -lt $COLLECTED_DATE ]; then
+        ERROR=$ERROR"Translating date is earlier than collected date;"
+      elif [ "$TRANSLATOR" != "$ACTOR_ID" ]; then
+        ERROR=$ERROR"Translator is not the same as the PR opener; "
+      fi
     fi
   fi
 }
