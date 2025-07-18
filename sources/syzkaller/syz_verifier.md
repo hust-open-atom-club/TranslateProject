@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "syz-verifier"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: Kozmosa
+translating_date: 20250718
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 ---
