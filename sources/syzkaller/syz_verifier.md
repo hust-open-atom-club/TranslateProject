@@ -1,103 +1,70 @@
 ---
-status: translating
+status: translated
 title: "syz-verifier"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Kozmosa
-translating_date: 20250718
+translated_date: 20250718
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 ---
 
 # syz-verifier
 
-Many bugs are easy to detect: they might cause assertions failures, crash our
-system, or cause other forms of undefined behaviour detectable by various
-dynamic analysis tools. However, certain classes of bugs, referred to as
-*semantic bugs*, cause none of these while still resulting in a misbehaving
-faulty system.
+许多错误很容易被检测到：它们可能会导致断言失败、系统崩溃，或引发其他可被各种动态分析工具检测到的未定义行为。
+然而，有一类被称为*语义错误*的错误，它们不会导致上述任何一种情况，但仍会造成系统行为异常。
 
-To find semantic bugs, one needs to establish a specification of the system's
-*intended behaviour*. Depending on the complexity of the system, creating and
-centralising such specifications can be difficult. For example, the
-"specification" of the Linux kernel is not found in one place, but is rather a
-collection of documentation, man pages, and the implied expectations of a vast
-collection of user space programs. As such, detecting semantic bugs in the
-Linux kernel is significantly harder than other classes of bugs. Indeed, many
-test suites are meant to detect regressions, but creating and maintaining test
-cases, as well as covering new features requires significant amounts of
-engineering effort.
+要发现语义错误，需要为系统的*预期行为*建立一个规范。根据系统的复杂性，创建和集中管理这样的规范可能非常困难。
+例如，Linux 内核的“规范”并非集中在一处，而是由文档、手册页以及大量用户空间程序的隐含期望共同构成。
+因此，在 Linux 内核中检测语义错误要比检测其他类型的错误困难得多。
+许多测试套件旨在检测回归问题，但创建和维护测试用例，以及覆盖新功能都需要大量的工程投入。
 
-*Differential fuzzing* is a way to automate detection of semantic bugs by
-providing the same input to different implementations of the same systems and
-then cross-comparing the resulting behaviour to determine whether it is
-identical. In case the systems disagree, at least one of them is assumed to be
-wrong.
+*差分模糊测试*是一种自动化检测语义错误的方法，它将相同的输入提供给同一系统的不同实现，然后交叉比对由此产生的行为以确定它们是否一致。
+如果系统之间出现分歧，那么至少其中一个被认为是错误的。
 
-`syz-verifier` is a differential fuzzing tool that cross-compares the execution
-of programs on different versions of the Linux kernel to detect semantic bugs.
+`syz-verifier` 是一款差分模糊测试工具，它通过交叉比对程序在不同版本的 Linux 内核上的执行情况来检测语义错误。
 
-The architecture of `syz-verifier` is shown in the following diagram.
+`syz-verifier` 的架构如下图所示。
 
 ![Architecture overview](syz_verifier_structure.png)
 
-The `syz-verifier` process starts and manages VM instances with the kernels to
-be cross-compared. It also starts the `syz-runner` process on the VMs.
-Communication between the host and the guest is done via RPCs.
+`syz-verifier` 进程负责启动并管理带有待比对内核的虚拟机实例。它还会在这些虚拟机上启动 `syz-runner` 进程。主机和客户机之间的通信通过 RPC 完成。
 
-`syz-verifier` generates and sends a continuous stream of programs to
-`syz-runner` via RPCs while `syz-runner` is responsible for starting
-`syz-executor` processes and turning the program into input for those.
-`syz-executor` processes the input, which triggers a sequence of syscalls in
-the kernel. Then, `syz-runner` collects the results and sends them back to the
-host.
+`syz-verifier` 生成程序流并通过 RPC 持续发送给 `syz-runner`，而 `syz-runner` 负责启动 `syz-executor` 进程，并将程序转换为后者的输入。`syz-executor` 处理输入，这会在内核中触发一系列系统调用。然后，`syz-runner` 收集结果并将其发送回主机。
 
-At the moment, the results contain the errnos returned by each system call.
-When `syz-verifier` has received results from all the kernels for a specific
-program, it verifies them to ensure they are identical. If a mismatch is found,
-the program is rerun on all the kernels to ensure the mismatch is not flaky
-(i.e. it didn't occur because of some background activity or external state).
-If the mismatch occurs in all reruns, `syz-verifier` creates a report for the
-program and write it to persistent storage.
+目前，结果包含了每个系统调用返回的错误码 (errno)。当 `syz-verifier` 收到来自所有内核针对特定程序的结果后，它会验证这些结果以确保它们完全相同。如果发现不一致，该程序会在所有内核上重新运行，以确保这种不一致不是偶发性的（例如，不是由某些后台活动或外部状态引起的）。如果这种不一致在所有重试中都出现，`syz-verifier` 会为该程序创建一份报告并将其写入持久化存储。
 
-# How to use `syz-verifier`
+# 如何使用 syz-verifier
 
-After cloning the repository (see how
-[here](/docs/linux/setup.md#go-and-syzkaller)), build the tool as:
+克隆仓库后（方法见[这里](/docs/linux/setup.md#go-and-syzkaller)），按如下方式构建工具：
 
 ```
+
 make verifier runner executor
+
 ```
 
-To start using the tool, separate configuration files need to be created for
-each kernel you want to include in the verification. An example of Linux
-configs can be found [here](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#syzkaller). The configuration files
-are identical to those used by `syz-manager`.
+要开始使用该工具，需要为您想要纳入验证的每个内核创建单独的配置文件。Linux 配置的示例可以在[这里](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md#syzkaller)找到。这些配置文件与 `syz-manager` 使用的配置文件相同。
 
-If you want to generate programs from a specific set of system calls, these can
-be listed in the kernel config files using the `enable_syscalls` option. If you
-want to disable some system calls, use the `disable_syscalls` option.
+如果您想从一组特定的系统调用生成程序，可以在内核配置文件中使用 `enable_syscalls` 选项列出它们。如果您想禁用某些系统调用，请使用 `disable_syscalls` 选项。
 
-Start `syz-verifier` as:
+按如下方式启动 `syz-verifier`：
 ```
+
 ./bin/syz-verifier -configs=kernel0.cfg,kernel1.cfg
+
 ```
 
-`syz-verifier` will also gather statistics throughout execution. They will be
-printed to `stdout` by default, but an alternative file can be specified using
-the `stat` flag.
+`syz-verifier` 在执行过程中也会收集统计数据。默认情况下，它们会打印到标准输出 `stdout`，但也可以使用 `stat` 标志指定一个备用文件。
 
-# How to interpret the results
+# 如何解读结果
 
-Results can be found in `workdir/results`.
+结果可以在 `workdir/results` 目录中找到。
 
-When `syz-verifier` finds a mismatch in a program, it will create a report for
-that program. The report lists the results returned for each system call, by
-each of the cross-compared kernels, highlighting the ones were a mismatch was
-found. The system calls are listed in the order they appear in the program.
+当 `syz-verifier` 在一个程序中发现不一致时，它会为该程序创建一份报告。报告会列出每个交叉比对的内核为每个系统调用返回的结果，并高亮显示发现不一致的地方。系统调用按其在程序中出现的顺序列出。
 
-An extract of such a report is shown below:
+下面展示了一份此类报告的摘录：
 
 ```
 ERRNO mismatches found for program:
@@ -116,13 +83,11 @@ ERRNO mismatches found for program:
 ...
 ```
 
-The order of the results is given by the order in which configuration files
-were passed so `Pool: 0 ` reports results for the kernel created using
-`kernel0.cfg` and so on.
+结果的顺序由传递配置文件时的顺序决定，因此 `Pool: 0` 报告的是使用 `kernel0.cfg` 创建的内核的结果，以此类推。
 
-The [Flags](/pkg/ipc/ipc.go#L82) can be used to determine the state reached by
-the system call:
-* `0` = syscall not even started
-* `1` = syscall started
-* `3` = syscall finished executing
-* `7` = syscall blocked
+[标志](/pkg/ipc/ipc.go#L82)可用于确定系统调用达到的状态：
+* `0` = 系统调用甚至未开始
+* `1` = 系统调用已开始
+* `3` = 系统调用已执行完毕
+* `7` = 系统调用被阻塞
+```
