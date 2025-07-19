@@ -10,15 +10,15 @@ priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syzbot_assets.md
 ---
 
-## 使用 syzbot 的可下载复现 bug
+## 使用 syzbot 的可下载资源复现 bug
 
-作为每份 bug 报告的一部分，syzbot 都会分享可下载的文件——即最初发现 bug 时所使用的磁盘镜像和内核二进制文件。
+作为每份 bug 报告的一部分，syzbot 都会分享可下载的资源——即最初发现 bug 时所使用的磁盘镜像和内核二进制文件。
 
-本文档旨在指导你如何使用这些文件在本地复现此类 bug。
+本文档旨在指导你如何使用这些资源在本地复现此类 bug。
 
 ### 一份示例报告
 
-为了更具体地说明，我们来看这个 syzbot 报告：[[syzbot] [hfs?] kernel BUG in hfsplus_bnode_put](https://lore.kernel.org/all/000000000000efee7905fe4c9a46@google.com/)。
+具体来说，我们来看这个 syzbot 报告：[[syzbot] [hfs?] kernel BUG in hfsplus_bnode_put](https://lore.kernel.org/all/000000000000efee7905fe4c9a46@google.com/)。
 
 ```
 syzbot has found a reproducer for the following issue on:
@@ -39,7 +39,7 @@ kernel image: https://storage.googleapis.com/syzbot-assets/f536015eacbd/bzImage-
 mounted in repro: https://storage.googleapis.com/syzbot-assets/b5f1764cd64d/mount_0.gz
 ```
 
-这里链接了 4 个文件：
+这里有 4 个文件的链接：
 * 发现该 bug 的可启动虚拟机磁盘镜像：`https://storage.googleapis.com/syzbot-assets/073eea957569/disk-40f71e7c.raw.xz`
 * **该镜像同时适用于 GCE 和 qemu**。
 * 可用于报告符号化或基于 `gdb` 调试的 `vmlinux` 文件：`https://storage.googleapis.com/syzbot-assets/c8a97aaa4cdc/vmlinux-40f71e7c.xz`
@@ -162,11 +162,11 @@ $ ./bin/syz-crush -config config.json repro.syz
 
 另请参阅[此文档](/docs/syzbot.md#crash-does-not-reproduce)。
 
-#### 文件无法下载
+#### 资源无法下载
 
-可下载的文件不会被永久存储。Syzbot 会一直保留它们，直到 bug 被修复或标记为无效，然后再保留 30 天。
+Syzbot 的可下载资源不会被永久存储。Syzbot 会一直保留它们，直到 bug 被修复或标记为无效，然后再保留 30 天。
 
-因此，如果你无法通过邮件中的链接下载文件，这可能表明该 bug 实际上已不再值得关注。
+因此，如果你无法通过邮件中的链接下载资源，这可能表明该 bug 实际上已不再值得关注。
 
 #### Qemu 无法启动
 
