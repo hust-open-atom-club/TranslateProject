@@ -10,11 +10,11 @@ priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syzbot_assets.md
 ---
 
-## 使用 syzbot 的可下载资源复现 bug
+## 使用 syzbot 的可下载资源复现错误
 
-作为每份 bug 报告的一部分，syzbot 都会分享可下载的资源——即最初发现 bug 时所使用的磁盘镜像和内核二进制文件。
+作为每份错误报告的一部分，syzbot 都会分享可下载的资源——即最初发现错误时所使用的磁盘镜像和内核二进制文件。
 
-本文档旨在指导你如何使用这些资源在本地复现此类 bug。
+本文档旨在指导你如何使用这些资源在本地复现此类错误。
 
 ### 一份示例报告
 
@@ -100,7 +100,7 @@ $ scp -P 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o I
 $ ssh -p 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o IdentitiesOnly=yes root@127.0.0.1 './syz-execprog -enable=all -repeat=0 -procs=6 ./repro.syz'
 ```
 
-稍后，你将在虚拟机的串口输出中看到相同的 bug 报告。
+稍后，你将在虚拟机的串口输出中看到相同的错误报告。
 
 上述命令在虚拟机内部执行 `./syz-execprog -enable=all -repeat=0 -procs=6 ./repro.syz` 命令。更多详情请参阅[此文档](/docs/executing_syzkaller_programs.md)。
 
@@ -150,7 +150,7 @@ $ ./bin/syz-crush -config config.json repro.syz
 
 ### 问题
 
-#### Bug 无法复现
+#### 错误无法复现
 
 如果 `C` 复现器不起作用，请尝试运行 `syz` 复现器。
 
@@ -164,9 +164,9 @@ $ ./bin/syz-crush -config config.json repro.syz
 
 #### 资源无法下载
 
-Syzbot 的可下载资源不会被永久存储。Syzbot 会一直保留它们，直到 bug 被修复或标记为无效，然后再保留 30 天。
+Syzbot 的可下载资源不会被永久存储。Syzbot 会一直保留它们，直到错误被修复或标记为无效，然后再保留 30 天。
 
-因此，如果你无法通过邮件中的链接下载资源，这可能表明该 bug 实际上已不再值得关注。
+因此，如果你无法通过邮件中的链接下载资源，这可能表明该错误实际上已不再值得关注。
 
 #### Qemu 无法启动
 
