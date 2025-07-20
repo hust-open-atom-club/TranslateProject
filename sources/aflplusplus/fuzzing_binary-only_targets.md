@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Fuzzing binary-only targets"
 author: AFLplusplus Community
 collector: Souls-R
@@ -9,6 +9,8 @@ translator: YunLongHaoYing
 translated_date: 20241125
 proofreader: SheepFifteen
 proofread_date: 20250715
+publisher: JasonC10
+published_date: 20250719
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_binary-only_targets.md
 ---
 # 对二进制目标程序进行模糊测试
