@@ -1,27 +1,24 @@
 ---
-status: translating
+status: translated
 title: "Reproduce a bug with syzbot's downloadable assets"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Kozmosa
-translating_date: 20250717
+translated_date: 20250718
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syzbot_assets.md
 ---
 
-## Reproduce a bug with syzbot's downloadable assets
+## 使用 syzbot 的可下载资源复现错误
 
-As a part of every bug report, syzbot shares downloadable assets -- that is,
-disk images and kernel binaries on which the bug was originally found.
+作为每份错误报告的一部分，syzbot 都会分享可下载的资源——即最初发现错误时所使用的磁盘镜像和内核二进制文件。
 
-This document serves as a guide on how to use those assets to reproce such bugs
-locally.
+本文档旨在指导你如何使用这些资源在本地复现此类错误。
 
-### A sample report
+### 一份示例报告
 
-To be more specific, let's take this syzbot report: [[syzbot] [hfs?] kernel BUG
-in hfsplus_bnode_put](https://lore.kernel.org/all/000000000000efee7905fe4c9a46@google.com/).
+具体来说，我们来看这个 syzbot 报告：[[syzbot] [hfs?] kernel BUG in hfsplus_bnode_put](https://lore.kernel.org/all/000000000000efee7905fe4c9a46@google.com/)。
 
 ```
 syzbot has found a reproducer for the following issue on:
@@ -42,25 +39,27 @@ kernel image: https://storage.googleapis.com/syzbot-assets/f536015eacbd/bzImage-
 mounted in repro: https://storage.googleapis.com/syzbot-assets/b5f1764cd64d/mount_0.gz
 ```
 
-There are 4 linked assets:
-* The bootable VM disk image on which the bug was found: `https://storage.googleapis.com/syzbot-assets/073eea957569/disk-40f71e7c.raw.xz`
-  * **The image is suitable both for GCE and for qemu**.
-* The `vmlinux` file that can be used e.g. for report symbolization or for `gdb`-based debugging: `https://storage.googleapis.com/syzbot-assets/c8a97aaa4cdc/vmlinux-40f71e7c.xz`
-* The separate `bzImage` file (it is already included in the disk image): `https://storage.googleapis.com/syzbot-assets/f536015eacbd/bzImage-40f71e7c.xz`
-* The filesystem image that is mounted in the reproducer: `https://storage.googleapis.com/syzbot-assets/b5f1764cd64d/mount_0.gz`
+这里有 4 个文件的链接：
+* 发现该 bug 的可启动虚拟机磁盘镜像：`https://storage.googleapis.com/syzbot-assets/073eea957569/disk-40f71e7c.raw.xz`
+* **该镜像同时适用于 GCE 和 qemu**。
+* 可用于报告符号化或基于 `gdb` 调试的 `vmlinux` 文件：`https://storage.googleapis.com/syzbot-assets/c8a97aaa4cdc/vmlinux-40f71e7c.xz`
+* 独立的 `bzImage` 文件（它已包含在磁盘镜像中）：`https://storage.googleapis.com/syzbot-assets/f536015eacbd/bzImage-40f71e7c.xz`
+* 在复现器中挂载的文件系统镜像：`https://storage.googleapis.com/syzbot-assets/b5f1764cd64d/mount_0.gz`
 
-All these links are also reachable from the web dashboard.
+所有这些链接也可以从网页仪表板访问。
 
-#### Run a C reproducer
+#### 运行 C 复现器
 
-Boot a VM:
+启动虚拟机：
+
 ```
 $ wget 'https://storage.googleapis.com/syzbot-assets/073eea957569/disk-40f71e7c.raw.xz'
 $ unxz disk-40f71e7c.raw.xz
 $ qemu-system-x86_64 -m 2G -smp 2,sockets=2,cores=1 -drive file=./disk-40f71e7c.raw,format=raw -net nic,model=e1000 -net user,host=10.0.2.10,hostfwd=tcp::10022-:22 -enable-kvm -nographic -snapshot -machine pc-q35-7.1
 ```
 
-Build and run the C reproducer:
+构建并运行 C 复现器：
+
 ```
 $ wget -O 'repro.c' 'https://syzkaller.appspot.com/x/repro.c?x=13fd185b280000'
 $ gcc repro.c -lpthread -static -o repro
@@ -68,7 +67,7 @@ $ scp -P 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o I
 $ ssh -p 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o IdentitiesOnly=yes root@127.0.0.1 'chmod +x ./repro && ./repro'
 ```
 
-Wait a minute and notice a crash report in the qemu's serial output:
+等待一分钟，注意 qemu 串口输出中的崩溃报告：
 
 ```
 [   91.956238][   T81] ------------[ cut here ]------------
@@ -77,14 +76,13 @@ Wait a minute and notice a crash report in the qemu's serial output:
 [   91.959861][   T81] CPU: 0 PID: 81 Comm: kworker/u5:3 Not tainted 6.4.0-rc6-syzkaller-00195-g40f71e7cd3c6 #0
 ```
 
-#### Run a syz reproducer directly
 
-For some bugs, there's either no C reproducer or it's not reliable enough. In
-that case, `syz` reproducers might be useful.
+#### 直接运行 syz 复现器
 
-You'll need to [check out and build](/docs/linux/setup.md#go-and-syzkaller)
-syzkaller first. The fastest way to do it is as follows (assuming Docker is
-installed and configured on your machine):
+对于某些 bug，可能没有 C 复现器，或者 C 复现器不够可靠。在这种情况下，`syz` 复现器可能会很有用。
+
+你首先需要 [Checkout 并构建](/docs/linux/setup.md#go-and-syzkaller) syzkaller。最快的方法如下（假设你的机器上已安装并配置好 Docker）：
+
 
 ```
 $ git clone https://github.com/google/syzkaller.git
@@ -92,9 +90,9 @@ $ cd syzkaller
 $ ./tools/syz-env make
 ```
 
-Then boot a VM exactly like in the previous section.
+然后像上一节一样启动虚拟机。
 
-Download and run the syz reproducer:
+下载并运行 syz 复现器：
 
 ```
 $ wget -O 'repro.syz' 'https://syzkaller.appspot.com/x/repro.syz?x=142e7287280000'
@@ -102,24 +100,23 @@ $ scp -P 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o I
 $ ssh -p 10022 -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no -o IdentitiesOnly=yes root@127.0.0.1 './syz-execprog -enable=all -repeat=0 -procs=6 ./repro.syz'
 ```
 
-In some time, you'll see the same bug report in the VM's serial output.
+稍后，你将在虚拟机的串口输出中看到相同的错误报告。
 
-The commands above execute the `./syz-execprog -enable=all -repeat=0 -procs=6 ./repro.syz`
-command inside the VM. For more details see [this document](/docs/executing_syzkaller_programs.md).
+上述命令在虚拟机内部执行 `./syz-execprog -enable=all -repeat=0 -procs=6 ./repro.syz` 命令。更多详情请参阅[此文档](/docs/executing_syzkaller_programs.md)。
 
-#### Use the `tools/syz-crush` tool
+#### 使用 `tools/syz-crush` 工具
 
-The `syz-crush` automatizes the steps above: it sets up and boots a pool of VMs
-and runs the given `C` or `syz` reproducer in them.
+`syz-crush` 工具可以自动化上述步骤：它会设置并启动一个虚拟机池，并在其中运行给定的 `C` 或 `syz` 复现器。
 
-First, download the disk image and reproducers (see instructions above).
+首先，下载磁盘镜像和复现器（参见上述说明）。
 
-Then, go to the syzkaller checkout and build the `syz-crush` tool:
+然后，进入 syzkaller 检出目录并构建 `syz-crush` 工具：
+
 ```
 $ make crush
 ```
 
-Prepare a config file (let it be `config.json`):
+准备一个配置文件（例如 `config.json`）：
 
 ```
 {
@@ -141,46 +138,36 @@ Prepare a config file (let it be `config.json`):
 }
 ```
 
-You need to replace `/tmp/syzkaller` with the location of your syzkaller
-checkout and `/tmp/disk-40f71e7c.raw` with the location of the bootable disk
-image.
+你需要将 `/tmp/syzkaller` 替换为你的 syzkaller 检出目录的位置，并将 `/tmp/disk-40f71e7c.raw` 替换为可启动磁盘镜像的位置。
 
-Run the tool:
+运行该工具：
+
 ```
 $ mkdir workdir
 $ ./bin/syz-crush -config config.json repro.syz
 ```
 
 
-### Problems
+### 问题
 
-#### The bug doesn't reproduce
+#### 错误无法复现
 
-If the `C` reproder did not work, try to run the `syz` reproducer.
+如果 `C` 复现器不起作用，请尝试运行 `syz` 复现器。
 
-If there's still no success, it might be that relatively rare case when the
-execution environment becomes important. Syzbot fuzzes kernels on GCE VMs, which
-might have a different instruction set / execution speed than locally run qemu
-VMs. These changes might be critical for the generated reproducer.
+如果仍然不成功，这可能属于比较罕见的情况，即执行环境变得至关重要。Syzbot 在 GCE 虚拟机上对内核进行模糊测试，这些虚拟机的指令集/执行速度可能与本地运行的 qemu 虚拟机不同。这些差异对于生成的复现器可能是至关重要的。
 
-There's unfortunately no universal solution.
+不幸的是，没有通用的解决方案。
 
-Note that you can always ask syzbot to
-[apply your git patch and re-run the reproducer](/docs/syzbot.md#testing-patches).
-It will be run in the same GCE environment where the bug was originally found.
+请注意，你随时可以要求 syzbot [应用你的 git 补丁并重新运行复现器](/docs/syzbot.md#testing-patches)。它将在最初发现 bug 的相同 GCE 环境中运行。
 
-See also [this document](/docs/syzbot.md#crash-does-not-reproduce).
+另请参阅[此文档](/docs/syzbot.md#crash-does-not-reproduce)。
 
-#### Assets are not downloadable
+#### 资源无法下载
 
-The downloadable assets are not stored infinitely. Syzbot keeps them until the
-bug is fixed or marked as invalid + 30 days after that.
+Syzbot 的可下载资源不会被永久存储。Syzbot 会一直保留它们，直到错误被修复或标记为无效，然后再保留 30 天。
 
-So if you cannot download the assets using the links from the email, this might
-be a sign that the bug is actually no longer worth looking at.
+因此，如果你无法通过邮件中的链接下载资源，这可能表明该错误实际上已不再值得关注。
 
-#### Qemu doesn't boot
+#### Qemu 无法启动
 
-A [recent qemu problem](https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/)
-may prevent it from booting large kernel images. Add `-machine pc-q35-7.1` to
-the qemu args to make it work.
+一个[最近的 qemu 问题](https://lore.kernel.org/qemu-devel/da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com/)可能会阻止它启动大型内核镜像。将 `-machine pc-q35-7.1` 添加到 qemu 参数中可以解决此问题。
