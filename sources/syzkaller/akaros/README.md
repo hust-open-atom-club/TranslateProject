@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Akaros support"
 author: Syzkaller Community
 collector: jxlpzqc
-translator: CAICAIIs
 collected_date: 20240314
+translator: CAICAIIs
 translated_date: 20250218
+proofreader: mudongliang
+proofread_date: 20250720
 link: https://github.com/google/syzkaller/blob/master/docs/akaros/README.md
 ---
 
@@ -16,4 +18,3 @@ link: https://github.com/google/syzkaller/blob/master/docs/akaros/README.md
 发现的错误位于[此处](https://groups.google.com/forum/#!searchin/akaros/syzbot)、
 [此处](https://syzkaller.appspot.com/akaros)
 及[此处](https://github.com/brho/akaros/issues?q=is%3Aissue+syzkaller)。
-```
