@@ -13,7 +13,7 @@ link: https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
 
 上个月，一位著名的建筑师 Christopher Alexander 去世了。他意识到一个现象：优秀的建筑往往会被模仿，而糟糕的建筑则会被拆除。因此，他研究古老的建筑，试图找出优秀建筑共有的模式。他创造了“模式语言”（pattern language）这个术语来描述那些被模仿的优秀模式。我不知道 Christopher Alexander 是否讨论过反面模式（anti-patterns），但反面模式指的是那些本身很糟糕、却仍被人们反复模仿的想法。
 
-在内核中，存在多种错误处理风格。这些都不是我发明的，我像 Christopher Alexander 一样，只是研究那些已经存在的东西。我只是起了个名字。
+内核中存在多种错误处理风格。这些都不是我发明的，我像 Christopher Alexander 一样，只是研究那些已经存在的东西。我只是起了个名字。
 
 有一种风格叫“单一错误处理风格”（One Err Style）。这是最糟糕、最容易出错的风格。它有一个子风格，称为“单一清理函数风格”（One Cleanup Function Style）。这简直是糟糕透顶！另一种是“设备模型”（Device Model），即当你使用 `register_device()`  时的模型。大概一两年后，等我更好地理解它后，明白它在什么情况下有效、在什么情况下失效时，我会写点相关的东西。但最常见的错误处理风格是“释放最后对象风格”（Free the Last Thing Style）。人们使用这种风格是因为它最容易编写且错误最少。
 
@@ -86,7 +86,7 @@ if (not_valid(p))
 	goto p_invalid;
 ```
 
-“来源标签”是无用的，因为从 `if` 语句我们已经知道 p 无效。下一个失败路径也可能 `goto p_invalid;`，这比无用更糟糕，因为它会主动地误导。有时你会看到多个 `goto p_invalid;` 语句，然后未来的开发者删除了变量 p。那些 `goto p_invalid` 语句仍然存在，但变量 p 却消失了。这被称为 [Hyperart Thomasson](https://en.wikipedia.org/wiki/Hyperart_Thomasson) 。它是一个美丽而令人费解的历史代码遗迹。
+“来源标签”是无用的，因为从 `if` 语句我们已经知道 `p` 无效。下一个失败路径也可能 `goto p_invalid;`，这比无用更糟糕，因为它会主动地误导。有时你会看到多个 `goto p_invalid;` 语句，然后未来的开发者删除了变量 `p`。那些 `goto p_invalid` 语句仍然存在，但变量 `p` 却消失了。这被称为 [Hyperart Thomasson](https://en.wikipedia.org/wiki/Hyperart_Thomasson) 。它是一个美丽而令人费解的历史代码遗迹。
 
 一个罕见的反面模式是，人们使用 GW-Basic 风格的编号标签，如 err0, err1, err2 等。这种模式不常见，但值得一提，因为它非常滑稽。编号缺失的错误标签也是一种 Hyperart Thomasson。
 
