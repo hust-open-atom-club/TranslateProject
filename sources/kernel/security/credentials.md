@@ -1,386 +1,242 @@
 ---
-status: translating
+status: translated
 title: "Credentials in Linux"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
 translator: Kozmosa
-translating_date: 20250716
+translated_date: 20250716
 priority: 10
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/security/credentials.rst
 ---
 
-# Credentials in Linux
+# Linux 中的凭证
 
-By: David Howells \<<dhowells@redhat.com>\>
+作者：David Howells \<dhowells@redhat.com\>
 
-::: contents
+## 概述
 
-local
+当一个对象对另一个对象进行操作时，Linux 会执行包含多个部分的安全检查：
 
-:   
-:::
+> 1.  对象。
+>
+>     > 对象是系统中可以被用户空间程序直接操作的东西。Linux 有多种可操作的对象，包括：
+>
+>     -   任务
+>     -   文件/inode
+>     -   Socket
+>     -   消息队列
+>     -   共享内存段
+>     -   信号量
+>     -   密钥
+>
+>     > 作为所有这些对象描述的一部分，都有一组凭证。凭证集中的具体内容取决于对象的类型。
+>
+> 2.  对象所有权。
+>
+>     > 在大多数对象的凭证中，会有一个子集用来指示该对象的所有权。这用于资源审计和限制（例如磁盘配额和任务资源限制）。
+>     >
+>     > 例如，在一个标准的 UNIX 文件系统中，磁盘配额和任务资源限制将由 inode 上标记的 UID 定义。
+>
+> 3.  客观上下文。
+>
+>     > 同样，在这些对象的凭证中，会有一个子集用来指示该对象的“客观上下文”。这个集合可能与 (2) 中的集合相同，也可能不同——例如，在标准 UNIX 文件中，这是由 inode 上标记的 UID 和 GID 定义的。
+>     >
+>     > 当一个对象被操作时，客观上下文被用作安全计算的一部分。
+>
+> 4.  主体。
+>
+>     > 主体是正在对另一个对象进行操作的对象。
+>     >
+>     > 系统中的大多数对象都是非活动性的：它们不作用于系统内的其他对象。进程/任务是明显的例外：它们执行操作；它们访问和操纵事物。
+>     >
+>     > 在某些情况下，除了任务之外的其他对象也可能是主体。例如，一个打开的文件可以使用调用 `fcntl(F_SETOWN)` 的任务赋予它的 UID 和 EUID 向一个任务发送 SIGIO 信号。在这种情况下，文件结构体也将拥有一个主观上下文。
+>
+> 5.  主观上下文。
+>
+>     > 主体对其凭证有一个额外的解释。其凭证的一个子集构成了“主观上下文”。当主体执行操作时，主观上下文被用作安全计算的一部分。
+>     >
+>     > 例如，一个 Linux 任务在操作文件时，有 FSUID、FSGID 和附加组列表——这些与通常构成任务客观上下文的真实 UID 和 GID 是完全分开的。
+>
+> 6.  操作。
+>
+>     > Linux 有许多可用的操作，主体可以对一个对象执行这些操作。可用的操作集合取决于主体和对象的性质。
+>     >
+>     > 操作包括读取、写入、创建和删除文件；以及派生、发送信号和跟踪任务。
+>
+> 7.  规则、访问控制列表和安全计算。
+>
+>     > 当一个主体对一个对象进行操作时，会进行一次安全计算。这涉及到获取主观上下文、客观上下文和操作，并搜索一个或多个规则集，以确定在这些上下文下，主体是否被授予或拒绝以期望的方式对该对象进行操作的权限。
+>     >
+>     > 有两个主要的规则来源：
+>     >
+>     > a.  自主访问控制 (DAC):
+>     >
+>     >     有时，对象会将其描述的一部分包含规则集。这被称为“访问控制列表”或“ACL”。一个 Linux 文件可能提供不止一个 ACL。
+>     >
+>     >     例如，一个传统的 UNIX 文件包含一个权限掩码，它是一个简化的 ACL，有三个固定的主体类别（'user'、'group' 和 'other'），每个类别都可以被授予某些权限（'read'、'write' 和 'execute'——无论这些对于相关对象映射到什么）。然而，UNIX 文件权限不允许任意指定主体，因此用途有限。
+>     >
+>     >     一个 Linux 文件也可能带有一个 POSIX ACL。这是一个规则列表，它向任意主体授予各种权限。
+>     >
+>     > b.  强制访问控制 (MAC):
+>     >
+>     >     整个系统可能有一个或多个规则集，这些规则集适用于所有主体和对象，无论其来源如何。SELinux 和 Smack 就是这方面的例子。
+>     >
+>     >     在 SELinux 和 Smack 的情况下，每个对象都会在其凭证中获得一个标签。当请求一个操作时，它们会获取主体标签、对象标签和操作，然后查找一条规则，该规则说明此操作是被允许还是被拒绝。
 
-## Overview
+## 凭证类型
 
-There are several parts to the security check performed by Linux when
-one object acts upon another:
+Linux 内核支持以下类型的凭证：
 
-> 1.  Objects.
+> 1.  传统的 UNIX 凭证
 >
->     > Objects are things in the system that may be acted upon directly
->     > by userspace programs. Linux has a variety of actionable
->     > objects, including:
+>     -   真实用户 ID
+>     -   真实组 ID
 >
->     -   Tasks
->     -   Files/inodes
->     -   Sockets
->     -   Message queues
->     -   Shared memory segments
->     -   Semaphores
->     -   Keys
+>     > 大多数（如果不是全部）Linux 对象都携带 UID 和 GID，即使在某些情况下必须虚构出来（例如，源自 Windows 的 FAT 或 CIFS 文件）。这些（主要）定义了该对象的客观上下文，但在某些情况下任务略有不同。
 >
->     > As a part of the description of all these objects there is a set
->     > of credentials. What\'s in the set depends on the type of
->     > object.
+>     -   有效的、保存的和文件系统用户 ID
+>     -   有效的、保存的和文件系统组 ID
+>     -   附加组
 >
-> 2.  Object ownership.
+>     > 这些是仅由任务使用的附加凭证。通常，EUID/EGID/GROUPS 将被用作主观上下文，而真实 UID/GID 将被用作客观上下文。对于任务来说，需要注意的是，这并非总是如此。
 >
->     > Amongst the credentials of most objects, there will be a subset
->     > that indicates the ownership of that object. This is used for
->     > resource accounting and limitation (disk quotas and task rlimits
->     > for example).
+> 2.  能力
+>
+>     -   许可能力集
+>     -   可继承能力集
+>     -   有效能力集
+>     -   能力边界集
+>
+>     > 这些仅由任务携带。它们表示被零散地授予任务的、普通任务本不具备的更高权限。这些凭证会随着传统 UNIX 凭证的改变而被隐式地操纵，但也可以通过 `capset()` 系统调用直接操纵。
 >     >
->     > In a standard UNIX filesystem, for instance, this will be
->     > defined by the UID marked on the inode.
->
-> 3.  The objective context.
->
->     > Also amongst the credentials of those objects, there will be a
->     > subset that indicates the \'objective context\' of that object.
->     > This may or may not be the same set as in (2) - in standard UNIX
->     > files, for instance, this is the defined by the UID and the GID
->     > marked on the inode.
+>     > 许可能力是进程可能通过 `capset()` 授予其自身有效集或许可集的能力。可继承集也可能受到如此约束。
 >     >
->     > The objective context is used as part of the security
->     > calculation that is carried out when an object is acted upon.
->
-> 4.  Subjects.
->
->     > A subject is an object that is acting upon another object.
+>     > 有效能力是任务实际被允许使用的能力。
 >     >
->     > Most of the objects in the system are inactive: they don\'t act
->     > on other objects within the system. Processes/tasks are the
->     > obvious exception: they do stuff; they access and manipulate
->     > things.
+>     > 可继承能力是可能通过 `execve()` 传递的能力。
 >     >
->     > Objects other than tasks may under some circumstances also be
->     > subjects. For instance an open file may send SIGIO to a task
->     > using the UID and EUID given to it by a task that called
->     > `fcntl(F_SETOWN)` upon it. In this case, the file struct will
->     > have a subjective context too.
+>     > 边界集限制了可能通过 `execve()` 继承的能力，特别是在执行一个将以 UID 0 身份运行的二进制文件时。
 >
-> 5.  The subjective context.
+> 3.  安全管理标志
 >
->     > A subject has an additional interpretation of its credentials. A
->     > subset of its credentials forms the \'subjective context\'. The
->     > subjective context is used as part of the security calculation
->     > that is carried out when a subject acts.
+>     > 这些仅由任务携带。它们管理上述凭证在某些操作（如 execve()）中的操纵和继承方式。它们不直接用作客观或主观凭证。
+>
+> 4.  密钥和密钥环。
+>
+>     > 这些仅由任务携带。它们携带和缓存不适合放入其他标准 UNIX 凭证的安全令牌。它们的用途是使网络文件系统密钥等可用于进程执行的文件访问，而不需要普通程序了解所涉及的安全细节。
 >     >
->     > A Linux task, for example, has the FSUID, FSGID and the
->     > supplementary group list for when it is acting upon a file -
->     > which are quite separate from the real UID and GID that normally
->     > form the objective context of the task.
+>     > 密钥环是一种特殊类型的密钥。它们携带其他密钥的集合，可以被搜索以找到所需的密钥。每个进程可以订阅多个密钥环：
 >
-> 6.  Actions.
+>     每个线程的密钥环
+>     每个进程的密钥环
+>     每个会话的密钥环
 >
->     > Linux has a number of actions available that a subject may
->     > perform upon an object. The set of actions available depends on
->     > the nature of the subject and the object.
+>     > 当一个进程访问一个密钥时，如果它尚不存在，通常会被缓存在这些密钥环中的一个，以供未来的访问查找。
 >     >
->     > Actions include reading, writing, creating and deleting files;
->     > forking or signalling and tracing tasks.
->
-> 7.  Rules, access control lists and security calculations.
->
->     > When a subject acts upon an object, a security calculation is
->     > made. This involves taking the subjective context, the objective
->     > context and the action, and searching one or more sets of rules
->     > to see whether the subject is granted or denied permission to
->     > act in the desired manner on the object, given those contexts.
->     >
->     > There are two main sources of rules:
->     >
->     > a.  Discretionary access control (DAC):
->     >
->     > Sometimes the object will include sets of rules as part of its
->     > description. This is an \'Access Control List\' or \'ACL\'. A
->     > Linux file may supply more than one ACL.
->     >
->     > A traditional UNIX file, for example, includes a permissions
->     > mask that is an abbreviated ACL with three fixed classes of
->     > subject (\'user\', \'group\' and \'other\'), each of which may
->     > be granted certain privileges (\'read\', \'write\' and
->     > \'execute\' - whatever those map to for the object in question).
->     > UNIX file permissions do not allow the arbitrary specification
->     > of subjects, however, and so are of limited use.
->     >
->     > A Linux file might also sport a POSIX ACL. This is a list of
->     > rules that grants various permissions to arbitrary subjects.
->     >
->     > b.  Mandatory access control (MAC):
->     >
->     > The system as a whole may have one or more sets of rules that
->     > get applied to all subjects and objects, regardless of their
->     > source. SELinux and Smack are examples of this.
->     >
->     > In the case of SELinux and Smack, each object is given a label
->     > as part of its credentials. When an action is requested, they
->     > take the subject label, the object label and the action and look
->     > for a rule that says that this action is either granted or
->     > denied.
-
-## Types of Credentials
-
-The Linux kernel supports the following types of credentials:
-
-> 1.  Traditional UNIX credentials.
->
->     -   Real User ID
->     -   Real Group ID
->
->     > The UID and GID are carried by most, if not all, Linux objects,
->     > even if in some cases it has to be invented (FAT or CIFS files
->     > for example, which are derived from Windows). These (mostly)
->     > define the objective context of that object, with tasks being
->     > slightly different in some cases.
->
->     -   Effective, Saved and FS User ID
->     -   Effective, Saved and FS Group ID
->     -   Supplementary groups
->
->     > These are additional credentials used by tasks only. Usually, an
->     > EUID/EGID/GROUPS will be used as the subjective context, and
->     > real UID/GID will be used as the objective. For tasks, it should
->     > be noted that this is not always true.
->
-> 2.  Capabilities.
->
->     -   Set of permitted capabilities
->     -   Set of inheritable capabilities
->     -   Set of effective capabilities
->     -   Capability bounding set
->
->     > These are only carried by tasks. They indicate superior
->     > capabilities granted piecemeal to a task that an ordinary task
->     > wouldn\'t otherwise have. These are manipulated implicitly by
->     > changes to the traditional UNIX credentials, but can also be
->     > manipulated directly by the `capset()` system call.
->     >
->     > The permitted capabilities are those caps that the process might
->     > grant itself to its effective or permitted sets through
->     > `capset()`. This inheritable set might also be so constrained.
->     >
->     > The effective capabilities are the ones that a task is actually
->     > allowed to make use of itself.
->     >
->     > The inheritable capabilities are the ones that may get passed
->     > across `execve()`.
->     >
->     > The bounding set limits the capabilities that may be inherited
->     > across `execve()`, especially when a binary is executed that
->     > will execute as UID 0.
->
-> 3.  Secure management flags (securebits).
->
->     > These are only carried by tasks. These govern the way the above
->     > credentials are manipulated and inherited over certain
->     > operations such as execve(). They aren\'t used directly as
->     > objective or subjective credentials.
->
-> 4.  Keys and keyrings.
->
->     > These are only carried by tasks. They carry and cache security
->     > tokens that don\'t fit into the other standard UNIX credentials.
->     > They are for making such things as network filesystem keys
->     > available to the file accesses performed by processes, without
->     > the necessity of ordinary programs having to know about security
->     > details involved.
->     >
->     > Keyrings are a special type of key. They carry sets of other
->     > keys and can be searched for the desired key. Each process may
->     > subscribe to a number of keyrings:
->
->     Per-thread keying Per-process keyring Per-session keyring
->
->     > When a process accesses a key, if not already present, it will
->     > normally be cached on one of these keyrings for future accesses
->     > to find.
->     >
->     > For more information on using keys, see
->     > `Documentation/security/keys/*`.
+>     > 有关使用密钥的更多信息，请参阅 `Documentation/security/keys/*`。
 >
 > 5.  LSM
 >
->     > The Linux Security Module allows extra controls to be placed
->     > over the operations that a task may do. Currently Linux supports
->     > several LSM options.
+>     > Linux 安全模块 (LSM) 允许对任务可以执行的操作施加额外的控制。目前 Linux 支持多种 LSM 选项。
 >     >
->     > Some work by labelling the objects in a system and then applying
->     > sets of rules (policies) that say what operations a task with
->     > one label may do to an object with another label.
+>     > 有些通过给系统中的对象打上标签，然后应用规则集（策略）来工作，这些规则集说明一个带有某个标签的任务可以对另一个带有不同标签的对象执行哪些操作。
 >
 > 6.  AF_KEY
 >
->     > This is a socket-based approach to credential management for
->     > networking stacks \[RFC 2367\]. It isn\'t discussed by this
->     > document as it doesn\'t interact directly with task and file
->     > credentials; rather it keeps system level credentials.
+>     > 这是一种基于 Socket 的、用于网络栈的凭证管理方法 [RFC 2367]。本文档不讨论它，因为它不直接与任务和文件凭证交互；相反，它维护系统级别的凭证。
 
-When a file is opened, part of the opening task\'s subjective context is
-recorded in the file struct created. This allows operations using that
-file struct to use those credentials instead of the subjective context
-of the task that issued the operation. An example of this would be a
-file opened on a network filesystem where the credentials of the opened
-file should be presented to the server, regardless of who is actually
-doing a read or a write upon it.
+当一个文件被打开时，打开任务的主观上下文的一部分被记录在创建的文件结构体中。这允许使用该文件结构体的操作使用这些凭证，而不是发出该操作的任务的主观上下文。一个例子是在网络文件系统上打开的文件，其中打开文件的凭证应该被呈现给服务器，而不管实际上是谁在对其进行读或写操作。
 
-## File Markings
+## 文件标记
 
-Files on disk or obtained over the network may have annotations that
-form the objective security context of that file. Depending on the type
-of filesystem, this may include one or more of the following:
+磁盘上或通过网络获取的文件可能带有构成该文件客观安全上下文的注解。根据文件系统的类型，这可能包括以下一项或多项：
 
-> -   UNIX UID, GID, mode;
-> -   Windows user ID;
-> -   Access control list;
-> -   LSM security label;
-> -   UNIX exec privilege escalation bits (SUID/SGID);
-> -   File capabilities exec privilege escalation bits.
+> -   UNIX UID、GID、模式；
+> -   Windows 用户 ID；
+> -   访问控制列表；
+> -   LSM 安全标签；
+> -   UNIX 执行权限提升位 (SUID/SGID)；
+> -   文件能力执行权限提升位。
 
-These are compared to the task\'s subjective security context, and
-certain operations allowed or disallowed as a result. In the case of
-execve(), the privilege escalation bits come into play, and may allow
-the resulting process extra privileges, based on the annotations on the
-executable file.
+这些会与任务的主观安全上下文进行比较，结果是允许或禁止某些操作。在 `execve()` 的情况下，权限提升位会起作用，并可能根据可执行文件上的注解，授予结果进程额外的权限。
 
-## Task Credentials
+## 任务凭证
 
-In Linux, all of a task\'s credentials are held in (uid, gid) or through
-(groups, keys, LSM security) a refcounted structure of type \'struct
-cred\'. Each task points to its credentials by a pointer called \'cred\'
-in its task_struct.
+在 Linux 中，一个任务的所有凭证都保存在一个类型为 'struct cred' 的引用计数结构中，通过 (uid, gid) 或通过 (groups, keys, LSM security) 保存。每个任务通过其 task_struct 中的一个名为 'cred' 的指针指向其凭证。
 
-Once a set of credentials has been prepared and committed, it may not be
-changed, barring the following exceptions:
+一旦一组凭证被准备好并提交，它就不能被更改，但有以下例外：
 
-> 1.  its reference count may be changed;
-> 2.  the reference count on the group_info struct it points to may be
->     changed;
-> 3.  the reference count on the security data it points to may be
->     changed;
-> 4.  the reference count on any keyrings it points to may be changed;
-> 5.  any keyrings it points to may be revoked, expired or have their
->     security attributes changed; and
-> 6.  the contents of any keyrings to which it points may be changed
->     (the whole point of keyrings being a shared set of credentials,
->     modifiable by anyone with appropriate access).
+1.  它的引用计数可以被改变；
+2.  它所指向的 group_info 结构体的引用计数可以被改变；
+3.  它所指向的安全数据的引用计数可以被改变；
+4.  它所指向的任何密钥环的引用计数可以被改变；
+5.  它所指向的任何密钥环可以被撤销、过期或其安全属性可以被改变；以及
+6.  它所指向的任何密钥环的内容可以被改变（密钥环的全部意义就在于作为一组共享的凭证，可由任何有适当权限的人修改）。
 
-To alter anything in the cred struct, the copy-and-replace principle
-must be adhered to. First take a copy, then alter the copy and then use
-RCU to change the task pointer to make it point to the new copy. There
-are wrappers to aid with this (see below).
+要修改 cred 结构中的任何内容，必须遵守“复制并替换”的原则。首先进行复制，然后修改副本，然后使用 RCU 更改任务指针，使其指向新的副本。有一些辅助函数来帮助完成这个过程（见下文）。
 
-A task may only alter its \_[own]() credentials; it is no longer
-permitted for a task to alter another\'s credentials. This means the
-`capset()` system call is no longer permitted to take any PID other than
-the one of the current process. Also `keyctl_instantiate()` and
-`keyctl_negate()` functions no longer permit attachment to
-process-specific keyrings in the requesting process as the instantiating
-process may need to create them.
+一个任务只能修改它 **自己的** 凭证；不再允许一个任务修改另一个任务的凭证。这意味着 `capset()` 系统调用不再允许接受除当前进程 PID 之外的任何 PID。同样，`keyctl_instantiate()` 和 `keyctl_negate()` 函数不再允许附加到请求进程中的进程特定密钥环，因为实例化进程可能需要创建它们。
 
-### Immutable Credentials
+### 不可变凭证
 
-Once a set of credentials has been made public (by calling
-`commit_creds()` for example), it must be considered immutable, barring
-two exceptions:
+一旦一组凭证被公开（例如通过调用 `commit_creds()`），它就必须被视为不可变的，但有两个例外：
 
-> 1.  The reference count may be altered.
-> 2.  While the keyring subscriptions of a set of credentials may not be
->     changed, the keyrings subscribed to may have their contents
->     altered.
+> 1.  引用计数可以被改变。
+> 2.  虽然一组凭证的密钥环订阅不能被改变，但所订阅的密钥环的内容可以被改变。
 
-To catch accidental credential alteration at compile time, struct
-task_struct has \_[const]() pointers to its credential sets, as does
-struct file. Furthermore, certain functions such as `get_cred()` and
-`put_cred()` operate on const pointers, thus rendering casts
-unnecessary, but require to temporarily ditch the const qualification to
-be able to alter the reference count.
+为了在编译时捕获意外的凭证修改，struct task_struct 有指向其凭证集的 **`const`** 指针，struct file 也是如此。此外，某些函数如 `get_cred()` 和 `put_cred()` 操作于 const 指针，从而使得类型转换变得不必要，但需要临时放弃 const 限定符以便能够修改引用计数。
 
-### Accessing Task Credentials
+### 访问任务凭证
 
-A task being able to alter only its own credentials permits the current
-process to read or replace its own credentials without the need for any
-form of locking \-- which simplifies things greatly. It can just call:
+一个任务只能修改自己的凭证，这使得当前进程可以读取或替换自己的凭证而无需任何形式的锁定——这极大地简化了事情。它可以直接调用：
 
     const struct cred *current_cred()
 
-to get a pointer to its credentials structure, and it doesn\'t have to
-release it afterwards.
+来获取指向其凭证结构的指针，并且之后不需要释放它。
 
-There are convenience wrappers for retrieving specific aspects of a
-task\'s credentials (the value is simply returned in each case):
-
-    uid_t current_uid(void)     Current's real UID
-    gid_t current_gid(void)     Current's real GID
-    uid_t current_euid(void)    Current's effective UID
-    gid_t current_egid(void)    Current's effective GID
-    uid_t current_fsuid(void)   Current's file access UID
-    gid_t current_fsgid(void)   Current's file access GID
-    kernel_cap_t current_cap(void)  Current's effective capabilities
-    struct user_struct *current_user(void)  Current's user account
-
-There are also convenience wrappers for retrieving specific associated
-pairs of a task\'s credentials:
-
+有一些方便的包装函数用于检索任务凭证的特定方面（在每种情况下，值都会被直接返回）：
+```c
+    uid_t current_uid(void)         当前进程的真实 UID
+    gid_t current_gid(void)         当前进程的真实 GID
+    uid_t current_euid(void)        当前进程的有效 UID
+    gid_t current_egid(void)        当前进程的有效 GID
+    uid_t current_fsuid(void)       当前进程的文件访问 UID
+    gid_t current_fsgid(void)       当前进程的文件访问 GID
+    kernel_cap_t current_cap(void)  当前进程的有效能力
+    struct user_struct *current_user(void) 当前进程的用户账户
+```
+还有一些方便的包装函数用于检索任务凭证的特定关联对：
+```c
     void current_uid_gid(uid_t *, gid_t *);
     void current_euid_egid(uid_t *, gid_t *);
     void current_fsuid_fsgid(uid_t *, gid_t *);
+```
+这些函数在从当前任务的凭证中检索到值后，通过它们的参数返回这些值对。
 
-which return these pairs of values through their arguments after
-retrieving them from the current task\'s credentials.
-
-In addition, there is a function for obtaining a reference on the
-current process\'s current set of credentials:
-
+此外，还有一个函数用于获取对当前进程当前凭证集的引用：
+```c
     const struct cred *get_current_cred(void);
-
-and functions for getting references to one of the credentials that
-don\'t actually live in struct cred:
-
+```
+以及用于获取对那些实际上不在 struct cred 中但与之相关的凭证的引用的函数：
+```c
     struct user_struct *get_current_user(void);
     struct group_info *get_current_groups(void);
+```
+它们分别获取对当前进程的用户账户结构和附加组列表的引用。
 
-which get references to the current process\'s user accounting structure
-and supplementary groups list respectively.
+一旦获得引用，必须分别使用 `put_cred()`、`free_uid()` 或 `put_group_info()` 来释放它。
 
-Once a reference has been obtained, it must be released with
-`put_cred()`, `free_uid()` or `put_group_info()` as appropriate.
+### 访问另一个任务的凭证
 
-### Accessing Another Task\'s Credentials
+虽然一个任务可以无需锁定地访问自己的凭证，但对于一个想要访问另一个任务凭证的任务来说，情况并非如此。它必须使用 RCU 读锁和 `rcu_dereference()`。
 
-While a task may access its own credentials without the need for
-locking, the same is not true of a task wanting to access another
-task\'s credentials. It must use the RCU read lock and
-`rcu_dereference()`.
-
-The `rcu_dereference()` is wrapped by:
+`rcu_dereference()` 被包装在：
 
     const struct cred *__task_cred(struct task_struct *task);
 
-This should be used inside the RCU read lock, as in the following
-example:
-
+这应该在 RCU 读锁内部使用，如下例所示：
+```c
     void foo(struct task_struct *t, struct foo_data *f)
     {
         const struct cred *tcred;
@@ -393,125 +249,75 @@ example:
         rcu_read_unlock();
         ...
     }
-
-Should it be necessary to hold another task\'s credentials for a long
-period of time, and possibly to sleep while doing so, then the caller
-should get a reference on them using:
-
+```
+如果需要长时间持有另一个任务的凭证，并且可能在此期间休眠，那么调用者应该使用以下函数获取对它们的引用：
+```c
     const struct cred *get_task_cred(struct task_struct *task);
+```
+这个函数在内部处理了所有的 RCU 逻辑。调用者在完成使用后必须对获得的凭证调用 `put_cred()`。
 
-This does all the RCU magic inside of it. The caller must call
-put_cred() on the credentials so obtained when they\'re finished with.
+**注意**
 
-:::: note
-::: title
-Note
-:::
+`__task_cred()` 的结果不应直接传递给 `get_cred()`，因为这可能与 `commit_cred()` 发生竞争。
 
-The result of `__task_cred()` should not be passed directly to
-`get_cred()` as this may race with `commit_cred()`.
-::::
-
-There are a couple of convenience functions to access bits of another
-task\'s credentials, hiding the RCU magic from the caller:
-
-    uid_t task_uid(task)        Task's real UID
-    uid_t task_euid(task)       Task's effective UID
-
-If the caller is holding the RCU read lock at the time anyway, then:
-
+有几个方便的函数可以访问另一个任务凭证的某些部分，向调用者隐藏了 RCU 逻辑：
+```c
+    uid_t task_uid(task)        任务的真实 UID
+    uid_t task_euid(task)       任务的有效 UID
+```
+如果调用者当时已经持有了 RCU 读锁，那么应该使用：
+```c
     __task_cred(task)->uid
     __task_cred(task)->euid
+```
+来代替。类似地，如果需要访问一个任务凭证的多个方面，应该使用 RCU 读锁，调用 `__task_cred()`，将结果存储在一个临时指针中，然后在释放锁之前从该指针调用凭证的各个方面。这可以防止多次调用可能开销很大的 RCU 逻辑。
 
-should be used instead. Similarly, if multiple aspects of a task\'s
-credentials need to be accessed, RCU read lock should be used,
-`__task_cred()` called, the result stored in a temporary pointer and
-then the credential aspects called from that before dropping the lock.
-This prevents the potentially expensive RCU magic from being invoked
-multiple times.
-
-Should some other single aspect of another task\'s credentials need to
-be accessed, then this can be used:
-
+如果需要访问另一个任务凭证的某个其他单一非指针成员，可以使用：
+```c
     task_cred_xxx(task, member)
-
-where \'member\' is a non-pointer member of the cred struct. For
-instance:
-
+```
+这里的 'member' 是 cred 结构的一个非指针成员。例如：
+```c
     uid_t task_cred_xxx(task, suid);
+```
+将从任务中检索 'struct cred::suid'，并执行适当的 RCU 逻辑。这不能用于指针成员，因为它们指向的内容可能在 RCU 读锁被释放的那一刻就消失了。
 
-will retrieve \'struct cred::suid\' from the task, doing the appropriate
-RCU magic. This may not be used for pointer members as what they point
-to may disappear the moment the RCU read lock is dropped.
+### 修改凭证
 
-### Altering Credentials
+如前所述，一个任务只能修改自己的凭证，而不能修改其他任务的凭证。这意味着它在修改自己的凭证时不需要使用任何锁定。
 
-As previously mentioned, a task may only alter its own credentials, and
-may not alter those of another task. This means that it doesn\'t need to
-use any locking to alter its own credentials.
-
-To alter the current process\'s credentials, a function should first
-prepare a new set of credentials by calling:
-
+要修改当前进程的凭证，一个函数应该首先通过调用以下函数来准备一套新的凭证：
+```c
     struct cred *prepare_creds(void);
+```
+这个函数会锁定 `current->cred_replace_mutex`，然后分配并构造当前进程凭证的一个副本，如果成功，则在持有互斥锁的情况下返回。如果失败（内存不足），则返回 NULL。
 
-this locks current-\>cred_replace_mutex and then allocates and
-constructs a duplicate of the current process\'s credentials, returning
-with the mutex still held if successful. It returns NULL if not
-successful (out of memory).
+该互斥锁防止 `ptrace()` 在凭证构造和更改的安全检查进行时改变进程的 ptrace 状态，因为 ptrace 状态可能会改变结果，尤其是在 `execve()` 的情况下。
 
-The mutex prevents `ptrace()` from altering the ptrace state of a
-process while security checks on credentials construction and changing
-is taking place as the ptrace state may alter the outcome, particularly
-in the case of `execve()`.
+新的凭证集应被适当地修改，并完成任何安全检查和钩子调用。当前和提议的凭证集都可用于此目的，因为 `current_cred()` 在此时仍将返回当前的凭证集。
 
-The new credentials set should be altered appropriately, and any
-security checks and hooks done. Both the current and the proposed sets
-of credentials are available for this purpose as current_cred() will
-return the current set still at this point.
+在替换组列表时，新的列表必须在添加到凭证之前进行排序，因为使用了二分搜索来测试成员资格。在实践中，这意味着应该在调用 `set_groups()` 或 `set_current_groups()` 之前调用 `groups_sort()`。`groups_sort()` 不能在一个共享的 `struct group_list` 上调用，因为它可能会在排序过程中置换元素，即使数组已经排序。
 
-When replacing the group list, the new list must be sorted before it is
-added to the credential, as a binary search is used to test for
-membership. In practice, this means groups_sort() should be called
-before set_groups() or set_current_groups(). groups_sort() must not be
-called on a `struct group_list` which is shared as it may permute
-elements as part of the sorting process even if the array is already
-sorted.
-
-When the credential set is ready, it should be committed to the current
-process by calling:
-
+当凭证集准备好后，应该通过调用以下函数将其提交给当前进程：
+```c
     int commit_creds(struct cred *new);
+```
+这个函数将修改凭证和进程的各个方面，给 LSM 一个机会也这样做，然后它将使用 `rcu_assign_pointer()` 实际将新的凭证提交给 `current->cred`，它将释放 `current->cred_replace_mutex` 以允许 `ptrace()` 进行，并通知调度器和其他组件这些变化。
 
-This will alter various aspects of the credentials and the process,
-giving the LSM a chance to do likewise, then it will use
-`rcu_assign_pointer()` to actually commit the new credentials to
-`current->cred`, it will release `current->cred_replace_mutex` to allow
-`ptrace()` to take place, and it will notify the scheduler and others of
-the changes.
+这个函数保证返回 0，这样它就可以在诸如 `sys_setresuid()` 这样的函数的末尾被尾调用。
 
-This function is guaranteed to return 0, so that it can be tail-called
-at the end of such functions as `sys_setresuid()`.
+注意，这个函数会消耗调用者对新凭证的引用。调用者之后 **不应该** 对新凭证调用 `put_cred()`。
 
-Note that this function consumes the caller\'s reference to the new
-credentials. The caller should \_[not]() call `put_cred()` on the new
-credentials afterwards.
+此外，一旦这个函数被调用到一个新的凭证集上，这些凭证就 **不能** 被进一步更改。
 
-Furthermore, once this function has been called on a new set of
-credentials, those credentials may \_[not]() be changed further.
-
-Should the security checks fail or some other error occur after
-`prepare_creds()` has been called, then the following function should be
-invoked:
-
+如果在调用 `prepare_creds()` 后安全检查失败或发生其他错误，则应调用以下函数：
+```c
     void abort_creds(struct cred *new);
+```
+这个函数会释放 `prepare_creds()` 获取的 `current->cred_replace_mutex` 上的锁，然后释放新的凭证。
 
-This releases the lock on `current->cred_replace_mutex` that
-`prepare_creds()` got and then releases the new credentials.
-
-A typical credentials alteration function would look something like
-this:
-
+一个典型的凭证修改函数看起来像这样：
+```c
     int alter_suid(uid_t suid)
     {
         struct cred *new;
@@ -530,53 +336,36 @@ this:
 
         return commit_creds(new);
     }
+```
 
-### Managing Credentials
+### 管理凭证
 
-There are some functions to help manage credentials:
+有一些函数可以帮助管理凭证：
 
-> -   `void put_cred(const struct cred *cred);`
->
->     > This releases a reference to the given set of credentials. If
->     > the reference count reaches zero, the credentials will be
->     > scheduled for destruction by the RCU system.
->
-> -   `const struct cred *get_cred(const struct cred *cred);`
->
->     > This gets a reference on a live set of credentials, returning a
->     > pointer to that set of credentials.
->
-> -   `struct cred *get_new_cred(struct cred *cred);`
->
->     > This gets a reference on a set of credentials that is under
->     > construction and is thus still mutable, returning a pointer to
->     > that set of credentials.
+-   `void put_cred(const struct cred *cred);`
 
-## Open File Credentials
+    > 这个函数释放对给定凭证集的引用。如果引用计数达到零，该凭证将被 RCU 系统调度销毁。
 
-When a new file is opened, a reference is obtained on the opening
-task\'s credentials and this is attached to the file struct as `f_cred`
-in place of `f_uid` and `f_gid`. Code that used to access `file->f_uid`
-and `file->f_gid` should now access `file->f_cred->fsuid` and
-`file->f_cred->fsgid`.
+ -   `const struct cred *get_cred(const struct cred *cred);`
 
-It is safe to access `f_cred` without the use of RCU or locking because
-the pointer will not change over the lifetime of the file struct, and
-nor will the contents of the cred struct pointed to, barring the
-exceptions listed above (see the Task Credentials section).
+     > 这个函数获取对一个活动凭证集的引用，返回一个指向该凭证集的指针。
 
-To avoid \"confused deputy\" privilege escalation attacks, access
-control checks during subsequent operations on an opened file should use
-these credentials instead of \"current\"\'s credentials, as the file may
-have been passed to a more privileged process.
+ -   `struct cred *get_new_cred(struct cred *cred);`
 
-## Overriding the VFS\'s Use of Credentials
+     > 这个函数获取对一个正在构建中因此仍然是可变的凭证集的引用，返回一个指向该凭证集的指针。
 
-Under some circumstances it is desirable to override the credentials
-used by the VFS, and that can be done by calling into such as
-`vfs_mkdir()` with a different set of credentials. This is done in the
-following places:
+## 打开文件的凭证
 
-> -   `sys_faccessat()`.
-> -   `do_coredump()`.
-> -   nfs4recover.c.
+当一个新文件被打开时，会获取对打开任务凭证的一个引用，并将其附加到文件结构体中作为 `f_cred`，以替代 `f_uid` 和 `f_gid`。过去访问 `file->f_uid` 和 `file->f_gid` 的代码现在应该访问 `file->f_cred->fsuid` 和 `file->f_cred->fsgid`。
+
+访问 `f_cred` 是安全的，无需使用 RCU 或锁定，因为该指针在文件结构体的生命周期内不会改变，其指向的 cred 结构的内容也不会改变，除了上面列出的例外情况（见“任务凭证”部分）。
+
+为了避免“混淆代理人”权限提升攻击，在对一个打开的文件进行后续操作时的访问控制检查应该使用这些凭证，而不是“当前”进程的凭证，因为该文件可能已经被传递给一个更高权限的进程。
+
+## 覆盖 VFS 对凭证的使用
+
+在某些情况下，需要覆盖 VFS 使用的凭证，这可以通过使用一组不同的凭证调用诸如 `vfs_mkdir()` 之类的函数来完成。这在以下地方被使用：
+
+-   `sys_faccessat()`。
+-   `do_coredump()`。
+-   nfs4recover.c。
