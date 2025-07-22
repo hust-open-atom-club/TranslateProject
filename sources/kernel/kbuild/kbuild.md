@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Kbuild"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -9,6 +9,8 @@ translated_date: 20250421
 proofreader: mudongliang
 proofread_date: 20250715
 priority: 10
+publisher: JasonC10
+published_date: 20250722
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/kbuild.rst
 ---
 
