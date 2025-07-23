@@ -1,6 +1,6 @@
 ---
 status: proofread
-title: "How to reproduce syzkaller crashes"
+title: "How to reproduce crashes"
 author: Syzkaller Community
 collector: jxlpzqc
 translator: CAICAIIs
