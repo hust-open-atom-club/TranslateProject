@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Building Linux with Clang/LLVM"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -9,6 +9,8 @@ translated_date: 20250716
 proofreader: mudongliang
 proofread_date: 20250716
 priority: 10
+publisher: JasonC10
+published_date: 20250726
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/llvm.rst
 ---
 # 使用 Clang/LLVM 构建 Linux
