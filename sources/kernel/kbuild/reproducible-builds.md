@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Reproducible builds"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -9,6 +9,8 @@ translated_date: 20250716
 proofreader: mudongliang
 proofread_date: 20250716
 priority: 10
+publisher: JasonC10
+published_date: 20250731
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/kbuild/reproducible-builds.rst
 ---
 
