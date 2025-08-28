@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "How to set up syzkaller"
 author: Syzkaller Community
 collector: mudongliang
@@ -7,6 +7,8 @@ translator: CAICAIIs
 collected_date: 20240304
 translated_date: 20250217
 priority: 10
+proofreader: yinchunyuan
+proofread_date: 20250828
 link: https://github.com/google/syzkaller/blob/master/docs/setup.md
 ---
 
@@ -40,7 +42,7 @@ $ ./bin/syz-manager -config=my.cfg
 2017/06/14 16:40:35 executed 15504, cover 132403, crashes 0, repro 0
 ```
 
-此时需确保 syzkaller 能够收集已执行程序的代码覆盖率（除非您在配置中指定了 `"cover": false` 或您测试的内核尚未支持覆盖率收集）。网页上的 `cover` 计数器应显示非零值。
+此时重要的是需确保 syzkaller 能够收集已执行程序的代码覆盖率（除非您在配置中指定了 `"cover": false` 或您测试的内核尚未支持覆盖率收集）。网页上的 `cover` 计数器应显示非零值。
 
 配置文件格式的更多信息请参见[此处](configuration.md)。
 
