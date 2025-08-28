@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "The afl-fuzz approach"
 author: AFLplusplus Community
 collector: Souls-R
@@ -8,6 +8,8 @@ translator: Hornos3
 translated_date: 20241202
 proofreader: SheepFifteen
 proofread_date: 20250721
+publisher: Kozmosa
+published_date: 20250828
 priority: 10
 link: https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md
 ---
