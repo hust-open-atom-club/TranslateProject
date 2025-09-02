@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "Maintainer's Guide"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -7,6 +7,8 @@ translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250217
 priority: 10
+proofreader: yinchunyuan
+proofread_date: 20250902
 link: https://github.com/google/syzkaller/blob/master/docs/maintaining.md
 ---
 
@@ -37,7 +39,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/maintaining.md
 
 但不同代码的测试难度存在差异。
 以下情况更易添加测试（建议补充）：无外部依赖的抽象功能（如解析器、数据转换、计算逻辑）；已有成熟测试基础设施的代码（添加新测试仅需遵循现有模式）。
-以下情况测试难度较高（可不强制要求，但仍欢迎补充）：存在难以模拟的外部依赖（qemu、内核、镜像等）；缺乏现成测试基础设施，需先构建整套框架才能添加测试的代码。
+以下情况测试难度较高（可不强制要求，但仍欢迎补充）：存在难以模拟的外部依赖的代码（qemu、内核、镜像等）；缺乏现成测试基础设施，需先构建整套框架才能添加测试的代码。
 
 ## 善用判断力
 
