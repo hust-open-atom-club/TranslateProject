@@ -1,5 +1,5 @@
 ---
-status: translating
+status: translated
 title: "syz-testbed"
 author: Syzkaller Community
 collector: mudongliang
