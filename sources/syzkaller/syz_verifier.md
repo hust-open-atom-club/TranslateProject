@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "syz-verifier"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: Kozmosa
 translated_date: 20250718
+proofreader: yinchunyuan
+proofread_date: 20250909
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 ---
@@ -29,11 +31,11 @@ link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 
 ![Architecture overview](syz_verifier_structure.png)
 
-`syz-verifier` 进程负责启动并管理带有待比对内核的虚拟机实例。它还会在这些虚拟机上启动 `syz-runner` 进程。主机和客户机之间的通信通过 RPC 完成。
+`syz-verifier` 进程负责启动并管理带有待比对内核的虚拟机实例。它还会在这些虚拟机上启动 `syz-runner` 进程。主机和客户机之间的通信由 RPC 完成。
 
 `syz-verifier` 生成程序流并通过 RPC 持续发送给 `syz-runner`，而 `syz-runner` 负责启动 `syz-executor` 进程，并将程序转换为后者的输入。`syz-executor` 处理输入，这会在内核中触发一系列系统调用。然后，`syz-runner` 收集结果并将其发送回主机。
 
-目前，结果包含了每个系统调用返回的错误码 (errno)。当 `syz-verifier` 收到来自所有内核针对特定程序的结果后，它会验证这些结果以确保它们完全相同。如果发现不一致，该程序会在所有内核上重新运行，以确保这种不一致不是偶发性的（例如，不是由某些后台活动或外部状态引起的）。如果这种不一致在所有重试中都出现，`syz-verifier` 会为该程序创建一份报告并将其写入持久化存储。
+现在，结果包含了每个系统调用返回的错误码 (errno)。当 `syz-verifier` 收到来自所有内核针对特定程序的结果后，它会验证这些结果以确保它们完全相同。如果发现不一致，该程序会在所有内核上重新运行，以确保这种不一致不是偶发性的（例如，不是由某些后台活动或外部状态引起的）。如果这种不一致在所有重试中都出现，`syz-verifier` 会为该程序创建一份报告并将其写入持久化存储。
 
 # 如何使用 syz-verifier
 
@@ -60,7 +62,7 @@ make verifier runner executor
 
 # 如何解读结果
 
-结果可以在 `workdir/results` 目录中找到。
+可以在 `workdir/results` 目录中找到结果。
 
 当 `syz-verifier` 在一个程序中发现不一致时，它会为该程序创建一份报告。报告会列出每个交叉比对的内核为每个系统调用返回的结果，并高亮显示发现不一致的地方。系统调用按其在程序中出现的顺序列出。
 
@@ -83,7 +85,7 @@ ERRNO mismatches found for program:
 ...
 ```
 
-结果的顺序由传递配置文件时的顺序决定，因此 `Pool: 0` 报告的是使用 `kernel0.cfg` 创建的内核的结果，以此类推。
+结果的顺序由传递配置文件时的顺序决定，因此， `Pool: 0` 报告是使用 `kernel0.cfg` 创建的内核的结果，以此类推。
 
 [标志](/pkg/ipc/ipc.go#L82)可用于确定系统调用达到的状态：
 * `0` = 系统调用甚至未开始
