@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Prometheus metrics"
 author: Syzkaller Community
 collector: jxlpzqc
 translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250217
+proofreader: yinchunyuan
+proofread_date: 20250909
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/prometheus.md
 ---
