@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "FreeBSD"
 author: Syzkaller Community
 collector: jxlpzqc
 translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250219
+proofreader: yinchunyuan
+proofread_date: 20250913
 link: https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md
 ---
 
@@ -13,13 +15,11 @@ link: https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md
 
 本页面包含在 FressBSD 或 Linux 主机上设置 syzkaller 并对运行于虚拟机中的 amd64 FreeBSD 内核进行模糊测试的说明。
 
-目前，syzkaller 可对运行在 bhyve、QEMU 或 GCE（Google Compute Engine）下的 FreeBSD 进行模糊测试。无论采用何种操作模式，均需遵循一些通用步骤。
-
+目前，syzkaller 可对运行在 bhyve、QEMU 或 GCE（Google Compute Engine）下的 FreeBSD 进行模糊测试。无论采用哪种操作模式，均需遵循一些通用步骤。
 
 ## 设置主机
 
-`syz-manager` 是 syzkaller 中用于管理目标虚拟机的组件。它运行在主机系统上，自动创建、运行和销毁共享用户指定镜像文件的虚拟机。
-
+`syz-manager` 是 syzkaller 中用于管理目标虚拟机的组件。它在主机系统上运行，可以自动创建、运行和销毁共享用户指定镜像文件的虚拟机。
 
 ### 设置 FreeBSD 主机
 
@@ -227,7 +227,7 @@ executed 35803, cover 1248, crashes 0, repro 0
 
 ## 缺失功能
 
-- 系统调用描述。FreeBSD 系统调用的初始列表复制自 Linux，虽经多次清理仍需仔细审核。目前仍缺少许多系统调用描述。
+- 系统调用描述。FreeBSD 系统调用的初始列表复制自 Linux，虽经多次清理但仍需仔细审核。目前仍缺少许多系统调用描述。
 - 需支持对 Linux 兼容性子系统进行模糊测试。
 - 应提供针对 ZFS 文件系统的 FreeBSD 模糊测试指南。
 - 需完善 `pkg/host` 对支持的系统调用/设备的检测功能。
