@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang
 collected_date: 20250917
+translator: benx-guo
+translating_date: 20250917
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/rust/testing.rst
 ---
 
