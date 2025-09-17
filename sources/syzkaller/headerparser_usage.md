@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Headerparser"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: Kozmosa
 translated_date: 20250717
 proofreader: mudongliang
 proofread_date: 20250717
+publisher: Kozmosa
+published_date: 20250916
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/headerparser_usage.md
 ---
