@@ -1,61 +1,52 @@
 ---
-status: translating
+status: translated
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang
 collected_date: 20250917
 translator: benx-guo
-translating_date: 20250917
+translated_date: 20250920
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/rust/testing.rst
 ---
 
-# Testing
+# 测试
 
-This document contains useful information how to test the Rust code in
-the kernel.
+本文介绍了如何在内核中测试 Rust 代码。
 
-There are three sorts of tests:
+有三种测试类型：
 
--   The KUnit tests.
--   The `#[test]` tests.
--   The Kselftests.
+- KUnit 测试
+- `#[test]` 测试
+- Kselftests
 
-## The KUnit tests
+## KUnit 测试
 
-These are the tests that come from the examples in the Rust
-documentation. They get transformed into KUnit tests.
+这些测试来自 Rust 文档中的示例。它们会被转换为 KUnit 测试。
 
-### Usage
+### 使用
 
-These tests can be run via KUnit. For example via `kunit_tool`
-(`kunit.py`) on the command line:
+这些测试可以通过 KUnit 运行。例如，在命令行中使用 `kunit_tool`（`kunit.py`）：
 
     ./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y
 
-Alternatively, KUnit can run them as kernel built-in at boot. Refer to
-Documentation/dev-tools/kunit/index.rst for the general KUnit
-documentation and Documentation/dev-tools/kunit/architecture.rst for the
-details of kernel built-in vs. command line testing.
+或者，KUnit 也可以在内核启动时以内置方式运行。获取更多 KUnit 信息，请参阅
+[KUnit - Linux Kernel Unit Testing](https://docs.kernel.org/dev-tools/kunit/index.html "KUnit - Linux Kernel Unit Testing")。
+关于内核内置与命令行测试的详细信息，请参阅 [KUnit Architecture](https://docs.kernel.org/dev-tools/kunit/architecture.html "KUnit Architecture")。
 
-To use these KUnit doctests, the following must be enabled:
+要使用这些 KUnit 文档测试，需要在内核配置中启用以下选项：
 
     CONFIG_KUNIT
        Kernel hacking -> Kernel Testing and Coverage -> KUnit - Enable support for unit tests
     CONFIG_RUST_KERNEL_DOCTESTS
        Kernel hacking -> Rust hacking -> Doctests for the `kernel` crate
 
-in the kernel config system.
+### KUnit 测试即文档测试
 
-### KUnit tests are documentation tests
-
-These documentation tests are typically examples of usage of any item
-(e.g. function, struct, module\...).
-
-They are very convenient because they are just written alongside the
-documentation. For instance:
+文档测试（*doctests*）一般用于展示函数、结构体或模块等的使用方法。
+它们非常方便，因为它们就写在文档旁边。例如：
 
 ``` rust
-/// Sums two numbers.
+/// 求和两个数字。
 ///
 /// ```
 /// assert_eq!(mymod::f(10, 20), 30);
@@ -65,19 +56,15 @@ pub fn f(a: i32, b: i32) -> i32 {
 }
 ```
 
-In userspace, the tests are collected and run via `rustdoc`. Using the
-tool as-is would be useful already, since it allows verifying that
-examples compile (thus enforcing they are kept in sync with the code
-they document) and as well as running those that do not depend on
-in-kernel APIs.
+在用户空间中，这些测试由 `rustdoc` 负责收集并运行。单独使用这个工具已经很有价值，
+因为它可以验证示例能否成功编译（确保和代码保持同步），
+同时还可以运行那些不依赖内核 API 的示例。
 
-For the kernel, however, these tests get transformed into KUnit test
-suites. This means that doctests get compiled as Rust kernel objects,
-allowing them to run against a built kernel.
+然而，在内核中，这些测试会转换成 KUnit 测试套件。
+这意味着文档测试会被编译成 Rust 内核对象，从而可以在构建的内核环境中运行。
 
-A benefit of this KUnit integration is that Rust doctests get to reuse
-existing testing facilities. For instance, the kernel log would look
-like:
+通过与 KUnit 集成，Rust 的文档测试可以复用内核现有的测试设施。
+例如，内核日志会显示：
 
     KTAP version 1
     1..1
@@ -97,9 +84,7 @@ like:
     # Totals: pass:59 fail:0 skip:0 total:59
     ok 1 rust_doctests_kernel
 
-Tests using the
-[?](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator)
-operator are also supported as usual, e.g.:
+文档测试中，也可以正常使用运算符 [?](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator "The question mark operator") ，例如：
 
 ``` rust
 /// ```
@@ -109,49 +94,37 @@ operator are also supported as usual, e.g.:
 /// ```
 ```
 
-The tests are also compiled with Clippy under `CLIPPY=1`, just like
-normal code, thus also benefitting from extra linting.
+这些测试和普通代码一样，也可以在 `CLIPPY=1` 条件下通过 Clippy 进行编译，
+因此可以从额外的 lint 检查中获益。
 
-In order for developers to easily see which line of doctest code caused
-a failure, a KTAP diagnostic line is printed to the log. This contains
-the location (file and line) of the original test (i.e. instead of the
-location in the generated Rust file):
+为了便于开发者定位文档测试出错的具体行，日志会输出一条 KTAP 诊断信息。
+其中标明了原始测试的文件和行号（不是 `rustdoc` 生成的临时 Rust 文件位置）
 
     # rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
 
-Rust tests appear to assert using the usual `assert!` and `assert_eq!`
-macros from the Rust standard library (`core`). We provide a custom
-version that forwards the call to KUnit instead. Importantly, these
-macros do not require passing context, unlike those for KUnit testing
-(i.e. `struct kunit *`). This makes them easier to use, and readers of
-the documentation do not need to care about which testing framework is
-used. In addition, it may allow us to test third-party code more easily
-in the future.
+Rust 测试中常用的断言宏是来自 Rust 标准库（`core`）中的 `assert!` 和 `assert_eq!` 宏。
+内核提供了一个定制版本，这些宏的调用会被转发到 KUnit。
+和 KUnit 测试不同的是，这些宏不需要传递上下文参数（`struct kunit *`）。
+这使得它们更易于使用，同时文档的读者无需关心底层用的是什么测试框架。
+此外，这种方式未来也许可以让我们更容易测试第三方代码。
 
-A current limitation is that KUnit does not support assertions in other
-tasks. Thus, we presently simply print an error to the kernel log if an
-assertion actually failed. Additionally, doctests are not run for
-nonpublic functions.
+当前有一个限制：KUnit 不支持在其他任务中执行断言。
+因此，如果断言真的失败了，我们只是简单地把错误打印到内核日志里。
+另外，文档测试不适用于非公开的函数。
 
-Since these tests are examples, i.e. they are part of the documentation,
-they should generally be written like \"real code\". Thus, for example,
-instead of using `unwrap()` or `expect()`, use the `?` operator. For
-more background, please see:
+作为文档中的测试示例，应当像 “实际代码” 一样编写。
+例如：不要使用 `unwrap()` 或 `expect()`，请使用 [?](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator "The question mark operator") 运算符。
+更多背景信息，请参阅：
 
 > <https://rust.docs.kernel.org/kernel/error/type.Result.html#error-codes-in-c-and-rust>
 
-## The `#[test]` tests
+## `#[test]` 测试
 
-Additionally, there are the `#[test]` tests. Like for documentation
-tests, these are also fairly similar to what you would expect from
-userspace, and they are also mapped to KUnit.
+此外，还有 `#[test]` 测试。与文档测试类似，这些测试与用户空间中的测试方式也非常相近，并且同样会映射到 KUnit。
 
-These tests are introduced by the `kunit_tests` procedural macro, which
-takes the name of the test suite as an argument.
+这些测试通过 `kunit_tests` 过程宏引入，该宏将测试套件的名称作为参数。
 
-For instance, assume we want to test the function `f` from the
-documentation tests section. We could write, in the same file where we
-have our function:
+例如，假设想要测试前面文档测试示例中的函数 `f`，就可以在定义该函数的同一文件中编写：
 
 ``` rust
 #[kunit_tests(rust_kernel_mymod)]
@@ -165,7 +138,7 @@ mod tests {
 }
 ```
 
-And if we run it, the kernel log would look like:
+如何我们执行这段代码，内核日志会显示：
 
     KTAP version 1
     # Subtest: rust_kernel_mymod
@@ -175,12 +148,9 @@ And if we run it, the kernel log would look like:
     ok 1 test_f
     ok 1 rust_kernel_mymod
 
-Like documentation tests, the `assert!` and `assert_eq!` macros are
-mapped back to KUnit and do not panic. Similarly, the
-[?](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator)
-operator is supported, i.e. the test functions may return either nothing
-(i.e. the unit type `()`) or `Result` (i.e. any `Result<T, E>`). For
-instance:
+与文档测试类似，`assert!` 和 `assert_eq!` 宏被映射回 KUnit 并且不会发生 panic。
+同样，支持 [?](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator "The question mark operator") 运算符，
+测试函数可以什么都不返回（单元类型 `()`）或 `Result`（任何 `Result<T, E>`）。例如：
 
 ``` rust
 #[kunit_tests(rust_kernel_mymod)]
@@ -196,8 +166,7 @@ mod tests {
 }
 ```
 
-If we run the test and the call to `g` fails, then the kernel log would
-show:
+如果我们运行测试并且调用 `g` 失败，那么内核日志会显示：
 
     KTAP version 1
     # Subtest: rust_kernel_mymod
@@ -209,41 +178,32 @@ show:
     not ok 1 test_g
     not ok 1 rust_kernel_mymod
 
-If a `#[test]` test could be useful as an example for the user, then
-please use a documentation test instead. Even edge cases of an API, e.g.
-error or boundary cases, can be interesting to show in examples.
+如果 `#[test]` 测试可以对用户起到示例作用，那就应该改用文档测试。
+即使是 API 的边界情况，例如错误或边界问题，放在示例中展示也同样有价值。
 
-## The `rusttest` host tests
+## `rusttest` 宿主机测试
 
-These are userspace tests that can be built and run in the host (i.e.
-the one that performs the kernel build) using the `rusttest` Make
-target:
+这类测试运行在用户空间，可以通过 `rusttest` Make 目标在构建内核的宿主机中编译并运行：
 
     make LLVM=1 rusttest
 
-This requires the kernel `.config`.
+这需要内核 `.config`。
 
-Currently, they are mostly used for testing the `macros` crate\'s
-examples.
+目前，它们主要用于测试 `macros` crate 的示例。
 
-## The Kselftests
+## Kselftests
 
-Kselftests are also available in the `tools/testing/selftests/rust`
-folder.
+Kselftests 可以在 `tools/testing/selftests/rust` 文件夹中找到。
 
-The kernel config options required for the tests are listed in the
-`tools/testing/selftests/rust/config` file and can be included with the
-aid of the `merge_config.sh` script:
+测试所需的内核配置选项列在 `tools/testing/selftests/rust/config` 文件中，
+可以借助 `merge_config.sh` 脚本合并到现有配置中：
 
     ./scripts/kconfig/merge_config.sh .config tools/testing/selftests/rust/config
 
-The kselftests are built within the kernel source tree and are intended
-to be executed on a system that is running the same kernel.
+kselftests 会在内核源码树中构建，以便在运行相同版本内核的系统上执行测试。
 
-Once a kernel matching the source tree has been installed and booted,
-the tests can be compiled and executed using the following command:
+一旦安装并启动了与源码树匹配的内核，测试即可通过以下命令编译并执行：
 
     make TARGETS="rust" kselftest
 
-Refer to Documentation/dev-tools/kselftest.rst for the general Kselftest
-documentation.
+请参阅 [Linux Kernel Selftests](https://docs.kernel.org/dev-tools/kselftest.html "Linux Kernel Selftests") 文档以获取更多信息。
