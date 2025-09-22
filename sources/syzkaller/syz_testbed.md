@@ -1,18 +1,20 @@
 ---
-status: translated
+status: proofread
 title: "syz-testbed"
 author: Syzkaller Community
 collector: mudongliang
 collected_date: 20240304
 translator: Kozmosa
 translated_date: 20250903
+proofreader: yinchunyuan
+proofread_date: 20250919
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_testbed.md
 ---
 
 # syz-testbed
 
-syz-testbed 是一个工具，用于简化对不同 syzkaller 版本（或配置）进行性能对比评估的流程。该工具会自动检出 syzkaller 仓库、构建它们、运行 syz-manager，并收集/汇总其结果。
+syz-testbed 是一个用于简化对不同 syzkaller 版本（或配置）进行性能对比评估的流程的工具。该工具会自动检出 syzkaller 仓库、构建它们、运行 syz-manager，并收集/汇总其结果。
 
 ## 配置 syz-testbed
 
@@ -149,7 +151,7 @@ $ cd syzkaller/tools/syz-testbed/
 $ go build
 ```
 
-编写并保存配置文件（例如保存为 `config.json`）。随后，可以使用以下命令运行 syz-testbed：
+编写并保存配置文件（例如保存到 `config.json`文件中）。随后，可以使用以下命令运行 syz-testbed：
 
 ```bash
 $ ./syz-testbed -config config.json
@@ -161,7 +163,7 @@ $ ./syz-testbed -config config.json
 
 syz-testbed 也可用于测试 syzkaller 的 bug 复现能力。为此，请在 syz-testbed 的配置文件中将 `target` 属性设置为 `syz-repro`。
 
-还可以指定崩溃日志文件的来源。来源要么是一个目录（其中的文件将按崩溃日志处理），要么是一个 syzkaller 的 workdir。`input_logs` 必须指向崩溃日志所在的文件夹——syz-testbed 会遍历该目录并将其中的每个文件作为输入；否则应使用 `input_workdir`。
+还可以指定崩溃日志文件的来源。来源要么是一个文件夹（其中的文件将按崩溃日志处理），要么是一个 syzkaller 的 workdir。`input_logs` 必须指向崩溃日志所在的文件夹——syz-testbed 会遍历该目录并将其中的每个文件作为输入；否则必须使用 `input_workdir`。
 
 例如：
 ```json
@@ -172,6 +174,6 @@ syz-testbed 也可用于测试 syzkaller 的 bug 复现能力。为此，请在 
   },
 ```
 
-在这种情况下，syz-testbed 会遍历该 syzkaller 发现的所有 bug，跳过匹配 "SYZFAIL"、"no output"、"corrupted" 或 "lost connection" 的条目，然后为每个剩余的 bug 随机选取 2 份崩溃日志进行处理。
+在这种情况下，syz-testbed 会遍历该 syzkaller 发现的所有 bug，跳过匹配 "SYZFAIL"、"no output"、"corrupted" 或 "lost connection" 的条目，然后为每个剩余的 bug 随机选取 2 份崩溃日志进行后续处理。
 
 syz-testbed 会检出并编译指定的 syzkaller 实例，并在选取的每份崩溃日志上持续执行其 syz-repro，直到工具被停止。
