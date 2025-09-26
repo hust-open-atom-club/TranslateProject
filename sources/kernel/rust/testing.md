@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang
 collected_date: 20250917
 translator: benx-guo
 translated_date: 20250920
+proofreader: mudongliang
+proofread_date: 20250926
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/rust/testing.rst
 ---
 
@@ -97,7 +99,7 @@ pub fn f(a: i32, b: i32) -> i32 {
 这些测试和普通代码一样，也可以在 `CLIPPY=1` 条件下通过 Clippy 进行编译，
 因此可以从额外的 lint 检查中获益。
 
-为了便于开发者定位文档测试出错的具体行，日志会输出一条 KTAP 诊断信息。
+为了便于开发者定位文档测试出错的具体行号，日志会输出一条 KTAP 诊断信息。
 其中标明了原始测试的文件和行号（不是 `rustdoc` 生成的临时 Rust 文件位置）
 
     # rust_doctest_kernel_types_rs_2.location: rust/kernel/types.rs:150
@@ -124,7 +126,7 @@ Rust 测试中常用的断言宏是来自 Rust 标准库（`core`）中的 `asse
 
 这些测试通过 `kunit_tests` 过程宏引入，该宏将测试套件的名称作为参数。
 
-例如，假设想要测试前面文档测试示例中的函数 `f`，就可以在定义该函数的同一文件中编写：
+例如，假设想要测试前面文档测试示例中的函数 `f`，我们可以在定义该函数的同一文件中编写：
 
 ``` rust
 #[kunit_tests(rust_kernel_mymod)]
@@ -138,7 +140,7 @@ mod tests {
 }
 ```
 
-如何我们执行这段代码，内核日志会显示：
+如果我们执行这段代码，内核日志会显示：
 
     KTAP version 1
     # Subtest: rust_kernel_mymod
@@ -183,11 +185,11 @@ mod tests {
 
 ## `rusttest` 宿主机测试
 
-这类测试运行在用户空间，可以通过 `rusttest` Make 目标在构建内核的宿主机中编译并运行：
+这类测试运行在用户空间，可以通过 `rusttest` 目标在构建内核的宿主机中编译并运行：
 
     make LLVM=1 rusttest
 
-这需要内核 `.config`。
+当前操作需要内核 `.config`。
 
 目前，它们主要用于测试 `macros` crate 的示例。
 
@@ -200,7 +202,7 @@ Kselftests 可以在 `tools/testing/selftests/rust` 文件夹中找到。
 
     ./scripts/kconfig/merge_config.sh .config tools/testing/selftests/rust/config
 
-kselftests 会在内核源码树中构建，以便在运行相同版本内核的系统上执行测试。
+Kselftests 会在内核源码树中构建，以便在运行相同版本内核的系统上执行测试。
 
 一旦安装并启动了与源码树匹配的内核，测试即可通过以下命令编译并执行：
 
