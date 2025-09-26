@@ -1,5 +1,5 @@
 ---
-status: translated
+status: proofread
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang
