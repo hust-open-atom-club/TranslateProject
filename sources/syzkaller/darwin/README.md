@@ -7,7 +7,7 @@ translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250221
 proofreader: yinchunyuan
-proofreading_date: 20250926
+proofread_date: 20250926
 link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 ---
 
