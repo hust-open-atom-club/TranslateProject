@@ -1,11 +1,13 @@
 ---
-status: translated
+status: proofread
 title: "Darwin/XNU"
 author: Syzkaller Community
 collector: jxlpzqc
 translator: CAICAIIs
 collected_date: 20240314
 translated_date: 20250221
+proofreader: yinchunyuan
+proofreading_date: 20250926
 link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 ---
 
@@ -23,7 +25,7 @@ link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 
 此外，以下说明要求您在虚拟机中禁用系统完整性保护（System Integrity Protection）和认证根（Authenticated Root）。我们需要禁用这些功能以运行稍后构建的自定义内核。这些功能的简要说明：
 - 在 OS X 10.11 中，苹果引入了系统完整性保护（SIP），该功能（除其他作用外）限制 root 用户在正常操作期间对某些关键系统目录的写入。我们需要禁用它以将内核写入磁盘
-- 在 macOS 11 中，苹果引入了认证根。从该版本开始，系统仅挂载经过加密签名的只读根文件系统快照。我们需要禁用它以重新挂载可写版本并创建新的可引导快照
+- 在 macOS 11 中，苹果引入了认证根。从该版本开始，系统仅挂载经过加密签名的只读根文件系统快照。我们需要禁用它以重新挂载可写版本并创建新的可引导快照供日后使用
 
 **快速操作指南：创建虚拟机镜像**
 - [克隆 Munkis 的 macadmin-script 仓库](https://github.com/munki/macadmin-scripts)
@@ -48,12 +50,12 @@ link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 
 ## 准备适用于模糊测试的优化内核
 
-您可能会疑惑为何不使用苹果内核开发套件（KDK）中的预编译内核。因为这些内核未启用 KSANCOV 功能标志。KSANCOV 是苹果提供的 API，允许用户空间请求内核追踪指定线程访问的内核代码，并将这些信息暴露给用户空间。Syzkaller 需要这些信息才能有效进行模糊测试。
+您可能会疑惑为何不使用苹果内核开发套件（KDK）中的某个预编译内核。因为这些内核未启用 KSANCOV 功能标志。KSANCOV 是苹果提供的 API，允许用户空间请求内核追踪指定线程访问的内核代码，并将这些信息暴露给用户空间。Syzkaller 需要这些信息才能有效进行模糊测试。
 
 幸运的是，[afrojer@](https://twitter.com/afrojer) 定期在其博客更新从源代码构建 XNU 并在 macOS 上安装的指南。撰写本文时，他的指南落后三个次要版本。[最新指南适用于 macOS 11.2](https://web.archive.org/web/20210524205524/https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html)。本文将介绍一些必要的额外修改。
 
 构建和测试适用于模糊测试的 XNU：
-- 从[苹果 Xcode 版本存档（需 Apple ID 登录）](https://developer.apple.com/download/all/?q=xcode)下载较新的 Xcode 至虚拟机。本文使用 Xcode 12.5（12.5.1 和 13 beta 4 存在问题）
+- 从[苹果 Xcode 版本存档（需 Apple ID 登录）](https://developer.apple.com/download/all/?q=xcode)中下载较新的 Xcode 至虚拟机。本文使用 Xcode 12.5（12.5.1 和 13 beta 4 存在问题）
 - 解压 `Xcode_<版本>.xip`，此过程较耗时，建议喝杯咖啡 ⏳
 - 将解压的 Xcode 应用程序拖放至虚拟机的应用程序文件夹
 - 启动 Xcode，同意许可协议并在安装完成后退出
@@ -100,17 +102,15 @@ mv ~/115/src/Users/user/kernel/xnu-7195.141.2/BUILD/obj/KASAN_X86_64/kernel.kasa
 mv ~/115/src/Users/user/kernel/xnu-7195.141.2/BUILD/obj/KASAN_X86_64/kernel.kasan.dSYM/ ~/115/obj/
 ```
 
-
 ## 为 Qemu 准备虚拟机
 
-尽管Mac电脑是带有EFI的AMD64架构机器（至少本文涉及的机型是），但它们并不是完全兼容IBM PC的。到目前为止，VMware Fusion为我们完成了虚拟化macOS所需的所有复杂操作，但qemu-system-x86_64却没有。
+尽管 Mac 电脑是带有 EFI 的 AMD64 架构机器（至少本文涉及的机型是），但它们并不是完全兼容 IBM PC 的。到目前为止，VMware Fusion 为我们完成了虚拟化 macOS 所需的所有复杂操作，但 qemu-system-x86_64 却没有。
 
-为使 macOS 启动，我们首先使用 OVMF（基于 tianocore 的 Qemu UEFI）启动 Qemu。接着引导 OpenCore，后者将执行某些技巧使得链式加载苹果原生 AMD64 EFI 引导加载程序成为可能。它还会进行二进制内核补丁，以便在需要时加载 macOS 附带的 RELEASE 内核。
+为使 macOS 启动，我们首先使用 OVMF（基于 tianocore 的 Qemu UEFI）启动 Qemu。接着引导 OpenCore，后者将执行某些技巧使得链式加载苹果原生 AMD64 EFI 引导加载程序成为可能。它还会进行二进制内核补丁操作，以便在需要时加载 macOS 附带的 RELEASE 内核。
 
-OpenCore 具有较高可配置性，但我们不关心真实硬件。[本文使用此预构建版本，已配置为在 Qemu 中工作](https://github.com/thenickdude/KVM-Opencore/releases)。我们可以直接用该仓库镜像中的 EFI 分区覆盖虚拟机的 EFI 分区。
+OpenCore 具有较高可配置性，但我们不关心真实的硬件。[本文使用此预构建版本，已配置为在 Qemu 中工作](https://github.com/thenickdude/KVM-Opencore/releases)。我们可以直接用该仓库镜像中的 EFI 分区覆盖虚拟机的 EFI 分区。
 
 首先确定要覆盖的分区。在 macOS 虚拟机中（当前仍通过 Fusion 启动）执行以下命令，可见 EFI 分区位于 `/dev/disk0s1`：
-
 
 ```
 user@users-Mac ~ % diskutil list
@@ -132,9 +132,7 @@ user@users-Mac ~ % diskutil list
    6:              APFS Snapshot com.apple.bless.4099... 16.0 GB    disk1s5s1
 ```
 
-
 下载 [OpenCore-v13.iso.gz](https://github.com/thenickdude/KVM-Opencore/releases/download/v13/OpenCore-v13.iso.gz) 并通过 `gzip -d OpenCore-v13.iso.gz` 解压。查看分区映射以确定镜像块大小及 EFI 分区偏移量和大小：
-
 
 
 ```
@@ -147,7 +145,6 @@ ID Type                 Offset       Size         Name                      (1)
 -- -------------------- ------------ ------------ -------------------- --------
  1 EFI                            40       307120 disk image
 ```
-
 
 组合这些值执行 dd 命令：`sudo dd if=./OpenCore-v13.iso of=/dev/disk0s1 bs=512 iseek=40 count=307120`
 
@@ -215,9 +212,7 @@ qemu-system-x86_64 \
   -monitor stdio -vga vmware
 ```
 
-
 您应该既能看到 macOS 界面，也能通过 `ssh user@localhost -p 1042` 连接。确认已启动至 KASAN 内核：
-
 
 ```
 user@users-Mac ~ % uname -a
@@ -240,7 +235,6 @@ git clone https://github.com/google/syzkaller
 cd syzkaller
 make HOSTOS=darwin HOSTARCH=amd64 TARGETOS=darwin TARGETARCH=amd64 SOURCEDIR=/Users/user/115/src/Users/user/kernel/xnu-7195.141.2
 ```
-
 
 ## 使用 Syzkaller 进行模糊测试
 
