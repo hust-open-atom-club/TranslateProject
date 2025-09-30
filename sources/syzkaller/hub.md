@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Connecting several managers via Hub"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ proofreader: mudongliang
 collected_date: 20240314
 translated_date: 20250217
 proofread_date: 20250715
+publisher: Kozmosa
+published_date: 20250930
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/hub.md
 ---
