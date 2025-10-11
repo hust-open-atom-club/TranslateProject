@@ -1,19 +1,21 @@
 ---
-status: translated
+status: proofread
 title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ
 collected_date: 20240827
 translator: QGrain
 translated_date: 20241215
+proofreader: QGrain
+proofread_date: 20251011
 priority: 10
 link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 ---
 我在 2006 年发现了我的第一个 Linux 内核漏洞，但它并不是一个特别好的漏洞。当时我只是复制我的同事 Ilja van Sprundel 正在做的一切，这足以找到一些东西。如果你看 Ilja 在 CCC 的视频，[不寻常的漏洞（2006）](https://media.ccc.de/v/23C3-1456-en-unusual_bugs?ref=blog.isosceles.com)，你会明白为什么模仿 Ilja 通常是一件好事。
 
-我发现的 bug 存在于 Debian、SuSE 或 Red Hat 在默认情况下未启用的一个功能中，这几乎就是你需要知道的在 2006 年这个漏洞并不好的地方。如果漏洞不能在任何地方使用，那它有什么好处呢？Linux 内核漏洞都是为了一种黑客行为而服务：使用远程漏洞在面向公众的服务器上以 "nobody"、"sshd"或其他一些无特权帐户弹出一个 shell，使用内核漏洞获取 root 权限，窃取一些 SSH 凭据，在所有这些机器上利用该内核漏洞，等等。如此优雅的黑客行为！
+我发现的 bug 存在于 Debian、SuSE 或 Red Hat 在默认情况下未启用的一个功能中，这几乎就是你需要知道的在 2006 年这个漏洞并不好的地方。如果漏洞不能在任何地方使用，那它有什么好处呢？Linux 内核漏洞都是为了一种黑客行为而服务：使用远程漏洞在面向公众的服务器上以 "nobody"、"sshd" 或其他一些无特权帐户弹出一个 shell，使用内核漏洞获取 root 权限，窃取一些 SSH 凭据，在所有这些机器上利用该内核漏洞，等等。如此优雅的黑客行为！
 
-我就讲到这里，注意一点语言上的小怪癖。在漏洞研究领域，我们喜欢把坏的漏洞称为"好"漏洞，而把无聊或完全灾难性的漏洞称为"坏"漏洞。因此，当我说一个漏洞是"好"的时候，它并不意味着对社会有益 -- 通常恰恰相反。一个好的漏洞具有让攻击者感兴趣的本质属性，比如这个漏洞出现在被广泛使用的代码中，或者它看起来很容易被 [可靠地利用](https://blog.isosceles.com/an-introduction-to-exploit-reliability/)。
+说到这里，我想指出语言上的一个特殊习惯。在漏洞研究领域，我们喜欢把坏的漏洞称为"好"漏洞，而把无聊或完全灾难性的漏洞称为"坏"漏洞。因此，当我说一个漏洞是"好"的时候，它并不意味着对社会有益 -- 通常恰恰相反。一个好的漏洞具有让攻击者感兴趣的本质属性，比如这个漏洞出现在被广泛使用的代码中，或者它看起来很容易被 [可靠地利用](https://blog.isosceles.com/an-introduction-to-exploit-reliability/)。
 
 在 2006 年，很容易判断任何给定的 Linux 内核漏洞是否"好"。通常，这就像在你的机器上运行漏洞并查看它是否有效一样简单。今天的故事并不那么简单。那么，今天什么是"好"的 Linux 内核漏洞呢？
 
@@ -81,10 +83,10 @@ link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 
 基于此，我尝试大致排序的优先级列表可能会是这样的：
 
-1. 该漏洞是否影响常见的服务器发行版，如 Ubuntu server、Debian和CentOS，或以企业为中心的发行版，例如 RHEL 或 Oracle Linux？
+1. 该漏洞是否影响常见的服务器发行版，如 Ubuntu server、Debian 和 CentOS，或以企业为中心的发行版，例如 RHEL 或 Oracle Linux？
 2. 该漏洞是管理程序逃逸还是以其他方式跨越虚拟机（VM）信任边界，它是否影响广泛使用的云系统？
 3. 这个 bug 会影响 Ubuntu、Fedora 和 Arch 等主要桌面发行版吗？这个 bug 会影响 ChromeOS 吗？
-4. 该 bug 是否影响主要的云生产环境（即 VM 主机的prod内核上的 LPE，或任何托管服务的托管内核上的 LPCE）？
+4. 该 bug 是否影响主要的云生产环境（即 VM 主机的 prod 内核上的 LPE，或任何托管服务的托管内核上的 LPCE）？
 5. 或者这个 bug 会影响容器优化的主机操作系统，如 Bottlerocket、Azure Linux 和容器优化操作系统吗？
 6. 该漏洞是否影响大量物联网设备，特别是那些带有音频/视频传感器的设备？
 7. 该漏洞是否影响常见的网络或企业安全设备，如路由器或下一代防火墙？
