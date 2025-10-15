@@ -19,7 +19,7 @@ running_tips
 
 ## 介绍
 
-KUnit （内核单元测试框架） 为 Linux 内核里的单元测试提供了一个通用框架。使用 KUnit，你可以定义称为测试套件的测试用例组。
+KUnit（内核单元测试框架）为 Linux 内核里的单元测试提供了一个通用框架。使用 KUnit，你可以定义称为测试套件的测试用例组。
 这些测试要么在构建为内置组件时在内核启动时运行要么作为一个模块加载，KUint 会在内核日志中自动标记并报告失败的测试用例。
 这些测试结果在 `KTAP (Kernel - Test Anything Protocol) format</dev-tools/ktap>`{.interpreted-text
 role="doc"} 中。 它受 JUnit 、Python's unittest.mock 和 GoogleTest/GoogleMock (C++ 单元测试框架) 启发。
@@ -28,11 +28,11 @@ KUnit 测试用 C 语言编写，是内核的一部分，测试内核实现的�
 除过构建时间，从调用到完成，KUnit 可以在 10 秒内运行大约 100 个测试。
 KUnit 可以测试任何内核组件，比如文件系统、系统调用、内存管理、设备驱动程序等等。
 
-KUnit 采用白盒测试方法。该测试可访问内部系统功能。 KUnit 在内核中运行并且不限于暴露给用户空间的事物。
+KUnit 采用白盒测试方法，该测试可访问内部系统功能。 KUnit 在内核中运行并且不限于暴露给用户空间的事物。
 
-同时 KUnit 有 kunit 工具，一个配置 Linux 内核的脚本 （`tools/testing/kunit/kunit.py`），运行
-QEMU 或 UML 下的 KUnit 测试 (`User Mode Linux </virt/uml/user_mode_linux_howto_v2>`{.interpreted-text
-role="doc"})，解析测试结果，并以用户友好的方式展示它们。
+同时 KUnit 有 kunit 工具，一个配置 Linux 内核的脚本（`tools/testing/kunit/kunit.py`），运行
+QEMU 或 UML 下的 KUnit 测试（`User Mode Linux </virt/uml/user_mode_linux_howto_v2>`{.interpreted-text
+role="doc"}），解析测试结果，并以用户友好的方式展示它们。
 
 ### 特点
 
@@ -58,7 +58,7 @@ role="doc"})，解析测试结果，并以用户友好的方式展示它们。
 
 - 准备输入和目标：在测试开始时，整理可以让函数运行的数据。例如：初始化一条语句或对象
 - 对目标行为采取行动：调用你所测试的函数/代码
-- 断言预期结果： 验证结果 （或结果状态）是否符合预期
+- 断言预期结果： 验证结果（或结果状态）是否符合预期
 
 ### 单元测试优势
 
