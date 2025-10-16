@@ -20,11 +20,11 @@ running_tips
 ## 介绍
 
 KUnit（内核单元测试框架）为 Linux 内核里的单元测试提供了一个通用框架。使用 KUnit，你可以定义称为测试套件的测试用例组。
-这些测试要么在构建为内置组件时在内核启动时运行要么作为一个模块加载，KUint 会在内核日志中自动标记并报告失败的测试用例。
+这些测试要么在构建为内置组件后默认启动要么作为一个模块加载，KUint 会在内核日志中自动标记并报告失败的测试用例。
 这些测试结果在 `KTAP (Kernel - Test Anything Protocol) format</dev-tools/ktap>`{.interpreted-text
-role="doc"} 中。 它受 JUnit 、Python's unittest.mock 和 GoogleTest/GoogleMock (C++ 单元测试框架) 启发。
+role="doc"} 中。 它受 JUnit 、Python 的 unittest.mock 和 GoogleTest/GoogleMock (C++ 单元测试框架) 启发。
 
-KUnit 测试用 C 语言编写，是内核的一部分，测试内核实现的部分内容（例如：一个C语言函数）。
+KUnit 测试用 C 语言编写，是内核的一部分，测试内核实现的部分内容（例如：一个 C 语言函数）。
 除过构建时间，从调用到完成，KUnit 可以在 10 秒内运行大约 100 个测试。
 KUnit 可以测试任何内核组件，比如文件系统、系统调用、内存管理、设备驱动程序等等。
 
@@ -69,7 +69,7 @@ role="doc"}），解析测试结果，并以用户友好的方式展示它们。
 
 其他请阅读 `kinds-of-tests`{.interpreted-text role="ref"}.
 
-## 如何使用它？
+## 使用方法
 
 你可以在 Documentation/dev-tools/kunit/start.rst 中找到一份关于编写和运行 KUnit 测试的分布指南。
 或者自由浏览 KUnit 的其他文档，亦或尝试使用 tools/testing/kunit/kunit.py 以及 lib/kunit/kunit-example-test.c
