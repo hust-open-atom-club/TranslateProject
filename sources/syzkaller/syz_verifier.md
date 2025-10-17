@@ -12,6 +12,8 @@ priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 ---
 
+`syz-verifier` 目前存在故障，无法进行编译/使用，请查看 [待办事项列表中的问题](https://github.com/google/syzkaller/issues/5976)。
+
 # syz-verifier
 
 许多错误很容易被检测到：它们可能会导致断言失败、系统崩溃，或引发其他可被各种动态分析工具检测到的未定义行为。
@@ -86,9 +88,3 @@ ERRNO mismatches found for program:
 ```
 
 结果的顺序由传递配置文件时的顺序决定，因此， `Pool: 0` 报告的是使用 `kernel0.cfg` 创建的内核的结果，以此类推。
-
-[标志](/pkg/ipc/ipc.go#L82)可用于确定系统调用达到的状态：
-* `0` = 系统调用甚至未开始
-* `1` = 系统调用已开始
-* `3` = 系统调用已执行完毕
-* `7` = 系统调用被阻塞
