@@ -6,7 +6,7 @@ collector: JasonC10
 collected_date: 20250906
 translator: yinchunyuan
 translated_date: 20251012
-link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zn_CN/dev-tools/kunit/index.rst
+link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/dev-tools/kunit/index.rst
 ---\n
 # KUnit - Linux 内核单元测试
 
@@ -76,4 +76,5 @@ role="doc"}），解析测试结果，并以用户友好的方式展示它们。
 下的例子。
 
 测试顺利！
+
 
