@@ -1,5 +1,5 @@
 ---
-status: published
+status: collected
 title: "Bisecting a bug"
 author: Linux Kernel Community
 collector: tttturtle-russ

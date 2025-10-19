@@ -186,6 +186,7 @@ jobs:
           rm -f files_list.txt "$STATS_FILE"
           
           # 设置输出
+          echo "total_processed=$PROCESSED_COUNT" >> $GITHUB_OUTPUT
           echo "total_checked=$TOTAL_CHECKED" >> $GITHUB_OUTPUT
           echo "found_count=$FOUND_COUNT" >> $GITHUB_OUTPUT
           
@@ -205,6 +206,7 @@ jobs:
             exit 0
           fi
           
+          TOTAL_PROCESSED="${{ steps.check_translations.outputs.total_processed }}"
           TOTAL_CHECKED="${{ steps.check_translations.outputs.total_checked }}"
           FOUND_COUNT="${{ steps.check_translations.outputs.found_count }}"
           HAS_TRANSLATIONS="${{ steps.check_translations.outputs.has_translations }}"
@@ -214,13 +216,13 @@ jobs:
             # 发现了上游翻译
             echo "🎉 发现 $FOUND_COUNT 个上游已翻译的文档，发送警告通知"
             
-            # 构造卡片 elements - 使用单个 \n
+            # 构造卡片 elements - 使用单个 \n，包含总处理文件数
             ELEMENTS="[
               {
                 \"tag\": \"div\",
                 \"text\": {
                   \"tag\": \"lark_md\",
-                  \"content\": \"**⚠️ 发现上游已翻译的内核文档**\n\n本次检查了 $TOTAL_CHECKED 个待翻译文档，发现 $FOUND_COUNT 个在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作：\"
+                  \"content\": \"**⚠️ 发现上游已翻译的内核文档**\n\n📊 **检查统计**：\n- 总共扫描文件：$TOTAL_PROCESSED 个\n- 符合条件检查：$TOTAL_CHECKED 个（status: collected 或 translating）\n- 发现上游翻译：$FOUND_COUNT 个\n\n以下文档在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作：\"
                 }
               }"
 
@@ -263,11 +265,12 @@ jobs:
             # 未发现上游翻译
             echo "✅ 未发现上游已翻译的文档，发送完成通知"
             
-            # 构造完整卡片 JSON - 参考 check-pr-md-files.yml 的格式
+            # 构造完整卡片 JSON - 包含总处理文件数
             CARD_JSON=$(jq -n \
               --arg title "✅ 上游翻译检查完成" \
               --arg color "green" \
-              --arg total "$TOTAL_CHECKED" \
+              --arg total_processed "$TOTAL_PROCESSED" \
+              --arg total_checked "$TOTAL_CHECKED" \
               --arg time "$(date '+%Y-%m-%d %H:%M:%S UTC')" \
               '{
                 "config": {"wide_screen_mode": true},
@@ -280,7 +283,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": ("**✅ 检查完成**\n\n本次检查了 " + $total + " 个待翻译文档（status: collected 或 translating），未发现上游已翻译的内核文档。\n\n所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: " + $time)
+                      "content": ("**✅ 检查完成**\n\n📊 **检查统计**：\n- 总共扫描文件：" + $total_processed + " 个\n- 符合条件检查：" + $total_checked + " 个（status: collected 或 translating）\n- 发现上游翻译：0 个\n\n✅ 未发现上游已翻译的内核文档，所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: " + $time)
                     }
                   }
                 ]
