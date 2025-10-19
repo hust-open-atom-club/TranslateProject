@@ -5,7 +5,7 @@ author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: zqmz
-translated_data: 20251019 
+translated_date: 20251019 
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md
 ---
 
