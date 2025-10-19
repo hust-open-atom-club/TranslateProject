@@ -112,11 +112,37 @@ jobs:
             # 跳过处理出错的文件，继续处理其他文件
             set +e
             echo "   📖 读取YAML字段..."
-            # 直接使用 yq 读取文件
-            STATUS=$(yq eval '.status // ""' "$file" 2>/dev/null || echo "")
-            LINK=$(yq eval '.link // ""' "$file" 2>/dev/null || echo "")
-            TITLE=$(yq eval '.title // ""' "$file" 2>/dev/null || echo "")
-            UPSTREAM_TRANSLATED=$(yq eval '.upstream_translated // ""' "$file" 2>/dev/null || echo "")
+            
+            # 提取YAML front matter部分进行解析
+            # 从第二行开始到第二个---之间的内容（不包括结束的---）
+            YAML_CONTENT=$(awk '/^---$/{if(NR==1) next; if(NR>1) exit} NR>1' "$file")
+            
+            if [ -z "$YAML_CONTENT" ]; then
+              echo "   ⚠️ 无法提取YAML内容"
+              STATUS=""
+              LINK=""
+              TITLE=""
+              UPSTREAM_TRANSLATED=""
+            else
+              echo "   📝 提取的YAML内容（前3行）:"
+              echo "$YAML_CONTENT" | head -3 | sed 's/^/      /'
+              
+              # 使用 yq 解析提取的YAML内容
+              STATUS=$(echo "$YAML_CONTENT" | yq eval '.status // ""' - 2>/dev/null || echo "")
+              LINK=$(echo "$YAML_CONTENT" | yq eval '.link // ""' - 2>/dev/null || echo "")
+              TITLE=$(echo "$YAML_CONTENT" | yq eval '.title // ""' - 2>/dev/null || echo "")
+              UPSTREAM_TRANSLATED=$(echo "$YAML_CONTENT" | yq eval '.upstream_translated // ""' - 2>/dev/null || echo "")
+              
+              # 如果 yq 解析失败，使用备用方法
+              if [ -z "$STATUS" ] && [ -z "$LINK" ]; then
+                echo "   🔄 yq解析失败，尝试备用解析方法..."
+                STATUS=$(echo "$YAML_CONTENT" | grep '^status:' | sed 's/^status: *"\?\([^"]*\)"\?$/\1/' || echo "")
+                LINK=$(echo "$YAML_CONTENT" | grep '^link:' | sed 's/^link: *"\?\([^"]*\)"\?$/\1/' || echo "")
+                TITLE=$(echo "$YAML_CONTENT" | grep '^title:' | sed 's/^title: *"\?\([^"]*\)"\?$/\1/' || echo "")
+                UPSTREAM_TRANSLATED=$(echo "$YAML_CONTENT" | grep '^upstream_translated:' | sed 's/^upstream_translated: *"\?\([^"]*\)"\?$/\1/' || echo "")
+                echo "   📋 备用解析结果: STATUS='$STATUS', LINK='$LINK'"
+              fi
+            fi
             set -e
             
             echo "   📋 读取结果: STATUS='$STATUS', TITLE='$TITLE', UPSTREAM_TRANSLATED='$UPSTREAM_TRANSLATED'"
