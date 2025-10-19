@@ -1,6 +1,6 @@
 # =============================================
 # 📅 工作流名称：检查上游已翻译的内核文档
-# ✅ 每天 UTC 02:00 自动扫描 + 支持手动触发
+# ✅ 每天 UTC 11:00 自动扫描 + 支持手动触发
 # ✅ 检查 sources/kernel/**/*.md 中 status: collected 或 status: translating 的文档
 # ✅ 对比上游是否已存在中文翻译版本
 # ✅ 通过飞书通知管理员检查结果
@@ -10,7 +10,7 @@ name: Check Upstream Kernel Translations
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # 每天 UTC 02:00
+    - cron: '0 11 * * *'  # 每天 UTC 11:00
   workflow_dispatch:       # 允许手动触发
 
 permissions:
@@ -214,13 +214,13 @@ jobs:
             # 发现了上游翻译
             echo "🎉 发现 $FOUND_COUNT 个上游已翻译的文档，发送警告通知"
             
-            # 构造卡片 elements - 参考 check-pr-md-files.yml 的格式
+            # 构造卡片 elements - 使用单个 \n
             ELEMENTS="[
               {
                 \"tag\": \"div\",
                 \"text\": {
                   \"tag\": \"lark_md\",
-                  \"content\": \"**⚠️ 发现上游已翻译的内核文档**\\n\\n本次检查了 $TOTAL_CHECKED 个待翻译文档，发现 $FOUND_COUNT 个在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作：\"
+                  \"content\": \"**⚠️ 发现上游已翻译的内核文档**\n\n本次检查了 $TOTAL_CHECKED 个待翻译文档，发现 $FOUND_COUNT 个在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作：\"
                 }
               }"
 
@@ -232,13 +232,13 @@ jobs:
               SAFE_LINK=$(echo "$link" | sed 's/"/\\"/g')
               SAFE_ZH_URL=$(echo "$zh_cn_url" | sed 's/"/\\"/g')
               
-              # 构造一个 div 元素
+              # 构造一个 div 元素 - 使用单个 \n
               ELEMENTS="$ELEMENTS,
               {
                 \"tag\": \"div\",
                 \"text\": {
                   \"tag\": \"lark_md\",
-                  \"content\": \"📄 **文件**: \`$SAFE_FILE\`\\n📌 **标题**: $SAFE_TITLE\\n🔖 **状态**: $status\\n🔗 **原文**: $SAFE_LINK\\n🇨🇳 **上游中文**: $SAFE_ZH_URL\"
+                  \"content\": \"📄 **文件**: \`$SAFE_FILE\`\n📌 **标题**: $SAFE_TITLE\n🔖 **状态**: $status\n🔗 **原文**: $SAFE_LINK\n🇨🇳 **上游中文**: $SAFE_ZH_URL\"
                 }
               }"
             done < found_translations.txt
@@ -280,7 +280,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": ("**✅ 检查完成**\\n\\n本次检查了 " + $total + " 个待翻译文档（status: collected 或 translating），未发现上游已翻译的内核文档。\\n\\n所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\\n\\n**检查时间**: " + $time)
+                      "content": ("**✅ 检查完成**\n\n本次检查了 " + $total + " 个待翻译文档（status: collected 或 translating），未发现上游已翻译的内核文档。\n\n所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: " + $time)
                     }
                   }
                 ]
