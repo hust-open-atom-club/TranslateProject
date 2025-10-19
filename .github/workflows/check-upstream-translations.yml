@@ -213,7 +213,7 @@ jobs:
           
           # 检查是否发现翻译
           if [ "$HAS_TRANSLATIONS" = "true" ] && [ -f found_translations.txt ] && [ -s found_translations.txt ]; then
-            # 发现了上游翻译
+            # 发现了上游翻译，发送警告通知
             echo "🎉 发现 $FOUND_COUNT 个上游已翻译的文档，发送警告通知"
             
             # 构造卡片 elements - 使用单个 \n，包含总处理文件数
@@ -262,32 +262,35 @@ jobs:
                 "elements": $elements
               }')
           else
-            # 未发现上游翻译
-            echo "✅ 未发现上游已翻译的文档，发送完成通知"
+            # 未发现上游翻译，不发送通知
+            echo "✅ 未发现上游已翻译的文档，无需发送通知"
+            echo "📊 检查统计：扫描 $TOTAL_PROCESSED 个文件，检查 $TOTAL_CHECKED 个文档，未发现重复翻译"
+            exit 0
             
-            # 构造完整卡片 JSON - 包含总处理文件数
-            CARD_JSON=$(jq -n \
-              --arg title "✅ 上游翻译检查完成" \
-              --arg color "green" \
-              --arg total_processed "$TOTAL_PROCESSED" \
-              --arg total_checked "$TOTAL_CHECKED" \
-              --arg time "$(date '+%Y-%m-%d %H:%M:%S UTC')" \
-              '{
-                "config": {"wide_screen_mode": true},
-                "header": {
-                  "template": $color,
-                  "title": {"content": $title, "tag": "plain_text"}
-                },
-                "elements": [
-                  {
-                    "tag": "div",
-                    "text": {
-                      "tag": "lark_md",
-                      "content": ("**✅ 检查完成**\n\n📊 **检查统计**：\n- 总共扫描文件：" + $total_processed + " 个\n- 符合条件检查：" + $total_checked + " 个（status: collected 或 translating）\n- 发现上游翻译：0 个\n\n✅ 未发现上游已翻译的内核文档，所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: " + $time)
-                    }
-                  }
-                ]
-              }')
+            # 注释：如果需要在未发现翻译时也发送通知，可以取消下面代码的注释
+            # # 构造完整卡片 JSON - 包含总处理文件数
+            # CARD_JSON=$(jq -n \
+            #   --arg title "✅ 上游翻译检查完成" \
+            #   --arg color "green" \
+            #   --arg total_processed "$TOTAL_PROCESSED" \
+            #   --arg total_checked "$TOTAL_CHECKED" \
+            #   --arg time "$(date '+%Y-%m-%d %H:%M:%S UTC')" \
+            #   '{
+            #     "config": {"wide_screen_mode": true},
+            #     "header": {
+            #       "template": $color,
+            #       "title": {"content": $title, "tag": "plain_text"}
+            #     },
+            #     "elements": [
+            #       {
+            #         "tag": "div",
+            #         "text": {
+            #           "tag": "lark_md",
+            #           "content": ("**✅ 检查完成**\n\n📊 **检查统计**：\n- 总共扫描文件：" + $total_processed + " 个\n- 符合条件检查：" + $total_checked + " 个（status: collected 或 translating）\n- 发现上游翻译：0 个\n\n✅ 未发现上游已翻译的内核文档，所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: " + $time)
+            #         }
+            #       }
+            #     ]
+            #   }')
           fi
           
           # 发送飞书通知
