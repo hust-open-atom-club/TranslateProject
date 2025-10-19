@@ -212,35 +212,39 @@ jobs:
           # 检查是否发现翻译
           if [ "$HAS_TRANSLATIONS" = "true" ] && [ -f found_translations.txt ] && [ -s found_translations.txt ]; then
             # 发现了上游翻译
-            echo "发现 $FOUND_COUNT 个上游已翻译的文档，发送警告通知"
+            echo "🎉 发现 $FOUND_COUNT 个上游已翻译的文档，发送警告通知"
             
-            # 使用 jq 构造卡片 elements，避免字符串拼接问题
-            MAIN_CONTENT="**⚠️ 发现上游已翻译的内核文档**\n\n本次检查了 $TOTAL_CHECKED 个待翻译文档，发现 $FOUND_COUNT 个在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作："
-            
-            ELEMENTS=$(jq -n \
-              --arg content "$MAIN_CONTENT" \
-              '[{
-                "tag": "div",
-                "text": {
-                  "tag": "lark_md",
-                  "content": $content
+            # 构造卡片 elements - 参考 check-pr-md-files.yml 的格式
+            ELEMENTS="[
+              {
+                \"tag\": \"div\",
+                \"text\": {
+                  \"tag\": \"lark_md\",
+                  \"content\": \"**⚠️ 发现上游已翻译的内核文档**\\n\\n本次检查了 $TOTAL_CHECKED 个待翻译文档，发现 $FOUND_COUNT 个在 Linux 内核上游已存在中文翻译，建议停止重复翻译工作：\"
                 }
-              }]')
-            
+              }"
+
             # 为每个发现的翻译添加卡片元素
             while IFS='|' read -r file title status link zh_cn_url; do
-              FILE_CONTENT="📄 **文件**: \`$file\`\n📌 **标题**: $title\n🔖 **状态**: $status\n🔗 **原文**: $link\n🇨🇳 **上游中文**: $zh_cn_url"
+              # 转义特殊字符
+              SAFE_FILE=$(echo "$file" | sed 's/"/\\"/g')
+              SAFE_TITLE=$(echo "$title" | sed 's/"/\\"/g')
+              SAFE_LINK=$(echo "$link" | sed 's/"/\\"/g')
+              SAFE_ZH_URL=$(echo "$zh_cn_url" | sed 's/"/\\"/g')
               
-              ELEMENTS=$(echo "$ELEMENTS" | jq \
-                --arg content "$FILE_CONTENT" \
-                '. += [{
-                  "tag": "div",
-                  "text": {
-                    "tag": "lark_md",
-                    "content": $content
-                  }
-                }]')
+              # 构造一个 div 元素
+              ELEMENTS="$ELEMENTS,
+              {
+                \"tag\": \"div\",
+                \"text\": {
+                  \"tag\": \"lark_md\",
+                  \"content\": \"📄 **文件**: \`$SAFE_FILE\`\\n📌 **标题**: $SAFE_TITLE\\n🔖 **状态**: $status\\n🔗 **原文**: $SAFE_LINK\\n🇨🇳 **上游中文**: $SAFE_ZH_URL\"
+                }
+              }"
             done < found_translations.txt
+
+            ELEMENTS="$ELEMENTS
+            ]"
             
             # 构造完整卡片 JSON
             CARD_JSON=$(jq -n \
@@ -259,12 +263,12 @@ jobs:
             # 未发现上游翻译
             echo "✅ 未发现上游已翻译的文档，发送完成通知"
             
-            COMPLETE_CONTENT="**✅ 检查完成**\n\n本次检查了 $TOTAL_CHECKED 个待翻译文档（status: collected 或 translating），未发现上游已翻译的内核文档。\n\n所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\n\n**检查时间**: $(date '+%Y-%m-%d %H:%M:%S UTC')"
-            
+            # 构造完整卡片 JSON - 参考 check-pr-md-files.yml 的格式
             CARD_JSON=$(jq -n \
               --arg title "✅ 上游翻译检查完成" \
               --arg color "green" \
-              --arg content "$COMPLETE_CONTENT" \
+              --arg total "$TOTAL_CHECKED" \
+              --arg time "$(date '+%Y-%m-%d %H:%M:%S UTC')" \
               '{
                 "config": {"wide_screen_mode": true},
                 "header": {
@@ -276,7 +280,7 @@ jobs:
                     "tag": "div",
                     "text": {
                       "tag": "lark_md",
-                      "content": $content
+                      "content": ("**✅ 检查完成**\\n\\n本次检查了 " + $total + " 个待翻译文档（status: collected 或 translating），未发现上游已翻译的内核文档。\\n\\n所有待翻译文档在上游都没有中文版本，可以继续翻译工作。\\n\\n**检查时间**: " + $time)
                     }
                   }
                 ]
