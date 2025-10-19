@@ -55,7 +55,7 @@ jobs:
           TOTAL_CHECKED=0
           
           # 遍历所有 kernel 目录下的 .md 文件
-          while IFS= read -r file; do
+          find sources/kernel -name "*.md" -type f | while IFS= read -r file; do
             # 直接使用 yq 读取文件
             STATUS=$(yq eval '.status // ""' "$file" 2>/dev/null)
             LINK=$(yq eval '.link // ""' "$file" 2>/dev/null)
@@ -113,7 +113,7 @@ jobs:
             
             # 避免请求过快
             sleep 0.5
-          done < <(find sources/kernel -name "*.md" -type f)
+          done
           
           # 统计结果
           FOUND_COUNT=$(wc -l < "$FOUND_TRANSLATIONS" 2>/dev/null || echo "0")
