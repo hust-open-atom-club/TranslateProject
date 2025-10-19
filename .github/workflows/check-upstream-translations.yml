@@ -41,93 +41,192 @@ jobs:
       - name: 🔍 Check upstream translations
         id: check_translations
         run: |
-          echo "开始检查上游翻译..."
+          set -e  # 遇到错误时退出
+          echo "🚀 开始检查上游翻译..."
+          echo "🔍 当前工作目录: $(pwd)"
+          echo "📁 列出当前目录内容:"
+          ls -la
+          
+          # 检查sources/kernel目录是否存在
+          echo "🔍 检查 sources/kernel 目录..."
+          if [ ! -d "sources/kernel" ]; then
+            echo "❌ sources/kernel 目录不存在"
+            echo "📁 当前 sources 目录内容:"
+            ls -la sources/ || echo "sources 目录也不存在"
+            exit 1
+          fi
+          echo "✅ sources/kernel 目录存在"
           
           # 创建临时目录
+          echo "📁 创建临时目录..."
           TEMP_DIR=$(mktemp -d)
           trap 'rm -rf "$TEMP_DIR"' EXIT
+          echo "✅ 临时目录创建成功: $TEMP_DIR"
           
           # 存储发现的已翻译文档
           FOUND_TRANSLATIONS="found_translations.txt"
           touch "$FOUND_TRANSLATIONS"
+          echo "✅ 创建翻译记录文件: $FOUND_TRANSLATIONS"
           
-          # 统计
-          TOTAL_CHECKED=0
+          # 创建临时文件来记录统计信息
+          STATS_FILE="stats.txt"
+          echo "0" > "$STATS_FILE"
+          echo "✅ 创建统计文件: $STATS_FILE"
           
           # 获取所有 kernel 目录下的 .md 文件
-          MD_FILES=$(find sources/kernel -name "*.md" -type f)
+          echo "🔍 搜索 kernel 目录下的 .md 文件..."
+          find sources/kernel -name "*.md" -type f > files_list.txt
+          FILE_COUNT=$(wc -l < files_list.txt)
+          echo "✅ 找到 $FILE_COUNT 个 .md 文件"
+          
+          # 显示前几个文件作为示例
+          echo "📋 前5个文件示例:"
+          head -5 files_list.txt | nl
           
           # 遍历所有文件
+          echo "🔄 开始遍历文件..."
+          PROCESSED_COUNT=0
           while IFS= read -r file; do
             [ -z "$file" ] && continue
+            
+            PROCESSED_COUNT=$((PROCESSED_COUNT + 1))
+            echo "🔍 处理第 $PROCESSED_COUNT 个文件: $file"
+            
+            # 检查文件是否存在和可读
+            if [ ! -f "$file" ]; then
+              echo "   ⚠️ 文件不存在，跳过"
+              continue
+            fi
+            
+            if [ ! -r "$file" ]; then
+              echo "   ⚠️ 文件不可读，跳过"
+              continue
+            fi
+            
+            # 检查文件是否有YAML前置数据
+            if ! head -1 "$file" | grep -q "^---"; then
+              echo "   ℹ️ 无YAML前置数据，跳过"
+              continue
+            fi
+            
+            # 跳过处理出错的文件，继续处理其他文件
+            set +e
+            echo "   📖 读取YAML字段..."
             # 直接使用 yq 读取文件
-            STATUS=$(yq eval '.status // ""' "$file" 2>/dev/null)
-            LINK=$(yq eval '.link // ""' "$file" 2>/dev/null)
-            TITLE=$(yq eval '.title // ""' "$file" 2>/dev/null)
-            UPSTREAM_TRANSLATED=$(yq eval '.upstream_translated // ""' "$file" 2>/dev/null)
+            STATUS=$(yq eval '.status // ""' "$file" 2>/dev/null || echo "")
+            LINK=$(yq eval '.link // ""' "$file" 2>/dev/null || echo "")
+            TITLE=$(yq eval '.title // ""' "$file" 2>/dev/null || echo "")
+            UPSTREAM_TRANSLATED=$(yq eval '.upstream_translated // ""' "$file" 2>/dev/null || echo "")
+            set -e
+            
+            echo "   📋 读取结果: STATUS='$STATUS', TITLE='$TITLE', UPSTREAM_TRANSLATED='$UPSTREAM_TRANSLATED'"
+            echo "   🔗 LINK='$LINK'"
             
             # 如果无法读取任何字段，跳过
             if [ -z "$STATUS" ] && [ -z "$LINK" ]; then
+              echo "   ⚠️ 无法读取STATUS和LINK字段，跳过"
               continue
             fi
             
             # 只检查 status: collected 或 status: translating
             if [ "$STATUS" != "collected" ] && [ "$STATUS" != "translating" ]; then
+              echo "   ℹ️ 状态为 '$STATUS'，不是 collected 或 translating，跳过"
               continue
             fi
             
             # 跳过已标记的文档
             if [ "$UPSTREAM_TRANSLATED" = "true" ]; then
+              echo "   ℹ️ 已标记为上游已翻译，跳过"
               continue
             fi
             
             if [ -z "$LINK" ]; then
-              echo "⚠️ $file: 缺少 link 字段"
+              echo "   ⚠️ 缺少 link 字段，跳过"
               continue
             fi
             
-            TOTAL_CHECKED=$((TOTAL_CHECKED + 1))
+            echo "   ✅ 文件符合检查条件，开始检查上游翻译"
             
-            echo "📄 检查文件 [$TOTAL_CHECKED]: $file"
-            echo "   状态: $STATUS"
+            # 更新统计
+            CURRENT_COUNT=$(cat "$STATS_FILE")
+            TOTAL_CHECKED=$((CURRENT_COUNT + 1))
+            echo "$TOTAL_CHECKED" > "$STATS_FILE"
+            
+            echo "   📄 检查文件 [$TOTAL_CHECKED]: $file"
+            echo "   📊 状态: $STATUS"
             
             # 从 link 提取文档路径
+            echo "   🔗 从链接提取文档路径..."
+            echo "   🔗 原始链接: $LINK"
             DOC_PATH=$(echo "$LINK" | sed -n 's|.*tree/\(Documentation/.*\)|\1|p')
+            echo "   📁 提取的文档路径: '$DOC_PATH'"
             
             if [ -z "$DOC_PATH" ]; then
-              echo "   ⚠️ 无法从 link 提取文档路径"
+              echo "   ⚠️ 无法从 link 提取文档路径，跳过"
               continue
             fi
             
             # 构造中文翻译路径
+            echo "   🏗️ 构造中文翻译路径..."
             DOC_RELATIVE=$(echo "$DOC_PATH" | sed 's|^Documentation/||')
+            echo "   📁 相对路径: '$DOC_RELATIVE'"
             ZH_CN_PATH="Documentation/translations/zh_CN/${DOC_RELATIVE}"
+            echo "   🇨🇳 中文路径: '$ZH_CN_PATH'"
             ZH_CN_URL="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/${ZH_CN_PATH}"
+            echo "   🌐 中文URL: $ZH_CN_URL"
             
             # 检查上游是否存在中文翻译（HTTP HEAD 请求）
+            echo "   🌐 检查上游是否存在中文翻译..."
+            set +e
             HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 10 "$ZH_CN_URL" 2>/dev/null || echo "000")
+            CURL_EXIT_CODE=$?
+            set -e
+            echo "   📡 HTTP响应码: $HTTP_CODE (curl退出码: $CURL_EXIT_CODE)"
             
             if [ "$HTTP_CODE" = "200" ]; then
               echo "   ✅ 发现上游翻译！"
               # 记录发现的翻译
               echo "$file|$TITLE|$STATUS|$LINK|$ZH_CN_URL" >> "$FOUND_TRANSLATIONS"
+              echo "   📝 已记录到翻译列表"
             else
               echo "   ℹ️ 上游暂无中文翻译 (HTTP $HTTP_CODE)"
             fi
             
             # 避免请求过快
+            echo "   ⏱️ 等待0.5秒..."
             sleep 0.5
-          done <<< "$MD_FILES"
+            echo "   ✅ 文件处理完成"
+            echo ""
+          done < files_list.txt
+          
+          echo "🔄 文件遍历完成，统计结果..."
+          
+          # 读取最终统计
+          TOTAL_CHECKED=$(cat "$STATS_FILE")
+          echo "📊 从统计文件读取: $TOTAL_CHECKED 个文档被检查"
           
           # 统计结果
           FOUND_COUNT=$(wc -l < "$FOUND_TRANSLATIONS" 2>/dev/null || echo "0")
+          echo "📊 从翻译文件读取: $FOUND_COUNT 个文档找到上游翻译"
+          
+          # 显示找到的翻译（如果有的话）
+          if [ "$FOUND_COUNT" -gt 0 ]; then
+            echo "📋 找到的上游翻译列表:"
+            cat "$FOUND_TRANSLATIONS" | nl
+          fi
           
           echo ""
           echo "========================================="
           echo "📊 检查完成"
           echo "========================================="
-          echo "总共检查: $TOTAL_CHECKED 个文档"
+          echo "总共处理文件: $PROCESSED_COUNT 个"
+          echo "符合条件并检查: $TOTAL_CHECKED 个文档"
           echo "发现上游翻译: $FOUND_COUNT 个"
+          
+          # 清理临时文件
+          echo "🧹 清理临时文件..."
+          rm -f files_list.txt "$STATS_FILE"
+          echo "✅ 清理完成"
           
           # 设置输出
           echo "total_checked=$TOTAL_CHECKED" >> $GITHUB_OUTPUT
@@ -142,14 +241,18 @@ jobs:
       # 🚨 步骤 5：发送飞书通知
       - name: 🚨 Send Feishu notification
         run: |
-          echo "发送飞书通知..."
+          echo "🚨 开始发送飞书通知..."
+          echo "🔍 检查上一步骤的输出..."
           
           # 检查是否配置了飞书 Webhook
+          echo "🔑 检查 FEISHU_WEBHOOK_URL 环境变量..."
           if [ -z "$FEISHU_WEBHOOK_URL" ]; then
             echo "⚠️ 未配置 FEISHU_WEBHOOK_URL，跳过飞书通知"
             echo "💡 如需启用飞书通知，请在 GitHub Secrets 中配置 FEISHU_WEBHOOK_URL"
+            echo "✅ 工作流完成（无通知）"
             exit 0
           fi
+          echo "✅ FEISHU_WEBHOOK_URL 已配置"
           
           TOTAL_CHECKED="${{ steps.check_translations.outputs.total_checked }}"
           FOUND_COUNT="${{ steps.check_translations.outputs.found_count }}"
@@ -244,4 +347,4 @@ jobs:
             echo "❌ 发送失败: $RESPONSE"
           fi
         env:
-          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL || '' }}
