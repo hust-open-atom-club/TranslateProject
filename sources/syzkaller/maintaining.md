@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Maintainer's Guide"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -9,6 +9,8 @@ translated_date: 20250217
 priority: 10
 proofreader: yinchunyuan
 proofread_date: 20250902
+publisher: zqmz
+publish_date: 20251124
 link: https://github.com/google/syzkaller/blob/master/docs/maintaining.md
 ---
 
