@@ -13,10 +13,10 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-ho
 
 本文档介绍了在主机为 Ubuntn 系统、QEMU 实例为 Debian Bullseye 系统的环境中，使用 QEMU 对 x86-64 内核进行模糊测试的步骤。
 
-以下内容使用 `$VAR` 表示法 （例如 `$GCC`, `$KERNEL` 等） 来表示目录路径。这些目录是在执行指令时创建的 （例如，解压 GCC 归档文件时自动创建的目录）， 或是你事先自行创建的。请手动将这些变量替换为实际路径。
+以下内容使用 `$VAR` 的形式 （例如 `$GCC`, `$KERNEL` 等） 来表示目录路径。这些目录是在执行指令时创建的 （例如，解压 GCC 归档文件时自动创建的目录）， 或是你事先自行创建的。请手动将这些变量替换为实际路径。
 
 
-## 依赖项的安装
+## 依赖安装
 
 命令：
 ``` bash
@@ -25,7 +25,7 @@ sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev
 ```
 
 
-## GCC 的准备
+## GCC 配置
 
 如果你的发行版自带的 GCC 版本较旧，推荐从 [这里](/docs/syzbot.md#crash-does-not-reproduce) 获取最新的 GCC 版本。将安装包下载并解压到 `$GCC` 目录下。确保你可以在 `$GCC/bin/` 目录下找到对应的 GCC 文件。
 
@@ -70,7 +70,7 @@ make CC="$GCC/bin/gcc" defconfig
 make CC="$GCC/bin/gcc" kvm_guest.config
 ```
 
-### 启用必需的配置选项
+### 启用必需内核选项
 
 启用 syzkaller 所需的内核配置选项，具体信息参考 [这里](kernel_configs.md) 。
 不是所有选项都是必需的，但是至少确保启用以下选项:
@@ -171,7 +171,7 @@ chmod +x create-image.sh
 ./create-image.sh --distribution buster
 ```
 
-### 镜像中扩展工具的安装
+### 安装扩展工具
 
 有时在 VM 中安装一些额外的工具也是有用的， 尽管这些工具不是运行 syzkaller 所必需的。你可以通过以下命令安装一些你认为会有帮助的工具 （允许自定义脚本中要安装的工具列表）。
 
@@ -292,4 +292,4 @@ mkdir workdir
 现在 syzkaller 应该已经运行起来了，你可以通过 Web 浏览器在 `127.0.0.1:56741` 查看管理器状态。
 
 如果在 `syz-manager` 启动后遇到问题，可以考虑使用 `-debug` 标志运行它。
-另请参阅 [这一页](/docs/troubleshooting.md) 获取故障排除提示。
+另请参阅 [这一页](troubleshooting.md) 获取故障排除提示。
