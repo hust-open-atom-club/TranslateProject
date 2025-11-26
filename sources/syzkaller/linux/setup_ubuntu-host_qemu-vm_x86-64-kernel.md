@@ -1,155 +1,157 @@
 ---
-status: collected
+status: translated
 title: "Setup: Ubuntu host, QEMU vm, x86-64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: zqmz
+translated_date: 20251124 
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md
 ---
 
-# Setup: Ubuntu host, QEMU vm, x86-64 kernel
+# 环境配置:Ubuntu 主机，QEMU 虚拟机，x86-64 内核
 
-These are the instructions on how to fuzz the x86-64 kernel in a QEMU with Ubuntu on the host machine and Debian Bullseye in the QEMU instances.
+本文档介绍了在主机为 Ubuntn 系统、QEMU 实例为 Debian Bullseye 系统的环境中，使用 QEMU 对 x86-64 内核进行模糊测试的步骤。
 
-In the instructions below, the `$VAR` notation (e.g. `$GCC`, `$KERNEL`, etc.) is used to denote paths to directories that are either created when executing the instructions (e.g. when unpacking GCC archive, a directory will be created), or that you have to create yourself before running the instructions. Substitute the values for those variables manually.
+以下内容使用 `$VAR` 的形式 （例如 `$GCC`, `$KERNEL` 等） 来表示目录路径。这些目录是在执行指令时创建的 （例如，解压 GCC 归档文件时自动创建的目录）， 或是你事先自行创建的。请手动将这些变量替换为实际路径。
 
 
-## Install Prerequisites
+## 依赖安装
 
-Command:
+命令：
 ``` bash
 sudo apt update
 sudo apt install make gcc flex bison libncurses-dev libelf-dev libssl-dev
 ```
 
 
-## GCC
+## GCC 配置
 
-If your distro's GCC is older, it's preferable to get the latest GCC from [this](/docs/syzbot.md#crash-does-not-reproduce) list. Download and unpack into `$GCC`, and you should have GCC binaries in `$GCC/bin/`
+如果你的发行版自带的 GCC 版本较旧，推荐从 [这里](/docs/syzbot.md#crash-does-not-reproduce) 获取最新的 GCC 版本。将安装包下载并解压到 `$GCC` 目录下。确保你可以在 `$GCC/bin/` 目录下找到对应的 GCC 文件。
 
->**Ubuntu 20.04 LTS**: You can ignore this section. GCC is up-to-date.
+>**Ubuntu 20.04 LTS**: 如果你使用的是该版本的 Ubuntu 系统，可以忽略这一步骤，因为该版本中的 GCC 已经是最新的版本了。
 
-Command:
+如果你想要确认 GCC 是否符合要求，可以执行以下命令：
 ``` bash
 ls $GCC/bin/
-# Sample output:
+# 正确的输出结果示例:
 # cpp     gcc-ranlib  x86_64-pc-linux-gnu-gcc        x86_64-pc-linux-gnu-gcc-ranlib
 # gcc     gcov        x86_64-pc-linux-gnu-gcc-9.0.0
 # gcc-ar  gcov-dump   x86_64-pc-linux-gnu-gcc-ar
 # gcc-nm  gcov-tool   x86_64-pc-linux-gnu-gcc-nm
 ```
 
-## Kernel
+## 内核配置
 
-### Checkout Linux Kernel source
+### 克隆 Linux 内核源代码
 
-Command:
+执行命令:
 ``` bash
 git clone --branch v6.2 git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git $KERNEL
 ```
 
->We recommend to start with the latest stable version. v6.2 is an example here.
+>我们建议从最新的稳定版本开始。这里的 v6.2 只是一个示例，实际操作时替换成对应的最新版本。
 
-### Generate default configs
+### 生成默认配置
 
-Command:
+命令:
 ``` bash
 cd $KERNEL
 make defconfig
 make kvm_guest.config
 ```
 
-Or if you want to specify a compiler.
+如果你想要指定编译器，可以按以下方法操作。
 
-Command:
+命令:
 ``` bash
 cd $KERNEL
 make CC="$GCC/bin/gcc" defconfig
 make CC="$GCC/bin/gcc" kvm_guest.config
 ```
 
-### Enable required config options
+### 启用必需内核选项
 
-Enable kernel config options required for syzkaller as described [here](kernel_configs.md).
-It's not required to enable all of them, but at the very least you need:
+启用 syzkaller 所需的内核配置选项，具体信息参考 [这里](kernel_configs.md) 。
+不是所有选项都是必需的，但是至少确保启用以下选项:
 
 ``` make
-# Coverage collection.
+# 覆盖率收集
 CONFIG_KCOV=y
 
-# Debug info for symbolization.
+# 用于符号化的调试信息
 CONFIG_DEBUG_INFO_DWARF4=y
 
-# Memory bug detector
+# 内存错误检测器
 CONFIG_KASAN=y
 CONFIG_KASAN_INLINE=y
 
-# Required for Debian Stretch and later
+# Debian Stretch 及更高版本所必需的选项
 CONFIG_CONFIGFS_FS=y
 CONFIG_SECURITYFS=y
 ```
 
-Edit `.config` file manually and enable them (or do that through `make menuconfig` if you prefer).
+编辑并启用 `.config` 文件 （你也可以通过 `make menuconfig` 完成这一步骤）。
 
-Since enabling these options results in more sub options being available, we need to regenerate config:
+因为启用这些选项会产生更多可选的子选项，所以我们需要重新生成配置:
 
-Command:
+命令:
 ``` bash
 make olddefconfig
 ```
 
-Or if you want to specify a compiler.
+如果你想指定编译器，执行以下命令
 
-Command:
+命令:
 ``` bash
 make CC="$GCC/bin/gcc" olddefconfig
 ```
 
-You might also be interested in disabling the Predictable Network Interface Names mechanism. This can be disabled either in the syzkaller configuration (see details [here](troubleshooting.md)) or by updating these kernel configuration parameters:
+如果你愿意，还可以在 syzkaller 配置中禁用可预测的网络接口名称机制（详情参见 [这里](troubleshooting.md)）或者通过更新以下内核配置参数来实现禁用:
 
 ``` make
 CONFIG_CMDLINE_BOOL=y
 CONFIG_CMDLINE="net.ifnames=0"
 ```
 
-### Build the Kernel
+### 编译内核
 
-Command:
+命令:
 ``` bash
 make -j`nproc`
 ```
 
-Or if you want to specify a compiler.
+你同样可以通过以下命令继续指定编译器。
 
-Command:
+命令:
 ``` bash
 make CC="$GCC/bin/gcc" -j`nproc`
 ```
 
-Now you should have `vmlinux` (kernel binary) and `bzImage` (packed kernel image):
+完成以上步骤后，你应该可以找到 `vmlinux`（内核二进制文件）和 `bzImage` （压缩的内核镜像），通过以下步骤检查这两个文件是否存在。
 
-Command:
+命令:
 ``` bash
 ls $KERNEL/vmlinux
-# sample output - $KERNEL/vmlinux
+# 输出示例 - $KERNEL/vmlinux
 ls $KERNEL/arch/x86/boot/bzImage
-# sample output - $KERNEL/arch/x86/boot/bzImage
+# 输出示例 - $KERNEL/arch/x86/boot/bzImage
 ```
 
-## Image
+## 镜像
 
-### Install debootstrap
+### 安装 debootstrap
 
-Command:
+命令:
 ``` bash
 sudo apt install debootstrap
 ```
 
-### Create Debian Bullseye Linux image
+### 创建 Debian Bullseye Linux 镜像
 
-Create a Debian Bullseye Linux image with the minimal set of required packages.
+创建一个包含必需软件包的最简 Debian Bullseye Linux 镜像
 
-Command:
+命令:
 ``` bash
 mkdir $IMAGE
 cd $IMAGE/
@@ -158,49 +160,49 @@ chmod +x create-image.sh
 ./create-image.sh
 ```
 
-The result should be `$IMAGE/bullseye.img` disk image.
+运行结果应该是生成了 `$IMAGE/bullseye.img` 磁盘镜像。
 
-### OR Create Debian Linux image with a different version
+### 或者创建不同版本的 Debian Linux 镜像
 
-To create a Debian image with a different version (e.g. buster, stretch, sid), specify the `--distribution` option.
+要创建不同版本的 Debian 镜像（例如 buster, stretch, sid），请指定 `--distribution` 选项。
 
-Command:
+命令:
 ``` bash
 ./create-image.sh --distribution buster
 ```
 
-### Image extra tools
+### 安装扩展工具
 
-Sometimes it's useful to have some additional packages and tools available in the VM even though they are not required to run syzkaller. To install a set of tools we find useful do (feel free to edit the list of tools in the script):
+有时在 VM 中安装一些额外的工具也是有用的， 尽管这些工具不是运行 syzkaller 所必需的。你可以通过以下命令安装一些你认为会有帮助的工具 （允许自定义脚本中要安装的工具列表）。
 
-Command:
+命令:
 ``` bash
 ./create-image.sh --feature full
 ```
 
-To install perf (not required to run syzkaller; requires `$KERNEL` to point to the kernel sources):
+安装 perf 请执行以下命令（这个选项不是运行 syzkaller 必需的；安装 perf 需要 `$KERNEL` 指向内核源代码）。
 
-Command:
+命令:
 ``` bash
 ./create-image.sh --add-perf
 ```
 
-For additional options of `create-image.sh`, please refer to `./create-image.sh -h`
+关于 `create-image.sh` 的更多选项， 使用 `./create-image.sh -h` 了解详细信息。
 
 ## QEMU
 
-### Install QEMU
+### 安装 QEMU
 
-Command:
+命令:
 ``` bash
 sudo apt install qemu-system-x86
 ```
 
-### Verify
+### 验证是否成功安装
 
-Make sure the kernel boots and `sshd` starts.
+确保内核可以启动并且 `sshd` 服务能够正常启用。
 
-Command:
+命令:
 ``` bash
 qemu-system-x86_64 \
 	-m 2G \
@@ -235,32 +237,30 @@ Booting the kernel.
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
 ```
 
-After that you should be able to ssh to QEMU instance in another terminal.
+完成这些之后，你应该可以在另一个终端中通过 ssh 连接到 QEMU 实例。
 
-Command:
+命令:
 ``` bash
 ssh -i $IMAGE/bullseye.id_rsa -p 10021 -o "StrictHostKeyChecking no" root@localhost
 ```
 
-### Troubleshooting
+### 故障排除
 
-If this fails with "too many tries", ssh may be passing default keys before
-the one explicitly passed with `-i`. Append option `-o "IdentitiesOnly yes"`.
+如果连接失败并提示 "too many tries", 可能是因为 ssh 在显式传递的密钥 （通过 `-i` 指定）之前传递了默认密钥。可以通过添加选项 `-o "IdentitiesOnly yes"` 解决这个问题。
 
-To kill the running QEMU instance press `Ctrl+A` and then `X` or run:
+终止 QEMU 实例请按 `Ctrl+A` 然后按 `X` 或者运行以下命令。
 
-Command:
+命令:
 ``` bash
 kill $(cat vm.pid)
 ```
 
-If QEMU works, the kernel boots and ssh succeeds, you can shutdown QEMU and try to run syzkaller.
+如果 QEMU 工作正常，内核能够正常启动并且 ssh 连接成功，你可以尝试关闭 QEMU 实例并运行 syzkaller。
 
 ## syzkaller
 
-Build syzkaller as described [here](/docs/linux/setup.md#go-and-syzkaller).
-Then create a manager config like the following, replacing the environment
-variables `$GOPATH`, `$KERNEL` and `$IMAGE` with their actual values.
+按照 [这里](/docs/linux/setup.md#go-and-syzkaller) 的描述编译安装 syzkaller 。
+然后创建一个如下所示的管理器配置文件，将环境变量 `$GOPATH`, `$KERNEL` 和 `$IMAGE` 替换为实际值。
 
 ``` json
 {
@@ -282,14 +282,14 @@ variables `$GOPATH`, `$KERNEL` and `$IMAGE` with their actual values.
 }
 ```
 
-Run syzkaller manager:
+运行 syzkaller 管理器:
 
 ``` bash
 mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-Now syzkaller should be running, you can check manager status with your web browser at `127.0.0.1:56741`.
+现在 syzkaller 应该已经运行起来了，你可以通过 Web 浏览器在 `127.0.0.1:56741` 查看管理器状态。
 
-If you get issues after `syz-manager` starts, consider running it with the `-debug` flag.
-Also see [this page](/docs/troubleshooting.md) for troubleshooting tips.
+如果在 `syz-manager` 启动后遇到问题，可以考虑使用 `-debug` 标志运行它。
+另请参阅 [这一页](troubleshooting.md) 获取故障排除提示。
