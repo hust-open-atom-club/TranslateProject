@@ -5,7 +5,7 @@ author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
 translator: yinchunyuan
-translating_date: 20251127
+translated_date: 20251127
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_vmware-vm_x86-64-kernel.md
 ---
 
