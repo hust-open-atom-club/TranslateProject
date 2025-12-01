@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "How to reproduce crashes"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ collected_date: 20240314
 translated_date: 20250218
 proofreader: SheepFifteen
 proofread_date: 20250722
+publisher: zqmz
+published_date: 20251127
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/reproducing_crashes.md
 ---
