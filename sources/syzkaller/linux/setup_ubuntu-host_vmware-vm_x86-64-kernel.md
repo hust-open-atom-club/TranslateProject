@@ -1,39 +1,41 @@
 ---
-status: collected
+status: translated
 title: "Setup: Ubuntu host, VMware vm, x86-64 kernel"
 author: Syzkaller Community
 collector: jxlpzqc
 collected_date: 20240314
+translator: yinchunyuan
+translated_date: 20251127
 link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_vmware-vm_x86-64-kernel.md
 ---
 
-# Setup: Ubuntu host, VMware vm, x86-64 kernel
+# 设置：Ubuntu 主机，VMware 虚拟机，x86-64 内核
 
-These are the instructions on how to fuzz the x86-64 kernel in VMware Workstation with Ubuntu on the host machine and Debian Bullseye in the virtual machines.
+这里有一些关于怎么在 VMware Workstation 中使用 Ubuntu 主机和 Debian Bullseye 虚拟机来模糊 x86-64 内核的指南。
 
-In the instructions below, the `$VAR` notation (e.g. `$GCC`, `$KERNEL`, etc.) is used to denote paths to directories that are either created when executing the instructions (e.g. when unpacking GCC archive, a directory will be created), or that you have to create yourself before running the instructions. Substitute the values for those variables manually.
+在这个指南下，`$VAR` 符号（例如 `$GCC`、`$KERNEL` 等）表示目录路径，这些目录要么是在执行指南时创建的（比如，解压 GCC 归档文件时会创建一个目录），要么是你必须在运行指南前自己创建。请手动替换这些变量的值。
 
-## GCC and Kernel
+## GCC 和内核
 
-You can follow the same [instructions](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md) for obtaining GCC and building the Linux kernel as when using QEMU.
+你可以按照与使用 QEMU 时相同的 [指令](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md) 来获得 GCC 并构建 Linux 内核。
 
-## Image
+## 镜像
 
-Install debootstrap:
+安装 debootstrap：
 
 ``` bash
 sudo apt-get install debootstrap
 ```
+为了创建一个在 $USERSPACE 目录中的 Debian Bullseye Linux 用户空间，执行：
 
-To create a Debian Bullseye Linux user space in the $USERSPACE dir do:
 ```
 sudo mkdir -p $USERSPACE
 sudo debootstrap --include=openssh-server,curl,tar,gcc,libc6-dev,time,strace,sudo,less,psmisc,selinux-utils,policycoreutils,checkpolicy,selinux-policy-default,firmware-atheros,open-vm-tools --components=main,contrib,non-free bullseye $USERSPACE
 ```
 
-Note: it is important to include the `open-vm-tools` package in the user space as it provides better VM management.
+注意：在用户空间中有 `open-vm-tools` 包很重要，因为这个包可以提供更好的虚拟机管理。
 
-To create a Debian Bullseye Linux VMDK do:
+为了创建 Debian Bullseye Linux VMDK，请执行；
 
 ```
 wget https://raw.githubusercontent.com/google/syzkaller/master/tools/create-gce-image.sh -O create-gce-image.sh
@@ -42,12 +44,12 @@ chmod +x create-gce-image.sh
 qemu-img convert disk.raw -O vmdk disk.vmdk
 ```
 
-The result should be `disk.vmdk` for the disk image and `key` for the root SSH key. You can delete `disk.raw` if you want.
+磁盘镜像的结果应为 `disk.vmdk`，根 SSH 密钥的结果应为 `key`，如果想要，可以删除 `disk.raw`。
 
-## VMware Workstation
+## VMware 工作站
 
-Open VMware Workstation and start the New Virtual Machine Wizard.
-Assuming you want to create the new VM in `$VMPATH`, complete the wizard as follows:
+打开 VMware 工作站并启动新建虚拟机向导。
+假如你想在 `$VMPATH` 中创建新的虚拟机，按照以下步骤完成向导：
 
 * Virtual Machine Configuration: Custom (advanced)
 * Hardware compatibility: select the latest version
@@ -62,40 +64,40 @@ Assuming you want to create the new VM in `$VMPATH`, complete the wizard as foll
 * Existing Disk File: enter the path of `disk.vmdk` created above
 * Select "Customize Hardware..." and remove the "Printer" device if you have one. Add a new "Serial Port" device. For the serial port connection choose "Use socket (named pipe)" and enter "serial" for the socket path. At the end it should look like this:
 
-![Virtual Machine Settings](vmw-settings.png?raw=true)
+![设置虚拟机](vmw-settings.png?raw=true)
 
-When you complete the wizard, you should have `$VMPATH/debian.vmx`. From this point onward, you no longer need the Workstation UI.
+当你完成向导后，你应该有 `$VMPATH/debian.vmx`。从现在开始，你不再需要工作站用户界面了。
 
-Starting the Debian VM (headless):
+启动 Debian 虚拟机（无头模式）：
 ``` bash
 vmrun start $VMPATH/debian.vmx nogui
 ```
 
-Getting the IP address of the Debian VM:
+获得 Debian 虚拟机的 IP 地址：
 ``` bash
 vmrun getGuestIPAddress $VMPATH/debian.vmx -wait
 ```
 
-SSH into the VM:
+以 SSH 密钥方式登录虚拟机：
 ``` bash
 ssh -i key root@<vm-ip-address>
 ```
 
-Connecting to the serial port of the VM (after it is started):
+连接虚拟机的串行端口（在它启动后）：
 ``` bash
 nc -U $VMPATH/serial
 ```
 
-Stopping the VM:
+关闭虚拟机：
 ``` bash
 vmrun stop $VMPATH/debian.vmx
 ```
 
-If all of the above `vmrun` commands work, then you can proceed to running syzkaller.
+如果以上所有的 `vmrun` 命令都可以正常工作，接下来可继续运行 syzkaller。
 
 ## syzkaller
 
-Create a manager config like the following, replacing the environment variables $GOPATH, $KERNEL and $VMPATH with their actual values.
+创建一个如下所示的管理器配置，将环境变量 $GOPATH, $KERNEL 和 $VMPATH 替换为它们的实际值。
 
 ```
 {
@@ -114,15 +116,14 @@ Create a manager config like the following, replacing the environment variables 
 }
 ```
 
-Run syzkaller manager:
+运行 syzkaller 管理器：
 
 ``` bash
 mkdir workdir
 ./bin/syz-manager -config=my.cfg
 ```
 
-Syzkaller will create full clone VMs from the `base_vmx` VM and then use ssh to copy and execute programs in them.
-The `base_vmx` VM will not be started and its disk will remain unmodified.
+Syzkaller 将会从 `base_vmx` 虚拟机中创建完整的克隆虚拟机，然后使用 ssh 来复制并且在其中执行程序。
+`base_vmx` 虚拟机将不会工作，并且它的磁盘将保持未修改状态。
 
-If you get issues after `syz-manager` starts, consider running it with the `-debug` flag.
-Also see [this page](/docs/troubleshooting.md) for troubleshooting tips.
+如果你在 `syz-manager` 启动后遇到问题，考虑使用 `-debug` 标志运行它。同时也可以在 [这个页面](/docs/troubleshooting.md) 查找解决问题的方法。
