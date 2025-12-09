@@ -1,109 +1,122 @@
-状态: 已收集
+---
+状态: 已翻译
 标题: "Ramoops oops/panic日志记录器"
 作者: Linux内核社区
 收集者: tttturtle-russ
 收集日期: 20240718
+翻译者：Zqq2006
+翻译日期：20251209
 链接: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/ramoops.rst
+---
 
-Ramoops oops/panic 日志记录器
+# Ramoops oops/panic 日志记录器
+
 Sergiu Iordache sergiu@chromium.org
 
 更新于: 2021年2月10日
 
-简介
+## 简介
+
 Ramoops 是一个 oops/panic 日志记录器，它在系统崩溃之前将日志写入 RAM。
 它通过在一个循环缓冲区中记录 oops 和 panic 来工作。Ramoops 需要一个具有持久性 RAM 的系统，以便该区域的内容在重启后能够保留。
 
- Ramoops 概念 
+## Ramoops 概念 
+
 Ramoops 使用预定义的内存区域来存储转储数据。内存区域的起始地址、大小和类型使用三个变量设置：
-mem_address 表示起始地址
-mem_size 表示大小。内存大小将向下取整为 2 的幂。
-mem_type 用于指定内存类型（默认为 pgprot_writecombine）。
 
-mem_type=0mem_type=1pgprot_noncachedmem_type=2
-通常默认值应使用，mem_type=0因为这样可以将pstore映射映射到pgprot_writecombine。设置mem_type=1尝试使用pgprot_noncached，仅在部分平台上有
-效。这是因为pstore依赖于原子作。至少在ARM上，pgprot_noncached会导致内存被强序映射，强序内存上的原子作是实现定义的，但对于许多ARM如omaps
-无法实现。设置mem_type=2尝试将内存区域视为普通内存，从而实现其满缓存。这可以提升性能。
+> - `mem_address` 表示起始地址
+> - `mem_size` 表示大小。内存大小将向下取整为2的幂。
+> - `mem_type` 用于指定内存类型（默认为 pgprot_writecombine）。
 
-record_sizerecord_size
-内存区域被划分为record_size块（也向下取整为2的幂），每个kmesg转储都会写入一个record_size信息块。
+通常，应使用 `mem_type=0` 的默认值，因为这将 pstore 映射设置为 pgprot_writecombine。设置 `mem_type=1` 会尝试使用 `pgprot_noncached`，但这
+只在某些平台上有效。这是因为 pstore 依赖于原子操作。至少在 ARM 上，pgprot_noncached 会导致内存被映射为强序内存，而对强序内存的原子操作是**实
+现定义**的，在许多 ARM（如 omaps）上无法工作。设置 `mem_type=2` 会尝试将内存区域视为普通内存，从而启用完整缓存。这可以提高性能。
 
-max_reasonenum kmsg_dump_reasonmax_reasonmax_reasonprintk.always_kmsg_dump
-限制存储的 kmsg 转储类型可以通过 include/linux/kmsg_dump.h 定义的max_reason值来控制enum kmsg_dump_reason。例如，要同时存储失误和恐慌，
-max_reason应设置为2（KMSG_DUMP_OOPS），仅存储恐慌max_reason应设为1（KMSG_DUMP_PANIC）。把这个设置为0（KMSG_DUMP_UNDEF），过滤的原因由
-printk.always_kmsg_dump启动参数控制：如果未设置，它会beKMSG_DUMP_OOPS，否则KMSG_DUMP_MAX。
+内存区域被划分为 `record_size` 大小的块（同样向下取整为2的幂），每次 kmesg 转储都会写入一个 `record_size` 块的信息。
 
-该模块使用计数器记录多个转储，但计数器在重启时会重置（即重启后新的转储会覆盖旧的转储）。
+可以通过 `max_reason` 值来控制存储哪些类型的 kmsg 转储，该值定义在 include/linux/kmsg_dump.h 的 `enum kmsg_dump_reason` 中。例如，要同时存
+储 Oopses 和 Panics，应将 `max_reason` 设置为 2 (KMSG_DUMP_OOPS)；要仅存储 Panics，应将 `max_reason` 设置为 1 (KMSG_DUMP_PANIC)。将其设置
+为 0 (KMSG_DUMP_UNDEF) 意味着原因过滤将由 `printk.always_kmsg_dump` 引导参数控制：如果未设置，则为 KMSG_DUMP_OOPS，否则为 KMSG_DUMP_MAX。
 
-Ramoops 还支持对持久内存区域的软件 ECC 保护。当使用硬件复位来使机器恢复正常（即触发看门狗）时，这可能非常有用。在这种情况下，内存可能有
-些损坏，但通常可以恢复。
+该模块使用一个计数器来记录多次转储，但计数器在重启时会重置（即，重启后的新转储将覆盖旧的转储）。
 
-参数设定 
-设置拉穆普参数可以通过多种方式实现：
+Ramoops 还支持持久内存区域的软件 ECC 保护。当使用硬件复位使机器恢复时（例如，看门狗触发），这可能很有用。在这种情况下，RAM 可能有些损坏，但通常
+可以恢复。
 
-A. 使用模块参数（变量名称如前所述）。为了快速调试，你也可以在启动时保留部分内存，然后用保留内存用于 Ramoops。例如，假设一台>拥有 128 MB 
-内存的机器，以下内核命令行将告诉内核只使用前 128 MB 内存，并将 ECC 保护的 ramoops 区域置于 128MB 边界：
-mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
+## 参数设定
 
-Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
-B. 使用设备树绑定，如所述Documentation/devicetree/bindings/reserved-memory/ramoops.yaml。例如：
-reserved-memory {
-    #address-cells = <2>;
-    #size-cells = <2>;
-    ranges;
+可以通过以下几种不同的方式设置 ramoops 参数：
 
-    ramoops@8f000000 {
-        compatible = "ramoops";
-        reg = <0 0x8f000000 0 0x100000>;
-        record-size = <0x4000>;
-        console-size = <0x4000>;
-    };
-};
-C. 使用平台设备并设置平台数据。参数可以通过该平台数据设置。一个示例如下：
-#include <linux/pstore_ram.h>
-[...]
+> A. 使用模块参数（其名称与前面描述的变量相同）。为了快速调试，您也可以在引导期间保留部分内存，然后将保留的内存用于 ramoops。
+> 例如，假设一台机器的内存 > 128 MB，以下内核命令行将告诉内核仅使用前 128 MB 内存，并在 128 MB 边界处放置 ECC 保护的 ramoops 区域：
+>
+>     mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
+>
+> B. 使用设备树绑定，如 `Documentation/devicetree/bindings/reserved-memory/ramoops.yaml` 中所述。例如：
+>
+>     reserved-memory {
+>         #address-cells = <2>;
+>         #size-cells = <2>;
+>         ranges;
+>
+>         ramoops@8f000000 {
+>             compatible = "ramoops";
+>             reg = <0 0x8f000000 0 0x100000>;
+>             record-size = <0x4000>;
+>             console-size = <0x4000>;
+>         };
+>     };
+>
+> C. 使用平台设备并设置平台数据。然后可以通过该平台数据设置参数。以下是实现该方法的示例：
+>
+> ```c
+> #include <linux/pstore_ram.h>
+> [...]
+>
+> static struct ramoops_platform_data ramoops_data = {
+>       .mem_size               = <...>,
+>       .mem_address            = <...>,
+>       .mem_type               = <...>,
+>       .record_size            = <...>,
+>       .max_reason             = <...>,
+>       .ecc                    = <...>,
+> };
+>
+> static struct platform_device ramoops_dev = {
+>       .name = "ramoops",
+>       .dev = {
+>               .platform_data = &ramoops_data,
+>       },
+> };
+>
+> [... 在函数内部 ...]
+> int ret;
+>
+> ret = platform_device_register(&ramoops_dev);
+> if (ret) {
+>   printk(KERN_ERR "无法注册平台设备\n");
+>   return ret;
+> }
+> ```
 
-static struct ramoops_platform_data ramoops_data = {
-      .mem_size               = <...>,
-      .mem_address            = <...>,
-      .mem_type               = <...>,
-      .record_size            = <...>,
-      .max_reason             = <...>,
-      .ecc                    = <...>,
-};
+您可以指定 RAM 内存或外设设备的内存。但是，在指定 RAM 时，请务必通过在架构代码中非常早期地调用 memblock_reserve() 来保留内存，例如：
 
-static struct platform_device ramoops_dev = {
-      .name = "ramoops",
-      .dev = {
-              .platform_data = &ramoops_data,
-      },
-};
-
-[... inside a function ...]
-int ret;
-
-ret = platform_device_register(&ramoops_dev);
-if (ret) {
-  printk(KERN_ERR "unable to register platform device\n");
-  return ret;
-}
-你可以指定内存或外设设备的内存。然而，在指定RAM时，务必在架构代码的早期用issuingmemblock_reserve（）保留内存，例如：
 #include <linux/memblock.h>
 
 memblock_reserve(ramoops_data.mem_address, ramoops_data.mem_size);
 
- 转储格式 
- ====
-数据转储以一个头部开始，目前定义为====：后面跟着一个时间戳和一行新行。然后转储继续处理实际数据。
+## 转储格式 
 
-读取数据
-dmesg-ramoops-N
-转储数据可以从 pstore 文件系统读取。这些文件的格式为 dmesg-ramoops-N，其中 N 是内存中的记录编号。要删除内存中的存储记录，只需解除对立存储
-文件的链接。
+数据转储以头部开始，当前定义为 `====`，后跟时间戳和换行符。然后转储继续显示实际数据。
 
-持久功能追踪 
-ftrace-ramoops
-持久函数追踪可能有助于调试软件或硬件相关的卡顿。函数调用链日志存储在一个ftrace-ramoops文件中。这里有一个用法示例：
+## 读取数据
+
+可以从 pstore 文件系统读取转储数据。这些文件的格式是 `dmesg-ramoops-N`，其中 N 是内存中的记录编号。要从 RAM 中删除存储的记录，只需取消链接相
+应的 pstore 文件。
+
+## 持久功能追踪 
+
+持久函数追踪对于调试软件或硬件相关的挂起可能很有用。函数调用链日志存储在 `ftrace-ramoops` 文件中。以下是使用示例：
 
 # mount -t debugfs debugfs /sys/kernel/debug/
 # echo 1 > /sys/kernel/debug/pstore/record_ftrace
