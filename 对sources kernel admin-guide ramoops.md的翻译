@@ -1,0 +1,123 @@
+状态: 已收集
+标题: "Ramoops oops/panic日志记录器"
+作者: Linux内核社区
+收集者: tttturtle-russ
+收集日期: 20240718
+链接: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/ramoops.rst
+
+Ramoops oops/panic 日志记录器
+Sergiu Iordache sergiu@chromium.org
+
+更新于: 2021年2月10日
+
+简介
+Ramoops 是一个 oops/panic 日志记录器，它在系统崩溃之前将日志写入 RAM。
+它通过在一个循环缓冲区中记录 oops 和 panic 来工作。Ramoops 需要一个具有持久性 RAM 的系统，以便该区域的内容在重启后能够保留。
+
+ Ramoops 概念 
+Ramoops 使用预定义的内存区域来存储转储数据。内存区域的起始地址、大小和类型使用三个变量设置：
+mem_address 表示起始地址
+mem_size 表示大小。内存大小将向下取整为 2 的幂。
+mem_type 用于指定内存类型（默认为 pgprot_writecombine）。
+
+mem_type=0mem_type=1pgprot_noncachedmem_type=2
+通常默认值应使用，mem_type=0因为这样可以将pstore映射映射到pgprot_writecombine。设置mem_type=1尝试使用pgprot_noncached，仅在部分平台上有
+效。这是因为pstore依赖于原子作。至少在ARM上，pgprot_noncached会导致内存被强序映射，强序内存上的原子作是实现定义的，但对于许多ARM如omaps
+无法实现。设置mem_type=2尝试将内存区域视为普通内存，从而实现其满缓存。这可以提升性能。
+
+record_sizerecord_size
+内存区域被划分为record_size块（也向下取整为2的幂），每个kmesg转储都会写入一个record_size信息块。
+
+max_reasonenum kmsg_dump_reasonmax_reasonmax_reasonprintk.always_kmsg_dump
+限制存储的 kmsg 转储类型可以通过 include/linux/kmsg_dump.h 定义的max_reason值来控制enum kmsg_dump_reason。例如，要同时存储失误和恐慌，
+max_reason应设置为2（KMSG_DUMP_OOPS），仅存储恐慌max_reason应设为1（KMSG_DUMP_PANIC）。把这个设置为0（KMSG_DUMP_UNDEF），过滤的原因由
+printk.always_kmsg_dump启动参数控制：如果未设置，它会beKMSG_DUMP_OOPS，否则KMSG_DUMP_MAX。
+
+该模块使用计数器记录多个转储，但计数器在重启时会重置（即重启后新的转储会覆盖旧的转储）。
+
+Ramoops 还支持对持久内存区域的软件 ECC 保护。当使用硬件复位来使机器恢复正常（即触发看门狗）时，这可能非常有用。在这种情况下，内存可能有
+些损坏，但通常可以恢复。
+
+参数设定 
+设置拉穆普参数可以通过多种方式实现：
+
+A. 使用模块参数（变量名称如前所述）。为了快速调试，你也可以在启动时保留部分内存，然后用保留内存用于 Ramoops。例如，假设一台>拥有 128 MB 
+内存的机器，以下内核命令行将告诉内核只使用前 128 MB 内存，并将 ECC 保护的 ramoops 区域置于 128MB 边界：
+mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
+
+Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
+B. 使用设备树绑定，如所述Documentation/devicetree/bindings/reserved-memory/ramoops.yaml。例如：
+reserved-memory {
+    #address-cells = <2>;
+    #size-cells = <2>;
+    ranges;
+
+    ramoops@8f000000 {
+        compatible = "ramoops";
+        reg = <0 0x8f000000 0 0x100000>;
+        record-size = <0x4000>;
+        console-size = <0x4000>;
+    };
+};
+C. 使用平台设备并设置平台数据。参数可以通过该平台数据设置。一个示例如下：
+#include <linux/pstore_ram.h>
+[...]
+
+static struct ramoops_platform_data ramoops_data = {
+      .mem_size               = <...>,
+      .mem_address            = <...>,
+      .mem_type               = <...>,
+      .record_size            = <...>,
+      .max_reason             = <...>,
+      .ecc                    = <...>,
+};
+
+static struct platform_device ramoops_dev = {
+      .name = "ramoops",
+      .dev = {
+              .platform_data = &ramoops_data,
+      },
+};
+
+[... inside a function ...]
+int ret;
+
+ret = platform_device_register(&ramoops_dev);
+if (ret) {
+  printk(KERN_ERR "unable to register platform device\n");
+  return ret;
+}
+你可以指定内存或外设设备的内存。然而，在指定RAM时，务必在架构代码的早期用issuingmemblock_reserve（）保留内存，例如：
+#include <linux/memblock.h>
+
+memblock_reserve(ramoops_data.mem_address, ramoops_data.mem_size);
+
+ 转储格式 
+ ====
+数据转储以一个头部开始，目前定义为====：后面跟着一个时间戳和一行新行。然后转储继续处理实际数据。
+
+读取数据
+dmesg-ramoops-N
+转储数据可以从 pstore 文件系统读取。这些文件的格式为 dmesg-ramoops-N，其中 N 是内存中的记录编号。要删除内存中的存储记录，只需解除对立存储
+文件的链接。
+
+持久功能追踪 
+ftrace-ramoops
+持久函数追踪可能有助于调试软件或硬件相关的卡顿。函数调用链日志存储在一个ftrace-ramoops文件中。这里有一个用法示例：
+
+# mount -t debugfs debugfs /sys/kernel/debug/
+# echo 1 > /sys/kernel/debug/pstore/record_ftrace
+# reboot -f
+[...]
+# mount -t pstore pstore /mnt/
+# tail /mnt/ftrace-ramoops
+0 ffffffff8101ea64  ffffffff8101bcda  native_apic_mem_read <- disconnect_bsp_APIC+0x6a/0xc0
+0 ffffffff8101ea44  ffffffff8101bcf6  native_apic_mem_write <- disconnect_bsp_APIC+0x86/0xc0
+0 ffffffff81020084  ffffffff8101a4b5  hpet_disable <- native_machine_shutdown+0x75/0x90
+0 ffffffff81005f94  ffffffff8101a4bb  iommu_shutdown_noop <- native_machine_shutdown+0x7b/0x90
+0 ffffffff8101a6a1  ffffffff8101a437  native_machine_emergency_restart <- native_machine_restart+0x37/0x40
+0 ffffffff811f9876  ffffffff8101a73a  acpi_reboot <- native_machine_emergency_restart+0xaa/0x1e0
+0 ffffffff8101a514  ffffffff8101a772  mach_reboot_fixups <- native_machine_emergency_restart+0xe2/0x1e0
+0 ffffffff811d9c54  ffffffff8101a7a0  __const_udelay <- native_machine_emergency_restart+0x110/0x1e0
+0 ffffffff811d9c34  ffffffff811d9c80  __delay <- __const_udelay+0x30/0x40
+0 ffffffff811d9d14  ffffffff811d9c3f  delay_tsc <- __delay+0xf/0x20
