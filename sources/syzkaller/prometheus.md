@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Prometheus metrics"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ collected_date: 20240314
 translated_date: 20250217
 proofreader: yinchunyuan
 proofread_date: 20250909
+publisher: zqmz
+published_date: 20251208
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/prometheus.md
 ---
