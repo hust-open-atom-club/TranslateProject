@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "syz-verifier"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ translator: Kozmosa
 translated_date: 20250718
 proofreader: yinchunyuan
 proofread_date: 20250909
+publisher: zqmz
+published_date: 20251220
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_verifier.md
 ---
