@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "syz-testbed"
 author: Syzkaller Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: Kozmosa
 translated_date: 20250903
 proofreader: yinchunyuan
 proofread_date: 20250919
+publisher: zqmz
+published_date: 20251218
 priority: 10
 link: https://github.com/google/syzkaller/blob/master/docs/syz_testbed.md
 ---
