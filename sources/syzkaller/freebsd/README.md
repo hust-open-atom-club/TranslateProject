@@ -8,6 +8,8 @@ collected_date: 20240314
 translated_date: 20250219
 proofreader: yinchunyuan
 proofread_date: 20250913
+publisher: zqmz
+published_date: 20260131
 link: https://github.com/google/syzkaller/blob/master/docs/freebsd/README.md
 ---
 
