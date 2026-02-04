@@ -8,6 +8,8 @@ translator: CAICAIIs
 translated_date: 20250218
 proofreader: mudongliang
 proofread_date: 20250720
+publisher: zqmz
+published_date: 20260127
 link: https://github.com/google/syzkaller/blob/master/docs/akaros/README.md
 ---
 

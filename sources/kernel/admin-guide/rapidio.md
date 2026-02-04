@@ -8,6 +8,8 @@ translator: Kozmosa
 translated_date: 20250715
 proofreader: mudongliang
 proofread_date: 20250715
+publisher: zqmz
+published_date: 20260123
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/rapidio.rst
 ---
 
