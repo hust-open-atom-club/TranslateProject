@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ

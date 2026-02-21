@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang

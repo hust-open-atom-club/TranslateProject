@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "FreeBSD"
 author: Syzkaller Community
 collector: jxlpzqc
