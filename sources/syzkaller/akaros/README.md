@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Akaros support"
 author: Syzkaller Community
 collector: jxlpzqc

@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "RapidIO Subsystem Guide"
 author: Linux Kernel Community
 collector: tttturtle-russ

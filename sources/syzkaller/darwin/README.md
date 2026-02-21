@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Darwin/XNU"
 author: Syzkaller Community
 collector: jxlpzqc
