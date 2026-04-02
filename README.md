@@ -21,6 +21,6 @@
 
 ## 如何开始
 
-**注意**，请在开始贡献前[签署CLA](https://cla-assistant.io/hust-open-atom-club/TranslateProject)，否则 PR 无法被合并。
+**注意**，请在开始贡献前[ 签署CLA ](https://cla-assistant.io/hust-open-atom-club/TranslateProject)，否则 PR 无法被合并。
 
 请阅读 [WIKI](https://github.com/hust-open-atom-club/TranslateProject/wiki/)。如需要协助，请在群内发问。
