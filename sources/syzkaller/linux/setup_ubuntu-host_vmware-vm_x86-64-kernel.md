@@ -11,14 +11,14 @@ link: https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-ho
 
 # 设置：Ubuntu 主机，VMware 虚拟机，x86-64 内核
 
-这里是一些关于怎么在 VMware Workstation 中使用 Ubuntu 主机和 Debian Bullseye 虚拟机
-来模糊 x86-64 内核的指南。
+本文描述如何在 VMware Workstation 中使用 Ubuntu 主机和 Debian Bullseye 虚拟机
+对 x86-64 内核进行模糊测试。
 
 在这个指南下，`$VAR` 符号（例如 `$GCC`、`$KERNEL` 等）表示目录路径，这些目录要么是在执行指南时创建的（比如，解压 GCC 归档文件时会创建一个目录），要么是你必须在运行指南前自己创建。请手动替换这些变量的值。
 
 ## GCC 和内核
 
-你可以按照与使用 QEMU 时相同的 [指令](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md) 来获得 GCC 并构建 Linux 内核。
+你可以按照与使用 QEMU 时相同的[指令](/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md) 来获得 GCC 并构建 Linux 内核。
 
 ## 镜像
 
@@ -45,7 +45,7 @@ chmod +x create-gce-image.sh
 qemu-img convert disk.raw -O vmdk disk.vmdk
 ```
 
-磁盘镜像的结果应为 `disk.vmdk`，根 SSH 密钥的结果应为 `key`，如果想要，可以删除 `disk.raw`。
+磁盘镜像的结果应为 `disk.vmdk`，根 SSH 密钥的结果应为 `key`。你可以随时删除 disk.raw。
 
 ## VMware 工作站
 
@@ -79,7 +79,7 @@ vmrun start $VMPATH/debian.vmx nogui
 vmrun getGuestIPAddress $VMPATH/debian.vmx -wait
 ```
 
-以 SSH 密钥方式登录虚拟机：
+通过 SSH 登入虚拟机：
 ``` bash
 ssh -i key root@<vm-ip-address>
 ```
