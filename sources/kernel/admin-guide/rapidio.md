@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "RapidIO Subsystem Guide"
 author: Linux Kernel Community
 collector: tttturtle-russ
@@ -8,6 +8,8 @@ translator: Kozmosa
 translated_date: 20250715
 proofreader: mudongliang
 proofread_date: 20250715
+publisher: zqmz
+published_date: 20260123
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/rapidio.rst
 ---
 

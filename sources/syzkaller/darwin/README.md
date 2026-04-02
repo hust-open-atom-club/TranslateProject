@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Darwin/XNU"
 author: Syzkaller Community
 collector: jxlpzqc
@@ -8,6 +8,8 @@ collected_date: 20240314
 translated_date: 20250221
 proofreader: yinchunyuan
 proofread_date: 20250926
+publisher: zqmz
+published_date: 20260129
 link: https://github.com/google/syzkaller/blob/master/docs/darwin/README.md
 ---
 

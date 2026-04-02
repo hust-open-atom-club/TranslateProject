@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "What is a good Linux Kernel bug?"
 author: Ben Hawkes
 collector: tttturtle-russ
@@ -8,6 +8,8 @@ translator: QGrain
 translated_date: 20241215
 proofreader: QGrain
 proofread_date: 20251011
+publisher: zqmz
+published_date: 20260102
 priority: 10
 link: https://blog.isosceles.com/what-is-a-good-linux-kernel-bug
 ---

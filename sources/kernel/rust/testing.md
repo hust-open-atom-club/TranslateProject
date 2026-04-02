@@ -1,5 +1,5 @@
 ---
-status: proofread
+status: published
 title: "Testing"
 author: Linux Kernel Community
 collector: mudongliang
@@ -8,6 +8,8 @@ translator: benx-guo
 translated_date: 20250920
 proofreader: mudongliang
 proofread_date: 20250926
+publisher: zqmz
+published_date: 20260125
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/rust/testing.rst
 ---
 
