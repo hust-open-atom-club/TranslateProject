@@ -1,3 +1,5 @@
+[![加入飞书外部群](https://img.shields.io/badge/加入飞书外部群-HCTT%20SIG-0078d7?style=flat-square&labelColor=444444)](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=4e3g0475-2966-40c7-a713-3fcf43893a67)
+
 # TranslateProject
 
 ## 简介
@@ -7,8 +9,6 @@
 ## 加入我们
 
 请首先加入我们的[飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=4e3g0475-2966-40c7-a713-3fcf43893a67)，加群时请说明是“志愿者”。
-
-[![加入飞书外部群](https://img.shields.io/badge/加入飞书外部群-HCTT%20SIG-0078d7?style=flat-square&labelColor=444444)](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=4e3g0475-2966-40c7-a713-3fcf43893a67)
 
 新加入的成员，请：
 
