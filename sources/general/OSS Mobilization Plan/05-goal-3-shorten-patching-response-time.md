@@ -1,13 +1,15 @@
 ---
-status: collected
+status: translating
 title: "[OSS Mobilization Plan] 05 - Goal 3: Shorten Ecosystem Patching Response Time"
 author: OpenSSF
 collector: benx-guo
 collected_date: 20251118
+translator: manbo1234
+translating_date: 20260412
 link: https://8112310.fs1.hubspotusercontent-na1.net/hubfs/8112310/OpenSSF/OSS%20Mobilization%20Plan.pdf?utm_referrer=https%3A%2F%2Fopenssf.org%2F
 ---
 
-# Goal 3: Shorten Ecosystem Patching Response Time
+# 目标 3：缩短生态系统补丁响应时间
 
 Finding and remediating vulnerabilities in open source projects is a critical first step in
 addressing an issue. But the key goal for any such effort has to be to get the fixed versions
@@ -20,7 +22,7 @@ complementary efforts needed to ensure that all participants in the ecosystem up
 the latest secure version of all components they use and release such updated versions of
 their components to the ecosystem participants downstream from them in a timely manner.
 
-## **Stream 9: SBOM everywhere — Improve SBOM tooling and training to drive adoption.**
+## **方向 9：让 SBOM 无处不在————改进 SBOM 工具与培训，推动其广泛采用。**
 
 When a major new vulnerability is discovered, enterprises are often left scrambling to
 determine if, how, and where they may be vulnerable. Far too often, they have no inventory
@@ -39,9 +41,9 @@ resource educational materials, training videos, default templates, examples, an
 support, removing last-mile barriers or resistance due to inertia. This stream addresses all three
 points and works directly with the SPDX team to implement them as a new SPDX security profile.
 
-Cost: $3.2M for the first year, and a TBD amount per year beyond.
+成本：第一年为 320 万美元，此后每年的金额待定。
 
-## **Stream 10: Enhance the 10 most critical OSS build systems, package managers, and distribution systems with better supply chain security tools and best practices.**
+## **方向 10：通过更好的供应链安全工具和最佳实践，增强 10 个最关键的开源构建系统、包管理器和分发系统。**
 
 Open source software is built using a range of language-specific build systems before being
 distributed to end users via package managers. This means wildly different levels of quality and
@@ -63,4 +65,4 @@ data should support shortened patch time through faster detection and remediatio
 transparency of vulnerabilities and patches to downstream users, and better security tooling
 for all developers.
 
-Cost: $8.1M for the first year, $8.1M per year beyond.
+成本：第一年为 810 万美元，此后每年 810 万美元。
