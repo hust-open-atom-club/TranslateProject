@@ -1,42 +1,31 @@
 ---
-status: collected
+status: translated
 title: "[OSS Mobilization Plan] 06 - Overall Costs"
 author: OpenSSF
 collector: benx-guo
 collected_date: 20251118
+translator: manbo1234
+translating_date: 20260412
+translated_date: 20260412
 link: https://8112310.fs1.hubspotusercontent-na1.net/hubfs/8112310/OpenSSF/OSS%20Mobilization%20Plan.pdf?utm_referrer=https%3A%2F%2Fopenssf.org%2F
 ---
 
-# Overall Costs
+# 总成本
 
-We asked the authors of each stream proposal to develop an approach that was both
-pragmatic and ambitious, that scaled up existing efforts or applied proven techniques from
-one part of the OSS ecosystem to the rest, and that set meaningful goals achievable within
-the first two years if sufficiently resourced. We asked them to develop a budget for these
-approaches that was both lean and realistic, so as to determine the rough magnitude of
-investment required to provide high confidence these goals could be met, though as noted
-earlier there are many factors that could influence these costs both upwards and downwards. And yet, we feel the estimates below adequately sets expectations for the scope
-of investment required, with perhaps a 50% margin of error in either direction. As with all
-such work, there are three variables at play: time, money, and scope. We anticipate all three
-evolving as our work on the plan continues, driving towards a moment where funding, leadership, and approach is locked in and the "first year" clock starts.
+我们要求每个工作方向（stream）提案的作者制定一种既务实又有雄心的方案：这种方案既要能够扩大现有工作的规模，或将 开源软件（OSS）生态系统某一部分已经验证有效的技术应用到其他部分；又要设定在资源充足的前提下，将这些方案变成能够在头两年内实现的、有意义的目标。我们还要求他们为这些方案制定一份既精简又现实的预算，以便大致判断：若想较有把握地实现这些目标，需要投入多大规模的资金。当然，正如前文所述，仍有许多因素可能使这些成本上升或下降。尽管如此，我们还是充分的设定估算了所需投资范围的预期，但是在任何方向上都可能有50%的误差。与所有这类工作一样，这里有三个变量在起作用：时间、资金和范围。 我们预计，随着计划工作的持续推进，这三个变量都会不断演变，最终走向这样一个时间节点：资金、领导力和实施方法被统一确定下来，此时“第一年”的计时正式开始。
 
-In that spirit, we feel the below represents an investment portfolio that, while non-trivial,
-has an immense potential for substantially greater returns in the form of fewer attacks
-and disruption. We are eager to work with academics and researchers who might help us
-quantify that value in the form of fewer data breaches (and fines), system downtimes due to
-rushed upgrades, fewer cybersecurity insurance pay-outs and lowered premiums, and other
-signs that these investments will pay off.
+本着这一精神, 我们认为下面叙述的投资组合虽然是微不足道的，但具有更大的潜力，例如减少攻击事件和由此造成的业务中断。我们渴望与学者和研究人员合作，帮助我们量化这些投入的价值，例如：减少数据泄露（以及由此产生的罚款）、减少因仓促升级导致的系统停机、减少网络安全保险赔付并降低保费，以及其他能够表明这些投资将获得回报的指标。
 
-| **STREAM** | **FIRST YEAR** | **SECOND YEAR** |
+| **方向** | **第一年** | **第二年** |
 |------------|----------------|----------------|
-| 1. Baseline Secure Software Development Education | $4.5M | $3.5M |
-| 2. Risk Assessment Dashboard for OSS | $3.5M | $3.9M |
-| 3. Digital Signatures to Deliver Enhanced Trust | $13M | $4M |
-| 4. Replacement of Non-Memory-Safe Languages | $5.5M | $2M |
-| 5. Open Source Security Incident Response Team | $2.75M | $3M |
-| 6. Accelerate Discover and Remediation of New Vulns | $15M | $11M |
-| 7. Third Party Audits/Code Reviews and Remediation | $11M | $42M |
-| 8. Data Sharing to Determine Critical Projects | $1.85M | $2.05M |
-| 9. SBOMs Everywhere: Security Use Cases, Tooling | $3.2M | TBD |
-| 10. Build Systems, Package Managers, and Distribution Systems | $8.1M | $8.1M |
-| **Total** | **$68.4M** | **$79.5M** |
+| 1. 基于软件开发教育 | 450万美元 | 350万美元 |
+| 2. 对 开源软件 的风险评估指示 | 350万美元 | 390万美元 |
+| 3. 通过数字签名增强信任 | 1300万美元 | 400万美元 |
+| 4. 替代非内存安全语言 | 550万美元 | 200万美元 |
+| 5. 开源软件 安全事件响应团队 | 275万美元 | 300万美元 |
+| 6. 加速新漏洞的发现与修复 | 1500万美元 | 1100万美元 |
+| 7. 第三方审计 / 代码审查与修复 | 1100万美元 | 4200万美元 |
+| 8. 数据共享以确定关键项目 | 185万美元 | 205万美元 |
+| 9. 全面推行 SBOM ：安全用例与工具链	 | 320万美元 | 待定 |
+| 10. 构建系统、包管理器和分发系统 | 810万美元 | $810万美元 |
+| **总开销** | **6840万美元** | **7950万美元** |
