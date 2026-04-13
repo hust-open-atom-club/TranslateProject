@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "[OSS Mobilization Plan] 06 - Overall Costs"
 author: OpenSSF
 collector: benx-guo
 collected_date: 20251118
+translator: manbo1234
+translating_date: 20260413
 link: https://8112310.fs1.hubspotusercontent-na1.net/hubfs/8112310/OpenSSF/OSS%20Mobilization%20Plan.pdf?utm_referrer=https%3A%2F%2Fopenssf.org%2F
 ---
 
