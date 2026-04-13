@@ -1,68 +1,37 @@
 ---
-status: translating
+status: translated
 title: "[OSS Mobilization Plan] 05 - Goal 3: Shorten Ecosystem Patching Response Time"
 author: OpenSSF
 collector: benx-guo
 collected_date: 20251118
 translator: manbo1234
 translating_date: 20260413
+translated_date: 20260413
 link: https://8112310.fs1.hubspotusercontent-na1.net/hubfs/8112310/OpenSSF/OSS%20Mobilization%20Plan.pdf?utm_referrer=https%3A%2F%2Fopenssf.org%2F
 ---
 
-# Goal 3: Shorten Ecosystem Patching Response Time
+# 目标 3：缩短生态系统补丁响应时间
 
-Finding and remediating vulnerabilities in open source projects is a critical first step in
-addressing an issue. But the key goal for any such effort has to be to get the fixed versions
-of these software components universally deployed everywhere this component is used.
-This requires that every participant in the ecosystem, software vendors, intermediaries,
-service providers, and finally the end user engineering and infrastructure teams, understand where OSS components are part of their infrastructure or of their deployed products.
-We appreciate the role that Software Bills of Materials (SBOMs) play in this context and the
-attention that is being paid to SBOMs at the public policy level. There are, however, other,
-complementary efforts needed to ensure that all participants in the ecosystem update to
-the latest secure version of all components they use and release such updated versions of
-their components to the ecosystem participants downstream from them in a timely manner.
+在开源项目中发现并修复漏洞，是解决安全问题的关键第一步。然而，任何此类工作的核心目标必须是确保这些软件组件的修复版本能够在其所应用的每一个环节实现全面部署。
+这要求生态系统中的每一个参与者，包括软件供应商、中间商、服务提供商，以及最终用户的工程与基础设施团队，都能清楚了解哪些 开源软件 组件在哪些方面属于基础设施或是已部署产品的一部分。
+我们认可 软件物料清单（SBOM）在这一背景下所发挥的作用，也认可当前公共政策层面对 SBOM 的重视。然而还需要开展其他互补性的工作来确保生态系统中的所有参与者都能及时更新到其所使用组件的最新安全版本，并将这些组件更新后的版本及时发布给下游的生态系统参与者，
 
-## **Stream 9: SBOM everywhere — Improve SBOM tooling and training to drive adoption.**
+## **方向 9：让 SBOM 无处不在————改进 SBOM 工具与培训，推动其广泛采用。**
 
-When a major new vulnerability is discovered, enterprises are often left scrambling to
-determine if, how, and where they may be vulnerable. Far too often, they have no inventory
-of the software assets they deploy, and often have no data about the components within
-the software they have acquired. In addition, organizations consider acquiring software but
-often do not have a way to measure the risk that software components within them contain
-known vulnerabilities. Many have identified "Software Bill of Materials" (SBOM) as a fundamental building block for solving this problem. But to suitably address the challenge, their
-adoption must be widespread, standardized, and as accurate as possible
+当出现一个新的重大漏洞时，企业往往会手忙脚乱地确认自己是否存在风险、以何种方式存在风险，以及风险具体位于何处。但太多情况下，他们既没有自己所部署软件资产的清单，也往往缺乏对所采购软件内部组件的相关数据。此外，组织在采购软件时，通常也缺少衡量其中软件组件是否包含已知漏洞风险的数据。许多人已经将 “软件物料清单”（SBOM）视为解决这一问题的基础性构件。但要真正应对这一挑战，SBOM 的采用必须足够广泛、标准化，并且尽可能准确。
 
-By focusing on tools and advocacy, we can remove the barriers to generation, consumption,
-and overall adoption of SBOMs everywhere, we can improve the security posture of the entire
-open source ecosystem: producers, consumers, and maintainers. This stream addresses that
-by resourcing a team of developers to improve that tooling and bake it into the most popular
-software build tooling and infrastructure across all major programming languages. It will also
-resource educational materials, training videos, default templates, examples, and other community advocacy work to normalize SBOM creation and consumption. Most importantly, it will provision a team to work directly with critical projects to submit improvements directly to add SBOM
-support, removing last-mile barriers or resistance due to inertia. This stream addresses all three
-points and works directly with the SPDX team to implement them as a new SPDX security profile.
+通过聚焦于工具开发和倡导工作，我们可以消除 SBOM 在生成、使用和整体采纳过程中的障碍，从而提升整个开源生态系统中生产者、使用者和维护者的安全态势。为此，本方向将通过资助一支开发团队来改进相关工具，并将其融入到所有主流编程语言中最流行的软件构建工具和基础架构。同时，还将投入资源制作教学材料、培训视频、默认模板、示例以及用于其他社区宣传内容，推动 SBOM 的创建与使用走向常态化。最重要的是，它还将组建一支团队，直接与关键项目合作，提交改进代码来增加对 SBOM 的支持，消除“最后一公里”的障碍，或克服因惯性带来的阻力。本方向涵盖上述三个方面，并将直接与 SPDX 团队合作，将其作为新的 SPDX 安全配置文件加以实施。
 
-Cost: $3.2M for the first year, and a TBD amount per year beyond.
+成本：第一年为 320 万美元，此后每年的金额待定。
 
-## **Stream 10: Enhance the 10 most critical OSS build systems, package managers, and distribution systems with better supply chain security tools and best practices.**
+## **方向 10：通过更好的供应链安全工具和最佳实践，增强 10 个最关键的开源构建系统、包管理器和分发系统。**
 
-Open source software is built using a range of language-specific build systems before being
-distributed to end users via package managers. This means wildly different levels of quality and
-risk permeate through the software supply chain as components from different ecosystems
-come together in a production environment, making efforts to place unified policies around
-risk management and mitigation very challenging.
+开源软件 在分发给终端用户之前，会先通过各种特定于编程语言的构建系统进行构建。这意味着，当来自不同生态系统中的组件汇聚在生产环境中时，就会带来质量和风险水平参差不齐的情况，从而使围绕风险管理和缓解措施制定统一政策的努力变得极具挑战。
 
-The intent of this stream is to examine the most impactful security enhancements we can make
-to the distribution of those software artifacts; driving improvements at the package manager
-level to complement other streams focused on component level security and ecosystem risk.
+本方向的目标是研究如何怎么样的安全增强手段最有影响力，可以改进这些软件制品的分发方式；推动包管理器层面的改进，以补充其他专注于组件级安全和生态系统风险的工作方向。
 
-The expected outcome will be a higher level of visibility and security of package management
-systems, finding improvement at a critical point of leverage in the open source ecosystems, to
-allow consumers of open source to attain a greater degree of trust into the composition and
-provenance of their open source software.
+预期成果将是提升包管理系统的可见性和安全性，并在开源生态系统中的这一关键杠杆点实现改进，从而使开源软件使用者能够对其所使用 开源软件 的组成和来源建立更高程度的信任。
 
-Longer term, packaging and distribution improvements around composition and provenance
-data should support shortened patch time through faster detection and remediation, improved
-transparency of vulnerabilities and patches to downstream users, and better security tooling
-for all developers.
+从长期来看，围绕组成信息和来源数据的打包与分发改进，将有助于通过更快的检测和修复来缩短补丁从发布到响应的时间，提高向下游用户披露的漏洞和补丁的透明度，同时为所有开发者提供更好的安全工具。
 
-Cost: $8.1M for the first year, $8.1M per year beyond.
+成本：第一年为 810 万美元，此后每年 810 万美元
