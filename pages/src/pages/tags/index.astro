@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Tag from "@components/Tag.astro";
+import { getUniqueTags } from "@utils/getTagsFromPosts";
+import { SITE } from "@config";
+
+const posts = await getCollection("posts");
+const tags = getUniqueTags(posts);
+---
+
+<Layout title={`标签 | ${SITE.title}`}>
+  <Header activeNav="tags" />
+  <Main pageTitle="标签" pageDesc="按主题快速筛选文章。">
+    <ul>
+      {
+        tags.map(({ tag, count }) => (
+          <div class="flex items-baseline">
+            <Tag tag={tag} size="lg" />
+            <span class="ml-1 text-sm opacity-75">({count})</span>
+          </div>
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>
