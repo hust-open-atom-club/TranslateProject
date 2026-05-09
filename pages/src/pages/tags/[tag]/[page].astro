@@ -1,0 +1,34 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import TagPosts from "@layouts/TagPosts.astro";
+import getPagination from "@utils/getPagination";
+import getPageNumbers from "@utils/getPageNumbers";
+import { getUniqueTags, getPostsByTag } from "@utils/getTagsFromPosts";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("posts");
+  const ret: { params: { tag: string; page: string } }[] = [];
+
+  for (const { tag } of getUniqueTags(posts)) {
+    const tagPosts = getPostsByTag(posts, tag);
+    const pagePaths = getPageNumbers(tagPosts.length).map(pageNum => ({
+      params: { tag, page: pageNum.toString() },
+    }));
+    ret.push(...pagePaths);
+  }
+  return ret;
+}) satisfies GetStaticPaths;
+
+const { tag, page } = Astro.params;
+const posts = await getCollection("posts");
+const tagPosts = getPostsByTag(posts, tag);
+
+const pagination = getPagination({
+  posts: tagPosts,
+  page: parseInt(page),
+  isIndex: false,
+});
+---
+
+<TagPosts {...pagination} tag={tag} tagName={tag} />

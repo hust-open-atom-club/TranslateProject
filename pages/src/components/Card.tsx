@@ -104,6 +104,16 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
         </div>
         {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       </div>
+      {id && (
+        <div className="-mt-1 mb-2 ms-8">
+          <a
+            href={`/tags/${id.split('/')[0].toLowerCase()}/`}
+            className="inline-block text-xs text-skin-base opacity-75 underline decoration-dashed underline-offset-2 hover:text-skin-accent hover:opacity-100"
+          >
+            #{id.split('/')[0]}
+          </a>
+        </div>
+      )}
       {publishCard &&
       // 去掉段后间隔，设置max-width为100%
         <div className="break-all prose" style={{maxWidth: "100%"}} >
