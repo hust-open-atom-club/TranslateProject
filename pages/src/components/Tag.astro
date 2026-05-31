@@ -2,9 +2,11 @@
 export interface Props {
   tag: string;
   size?: "sm" | "lg";
+  // 可选：在标签名后附加文章计数（用于 /tags/ 索引页）。
+  count?: number;
 }
 
-const { tag, size = "sm" } = Astro.props;
+const { tag, size = "sm", count } = Astro.props;
 ---
 
 <li
@@ -25,6 +27,11 @@ const { tag, size = "sm" } = Astro.props;
       ></path>
     </svg>
     &nbsp;<span>{tag}</span>
+    {
+      count !== undefined && (
+        <span class="ml-1 text-sm opacity-75">({count})</span>
+      )
+    }
   </a>
 </li>
 
