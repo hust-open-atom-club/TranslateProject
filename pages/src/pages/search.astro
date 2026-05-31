@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import SearchBar from "@components/Search";
+import { SITE } from "@config";
+
+const posts = await getCollection("posts");
+
+const searchList = posts.map(({ id, data, slug, body }) => ({
+  title: data.title,
+  description: body.replace(/[#`*>-]/g, "").slice(0, 200),
+  data,
+  slug,
+  // entry.id 保留 .md 后缀和原大小写，与 Posts.astro 给 Card 的 id={id}
+  // 行为一致；slug 仅用于 URL 路由（小写、无后缀）。
+  entryId: id,
+}));
+---
+
+<Layout title={`搜索 | ${SITE.title}`}>
+  <Header activeNav="search" />
+  <Main pageTitle="搜索" pageDesc="按关键词检索文章标题或正文摘要。">
+    <SearchBar client:load searchList={searchList} />
+  </Main>
+  <Footer />
+</Layout>
