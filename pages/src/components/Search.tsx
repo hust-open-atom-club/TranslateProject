@@ -8,6 +8,10 @@ export type SearchItem = {
   description: string;
   data: CollectionEntry<"posts">["data"];
   slug: string;
+  // The original content-collection entry id (e.g. "kernel/foo.md").
+  // Card 通过它派生 logo / GitHub edit 链接 / 标签徽章；slug 仅用于 URL 路由。
+  // 不要用 slug 替代 id，否则 Card 内部 `sources/${id}` 会拼出 404。
+  entryId: string;
 };
 
 interface Props {
@@ -80,14 +84,14 @@ export default function SearchBar({ searchList }: Props) {
           <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path>
           </svg>
-          <span className="sr-only">Search</span>
+          <span className="sr-only">搜索</span>
         </span>
         <input
           className="block w-full rounded border border-skin-fill 
         border-opacity-40 bg-skin-fill py-3 pl-10
         pr-3 placeholder:italic placeholder:text-opacity-75 
         focus:border-skin-accent focus:outline-none"
-          placeholder="Search for anything..."
+          placeholder="按关键词检索文章..."
           type="text"
           name="search"
           value={inputVal}
@@ -100,11 +104,7 @@ export default function SearchBar({ searchList }: Props) {
 
       {inputVal.length > 1 && (
         <div className="mt-8">
-          Found {searchResults?.length}
-          {searchResults?.length && searchResults?.length === 1
-            ? " result"
-            : " results"}{" "}
-          for '{inputVal}'
+          找到 {searchResults?.length ?? 0} 条与「{inputVal}」相关的结果
         </div>
       )}
 
@@ -112,6 +112,7 @@ export default function SearchBar({ searchList }: Props) {
         {searchResults &&
           searchResults.map(({ item, refIndex }) => (
             <Card
+              id={item.entryId}
               href={`/posts/${item.slug}/`}
               frontmatter={item.data}
               key={`${refIndex}-${item.slug}`}

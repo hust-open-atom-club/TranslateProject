@@ -1,6 +1,7 @@
 ---
 import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
+import LinkButton from "./LinkButton.astro";
 
 export interface Props {
   activeNav?: "posts" | "tags" | "about" | "search" | "rank" | "tasks" | "wiki";
@@ -55,13 +56,16 @@ const { activeNav } = Astro.props;
         </button>
         <ul id="menu-items" class="display-none sm:flex">
           <li>
-            <a href="/" class={activeNav === "posts" ? "active" : ""}>
-              文章
-            </a>
+            <a href="/" class={activeNav === "posts" ? "active" : ""}> 文章 </a>
           </li>
           <li>
             <a href="/collected/" class={activeNav === "tasks" ? "active" : ""}>
               任务
+            </a>
+          </li>
+          <li>
+            <a href="/tags/" class={activeNav === "tags" ? "active" : ""}>
+              标签
             </a>
           </li>
           <li>
@@ -70,7 +74,10 @@ const { activeNav } = Astro.props;
             </a>
           </li>
           <li>
-            <a href="https://github.com/hust-open-atom-club/TranslateProject/wiki" class={activeNav === "wiki" ? "active" : ""}>
+            <a
+              href="https://github.com/hust-open-atom-club/TranslateProject/wiki"
+              class={activeNav === "wiki" ? "active" : ""}
+            >
               Wiki
             </a>
           </li>
@@ -80,19 +87,30 @@ const { activeNav } = Astro.props;
             </a>
           </li>
           <li>
-            <a href="https://github.com/hust-open-atom-club/TranslateProject" class="align-bottom">
+            <a
+              href="https://github.com/hust-open-atom-club/TranslateProject"
+              class="align-bottom"
+            >
               Github
-              <svg aria-hidden="true" viewBox="0 -4 40 40" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg>
+              <svg
+                aria-hidden="true"
+                viewBox="0 -4 40 40"
+                class="iconExternalLink_nPIU"
+                ><path
+                  fill="currentColor"
+                  d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"
+                ></path></svg
+              >
             </a>
           </li>
-          <!-- <li>
+          <li>
             <LinkButton
               href="/search/"
               className={`focus-outline p-3 sm:p-1 ${
                 activeNav === "search" ? "active" : ""
               } flex`}
               ariaLabel="search"
-              title="Search"
+              title="搜索"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,9 +119,9 @@ const { activeNav } = Astro.props;
                   d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"
                 ></path>
               </svg>
-              <span class="sr-only">Search</span>
+              <span class="sr-only">搜索</span>
             </LinkButton>
-          </li> -->
+          </li>
           {
             SITE.lightAndDarkMode && (
               <li>
