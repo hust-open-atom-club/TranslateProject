@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Responsible and Effective Bugfinding"
 author: John Regehr
 collector: QGrain
 collected_date: 20250501
+translator: Avesurges
+translating_date: 20260714
 link: https://blog.regehr.org/archives/2037
 ---
 
