@@ -1,84 +1,84 @@
 ---
-status: translating
+status: translated
 title: "Responsible and Effective Bugfinding"
 author: John Regehr
 collector: QGrain
 collected_date: 20250501
 translator: Avesurges
-translating_date: 20260714
+translated_date: 20260717
 link: https://blog.regehr.org/archives/2037
 ---
 
-# Responsible and Effective Bugfinding
+# 负责任且有效地查找软件缺陷
 
-**NB: This piece is not about responsible disclosure of security issues.**
+**注意：本文并非关于安全问题的负责任披露。**
 
-For almost as long as people have written code, we have also worked to create methods for finding software defects. Much more recently, it has become common to treat “external bug finding” — looking for defects in other people’s software — as an activity worth pursuing on its own. Several factors have contributed:
+我们致力于发掘寻找软件缺陷的方法的历史几乎和人们写代码的历史一样长。近期以来，将“外部缺陷查找”（即寻找他人软件中的缺陷）视为一项本身就值得追求的活动，已经变得非常普遍。有几点因素起到了推动作用：
 
-- The amount of software in use has grown massively, and presumably the number of latent bugs has grown with it.
-- Since software is increasingly used to monitor and control aspects of our lives, and because systems are often networked, bugs can have more impact than they previously did.
-- Cheap computer power for brute-force bug finding is ubiquitously available.
+- 投入使用的软件数量已经大幅增加，而且可以推测，潜在的软件缺陷数量也随之增加了。
+- 由于软件越来越多地被用来监控和控制我们生活的方方面面，而且系统往往是联网的，因此软件缺陷的影响可能比以往更大。
+- 用于暴力挖掘软件缺陷的廉价算力随处可见。
 
-The [OSS-Fuzz](https://github.com/google/oss-fuzz) project is a good example of a successful external bug finding effort; its web page mentions that it “has found over 20,000 bugs in 300 open source projects.”
+[OSS-Fuzz](https://github.com/google/oss-fuzz) 项目是外部缺陷查找工作取得成功的典范。项目网页提到，该项目“已经在 300 个开源项目中找出超过 20,000 个缺陷。”
 
-This article is about how to conduct an external bug finding effort in a way that is likely to maximize the overall benefit of the project. The high level summary is that this kind of work has to be done carefully, thoughtfully, and in collaboration with the software developers. In contrast, simply throwing a huge pile of bugs over the wall to some project and walking away, is unlikely to do much good. I’ve not seen a lot written up about this, but  “[A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World](https://web.stanford.edu/~engler/BLOC-coverity.pdf)” is very good and touches on some of the same issues.
+本文探讨了如何开展外部缺陷查找工作，以最大化项目的整体效益。简而言之，这类工作必须小心、周全地完成，并且需要和软件开发人员合作完成。相反，仅仅是简单地把一大堆问题甩给某些项目，然后就撒手走人，恐怕不太好。我还没有见过太多关于这方面的文章。不过，["数十亿行代码之后：使用静态分析在现实世界中查找软件缺陷"](https://web.stanford.edu/~engler/BLOC-coverity.pdf) 这篇文章写得很好，也涉及了一些相同的问题。
 
-The problem is that there are usually mismatches in costs and incentives between bug finders and project developers. External bug finders would like to find and report as many bugs as possible, and if they have the right technology (like a shiny new fuzzer) it can end up being cheap to find hundreds or thousands of bugs in a large, soft target. Bug finders are motivated altruistically (they want to make the targeted software more reliable by getting lots of bugs fixed) but also selfishly (a bug finding tool or technique is demonstrably powerful if it can find a lot of previously unknown defects). On the other side, developers of the targeted project typically appreciate bugfinding efforts (of course, they too want a reliable system) but for them a huge bug count is undesirable. First, every bug report requires significant attention and effort, usually far more effort than was required to simply find the bug. Second, a large bug count potentially reflects negatively on the project and consequently on its developers.
+问题在于，缺陷查找者与项目开发者之间通常在成本和动机方面不匹配。外部缺陷查找者希望尽可能多地发现并报告缺陷，如果他们有合适的技术（比如一个崭新的模糊测试（一种自动化的软件测试技术。其核心原理是向程序大量输入随机、无效或非预期的数据，通过观察程序是否出现崩溃、内存泄漏等异常，来发现潜在的缺陷和安全漏洞）工具），那么在大型、防御薄弱的目标系统里发现数百甚至数千个缺陷的成本最终可能会非常低。缺陷查找者的动机既有利他的一面（他们希望通过修复大量缺陷，使得目标软件变得更加可靠），也有自私的一面（如果一种缺陷查找工具或技术能够发现大量此前未知的软件缺陷，就足以证明其威力强大）。另一方面，项目的开发人员通常会感谢缺陷查找者为发现项目中的缺陷而付出的努力（当然，他们也希望系统能够更加可靠），但对他们来说，过多的缺陷并不是他们所希望看到的。首先，每份缺陷报告需要投入大量关注和精力，通常所需要的工作量远远大于单单只是发现该缺陷所耗费的精力。其次，大量的缺陷可能会给项目带来负面影响，进而影响项目的开发人员。
 
-In the rest of this post I’ll present some questions that people doing external bug finding work should ask themselves about each bug that they find. The answers, and the process of answering, will help them do their work more responsibly and effectively.
+在本文的剩余部分，我将会列举一些从事外部缺陷查找工作的人员在发现每个软件缺陷时应该扪心自问的问题。问题的答案以及回答问题的过程，将有助于他们更负责任、更有效地完成工作。
 
-## Is the system being tested an appropriate target for external bug finding?
+## 正在测试的系统是否适合作为外部缺陷查找的目标？
 
-This is obvious, but it still needs mentioning: not every code base wants or needs bug reports. There are plenty of throw-aways, research projects, and other code bases out there that have a very small number of users and at most a couple of developers. It is often inappropriate to use this sort of code as a target for external bugfinding work. In contrast, the more users a system has, and the more important its use cases are, the more appropriate a target it becomes. A reasonable bar for external bug finding might be: Does the package manager for your operating system include, by default, a recipe for installing the software you want to test? If not, then perhaps it has not risen to the level where it is a suitable target for external bugfinding.
+这一点显而易见，但还是需要提一下：并不是每个代码库都希望或需要收到缺陷报告。有很多一次性项目、研究项目以及其它代码库，它们的用户数量极少，开发人员最多也就一两个人。将这类代码作为外部缺陷查找的目标通常不太合适。相反，一个系统的用户越多、用途越重要，它就越适合作为外部缺陷查找的目标。对于是否值得查找外部缺陷，一个合理的评判标准或许是：你使用的操作系统的包管理器默认情况下是否提供了你要测试的软件的安装方式？如果不是这样，那么也许它还没有达到成为外部缺陷查找的合适目标的程度。
 
-## Is the bug a security vulnerability?
+## 这个缺陷是一个安全漏洞吗？
 
-This is a completely separate can of worms; if you have found a potential vulnerability, [please seek advice elsewhere](https://en.wikipedia.org/wiki/Responsible_disclosure).
+这完全是另一回事了；如果你发现了一个潜在的漏洞，[请向他人寻求建议](https://en.wikipedia.org/wiki/Responsible_disclosure) 。
 
-## Is the bug already known?
+## 这是个已知的软件缺陷吗？
 
-A drawback of fuzzers is that they tend to keep rediscovering known bugs. Automated bug triaging techniques exist, but they are far from perfect, especially for bugs that don’t trigger crashes. Furthermore, there’s good reason to believe that perfect automated bug triaging is impossible, since the notion of “distinct bugs” is inherently a human construct. When there is a reasonable possibility that a bug you have discovered is already known and reported, it is best to just sit on your new bug report for a little while. Once the potential duplicates that are already in the bug tracker get fixed, it will be easy to see if your test case still triggers a failure. If so, you can report it. Otherwise, discard it.
+模糊测试工具的一个缺点是，它们往往会不断重新发现已知的缺陷。虽然存在可以自动将缺陷分类的技术，但它们远非完美，特别是对于那些不会导致程序崩溃的缺陷而言。此外，有充分的理由相信，完美的自动化缺陷分类是不可能实现的，因为“不同的缺陷”这个概念本质上是人为定义的。当你发现的某个缺陷有可能已经被发现并被报告过的时候，最好先别急着提交你发现的缺陷，先等一会。一旦缺陷跟踪系统里那些疑似重复的缺陷被修好之后，就很容易判断你的测试用例是否还会触发故障。如果是，那么你可以上报这个缺陷。否则，请放弃这个缺陷。
 
-Occasionally, your bug finding technique will come up with a trigger for a known bug that is considerably smaller or simpler than what is currently in the issue tracker. For example, if a web browser contains a race condition that people believe can only be triggered using five threads, and your test case makes it happen using just two threads, then this is an interesting new finding. In this case you should consider appending your test case to the existing issue.
+有时，你用你的缺陷查找方法会发现一个已知缺陷的触发方式，比缺陷追踪系统中现有的触发方式还要更简单。例如，如果某个浏览器存在一个竞争条件，人们认为这个条件只能通过五个线程才能触发，而你的测试用例仅使用两个线程就使其发生，那么这便是一个有趣的新发现。在这种情况下，你应该考虑将你的测试用例追加到现有的问题中。
 
-## Can you write a convincing bug report?
+## 你能写一份有说服力的缺陷报告吗？
 
-Writing good bug reports is a learned skill that requires significant care and patience. [Here](https://www.softwaretestinghelp.com/how-to-write-good-bug-report/) are a [couple](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Bug_writing_guidelines) of good resources.
+撰写优质的软件缺陷报告是一项需要通过学习掌握的技能，需要相当大的细心和耐心。[这里](https://www.softwaretestinghelp.com/how-to-write-good-bug-report/) 有 [一些](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Bug_writing_guidelines) 不错的资源。
 
-I only have a few points to add:
+我只想补充几点：
 
-- A bug report is not simply a collection of facts, it also forms an argument for why a developer — who surely already had plans for the day — should instead work on fixing the defect.
-- It is important to put yourself in the developers’ position. If you were reading this report, would you have enough information to act on it? Would you want to?
-- Avoid, at all costs, being rude or presumptuous.
-- Test cases found by fuzzers can be inherently less compelling to developers than test cases that come from real use cases. First, these test cases often just look funny. Second, developers often believe (no doubt correctly, sometimes) that fuzzer-discovered corner cases will not be triggered by human users. If you are submitting a bug report containing fuzzer-generated input, careful test case reduction must be performed, with an eye not only towards minimality but also towards readability and understandability.
+- 一个软件缺陷报告不只是对一系列事实的罗列，它还构成了一个理由，说明为什么一位开发者（他当天肯定已经安排好了其它计划）应该转而去修复这个缺陷。
+- 设身处地为开发者着想非常重要。如果你正在阅读这份报告，你手头的信息是否足以让你据此采取行动？你会愿意这样做吗？
+- 无论如何都要避免表现得粗鲁或自以为是。
+- 与来自实际使用场景的测试用例相比，由模糊测试工具发现的测试用例对开发者来说，先天上更缺乏说服力。首先，这些测试用例看起来往往很奇怪。其次，开发人员经常认为（有时无疑是正确的），模糊测试工具发现的边界情况不会被人类用户触发。如果你提交的软件缺陷报告中包含由模糊测试工具生成的输入，则必须仔细地精简测试用例，不仅要追求最小化，还要兼顾可读性和可理解性。
 
-A major advantage of external bug finding is that since the people performing the testing are presumably submitting a lot of bug reports, they can do a really good job at it. In contrast, regular end users may not submit bug reports very often, and consequently we would not expect them to be as skilled. Treat the ability to write high-quality bug reports as a superpower that enables you and the system’s developers to collaboratively increase the quality of the code in an efficient and pleasant fashion.
+外部缺陷查找的一大优势在于，由于负责测试的人员通常会提交大量缺陷报告，因此他们能够非常出色地完成这项工作。相比之下，普通用户可能不会经常提交缺陷报告，因此我们不指望他们具备同样的专业能力。将撰写高质量软件缺陷报告的能力视为一种超能力，它能让你与系统开发者合作，以高效且愉快的方式共同提升代码质量。
 
-## Is the bug important?
+## 这个缺陷重要吗？
 
-Developers are almost always willing to fix important bugs that might have serious consequences for their users. On the other hand, they are often happy to delay fixing bugs that they believe are unimportant, so they work on more pressing things. As an external bug finder, it can be hard to tell which kind of bug you have discovered (and the numbers are not on your side: the large majority of bugs are not that important). One way to approach this problem is to look at bugs (both fixed and unfixed) that are already in the bug tracker: what common characteristics can you identify that caused developers to address defects rapidly? What common characteristics can you identify that caused developers to ignore bugs or mark them WONTFIX? You can also open a dialogue with developers: they may be willing to tell you the kinds of bugs they’re interested in, and not interested in. The developers of the CVC4 SMT solver recently added [a public document to this effect](https://github.com/CVC4/CVC4/wiki/Fuzzing-CVC4). I hope that many other projects will follow their lead.
+开发人员几乎总是愿意修复那些可能对用户造成严重后果的重要缺陷。另一方面，他们往往乐于推迟修复那些他们认为不重要的缺陷，以便先处理更紧迫的事。作为一名外部缺陷查找者，很难判断自己发现的是哪种缺陷（而且绝大多数缺陷其实并不重要）。解决这个问题的一个方法是查看缺陷跟踪系统中已有的缺陷（包括已修复的和未修复的）：你能找出哪些共同特征，迫使开发人员迅速解决了这些缺陷？你能找出哪些共同特征，导致开发人员忽略了这些缺陷或将其标记为 WONTFIX（即不予修复）。你还可以与开发者沟通交流：他们可能会告诉你，他们对哪些类型的缺陷感兴趣，对哪些类型的不感兴趣。CVC4 SMT 求解器的开发者最近发布了一份 [相关公开文档](https://github.com/CVC4/CVC4/wiki/Fuzzing-CVC4) 。我希望其它许多项目也能效仿他们的做法。
 
-Common sense is also useful: if the bug requires an obscure or unlikely combination of command-line options to be triggered, then perhaps it doesn’t matter that much. For example, when fuzzing compilers using Csmith we rarely invoked GCC and LLVM with flags other than -O0, -O1, -O2, -Os, and -O3.
+常识也很有用：如果该错误需要通过一种冷门或不太可能出现的命令行选项组合才能触发，那么这个缺陷或许也就没那么重要了。例如，在使用 Csmith 对编译器进行模糊测试时，我们很少使用除 -O0、-O1、-O2、-Os 和 -O3 以外的参数来调用 GCC 和 LLVM。
 
-## Have you tried to fix the bug?
+## 你尝试过修复这个缺陷吗？
 
-In some cases, fixing a bug in software you’re unfamiliar with is impractical because it’s something like a deep race condition in an OS kernel or a subtle emission of incorrect object code by a compiler. Years of specific experience with the system might be required to locate the right place to fix the bug. On the other hand, a lot of bugs end up being easy to fix, including typos, copy-and-paste errors, or incorrect order of arguments to a library call. If you are able to take a few minutes to check if a bug you are reporting is easy to fix, and to suggest a patch if it is, then you can potentially save project developers considerable time and effort. They will appreciate this.
+在某些情况下，修复你不熟悉的软件中的缺陷是不切实际的，因为这可能涉及操作系统内核中复杂而深层的竞态条件，或是编译器生成错误目标代码的细微问题。要找到修复该缺陷的正确位置，可能需要对该系统非常熟悉。另一方面，许多缺陷最终都很容易修复，包括拼写错误、复制粘贴错误，或者库调用中参数顺序错误等。如果你能花几分钟时间确认一下你报告的这个缺陷是否容易修复，并且如果确实容易修复的话，还能提供一个补丁方案，那么你就有可能为项目开发人员节省大量的时间和精力。他们会很欣赏这一点的。
 
-## How many open issues do you have in the bug tracker?
+## 你在缺陷跟踪系统中有多少个未解决的缺陷？
 
-If you have already reported a few bugs and they have not been fixed (or, worse, have not even been acknowledged), then something is not working. Perhaps the developers are otherwise occupied, or perhaps they don’t find these bugs to be actionable or important. Regardless, at this point it is not helpful to continue reporting bugs. If you haven’t done so already, you might open a dialogue with developers to see what the situation is, or you might simply move on and find bugs in a different code base.
+如果你已经报告了几个软件缺陷，但它们尚未得到修复（或者更糟糕的是，甚至连确认都没有），那说明哪里出问题了。也许开发人员正忙于其它事务，又或许他们认为这些缺陷并不值得处理或并不重要。无论如何，目前继续报告缺陷已经没什么用了。如果你还没这么做的话，不妨与开发人员沟通一下，了解具体情况；或者干脆另寻他处，在其它代码库中寻找缺陷。
 
-## Do the developers trust you?
+## 开发人员信任你吗？
 
-If the developers of the system you’re reporting bugs in have never seen or heard of you, they are very likely to at least take a look at the first issue you submit. If they trust you, because you’ve submitted a number of high-quality bug reports before, they’ll look at it closely and are likely to take it seriously. However, if they actively don’t trust you, for example because you’ve flooded their bug tracker with corner-case issues, then they’re not likely to ever listen to you again, and you probably need to move on to do bug finding somewhere else. Do not let this happen, it makes developers salty and that makes bug finding work more difficult for all of us.
+如果你所报告缺陷的系统开发者从未见过你或听说过你，他们很可能至少会看一眼你提交的第一个问题。如果他们信任你（因为你之前提交过许多高质量的缺陷报告），他们就会仔细审查这份报告，并且很可能会认真对待。不过，如果他们已经不信任你（举个例子，如果你向他们的缺陷跟踪系统提交了大量边缘情况问题），那么他们很可能再也不会理你了，你可能需要另寻他处以继续寻找软件缺陷。千万别让这种情况发生，这会让开发者很不爽，从而使我们所有人查找缺陷的工作变得更加困难。
 
-## Are your tools open source?
+## 你的工具是开源的吗？
 
-Internal bug finding — where project developers find bugs themselves — can be superior to external bug finding because developers are more in tune with their own project’s needs and also they can schedule bug finding efforts in such a way that they are most effective, for example after landing a major new feature. Thus, an alternative to external bug finding campaigns is to create good bug finding tools and make them available to developers, preferably as open source software. Drawbacks of this scheme include increasing the software engineering burden on bug-finding researchers (who must now create tools that other people can use, rather than creating tools solely for their own use) and decreasing social and academic credit given to researchers since some of the benefit of their work is now hidden, rather than being quantifiable and out in the open.
+内部缺陷查找（即由项目开发人员自行寻找缺陷）可能优于外部缺陷查找，因为开发人员更了解自己项目的实际需求，而且他们可以安排在最有效的时机进行缺陷查找工作，例如在合入一项重要的新功能之后。因此，除了开展外部缺陷查找工作之外，另一种方法是开发优质的缺陷查找工具，并将其提供给开发人员，最好是以开源软件的形式提供。该方案的弊端包括：增加了缺陷查找领域研究人员的软件工程负担（他们现在必须开发可供他人使用的工具，而非仅供自己使用的工具）；同时，由于其工作成果的部分价值如今被隐藏起来，而非以可量化的形式公开展示，导致他们获得的社会和学术认可度降低。
 
-## Conclusions
+## 总结
 
-Although software correctness is at some level a technical problem (either the code implements its specification or it doesn’t), improving the quality of software is an intensely human activity. Developers and external bug finders are on the same team here, but there’s plenty of potential for friction because their costs and incentives differ. This friction can be reduced if bug finders ask themselves a series of questions listed in this post before submitting bug reports.
+尽管软件的正确性在某种程度上是一个技术问题（即代码要么实现了其规范，要么没有实现），但提高软件质量却是一项高度依赖人的活动。在这里，开发人员和外部缺陷查找者属于同一团队，但由于双方的成本和动机不同，彼此之间很容易产生摩擦。如果发现缺陷的人在提交缺陷报告之前先问自己一遍本文中列举的一系列问题，就可以减少这种摩擦。
 
 
 *August 17, 2020 John Regehr, Professor of Computer Science, University of Utah, USA*
