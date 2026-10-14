@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Ramoops oops/panic logger"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: areacloser
+translating_date: 20261014
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/ramoops.rst
 ---
 
