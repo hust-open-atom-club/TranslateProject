@@ -1,89 +1,74 @@
 ---
-status: translating
+status: translated
 title: "Ramoops oops/panic logger"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
 translator: areacloser
-translating_date: 20261014
+translated_date: 20261020
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/ramoops.rst
 ---
 
-# Ramoops oops/panic logger
+# Ramoops oops/panic 日志记录器
 
 Sergiu Iordache \<<sergiu@chromium.org>\>
 
-Updated: 10 Feb 2021
+最近更新：10 Feb 2021
 
-## Introduction
+## 介绍
 
-Ramoops is an oops/panic logger that writes its logs to RAM before the
-system crashes. It works by logging oopses and panics in a circular
-buffer. Ramoops needs a system with persistent RAM so that the content
-of that area can survive after a restart.
+Ramoops 是一个内核异常（oops）/恐慌（panic）日志记录器，它在系统崩溃之前将其日
+志写入 RAM 中。它通过在环形缓冲区中记录 oops 和 panic 来工作。Ramoops 需要一个
+具有持久性 RAM 的系统，以便该区域的内容在系统重新启动后仍然存在。
 
-## Ramoops concepts
+## Ramoops 中的概念
 
-Ramoops uses a predefined memory area to store the dump. The start and
-size and type of the memory area are set using three variables:
+Ramoops 使用一块预定义的内存区域来存放 oops/panic 的日志转储。内存区域的起始地
+址、大小和类型由三个变量来设置：
 
-> -   `mem_address` for the start
-> -   `mem_size` for the size. The memory size will be rounded down to a
->     power of two.
-> -   `mem_type` to specify if the memory type (default is
->     pgprot_writecombine).
-> -   `mem_name` to specify a memory region defined by `reserve_mem`
->     command line parameter.
+> -   `mem_address` 用于指定起始地址。
+> -   `mem_size` 用于指定大小。内存大小将向下舍入为 2 的幂。
+> -   `mem_type` 用于指定内存类型（默认值为 pgprot_writecombine）。
+> -   `mem_name` 用于指定一块由 `reserve_mem` 命令行参数定义的内存区域。
 
-Typically the default value of `mem_type=0` should be used as that sets
-the pstore mapping to pgprot_writecombine. Setting `mem_type=1` attempts
-to use `pgprot_noncached`, which only works on some platforms. This is
-because pstore depends on atomic operations. At least on ARM,
-pgprot_noncached causes the memory to be mapped strongly ordered, and
-atomic operations on strongly ordered memory are implementation defined,
-and won\'t work on many ARMs such as omaps. Setting `mem_type=2`
-attempts to treat the memory region as normal memory, which enables full
-cache on it. This can improve the performance.
+通常应使用 `mem_type=0` 这一默认值，因为它将 pstore 映射设置为 
+pgprot_writecombine。设置 `mem_type=1` 会尝试使用 `pgprot_noncached`，但这仅在
+某些平台上有效。这是因为 pstore 依赖于原子操作。至少在 ARM 平台上，
+pgprot_noncached 会导致这块内存被映射为强序（strongly ordered），而强序内存上的
+原子操作是实现定义的，并且在许多 ARM 平台（如 OMAP）上无法工作。设置 
+`mem_type=2` 则尝试将这块内存区域视为普通内存，从而启用其上的完整缓存。这可以提
+高性能。
 
-The memory area is divided into `record_size` chunks (also rounded down
-to power of two) and each kmesg dump writes a `record_size` chunk of
-information.
+这块内存区域被划分成大小为 `record_size` 的块（同样向下舍入为 2 的幂），每次 
+kmesg 转储都会写入一个大小为 `record_size` 的信息块。
 
-Limiting which kinds of kmsg dumps are stored can be controlled via the
-`max_reason` value, as defined in include/linux/kmsg_dump.h\'s
-`enum kmsg_dump_reason`. For example, to store both Oopses and Panics,
-`max_reason` should be set to 2 (KMSG_DUMP_OOPS), to store only Panics
-`max_reason` should be set to 1 (KMSG_DUMP_PANIC). Setting this to 0
-(KMSG_DUMP_UNDEF), means the reason filtering will be controlled by the
-`printk.always_kmsg_dump` boot param: if unset, it\'ll be
-KMSG_DUMP_OOPS, otherwise KMSG_DUMP_MAX.
+限制要存储的 kmsg 转储类型可以通过 `max_reason` 的值来控制，该值在 
+include/linux/kmsg_dump.h 的 `enum kmsg_dump_reason` 中定义。例如，要同时存储
+Oops 和 Panic，`max_reason` 应设置为 2（KMSG_DUMP_OOPS）；要仅存储 Panic，
+`max_reason` 应设置为 1（KMSG_DUMP_PANIC）。将 `max_reason` 设置为
+0（KMSG_DUMP_UNDEF）意味着，对转储原因的筛选将由 `printk.always_kmsg_dump` 启动
+参数控制：如果未设置，则为 KMSG_DUMP_OOPS，否则为 KMSG_DUMP_MAX。
 
-The module uses a counter to record multiple dumps but the counter gets
-reset on restart (i.e. new dumps after the restart will overwrite old
-ones).
+这个模块使用计数器来记录多个日志转储，该计数器在重启后会被重置（也就是说，重启
+后产生的新转储会覆盖旧转储）。
 
-Ramoops also supports software ECC protection of persistent memory
-regions. This might be useful when a hardware reset was used to bring
-the machine back to life (i.e. a watchdog triggered). In such cases, RAM
-may be somewhat corrupt, but usually it is restorable.
+Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一功能有助于硬件复位来恢
+复机器正常工作状态（例如看门狗触发复位后）。在这些情况下，RAM 可能在一定程度上
+被破坏，但通常这是可恢复的。
 
-## Setting the parameters
+## 设置参数
 
-Setting the ramoops parameters can be done in several different manners:
+可以通过几种不同的方式来设置 Ramoops 的参数：
 
-> A. Use the module parameters (which have the names of the variables
-> described as before). For quick debugging, you can also reserve parts
-> of memory during boot and then use the reserved memory for ramoops.
-> For example, assuming a machine with \> 128 MB of memory, the
-> following kernel command line will tell the kernel to use only the
-> first 128 MB of memory, and place ECC-protected ramoops region at 128
-> MB boundary:
+> A. 使用功能模块参数（名称和前面列举的变量一样）。对于快速调试，你也可以在启动
+> 时保留部分内存区域，然后将这块区域用于 Ramoops。例如，假设有一台内存大于 
+> 128 MB 的机器，下面这行内核命令会要求内核只使用前 128 MB 的内存，并将带有
+> ECC 保护的 ramoops 区域放置在 128 MB 边界处的内存中：
 >
 >     mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
 >
-> B. Use Device Tree bindings, as described in
-> `Documentation/devicetree/bindings/reserved-memory/ramoops.yaml`. For
-> example:
+> B. 使用设备树绑定, 根据在
+> `Documentation/devicetree/bindings/reserved-memory/ramoops.yaml` 中的描述。例如：
 >
 >     reserved-memory {
 >         #address-cells = <2>;
@@ -98,8 +83,8 @@ Setting the ramoops parameters can be done in several different manners:
 >         };
 >     };
 >
-> C. Use a platform device and set the platform data. The parameters can
-> then be set through that platform data. An example of doing that is:
+> C. 使用平台设备并设置平台数据。随后 Ramoops 的参数就可以通过该平台数据来设置。
+> 以下为这种方式的一个示例：
 >
 > ``` c
 > #include <linux/pstore_ram.h>
@@ -121,7 +106,7 @@ Setting the ramoops parameters can be done in several different manners:
 >       },
 > };
 >
-> [... inside a function ...]
+> [... 在函数中 ...]
 > int ret;
 >
 > ret = platform_device_register(&ramoops_dev);
@@ -131,44 +116,37 @@ Setting the ramoops parameters can be done in several different manners:
 > }
 > ```
 >
-> D.  Using a region of memory reserved via `reserve_mem` command line
->     parameter. The address and size will be defined by the
->     `reserve_mem` parameter. Note, that `reserve_mem` may not always
->     allocate memory in the same location, and cannot be relied upon.
->     Testing will need to be done, and it may not work on every
->     machine, nor every kernel. Consider this a \"best effort\"
->     approach. The `reserve_mem` option takes a size, alignment and
->     name as arguments. The name is used to map the memory to a label
->     that can be retrieved by ramoops.
+> D.  通过 `reserve_mem` 命令行参数使用一块内存区域。其地址和大小由 
+> `reserve_mem` 定义。需要注意， `reserve_mem` 可能不会总是将内存分配到同一个位
+> 置，因而不应假定其分配地址固定。它需要进行测试，并且可能不会在每台机器，甚至
+> 每个内核上正常工作。请把这个方式看作一种 “尽力而为”的方法。`reserve_mem` 选项
+> 接受大小（size），对齐值（alignment）和名称（name）三个参数。其中名称用于将内
+> 存区域映射为一个可被 Ramoops 检索的标签。
 >
 >     reserve_mem=2M:4096:oops ramoops.mem_name=oops
 
-You can specify either RAM memory or peripheral devices\' memory.
-However, when specifying RAM, be sure to reserve the memory by issuing
-memblock_reserve() very early in the architecture code, e.g.:
+你可以指定 RAM 内存，也可以指定外设的内存区域。然而，若指定 RAM 内存，需确保在
+架构代码的非常早期调用 memblock_reserve() 以保留这块内存区域，例如：
 
     #include <linux/memblock.h>
 
     memblock_reserve(ramoops_data.mem_address, ramoops_data.mem_size);
 
-## Dump format
+## 转储格式
 
-The data dump begins with a header, currently defined as `====` followed
-by a timestamp and a new line. The dump then continues with the actual
-data.
+转储内容以一个头部（header）开始，该头部目前定义为 `====` 后面跟一个时间戳并换
+行。接下来才是真正的转储数据。
 
-## Reading the data
+## 读取数据
 
-The dump data can be read from the pstore filesystem. The format for
-these files is `dmesg-ramoops-N`, where N is the record number in
-memory. To delete a stored record from RAM, simply unlink the respective
-pstore file.
+转储数据可以通过 pstore 文件系统来读取。这些文件的名称格式是 `dmesg-ramoops-N`，
+其中 N 是内存中的记录编号。想要从 RAM 中删除存放的记录，只需删除对应的 pstore 
+文件即可。
 
-## Persistent function tracing
+## 持久化函数追踪
 
-Persistent function tracing might be useful for debugging software or
-hardware related hangs. The functions call chain log is stored in a
-`ftrace-ramoops` file. Here is an example of usage:
+持久化函数追踪有助于调试由软件或硬件引起的系统卡死（hang）。函数调用链的日志保
+存在 `ftrace-ramoops` 文件中。以下是一个用途示例：
 
     # mount -t debugfs debugfs /sys/kernel/debug/
     # echo 1 > /sys/kernel/debug/pstore/record_ftrace
