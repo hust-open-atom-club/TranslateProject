@@ -39,8 +39,8 @@ pgprot_noncached 会导致这块内存被映射为强序（strongly ordered）�
 `mem_type=2` 则尝试将这块内存区域视为普通内存，从而启用其上的完整缓存。这可以提
 高性能。
 
-这块内存区域被划分成大小为 `record_size` 的块（同样向下舍入为 2 的幂），每次 
-kmesg 转储都会写入一个大小为 `record_size` 的信息块。
+这块内存区域被划分成大小为 `record_size` 的记录块（其值同样向下舍入为 2 的幂），
+每次 kmsg 转储都会写入一个大小为 `record_size` 的信息块。
 
 限制要存储的 kmsg 转储类型可以通过 `max_reason` 的值来控制，该值在 
 include/linux/kmsg_dump.h 的 `enum kmsg_dump_reason` 中定义。例如，要同时存储
