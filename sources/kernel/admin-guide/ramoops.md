@@ -67,7 +67,7 @@ Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一
 >
 >     mem=128M ramoops.mem_address=0x8000000 ramoops.ecc=1
 >
-> B. 使用设备树绑定, 根据在
+> B. 使用设备树绑定，根据在
 > `Documentation/devicetree/bindings/reserved-memory/ramoops.yaml` 中的描述。例如：
 >
 >     reserved-memory {
