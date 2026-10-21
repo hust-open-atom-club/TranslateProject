@@ -125,7 +125,7 @@ Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一
 >
 >     reserve_mem=2M:4096:oops ramoops.mem_name=oops
 
-你可以指定 RAM ，也可以指定外设的内存区域。然而，若指定的是 RAM，需确保在
+你可以指定 RAM，也可以指定外设的内存区域。然而，若指定的是 RAM，需确保在
 架构代码的非常早期调用 memblock_reserve() 以预留这块内存区域，例如：
 
     #include <linux/memblock.h>
