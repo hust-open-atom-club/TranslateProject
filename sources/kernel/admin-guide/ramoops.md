@@ -13,7 +13,7 @@ link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do
 
 Sergiu Iordache \<<sergiu@chromium.org>\>
 
-最近更新：10 Feb 2021
+最近更新：2021 年 2 月 10 日
 
 ## 介绍
 
@@ -31,25 +31,25 @@ Ramoops 使用一块预定义的内存区域来存放 oops/panic 的日志转储
 > -   `mem_type` 用于指定内存类型（默认值为 pgprot_writecombine）。
 > -   `mem_name` 用于指定一块由 `reserve_mem` 命令行参数定义的内存区域。
 
-通常应使用 `mem_type=0` 这一默认值，因为它将 pstore 映射设置为 
+通常应使用 `mem_type=0` 这一默认值，因为它将 pstore 映射设置为
 pgprot_writecombine。设置 `mem_type=1` 会尝试使用 `pgprot_noncached`，但这仅在
 某些平台上有效。这是因为 pstore 依赖于原子操作。至少在 ARM 平台上，
 pgprot_noncached 会导致这块内存被映射为强序（strongly ordered），而强序内存上的
-原子操作是实现定义的，并且在许多 ARM 平台（如 OMAP）上无法工作。设置 
+原子操作是实现定义的，并且在许多 ARM 平台（如 OMAP）上无法工作。设置
 `mem_type=2` 则尝试将这块内存区域视为普通内存，从而启用其上的完整缓存。这可以提
 高性能。
 
 这块内存区域被划分成大小为 `record_size` 的记录块（其值同样向下舍入为 2 的幂），
 每次 kmsg 转储都会写入一个大小为 `record_size` 的信息块。
 
-限制要存储的 kmsg 转储类型可以通过 `max_reason` 的值来控制，该值在 
+可以通过 `max_reason` 的值来控制要存储哪些 kmsg 转储类型，该值在
 include/linux/kmsg_dump.h 的 `enum kmsg_dump_reason` 中定义。例如，要同时存储
 Oops 和 Panic，`max_reason` 应设置为 2（KMSG_DUMP_OOPS）；要仅存储 Panic，
 `max_reason` 应设置为 1（KMSG_DUMP_PANIC）。将 `max_reason` 设置为
 0（KMSG_DUMP_UNDEF）意味着，对转储原因的筛选将由 `printk.always_kmsg_dump` 启动
 参数控制：如果未设置，则为 KMSG_DUMP_OOPS，否则为 KMSG_DUMP_MAX。
 
-这个模块使用计数器来记录多个日志转储，该计数器在重启后会被重置（也就是说，重启
+该模块使用计数器来记录多个日志转储，该计数器在重启后会被重置（也就是说，重启
 后产生的新转储会覆盖旧转储）。
 
 Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一功能在使用了硬件复位来
@@ -60,8 +60,8 @@ Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一
 
 可以通过几种不同的方式来设置 Ramoops 的参数：
 
-> A. 使用功能模块参数（名称和前面列举的变量一样）。对于快速调试，你也可以在启动
-> 时保留部分内存区域，然后将这块区域用于 Ramoops。例如，假设有一台内存大于 
+> A. 使用模块参数（名称和前面列举的变量一样）。对于快速调试，你也可以在启动
+> 时预留部分内存区域，然后将这块区域用于 Ramoops。例如，假设有一台内存大于
 > 128 MB 的机器，下面的内核命令行会要求内核只使用前 128 MB 的内存，并将带有
 > ECC 保护的 ramoops 区域放置在 128 MB 边界处的内存中：
 >
@@ -116,17 +116,17 @@ Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一
 > }
 > ```
 >
-> D. 通过 `reserve_mem` 命令行参数使用一块内存区域。其地址和大小由 
+> D. 使用一块通过 `reserve_mem` 命令行参数预留的内存区域。其地址和大小由
 > `reserve_mem` 定义。需要注意， `reserve_mem` 可能不会总是将内存分配到同一个位
-> 置，因而不应假定其分配地址固定。它需要进行测试，并且可能不会在每台机器，甚至
-> 每个内核上正常工作。请把这个方式看作一种 “尽力而为” 的方法。`reserve_mem` 选项
-> 接受大小（size），对齐值（alignment）和名称（name）三个参数。其中名称用于将内
+> 置，因而不应假定其分配地址固定。它需要进行测试，并且可能无法在每台机器
+> 或每个内核上正常工作。请把这个方式看作一种 “尽力而为” 的方法。`reserve_mem` 选
+> 项接受大小（size），对齐值（alignment）和名称（name）三个参数。其中名称用于将内
 > 存区域映射为一个可被 Ramoops 检索的标签。
 >
 >     reserve_mem=2M:4096:oops ramoops.mem_name=oops
 
-你可以指定 RAM 内存，也可以指定外设的内存区域。然而，若指定 RAM 内存，需确保在
-架构代码的非常早期调用 memblock_reserve() 以保留这块内存区域，例如：
+你可以指定 RAM ，也可以指定外设的内存区域。然而，若指定的是 RAM，需确保在
+架构代码的非常早期调用 memblock_reserve() 以预留这块内存区域，例如：
 
     #include <linux/memblock.h>
 
@@ -135,18 +135,18 @@ Ramoops 还支持持久性内存区域的软件纠错码（ECC）保护。这一
 ## 转储格式
 
 转储内容以一个头部（header）开始，该头部目前定义为 `====` 后面跟一个时间戳并换
-行。接下来才是真正的转储数据。
+行。随后是实际的转储数据。
 
 ## 读取数据
 
 转储数据可以通过 pstore 文件系统来读取。这些文件的名称格式是 `dmesg-ramoops-N`，
-其中 N 是内存中的记录编号。想要从 RAM 中删除存放的记录，只需删除对应的 pstore 
+其中 N 是内存中的记录编号。想要删除 RAM 中已存储的记录，只需删除对应的 pstore
 文件即可。
 
 ## 持久化函数追踪
 
-持久化函数追踪有助于调试由软件或硬件引起的系统卡死（hang）。函数调用链的日志保
-存在 `ftrace-ramoops` 文件中。以下是一个用途示例：
+持久化函数追踪可能有助于调试由软件或硬件引起的系统卡死（hang）。函数调用链的日志
+保存在 `ftrace-ramoops` 文件中。以下是一个用途示例：
 
     # mount -t debugfs debugfs /sys/kernel/debug/
     # echo 1 > /sys/kernel/debug/pstore/record_ftrace
