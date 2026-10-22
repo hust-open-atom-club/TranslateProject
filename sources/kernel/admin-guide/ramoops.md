@@ -46,7 +46,7 @@ pgprot_noncached 会导致这块内存被映射为强序（strongly ordered）�
 include/linux/kmsg_dump.h 中的 `enum kmsg_dump_reason`。设为 2（KMSG_DUMP_OOPS）时，
 保存 Oops 和 Panic 转储；设为 1（KMSG_DUMP_PANIC）时，仅保存 Panic 转储；
 设为 0（KMSG_DUMP_UNDEF）时，转储原因的筛选由启动参数 `printk.always_kmsg_dump`
-控制：如果未设置设置该参数，筛选上限为 KMSG_DUMP_OOPS；如果设置了该参数，
+控制：如果未设置该参数，筛选上限为 KMSG_DUMP_OOPS；如果设置了该参数，
 则筛选上限为 KMSG_DUMP_MAX。
 
 该模块使用计数器来记录多个日志转储，该计数器在重启后会被重置（也就是说，重启后
