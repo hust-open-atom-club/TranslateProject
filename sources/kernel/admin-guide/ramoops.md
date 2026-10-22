@@ -1,6 +1,6 @@
 ---
 status: translated
-title: "Ramoops oops/panic logger"
+title: "Ramoops oops/panic 日志记录器"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
