@@ -1,0 +1,27 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import SearchBar from "@components/Search";
+import { SITE } from "@config";
+import getSortedPosts from "@utils/getSortedPosts";
+import { getPostByStatus } from "./[status]/[page].astro";
+
+const posts = getSortedPosts(await getPostByStatus("published"));
+
+const searchList = posts.map(({ data, slug, id }) => ({
+  title: data.title,
+  data,
+  slug,
+  id,
+}));
+---
+
+<Layout title={`搜索 | ${SITE.title}`}>
+  <Header activeNav="search" />
+  <Main pageTitle="搜索" pageDesc="按标题搜索已发布文章">
+    <SearchBar client:load searchList={searchList} />
+  </Main>
+  <Footer />
+</Layout>
