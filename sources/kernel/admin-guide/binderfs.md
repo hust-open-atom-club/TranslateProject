@@ -2,8 +2,8 @@
 status: collected
 title: "The Android binderfs Filesystem"
 author: Linux Kernel Community
-collector: tttturtle-russ
-collected_date: 20240718
+collector: indigova
+collected_date: 20261019
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/binderfs.rst
 ---
 
