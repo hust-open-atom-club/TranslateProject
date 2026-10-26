@@ -41,9 +41,11 @@ export interface Props {
   secHeading?: boolean;
   body?: string;
   publishCard?: boolean;
+  hideStatus?: boolean;
+  meta?: string;
 }
 
-export default function Card({ id, href, frontmatter, secHeading = true, body, publishCard }: Props) {
+export default function Card({ id, href, frontmatter, secHeading = true, body, publishCard, hideStatus = false, meta }: Props) {
   const {
     title,
     status,
@@ -100,10 +102,11 @@ export default function Card({ id, href, frontmatter, secHeading = true, body, p
           </div>
         }
         <div>
-          {!publishCard && <Status status={status} id={id} />}
+          {!publishCard && !hideStatus && <Status status={status} id={id} />}
         </div>
         {/* <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} /> */}
       </div>
+      {meta && <p className="mb-3 text-sm opacity-70">{meta}</p>}
       {publishCard &&
       // 去掉段后间隔，设置max-width为100%
         <div className="break-all prose" style={{maxWidth: "100%"}} >
