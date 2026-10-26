@@ -139,20 +139,59 @@ async function getAllAvatar() {
     #content-container {
       display: flex;
       justify-content: center;
-    }
-    #main-content {
-      display: flex;
-      /* justify-content: center; */
-      padding-left: 1rem;
-      max-width: 48rem;
-      padding-right: 1rem;
       width: 100%;
-      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    #main-content {
+      --rank-card-height: 28rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      max-width: 72rem;
+      padding-inline: 1rem;
+      width: 100%;
     }
 
     #main-content > section {
-      flex-grow: 1;
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rank-card {
+      display: flex;
+      height: var(--rank-card-height);
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .rank-card-content {
+      min-height: 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .rank-card--all {
+      height: auto;
+    }
+
+    .rank-table-scroll {
       max-width: 100%;
+      overflow-x: auto;
+    }
+
+    @media (min-width: 640px) {
+      #main-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      #main-content > section:first-child {
+        grid-column: 1 / -1;
+      }
     }
 
     .icon-container {
@@ -207,10 +246,10 @@ async function getAllAvatar() {
     // document.addEventListener("DOMContentLoaded", getAllAvatar);
   </script>
   <div id="content-container">
-  <main id="main-content" class="mt-8 grid grid-cols-2 gap-8">
+  <main id="main-content" class="mt-8">
     {RANK_LIST.map(({ status, tabText, description }) => (
-      <section id={status} class="mb-8 max-w-md prose-img:border-0">
-        <div class="border rounded-md shadow-md p-4">
+      <section id={status} class="prose-img:border-0">
+        <div class:list={["rank-card border rounded-md shadow-md p-4", { "rank-card--all": status === "all" }]}>
           <h2 class="text-xl font-bold mb-4">{tabText}{
             description ? (
               // icon for description (?)
@@ -224,19 +263,21 @@ async function getAllAvatar() {
               </div>
             ) : null
           }</h2>
-          <ol>
-            {status != "all" ? (
-              rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (
-                <li class="flex justify-between items-center py-2">
-                  <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name} >
-                    <img src={feature.avatar} class="w-8 h-8 rounded-full me-3 avatar-img" alt={name} onerror="this.src='https://github.com/identicons/github.png'" data-name={name}/>
-                    <span >{name}</span>
-                  </a>
-                  <span>{feature.count}</span>
-                </li>
-              ))
+          {status != "all" ? (
+            <ol class="rank-card-content">
+              {rankResult.get(status).map(([name, feature]: [string, { avatar: string, count: number }], index: number) => (
+                  <li class="flex justify-between items-center py-2">
+                    <a href={`https://github.com/${name}`} target="_blank" rel="noopener noreferrer" class="flex items-center" title={name} >
+                      <img src={feature.avatar} class="w-8 h-8 rounded-full me-3 avatar-img" alt={name} onerror="this.src='https://github.com/identicons/github.png'" data-name={name}/>
+                      <span >{name}</span>
+                    </a>
+                    <span>{feature.count}</span>
+                  </li>
+                ))}
+            </ol>
             ) : (
-              <table class="table-auto w-full">
+              <div class="rank-card-content rank-table-scroll">
+                <table class="table-auto min-w-max w-full">
                 {/* 动态生成表头，过滤掉 status 为 "all" 的项 */}
                 <thead>
                   <tr>
@@ -269,10 +310,10 @@ async function getAllAvatar() {
                     ))
                   }
                 </tbody>
-              </table>
+                </table>
+              </div>
             )
           }
-          </ol>
         </div>
       </section>
     ))}
