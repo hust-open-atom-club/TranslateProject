@@ -166,7 +166,6 @@ async function getAllAvatar() {
       height: var(--rank-card-height);
       min-width: 0;
       flex-direction: column;
-      overflow: hidden;
     }
 
     .rank-card-content {
@@ -195,20 +194,26 @@ async function getAllAvatar() {
     }
 
     .icon-container {
-      position: relative;
       display: inline-block;
+    }
+
+    .rank-card h2 {
+      position: relative;
     }
 
     .description {
       display: none;
       position: absolute;
-      top: 5px;
-      left: 35px;
+      z-index: 1;
+      top: 100%;
+      left: 0;
+      width: min(100%, 32rem);
       background-color: #333;
       color: #fff;
-      padding: 5px;
+      padding: 0.5rem;
       border-radius: 3px;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
       font-size: small;
     }
 
