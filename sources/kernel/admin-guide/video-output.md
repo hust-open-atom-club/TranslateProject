@@ -1,9 +1,11 @@
 ---
-status: collected
+status: translating
 title: "Video Output Switcher Control"
 author: Linux Kernel Community
 collector: tttturtle-russ
 collected_date: 20240718
+translator: jerryguo822
+translating_date: 20261126
 link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/video-output.rst
 ---
 
